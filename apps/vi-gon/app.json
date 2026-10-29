@@ -1,0 +1,59 @@
+{
+  "expo": {
+    "name": "Ví Gọn",
+    "slug": "vi-gon",
+    "scheme": "vigon",
+    "version": "0.1.0",
+    "orientation": "default",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "vn.namapp.vigon"
+    },
+    "android": {
+      "package": "vn.namapp.vigon",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0b6e5f"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": true
+    },
+    "web": {
+      "output": "single",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#0b6e5f",
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 160,
+          "dark": {
+            "backgroundColor": "#141311"
+          }
+        }
+      ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Ví Gọn dùng Face ID để khóa dữ liệu chi tiêu của bạn."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#0b6e5f"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

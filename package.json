@@ -1,0 +1,15 @@
+{
+  "name": "nam-app",
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "meo": "npm --workspace @nam/meo-nha run start",
+    "nhip": "npm --workspace @nam/nhip run start",
+    "hen": "npm --workspace @nam/hen-dep run start",
+    "vi": "npm --workspace @nam/vi-gon run start"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.2"
+  }
+}

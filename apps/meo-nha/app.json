@@ -1,0 +1,59 @@
+{
+  "expo": {
+    "name": "Mẹo Nhà",
+    "slug": "meo-nha",
+    "scheme": "meonha",
+    "version": "0.1.0",
+    "orientation": "default",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "vn.namapp.meonha"
+    },
+    "android": {
+      "package": "vn.namapp.meonha",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#a64a22"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": true
+    },
+    "web": {
+      "output": "single",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#a64a22",
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 160,
+          "dark": {
+            "backgroundColor": "#141311"
+          }
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Mẹo Nhà dùng camera để nhận nguyên liệu. Ảnh chỉ xử lý trên máy, không lưu, không gửi đi."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#a64a22"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

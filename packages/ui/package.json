@@ -1,0 +1,18 @@
+{
+  "name": "@nam/ui",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "peerDependencies": {
+    "@expo/vector-icons": "*",
+    "react": "*",
+    "react-native": "*",
+    "react-native-safe-area-context": "*",
+    "@expo-google-fonts/be-vietnam-pro": "*",
+    "react-native-svg": "*",
+    "expo-splash-screen": "*",
+    "expo-status-bar": "*",
+    "react-native-gesture-handler": "*"
+  }
+}

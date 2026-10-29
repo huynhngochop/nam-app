@@ -1,0 +1,60 @@
+{
+  "expo": {
+    "name": "Hẹn Đẹp",
+    "slug": "hen-dep",
+    "scheme": "hendep",
+    "version": "0.1.0",
+    "orientation": "default",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "vn.namapp.hendep"
+    },
+    "android": {
+      "package": "vn.namapp.hendep",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#9b2c55"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": true
+    },
+    "web": {
+      "output": "single",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#9b2c55",
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 160,
+          "dark": {
+            "backgroundColor": "#141311"
+          }
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Hẹn Đẹp dùng ảnh bảng giá để thêm dịch vụ nhanh.",
+          "cameraPermission": "Hẹn Đẹp dùng camera để chụp bảng giá."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#9b2c55"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

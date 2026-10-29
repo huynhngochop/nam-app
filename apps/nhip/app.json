@@ -1,0 +1,64 @@
+{
+  "expo": {
+    "name": "Nhịp",
+    "slug": "nhip",
+    "scheme": "nhip",
+    "version": "0.1.0",
+    "orientation": "default",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "vn.namapp.nhip",
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "audio"
+        ]
+      }
+    },
+    "android": {
+      "package": "vn.namapp.nhip",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#c23b2a"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": true
+    },
+    "web": {
+      "output": "single",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#c23b2a",
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 160,
+          "dark": {
+            "backgroundColor": "#141311"
+          }
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#c23b2a"
+        }
+      ],
+      [
+        "expo-audio",
+        {
+          "microphonePermission": false
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
