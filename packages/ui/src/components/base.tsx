@@ -40,10 +40,12 @@ type ScreenProps = {
   readable?: boolean;
   padded?: boolean;
   footer?: ReactNode;
+  /** Lớp nổi cố định trên nội dung (ví dụ FAB) — không cuộn theo danh sách. */
+  overlay?: ReactNode;
   scrollProps?: ScrollViewProps;
   contentStyle?: StyleProp<ViewStyle>;
 };
-export function Screen({ children, scroll, edges = ['top'], bg, readable = true, padded = true, footer, scrollProps, contentStyle }: ScreenProps) {
+export function Screen({ children, scroll, edges = ['top'], bg, readable = true, padded = true, footer, overlay, scrollProps, contentStyle }: ScreenProps) {
   const { c } = useTheme();
   const L = useLayout();
   const inner: ViewStyle = {
@@ -55,13 +57,16 @@ export function Screen({ children, scroll, edges = ['top'], bg, readable = true,
   };
   return (
     <SafeAreaView edges={edges} style={{ flex: 1, backgroundColor: bg ?? c.bg }}>
-      {scroll ? (
-        <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[{ paddingBottom: 24 }, contentStyle]} {...scrollProps}>
-          <View style={inner}>{children}</View>
-        </ScrollView>
-      ) : (
-        <View style={[{ flex: 1 }, inner, contentStyle]}>{children}</View>
-      )}
+      <View style={{ flex: 1 }}>
+        {scroll ? (
+          <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[{ paddingBottom: overlay ? 96 : 24 }, contentStyle]} {...scrollProps}>
+            <View style={inner}>{children}</View>
+          </ScrollView>
+        ) : (
+          <View style={[{ flex: 1 }, inner, contentStyle]}>{children}</View>
+        )}
+        {overlay}
+      </View>
       {footer ? (
         <SafeAreaView edges={['bottom']} style={{ backgroundColor: bg ?? c.bg }}>
           <View style={{ ...inner, paddingVertical: 12 }}>{footer}</View>

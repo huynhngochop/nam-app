@@ -39,7 +39,7 @@ export default function Services() {
   };
 
   return (
-    <Screen scroll edges={['top', 'bottom']}>
+    <Screen scroll edges={['top', 'bottom']} overlay={<FAB label="Thêm dịch vụ" onPress={() => openEdit()} />}>
       <AppBar title="Dịch vụ & bảng giá" onBack={() => router.back()} right={<Button title="Chụp bảng giá" size="sm" variant="text" icon="camera" onPress={() => router.push('/scan')} />} />
       {!s.services.length ? (
         <EmptyState icon="scissors" title="Chưa có dịch vụ" body="Chụp bảng giá để thêm nhanh, hoặc thêm từng dịch vụ." action="Thêm dịch vụ" onAction={() => openEdit()} />
@@ -54,8 +54,6 @@ export default function Services() {
         </View>
       ))}
       {s.services.length ? <T v="caption" muted>Nhấn giữ để xóa dịch vụ.</T> : null}
-      <View style={{ height: 72 }} />
-      <FAB label="Thêm dịch vụ" onPress={() => openEdit()} />
 
       <Sheet visible={!!edit} onClose={() => setEdit(null)} title={edit?.id ? 'Sửa dịch vụ' : 'Thêm dịch vụ'}
         footer={<Button title="Lưu" disabled={!valid} onPress={save} />}>

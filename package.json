@@ -4,12 +4,14 @@
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "tsx --tsconfig tests/tsconfig.json --test tests/*.test.ts",
     "meo": "npm --workspace @nam/meo-nha run start",
     "nhip": "npm --workspace @nam/nhip run start",
     "hen": "npm --workspace @nam/hen-dep run start",
     "vi": "npm --workspace @nam/vi-gon run start"
   },
   "devDependencies": {
+    "tsx": "^4.20.5",
     "typescript": "~5.9.2"
   }
 }

@@ -20,7 +20,7 @@ export default function StaffScreen() {
   const upcoming = (id: string) => s.bookings.filter((b) => b.staffId === id && b.startAt > Date.now() && b.status === 'confirmed').length;
 
   return (
-    <Screen scroll edges={['top', 'bottom']}>
+    <Screen scroll edges={['top', 'bottom']} overlay={<FAB label="Thêm nhân viên" onPress={() => setEdit({ role: 'stylist', shiftFrom: '08:00', shiftTo: '20:00', onlineToday: true, commissionPct: 0, name: '' })} />}>
       <AppBar title="Nhân viên" onBack={() => router.back()} />
       {!s.staff.length ? <EmptyState icon="users" title="Chưa có nhân viên" action="Thêm nhân viên" onAction={() => setEdit({ role: 'stylist', shiftFrom: '08:00', shiftTo: '20:00', onlineToday: true, commissionPct: 0, name: '' })} /> : null}
       {s.staff.map((st) => (
@@ -37,8 +37,6 @@ export default function StaffScreen() {
           <Button title="Sao chép" size="sm" variant="secondary" icon="copy" onPress={async () => { await Clipboard.setStringAsync(`${s.shop.slug.slice(0, 3).toUpperCase()}-${String(s.staff.length * 137 + 4021).slice(-4)}`); toast('Đã sao chép mã mời'); }} />
         </Row>
       </Card>
-      <View style={{ height: 72 }} />
-      <FAB label="Thêm nhân viên" onPress={() => setEdit({ role: 'stylist', shiftFrom: '08:00', shiftTo: '20:00', onlineToday: true, commissionPct: 0, name: '' })} />
 
       <Sheet visible={!!edit} onClose={() => setEdit(null)} title={edit?.id ? 'Sửa nhân viên' : 'Thêm nhân viên'} footer={<View style={{ gap: 8 }}>
         <Button title="Lưu" disabled={!valid} onPress={() => {
