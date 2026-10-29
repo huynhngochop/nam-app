@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "lib": ["es2023"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noImplicitAny": false,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "types": [],
+    "paths": {
+      "@nam/ui": ["../packages/ui/src/index.ts"],
+      "@nam/core": ["../packages/core/src/index.ts"]
+    }
+  },
+  "include": ["typestubs/*.d.ts", "../packages/*/src/**/*", "../apps/*/app/**/*", "../apps/*/src/**/*"]
+}

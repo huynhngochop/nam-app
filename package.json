@@ -4,6 +4,7 @@
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "typecheck": "npm run typecheck --workspaces --if-present",
+    "typecheck:stubs": "tsc -p tests/tsconfig.typecheck.json",
     "test": "tsx --tsconfig tests/tsconfig.json --test tests/*.test.ts",
     "meo": "npm --workspace @nam/meo-nha run start",
     "nhip": "npm --workspace @nam/nhip run start",
