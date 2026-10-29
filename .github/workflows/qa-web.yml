@@ -1,0 +1,80 @@
+# QA tạm thời: export bản web của từng app, cho trình duyệt tự động đi qua mọi màn hình, bấm từng nút,
+# chụp ảnh, rồi commit kết quả vào qa-out/ trên nhánh này. Không merge vào main.
+name: QA web (tạm)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [qa/e2e-web]
+    paths: ['qa/**', '.github/workflows/qa-web.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  crawl:
+    name: QA ${{ matrix.app }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [meo-nha, nhip, hen-dep, vi-gon]
+    env:
+      A: node .github/scripts/annotate.mjs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+
+      - name: Cho Metro nhận file .wasm (expo-sqlite trên web) — chỉ trong CI
+        run: |
+          cat > apps/${{ matrix.app }}/metro.config.js <<'EOF'
+          const { getDefaultConfig } = require('expo/metro-config');
+          const config = getDefaultConfig(__dirname);
+          config.resolver.assetExts.push('wasm');
+          module.exports = config;
+          EOF
+
+      - name: Export web
+        run: $A "export ${{ matrix.app }}" "cd apps/${{ matrix.app }} && npx expo export -p web --output-dir dist-web 2>&1 | tail -40"
+
+      - name: Cài Playwright
+        run: |
+          cd qa && npm init -y >/dev/null && npm i --no-audit --no-fund playwright@1.56.1 >/dev/null
+          npx playwright install --with-deps chromium >/dev/null
+
+      - name: Crawl
+        run: |
+          node qa/serve.mjs apps/${{ matrix.app }}/dist-web 8080 &
+          sleep 2
+          QA_BUDGET_MIN=80 $A "crawl ${{ matrix.app }}" node qa/crawl.mjs ${{ matrix.app }} http://localhost:8080 qa-out/${{ matrix.app }}
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-${{ matrix.app }}
+          path: qa-out/${{ matrix.app }}
+          if-no-files-found: ignore
+
+  commit:
+    needs: crawl
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: qa-out
+          pattern: qa-*
+      - name: Commit kết quả
+        run: |
+          for d in qa-out/qa-*; do [ -d "$d" ] && mv "$d" "qa-out/${d#qa-out/qa-}"; done
+          ls -R qa-out | head -20
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add qa-out
+          git commit -qm "qa: kết quả crawl web (tự động)" && git pull -q --rebase && git push || echo "không có gì để commit"
