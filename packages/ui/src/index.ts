@@ -7,3 +7,4 @@ export * from './charts';
 export * from './fonts';
 export * from './shell';
 export * from './components/paywall';
+export * from './components/slider';
