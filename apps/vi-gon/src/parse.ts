@@ -11,7 +11,12 @@ import { Rule } from './types';
  */
 export type Parsed = { amount: number; kind: 'expense' | 'income'; at: number | null; account: string | null; merchant: string; balance: number | null };
 
-const MONEY = /([+\-−–])\s*([\d]{1,3}(?:[.,]\d{3})+|\d+)(?:[.,]00)?\s*(?:VND|VNĐ|đ|d\b|dong)?/i;
+// Dấu +/− không được đứng ngay sau chữ số (phần đuôi số tài khoản, ngày). Sau chữ thì được: "PS-50,000", "GD-50,000".
+const MONEY = /(?:^|[^0-9])([+\-−–])\s*([\d]{1,3}(?:[.,]\d{3})+|\d+)(?:[.,]00)?\s*(?:VND|VNĐ|đ|d\b|dong)?/i;
+// Ngày (29-10-2026, 29/10/26, 30-10) và giờ (08:12:05) — bỏ đi trước khi tìm số tiền (lỗi V1).
+// (?![.,]\d): không nuốt phần đầu của số tiền liền sau ("29-10-50,000").
+const DATES = /\b\d{1,2}[/-]\d{1,2}(?:[/-]\d{2,4})?\b(?![.,]\d)/g;
+const TIMES = /\b\d{1,2}:\d{2}(?::\d{2})?\b/g;
 const BAL = /(?:SD|S[ốo] d[ưu]|so du|balance)\s*[:.]?\s*([\d.,]+)/i;
 
 const toNumber = (s: string) => Number(s.replace(/[.,](?=\d{3}\b)/g, '').replace(/[.,]/g, ''));
@@ -22,7 +27,7 @@ export function parseBankText(text: string, now = new Date()): Parsed | null {
 
   // Bỏ phần số dư trước khi tìm số tiền giao dịch (số dư không có dấu +/− nhưng tránh nhầm).
   const balM = t.match(BAL);
-  const withoutBal = balM ? t.replace(balM[0], ' ') : t;
+  const withoutBal = (balM ? t.replace(balM[0], ' ') : t).replace(DATES, ' ').replace(TIMES, ' ');
   const m = withoutBal.match(MONEY);
   let amount: number | null = null;
   let kind: Parsed['kind'] = 'expense';
