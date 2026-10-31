@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   check:
-    name: Typecheck + test
+    name: Typecheck + test + bundle
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,6 +25,14 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - run: npm run typecheck
       - run: npm test
+      # Bundle JS cho Android trước khi tốn lượt build EAS: bắt lỗi resolve module (vd. lệch phiên bản expo-asset).
+      - name: Bundle thử Android (4 app)
+        run: |
+          for a in meo-nha nhip hen-dep vi-gon; do
+            echo "::group::$a"
+            (cd apps/$a && npx expo export -p android --output-dir /tmp/exp-$a)
+            echo "::endgroup::"
+          done
 
   build:
     name: APK ${{ matrix.app }}
