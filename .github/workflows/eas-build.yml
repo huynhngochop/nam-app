@@ -6,7 +6,7 @@ name: EAS build Android (preview)
 on:
   workflow_dispatch:
   push:
-    branches: [main, ci/eas-build-android] # TẠM: nhánh PR, bỏ trước khi merge
+    branches: [main]
 
 concurrency:
   group: eas-build-${{ github.ref }}

@@ -22,6 +22,7 @@ import { hhmm, shortDate, uid, vnd } from '@nam/core';
 import { deleteTx, getTx, insertTx, updateTx, useQuery } from './db';
 import { ruleKeyword } from './parse';
 import { catOf, useVi } from './store';
+import { untransferKinds } from './transfer';
 import { Tx } from './types';
 import { Money } from './ui';
 
@@ -33,6 +34,12 @@ export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) 
   const toast = useToast();
   const s = useVi();
   const tx = useQuery(() => getTx(id), [id], null);
+  // Chân kia của cặp chuyển nội bộ (V4). Qua useQuery: không đọc SQLite mỗi lần render, lỗi CSDL không làm sập màn.
+  const pairTx = useQuery(
+    () => (tx?.kind === 'transfer' && tx.pairId ? getTx(tx.pairId) : null),
+    [tx?.kind, tx?.pairId],
+    null,
+  );
   const [note, setNote] = useState(tx?.note ?? '');
   const [confirmDel, setConfirmDel] = useState(false);
   const [split, setSplit] = useState(false);
@@ -61,6 +68,21 @@ export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) 
           : undefined,
       });
     }
+  };
+  // V4: trả lại đúng chiều thu/chi cho giao dịch này và chân kia của cặp chuyển khoản.
+  const untransfer = tx.kind === 'transfer' ? untransferKinds(tx, pairTx) : { self: null, pair: null };
+  // Hai chân của một lần chuyển khoản luôn ngược chiều, nên chân kia lấy chiều ngược với chân này.
+  const undoTransfer = (kind: 'expense' | 'income') => {
+    const other = kind === 'income' ? 'expense' : 'income';
+    updateTx(tx.id, { kind, flag: null, pairId: null, categoryId: kind === 'income' ? 'in_other' : 'other' });
+    if (pairTx && pairTx.kind === 'transfer')
+      updateTx(pairTx.id, {
+        kind: other,
+        flag: null,
+        pairId: null,
+        categoryId: other === 'income' ? 'in_other' : 'other',
+      });
+    toast(kind === 'income' ? 'Đã chuyển thành khoản thu' : 'Đã chuyển thành khoản chi');
   };
   const remove = () => {
     const copy = { ...tx };
@@ -146,13 +168,24 @@ export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) 
         </>
       ) : (
         <Card variant="fill">
-          <T v="body">Chuyển giữa tài khoản của bạn — không tính vào chi tiêu.</T>
-          <Button
-            title="Không phải chuyển nội bộ"
-            size="sm"
-            variant="text"
-            onPress={() => updateTx(tx.id, { kind: 'expense', flag: null })}
-          />
+          <T v="body">
+            {tx.fundId
+              ? 'Góp / rút quỹ — không tính vào thu chi.'
+              : 'Chuyển giữa tài khoản của bạn — không tính vào chi tiêu.'}
+          </T>
+          {tx.fundId ? null : untransfer.self ? (
+            <Button
+              title="Không phải chuyển nội bộ"
+              size="sm"
+              variant="text"
+              onPress={() => undoTransfer(untransfer.self!)}
+            />
+          ) : (
+            <Row wrap>
+              <Button title="Thật ra là khoản chi" size="sm" variant="text" onPress={() => undoTransfer('expense')} />
+              <Button title="Thật ra là khoản thu" size="sm" variant="text" onPress={() => undoTransfer('income')} />
+            </Row>
+          )}
         </Card>
       )}
       <TextField

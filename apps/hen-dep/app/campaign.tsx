@@ -18,7 +18,7 @@ import {
   useTheme,
   useToast,
 } from '@nam/ui';
-import { relativeTime, track, useOnline } from '@nam/core';
+import { getConfig, relativeTime, track, useOnline } from '@nam/core';
 import { customerStats, useHen } from '../src/store';
 import { templateVariants } from '../src/promo';
 
@@ -69,6 +69,8 @@ export default function Campaign() {
   const noConsent = s.customers.filter((x) => !x.marketingConsent).length;
   const missingLink = !msg.includes(link);
 
+  // H5: chưa có máy chủ thì không có gì gửi đi được — không báo "đang gửi", chỉ cho chia sẻ để tự gửi.
+  const canSend = !!getConfig().apiBaseUrl;
   const send = () => {
     setConfirm(false);
     s.addCampaign({ audience: aud, count: targets.length, message: msg });
@@ -86,22 +88,41 @@ export default function Campaign() {
       edges={['top', 'bottom']}
       footer={
         <View style={{ gap: 8 }}>
-          <Button
-            title={`Gửi cho ${targets.length} khách`}
-            disabled={!targets.length || msg.trim().length < 10}
-            onPress={() => setConfirm(true)}
-          />
-          <Button
-            title="Chia sẻ qua ứng dụng khác"
-            variant="text"
-            size="sm"
-            icon="share-2"
-            onPress={() => Share.share({ message: msg }).catch(() => {})}
-          />
+          {canSend ? (
+            <>
+              <Button
+                title={`Gửi cho ${targets.length} khách`}
+                disabled={!targets.length || msg.trim().length < 10}
+                onPress={() => setConfirm(true)}
+              />
+              <Button
+                title="Chia sẻ qua ứng dụng khác"
+                variant="text"
+                size="sm"
+                icon="share-2"
+                onPress={() => Share.share({ message: msg }).catch(() => {})}
+              />
+            </>
+          ) : (
+            <Button
+              title="Chia sẻ tin để tự gửi"
+              icon="share-2"
+              disabled={msg.trim().length < 10}
+              onPress={() => {
+                track('campaign_shared_manually', { audience: aud });
+                Share.share({ message: msg }).catch(() => {});
+              }}
+            />
+          )}
         </View>
       }
     >
       <AppBar title="Gửi ưu đãi" onBack={() => router.back()} />
+      {!canSend ? (
+        <Card variant="tint">
+          <T v="body">Bản này chưa gửi tin tự động qua Zalo. Chia sẻ nội dung để tự gửi cho khách bên dưới.</T>
+        </Card>
+      ) : null}
       {p.window ? (
         <Card variant="tint">
           <T v="body">{`Lấp khung trống ${p.window} hôm nay`}</T>
@@ -162,7 +183,7 @@ export default function Campaign() {
       <Dialog
         visible={confirm}
         title={`Gửi cho ${targets.length} khách?`}
-        body="Tin ưu đãi gửi qua Zalo. Mỗi khách chỉ nhận tối đa 1 tin ưu đãi/tuần."
+        body="Tin ưu đãi gửi qua Zalo cho khách đã đồng ý nhận tin."
         confirm="Gửi"
         onCancel={() => setConfirm(false)}
         onConfirm={send}

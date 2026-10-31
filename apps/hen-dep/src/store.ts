@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createOutbox, kvStorage, uid } from '@nam/core';
 import type { ThemePref } from '@nam/ui';
+import { nextBookingCode } from './codes';
 import { DEFAULT_SHOP, SEED_CUSTOMERS, SEED_SERVICES, SEED_STAFF, seedBookings } from './seed';
 import { Booking, BookingStatus, Campaign, Customer, Plan, Service, Shop, Staff } from './types';
 
@@ -21,6 +22,8 @@ type State = {
   campaigns: Campaign[];
   plan: Plan;
   aiUsed: { month: string; count: number };
+  /** Số mã lịch hẹn lớn nhất đã cấp (HD-n). Không đặt lại khi xóa dữ liệu, để không cấp trùng mã. */
+  lastBookingCode: number;
   set: (p: Partial<State>) => void;
   setShop: (p: Partial<Shop>) => void;
   upsertService: (s: Omit<Service, 'id' | 'order'> & { id?: string }) => void;
@@ -39,7 +42,6 @@ type State = {
 };
 
 const enqueue = (kind: string, payload: unknown) => useOutbox.getState().enqueue(kind, payload);
-let codeSeq = 3000;
 
 export const useHen = create<State>()(
   persist(
@@ -56,6 +58,7 @@ export const useHen = create<State>()(
       campaigns: [],
       plan: { code: 'trial', trialEndsAt: Date.now() + 30 * 86400000 },
       aiUsed: { month: '', count: 0 },
+      lastBookingCode: 3000,
       set: (p) => set(p),
       setShop: (p) => {
         set((s) => ({ shop: { ...s.shop, ...p, settings: { ...s.shop.settings, ...(p.settings ?? {}) } } }));
@@ -111,14 +114,9 @@ export const useHen = create<State>()(
         return id;
       },
       createBooking: (bk) => {
-        const b: Booking = {
-          ...bk,
-          status: bk.status ?? 'confirmed',
-          id: uid(),
-          code: `HD-${++codeSeq}`,
-          synced: false,
-        };
-        set((s) => ({ bookings: [...s.bookings, b] }));
+        const next = nextBookingCode(get().bookings, get().lastBookingCode);
+        const b: Booking = { ...bk, status: bk.status ?? 'confirmed', id: uid(), code: next.code, synced: false };
+        set((s) => ({ bookings: [...s.bookings, b], lastBookingCode: next.n }));
         enqueue('booking.create', b);
         return b;
       },
