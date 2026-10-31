@@ -45,11 +45,17 @@ jobs:
           const { getDefaultConfig } = require('expo/metro-config');
           const config = getDefaultConfig(__dirname);
           config.resolver.assetExts.push('wasm');
+          // Bản web: dùng "main" (CommonJS) thay vì "exports"/ESM để gói như zustand không mang import.meta vào bundle.
+          config.resolver.unstable_enablePackageExports = false;
           module.exports = config;
           EOF
 
       - name: Export web
-        run: $A "export ${{ matrix.app }}" "cd apps/${{ matrix.app }} && npx expo export -p web --output-dir dist-web 2>&1 | tail -40"
+        run: $A "export ${{ matrix.app }}" "cd apps/${{ matrix.app }} && npx expo export -p web --clear --output-dir dist-web 2>&1 | tail -40"
+
+      - name: Còn import.meta trong bundle?
+        continue-on-error: true
+        run: $A "import.meta ${{ matrix.app }}" "grep -o '.\{160\}import\.meta.\{60\}' apps/${{ matrix.app }}/dist-web/_expo/static/js/web/*.js | head -5; grep -c 'import\.meta' apps/${{ matrix.app }}/dist-web/_expo/static/js/web/*.js"
 
       - name: Cài Playwright
         # Cài ngoài repo: thư mục con của monorepo (npm workspaces) không cài gói riêng được.
