@@ -1,0 +1,6507 @@
+{
+ "app": "vi-gon",
+ "startedAt": "2026-10-31T06:41:30.513Z",
+ "firstRun": [
+  {
+   "step": 0,
+   "url": "/welcome",
+   "shot": {
+    "file": "shots/0001-first-run-0.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "step": 1,
+   "url": "/welcome",
+   "clicked": "Bắt đầu",
+   "filled": [],
+   "after": "/onboarding/privacy",
+   "shot": {
+    "file": "shots/0002-first-run-1.png"
+   },
+   "errors": []
+  },
+  {
+   "step": 2,
+   "url": "/onboarding/privacy",
+   "clicked": "Tiếp tục",
+   "filled": [],
+   "after": "/onboarding/permission",
+   "shot": {
+    "file": "shots/0003-first-run-2.png"
+   },
+   "errors": []
+  },
+  {
+   "step": 3,
+   "url": "/onboarding/permission",
+   "clicked": "Tiếp tục",
+   "filled": [],
+   "after": "/onboarding/budget",
+   "shot": {
+    "file": "shots/0004-first-run-3.png"
+   },
+   "errors": []
+  },
+  {
+   "step": 4,
+   "url": "/onboarding/budget",
+   "clicked": "Xong",
+   "filled": [],
+   "after": "/home",
+   "shot": {
+    "file": "shots/0005-first-run-4.png"
+   },
+   "errors": []
+  }
+ ],
+ "routes": [
+  {
+   "route": "/analysis",
+   "pattern": "/analysis",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "3 tháng",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0007-click-analysis-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "6 tháng",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "12 tháng",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "T11",
+      "T12",
+      "T1",
+      "T2",
+      "T3",
+      "T4"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0008-click-analysis-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Dự báo cuối tháng",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/paywall",
+     "added": [
+      "",
+      "Ví Gọn Pro",
+      "",
+      "Dự báo cuối tháng, cảnh báo sớm",
+      "",
+      "Quỹ và ngân sách không giới hạn",
+      "",
+      "Xuất Excel / CSV, báo cáo năm",
+      "",
+      "Hỏi Ví Gọn nhiều hơn mỗi ngày",
+      "Theo năm",
+      "PRICE_PRO_YEAR"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0009-click-analysis-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": " Hỏi Ví Gọn Tính ngay trên máy ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/ask",
+     "added": [
+      "",
+      "",
+      "Số liệu tính ngay trên máy",
+      "Câu hỏi đơn giản không cần mạng. Câu khó: chỉ câu hỏi được gửi đi để hiểu ý — không gửi số tiền, nơi chi hay tài khoản.",
+      "Thử hỏi",
+      "Tháng này ăn uống hết bao nhiêu?",
+      "Khoản nào tăng nhiều nhất so với tháng trước?",
+      "Tháng này còn được chi bao nhiêu?",
+      "Tuần này đi lại hết bao nhiêu?",
+      "",
+      "Câu khó còn 10/10 lượt hôm nay"
+     ],
+     "visualChange": true,
+     "errors": [
+      {
+       "type": "requestfailed",
+       "text": "http://localhost:8080/ net::ERR_ABORTED"
+      },
+      {
+       "type": "requestfailed",
+       "text": "http://localhost:8080/ net::ERR_ABORTED"
+      }
+     ],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0010-click-analysis-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": " Tổng kết tháng Nhận xét & gợi ý kỳ tới ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/summary",
+     "added": [
+      "",
+      "Tổng kết tháng 9",
+      "",
+      "Kỳ trước",
+      "Kỳ này (tạm tính)",
+      "2 kỳ trước",
+      "Chưa đủ dữ liệu",
+      "Kỳ này chưa có giao dịch đã xác nhận."
+     ],
+     "visualChange": true,
+     "errors": [
+      {
+       "type": "requestfailed",
+       "text": "http://localhost:8080/ net::ERR_ABORTED"
+      }
+     ],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0011-click-analysis-5.jpg"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": " Ngân sách danh mục ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/budgets",
+     "added": [
+      "",
+      "Ngân sách tháng 10",
+      "Tổng ngân sách",
+      "0 / 12 tr",
+      "Nhấn giữ để bỏ ngân sách danh mục.",
+      "Thêm ngân sách danh mục",
+      "",
+      "Ăn uống",
+      "",
+      "Nhà & hóa đơn",
+      "",
+      "Mua sắm"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0012-click-analysis-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": " Danh mục & quy tắc ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/categories",
+     "added": [
+      "",
+      "Danh mục",
+      "",
+      "Chi (11)",
+      "Thu (4)",
+      "",
+      "Ăn uống",
+      "",
+      "Nhà & hóa đơn",
+      "",
+      "Mua sắm",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0013-click-analysis-7.jpg"
+     }
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": "Thêm giao dịch đầu tiên",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/add",
+     "added": [
+      "",
+      "Thêm giao dịch",
+      "Chi",
+      "Thu",
+      "Góp quỹ",
+      "−0đ",
+      "",
+      "Ăn uống",
+      "",
+      "Nhà & hóa đơn",
+      "",
+      "Mua sắm"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0014-click-analysis-8.jpg"
+     }
+    },
+    {
+     "i": 9,
+     "role": "tab",
+     "label": "  Tổng quan",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/home",
+     "added": [
+      "Tháng 10 · còn 1 ngày",
+      "Chào buổi chiều, Kiểm thử QA",
+      "",
+      "",
+      "0%",
+      "ngân sách",
+      "Đã chi",
+      "0đ",
+      "/ 12.000.000đ",
+      "Còn 12.000.000đ/ngày",
+      "Thu kỳ này",
+      "+0đ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0015-click-analysis-9.jpg"
+     }
+    },
+    {
+     "i": 10,
+     "role": "tab",
+     "label": "  Giao dịch",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/transactions",
+     "added": [
+      "",
+      "",
+      "",
+      "‹",
+      "Tháng 10",
+      "Chi",
+      "Thu",
+      "",
+      "Chưa có giao dịch",
+      "Giao dịch tự ghi và nhập tay sẽ hiện ở đây.",
+      "Thêm giao dịch"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0016-click-analysis-10.jpg"
+     }
+    },
+    {
+     "i": 11,
+     "role": "tab",
+     "label": "  Phân tích",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 12,
+     "role": "tab",
+     "label": "  Quỹ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/funds",
+     "added": [
+      "",
+      "Chưa có quỹ nào",
+      "Đặt mục tiêu — Ví Gọn tính số cần để dành mỗi tháng.",
+      "Tạo quỹ",
+      "Gói miễn phí: 1 quỹ · Pro: không giới hạn"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0017-click-analysis-12.jpg"
+     }
+    }
+   ],
+   "landed": "/analysis",
+   "redirected": false,
+   "textExcerpt": "Phân tích\n3 tháng\n6 tháng\n12 tháng\nDòng tiền\n— Thu  - - Chi\nCần ít nhất 2 tháng dữ liệu để vẽ biểu đồ.\nT5\nT6\nT7\nT8\nT9\nT10\nTiết kiệm trung bình 0/tháng\nChi theo danh mục · Tháng 10\nChưa có khoản chi nào trong kỳ này.\n\nDự báo cuối kỳ\nPRO\nƯớc tính chi tiêu, cảnh báo sớm khi sắp vượt.\nCÔNG CỤ\n\nHỏi Ví Gọn\nTính ngay trên máy\n\n\nTổng kết tháng\nNhận xét & gợi ý kỳ tới\n\n\nNgân sách danh mục\n\n\nDanh mục & quy tắc\n\nThêm giao dịch đầu tiên\n\n\nTổng quan\n\n\nGiao dịch\n\n\nPhân tích\n\n\nQuỹ",
+   "shot": {
+    "file": "shots/0006-route-analysis.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 13,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "3 tháng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "6 tháng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "12 tháng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Dự báo cuối tháng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": " Hỏi Ví Gọn Tính ngay trên máy ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": " Tổng kết tháng Nhận xét & gợi ý kỳ tới ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": " Ngân sách danh mục ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": " Danh mục & quy tắc ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": "Thêm giao dịch đầu tiên",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "tab",
+     "label": "  Tổng quan",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "tab",
+     "label": "  Giao dịch",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "tab",
+     "label": "  Phân tích",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 12,
+     "role": "tab",
+     "label": "  Quỹ",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0166-after-analysis.png"
+   }
+  },
+  {
+   "route": "/funds",
+   "pattern": "/funds",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Tạo quỹ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/fund/new",
+     "added": [
+      "",
+      "Quỹ mới",
+      "Tên quỹ",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "Mục tiêu (đồng)"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0019-click-funds-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Tạo quỹ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/fund/new",
+     "added": [
+      "",
+      "Quỹ mới",
+      "Tên quỹ",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "Mục tiêu (đồng)"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "5c5f264a9319ad8fb33cdb09918ecbaa"
+     }
+    },
+    {
+     "i": 2,
+     "role": "tab",
+     "label": "  Tổng quan",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/home",
+     "added": [
+      "Tháng 10 · còn 1 ngày",
+      "Chào buổi chiều, Kiểm thử QA",
+      "",
+      "",
+      "0%",
+      "ngân sách",
+      "Đã chi",
+      "0đ",
+      "/ 12.000.000đ",
+      "Còn 12.000.000đ/ngày",
+      "Thu kỳ này",
+      "+0đ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "c4515f3bf8843b3d3269b9810d9ff425"
+     }
+    },
+    {
+     "i": 3,
+     "role": "tab",
+     "label": "  Giao dịch",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/transactions",
+     "added": [
+      "",
+      "",
+      "‹",
+      "Tháng 10",
+      "Chi",
+      "Thu",
+      "",
+      "Chưa có giao dịch",
+      "Giao dịch tự ghi và nhập tay sẽ hiện ở đây.",
+      "Thêm giao dịch"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "1f765d7dc7b9f796c0f4f8c4a783bd2d"
+     }
+    },
+    {
+     "i": 4,
+     "role": "tab",
+     "label": "  Phân tích",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/analysis",
+     "added": [
+      "3 tháng",
+      "6 tháng",
+      "12 tháng",
+      "Dòng tiền",
+      "— Thu  - - Chi",
+      "Cần ít nhất 2 tháng dữ liệu để vẽ biểu đồ.",
+      "T5",
+      "T6",
+      "T7",
+      "T8",
+      "T9",
+      "T10"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0020-click-funds-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "tab",
+     "label": "  Quỹ",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    }
+   ],
+   "landed": "/funds",
+   "redirected": false,
+   "textExcerpt": "Quỹ\n\n\nChưa có quỹ nào\nĐặt mục tiêu — Ví Gọn tính số cần để dành mỗi tháng.\nTạo quỹ\nGói miễn phí: 1 quỹ · Pro: không giới hạn\n\n\nTổng quan\n\n\nGiao dịch\n\n\nPhân tích\n\n\nQuỹ",
+   "shot": {
+    "file": "shots/0018-route-funds.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 6,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Tạo quỹ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Tạo quỹ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "tab",
+     "label": "  Tổng quan",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "tab",
+     "label": "  Giao dịch",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "tab",
+     "label": "  Phân tích",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "tab",
+     "label": "  Quỹ",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0167-after-funds.png"
+   }
+  },
+  {
+   "route": "/home",
+   "pattern": "/home",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Ẩn số tiền",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "",
+      "••",
+      "•••••• đ",
+      "/ ••••••",
+      "•••••• đ",
+      "•••••• đ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0022-click-home-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Cài đặt",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/settings",
+     "added": [
+      "",
+      "Cài đặt",
+      "TỰ GHI NHẬN",
+      "",
+      "Ghi nhanh bằng dán tin",
+      "Xem hướng dẫn",
+      "",
+      "Hỏi trước khi lưu",
+      "Tắt = tự lưu những giao dịch đã có quy tắc",
+      "",
+      "Danh mục & quy tắc",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0023-click-home-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Ngân sách",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/budgets",
+     "added": [
+      "",
+      "Ngân sách tháng 10",
+      "Tổng ngân sách",
+      "0 / 12 tr",
+      "Nhấn giữ để bỏ ngân sách danh mục.",
+      "Thêm ngân sách danh mục",
+      "Ăn uống",
+      "Nhà & hóa đơn",
+      "Mua sắm",
+      "Đi lại",
+      "Sức khỏe",
+      "Học tập"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "598f13c2f1165b92400c723019cd7330"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Hỏi Ví Gọn",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/ask",
+     "added": [
+      "",
+      "",
+      "Số liệu tính ngay trên máy",
+      "Câu hỏi đơn giản không cần mạng. Câu khó: chỉ câu hỏi được gửi đi để hiểu ý — không gửi số tiền, nơi chi hay tài khoản.",
+      "Thử hỏi",
+      "Tháng này ăn uống hết bao nhiêu?",
+      "",
+      "Khoản nào tăng nhiều nhất so với tháng trước?",
+      "",
+      "Tháng này còn được chi bao nhiêu?",
+      "",
+      "Tuần này đi lại hết bao nhiêu?"
+     ],
+     "visualChange": true,
+     "errors": [
+      {
+       "type": "requestfailed",
+       "text": "http://localhost:8080/ net::ERR_ABORTED"
+      },
+      {
+       "type": "requestfailed",
+       "text": "http://localhost:8080/ net::ERR_ABORTED"
+      }
+     ],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "a9d0fdd0e3ab8156d2d30985148ca660"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Hỏi Ví Gọn",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Tất cả",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/transactions",
+     "added": [
+      "",
+      "‹",
+      "Tháng 10",
+      "Chi",
+      "Thu",
+      "",
+      "Chưa có giao dịch",
+      "Giao dịch tự ghi và nhập tay sẽ hiện ở đây.",
+      "Thêm giao dịch"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "1f765d7dc7b9f796c0f4f8c4a783bd2d"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": " Dán tin ngân hàng",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/import",
+     "added": [
+      "",
+      "Dán một hoặc nhiều thông báo / SMS biến động số dư. Ví Gọn đọc ngay trên máy, không gửi đi đâu.",
+      "Dán từ bộ nhớ tạm",
+      "Đọc tin"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0024-click-home-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Thêm giao dịch",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/add",
+     "added": [
+      "",
+      "Thêm giao dịch",
+      "Chi",
+      "Thu",
+      "Góp quỹ",
+      "−0đ",
+      "",
+      "Ăn uống",
+      "",
+      "Nhà & hóa đơn",
+      "",
+      "Mua sắm"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "765dc850a59d2daa8b0283c2a4c5f63a"
+     }
+    },
+    {
+     "i": 8,
+     "role": "tab",
+     "label": "  Tổng quan",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 9,
+     "role": "tab",
+     "label": "  Giao dịch",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/transactions",
+     "added": [
+      "",
+      "‹",
+      "Tháng 10",
+      "Chi",
+      "Thu",
+      "",
+      "Chưa có giao dịch",
+      "Giao dịch tự ghi và nhập tay sẽ hiện ở đây.",
+      "Thêm giao dịch"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "1f765d7dc7b9f796c0f4f8c4a783bd2d"
+     }
+    },
+    {
+     "i": 10,
+     "role": "tab",
+     "label": "  Phân tích",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/analysis",
+     "added": [
+      "3 tháng",
+      "6 tháng",
+      "12 tháng",
+      "Dòng tiền",
+      "— Thu  - - Chi",
+      "Cần ít nhất 2 tháng dữ liệu để vẽ biểu đồ.",
+      "T5",
+      "T6",
+      "T7",
+      "T8",
+      "T9",
+      "T10"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "deb200ea703b70e0a59b77dfeaa177c1"
+     }
+    },
+    {
+     "i": 11,
+     "role": "tab",
+     "label": "  Quỹ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/funds",
+     "added": [
+      "Chưa có quỹ nào",
+      "Đặt mục tiêu — Ví Gọn tính số cần để dành mỗi tháng.",
+      "Tạo quỹ",
+      "Gói miễn phí: 1 quỹ · Pro: không giới hạn"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "a4b4ee0f0094c88d197272860c9c02b4"
+     }
+    }
+   ],
+   "landed": "/home",
+   "redirected": false,
+   "textExcerpt": "Tháng 10 · còn 1 ngày\nChào buổi chiều, Kiểm thử QA\n\n\n0%\nngân sách\nĐã chi\n0đ\n/ 12.000.000đ\nCòn 12.000.000đ/ngày\nThu kỳ này\n+0đ\nChênh lệch\n+0đ\n\nHỏi Ví Gọn\n“Tháng này ăn uống hết bao nhiêu?”\nVỪA GHI NHẬN\nTất cả\nChưa có giao dịch. Nhấn + để ghi nhanh, hoặc dán tin nhắn ngân hàng.\n\nDán tin ngân hàng\n\n\n\nTổng quan\n\n\nGiao dịch\n\n\nPhân tích\n\n\nQuỹ",
+   "shot": {
+    "file": "shots/0021-route-home.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 12,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Ẩn số tiền",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Cài đặt",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Ngân sách",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Hỏi Ví Gọn",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Hỏi Ví Gọn",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Tất cả",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": " Dán tin ngân hàng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Thêm giao dịch",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "tab",
+     "label": "  Tổng quan",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "tab",
+     "label": "  Giao dịch",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "tab",
+     "label": "  Phân tích",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "tab",
+     "label": "  Quỹ",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0168-after-home.png"
+   }
+  },
+  {
+   "route": "/transactions",
+   "pattern": "/transactions",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Dán tin ngân hàng",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/import",
+     "added": [
+      "",
+      "Dán tin ngân hàng",
+      "Dán một hoặc nhiều thông báo / SMS biến động số dư. Ví Gọn đọc ngay trên máy, không gửi đi đâu.",
+      "Dán từ bộ nhớ tạm",
+      "Đọc tin"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "706ecbbfbcea7743fd82536b97c6c01b"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Thêm giao dịch",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/add",
+     "added": [
+      "",
+      "Góp quỹ",
+      "−0đ",
+      "",
+      "Ăn uống",
+      "",
+      "Nhà & hóa đơn",
+      "",
+      "Mua sắm",
+      "",
+      "Đi lại",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "765dc850a59d2daa8b0283c2a4c5f63a"
+     }
+    },
+    {
+     "i": 2,
+     "role": "",
+     "label": "Tìm nơi chi, ghi chú, số tiền",
+     "input": true,
+     "disabled": false,
+     "value": "150000",
+     "added": [
+      "",
+      "Không tìm thấy",
+      "Thử từ khóa khác hoặc đổi kỳ."
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0026-click-transactions-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "‹",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Tháng 9",
+      "›"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0027-click-transactions-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Tháng 10",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Chi",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0028-click-transactions-5.jpg"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Thu",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0029-click-transactions-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Thêm giao dịch",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/add",
+     "added": [
+      "",
+      "Góp quỹ",
+      "−0đ",
+      "",
+      "Ăn uống",
+      "",
+      "Nhà & hóa đơn",
+      "",
+      "Mua sắm",
+      "",
+      "Đi lại",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "765dc850a59d2daa8b0283c2a4c5f63a"
+     }
+    },
+    {
+     "i": 8,
+     "role": "tab",
+     "label": "  Tổng quan",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/home",
+     "added": [
+      "Tháng 10 · còn 1 ngày",
+      "Chào buổi chiều, Kiểm thử QA",
+      "",
+      "",
+      "••",
+      "ngân sách",
+      "Đã chi",
+      "•••••• đ",
+      "/ ••••••",
+      "Thu kỳ này",
+      "•••••• đ",
+      "Chênh lệch"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0030-click-transactions-8.jpg"
+     }
+    },
+    {
+     "i": 9,
+     "role": "tab",
+     "label": "  Giao dịch",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 10,
+     "role": "tab",
+     "label": "  Phân tích",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/analysis",
+     "added": [
+      "3 tháng",
+      "6 tháng",
+      "12 tháng",
+      "Dòng tiền",
+      "— Thu  - - Chi",
+      "Cần ít nhất 2 tháng dữ liệu để vẽ biểu đồ.",
+      "T5",
+      "T6",
+      "T7",
+      "T8",
+      "T9",
+      "T10"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "deb200ea703b70e0a59b77dfeaa177c1"
+     }
+    },
+    {
+     "i": 11,
+     "role": "tab",
+     "label": "  Quỹ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/funds",
+     "added": [
+      "Chưa có quỹ nào",
+      "Đặt mục tiêu — Ví Gọn tính số cần để dành mỗi tháng.",
+      "Tạo quỹ",
+      "Gói miễn phí: 1 quỹ · Pro: không giới hạn"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "a4b4ee0f0094c88d197272860c9c02b4"
+     }
+    }
+   ],
+   "landed": "/transactions",
+   "redirected": false,
+   "textExcerpt": "Giao dịch\n\n\n\n‹\nTháng 10\nChi\nThu\n\nChưa có giao dịch\nGiao dịch tự ghi và nhập tay sẽ hiện ở đây.\nThêm giao dịch\n\n\nTổng quan\n\n\nGiao dịch\n\n\nPhân tích\n\n\nQuỹ",
+   "shot": {
+    "file": "shots/0025-route-transactions.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 12,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Dán tin ngân hàng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Thêm giao dịch",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "",
+     "label": "Tìm nơi chi, ghi chú, số tiền",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "‹",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Tháng 10",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Chi",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Thu",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Thêm giao dịch",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "tab",
+     "label": "  Tổng quan",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "tab",
+     "label": "  Giao dịch",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "tab",
+     "label": "  Phân tích",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "tab",
+     "label": "  Quỹ",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0169-after-transactions.png"
+   }
+  },
+  {
+   "route": "/add",
+   "pattern": "/add",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "tab",
+     "label": "Chi",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 2,
+     "role": "tab",
+     "label": "Thu",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "+0đ",
+      "",
+      "Lương",
+      "",
+      "Thưởng",
+      "",
+      "Thu nhập thêm",
+      "",
+      "Thu khác",
+      "Nguồn"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0032-click-add-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "tab",
+     "label": "Góp quỹ",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "0đ",
+      "Tạo quỹ trước"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0033-click-add-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": " Ăn uống",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": " Nhà & hóa đơn",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0034-click-add-5.jpg"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": " Mua sắm",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0035-click-add-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": " Đi lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0036-click-add-7.jpg"
+     }
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": " Sức khỏe",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0037-click-add-8.jpg"
+     }
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": " Học tập",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0038-click-add-9.jpg"
+     }
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": " Gia đình",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0039-click-add-10.jpg"
+     }
+    },
+    {
+     "i": 11,
+     "role": "button",
+     "label": " Giải trí",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0040-click-add-11.jpg"
+     }
+    },
+    {
+     "i": 12,
+     "role": "button",
+     "label": " Điện thoại & mạng",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0041-click-add-12.jpg"
+     }
+    },
+    {
+     "i": 13,
+     "role": "button",
+     "label": " Quà & hiếu hỉ",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0042-click-add-13.jpg"
+     }
+    },
+    {
+     "i": 14,
+     "role": "button",
+     "label": " Khác",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0043-click-add-14.jpg"
+     }
+    },
+    {
+     "i": 15,
+     "role": "button",
+     "label": "Hôm nay",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 16,
+     "role": "button",
+     "label": "Hôm qua",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0044-click-add-16.jpg"
+     }
+    },
+    {
+     "i": 17,
+     "role": "button",
+     "label": "T5, 29/10",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0045-click-add-17.jpg"
+     }
+    },
+    {
+     "i": 18,
+     "role": "button",
+     "label": "T4, 28/10",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0046-click-add-18.jpg"
+     }
+    },
+    {
+     "i": 19,
+     "role": "button",
+     "label": "T3, 27/10",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0047-click-add-19.jpg"
+     }
+    },
+    {
+     "i": 20,
+     "role": "button",
+     "label": "T2, 26/10",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0048-click-add-20.jpg"
+     }
+    },
+    {
+     "i": 21,
+     "role": "button",
+     "label": "CN, 25/10",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0049-click-add-21.jpg"
+     }
+    },
+    {
+     "i": 22,
+     "role": "",
+     "label": "Ví dụ: Cơm tấm",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0050-click-add-22.jpg"
+     }
+    },
+    {
+     "i": 23,
+     "role": "",
+     "label": "Không bắt buộc",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0051-click-add-23.jpg"
+     }
+    },
+    {
+     "i": 24,
+     "role": "button",
+     "label": "1",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "−1đ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0052-click-add-24.jpg"
+     }
+    },
+    {
+     "i": 25,
+     "role": "button",
+     "label": "2",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "−2đ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0053-click-add-25.jpg"
+     }
+    },
+    {
+     "i": 26,
+     "role": "button",
+     "label": "3",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "−3đ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0054-click-add-26.jpg"
+     }
+    },
+    {
+     "i": 27,
+     "role": "button",
+     "label": "4",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "−4đ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0055-click-add-27.jpg"
+     }
+    },
+    {
+     "i": 28,
+     "role": "button",
+     "label": "5",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "−5đ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0056-click-add-28.jpg"
+     }
+    },
+    {
+     "i": 29,
+     "role": "button",
+     "label": "6",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "−6đ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0057-click-add-29.jpg"
+     }
+    },
+    {
+     "i": 30,
+     "role": "button",
+     "label": "7",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "−7đ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0058-click-add-30.jpg"
+     }
+    },
+    {
+     "i": 31,
+     "role": "button",
+     "label": "8",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "−8đ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0059-click-add-31.jpg"
+     }
+    },
+    {
+     "i": 32,
+     "role": "button",
+     "label": "9",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "−9đ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0060-click-add-32.jpg"
+     }
+    },
+    {
+     "i": 33,
+     "role": "button",
+     "label": "000",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0061-click-add-33.jpg"
+     }
+    },
+    {
+     "i": 34,
+     "role": "button",
+     "label": "0",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "dup": "269afb3c8ca0769d85d775095944b504"
+     }
+    }
+   ],
+   "landed": "/add",
+   "redirected": false,
+   "textExcerpt": "\nThêm giao dịch\nChi\nThu\nGóp quỹ\n−0đ\n\nĂn uống\n\nNhà & hóa đơn\n\nMua sắm\n\nĐi lại\n\nSức khỏe\n\nHọc tập\n\nGia đình\n\nGiải trí\n\nĐiện thoại & mạng\n\nQuà & hiếu hỉ\n\nKhác\nHôm nay\nHôm qua\nT5, 29/10\nT4, 28/10\nT3, 27/10\nT2, 26/10\nCN, 25/10\nNơi chi\nGhi chú\n1\n2\n3\n4\n5\n6\n7\n8\n9\n000\n0\n\nLưu",
+   "shot": {
+    "file": "shots/0031-route-add.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 36,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "tab",
+     "label": "Chi",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "tab",
+     "label": "Thu",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "tab",
+     "label": "Góp quỹ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": " Ăn uống",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": " Nhà & hóa đơn",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": " Mua sắm",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": " Đi lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": " Sức khỏe",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": " Học tập",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": " Gia đình",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "button",
+     "label": " Giải trí",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 12,
+     "role": "button",
+     "label": " Điện thoại & mạng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 13,
+     "role": "button",
+     "label": " Quà & hiếu hỉ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 14,
+     "role": "button",
+     "label": " Khác",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 15,
+     "role": "button",
+     "label": "Hôm nay",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 16,
+     "role": "button",
+     "label": "Hôm qua",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 17,
+     "role": "button",
+     "label": "T5, 29/10",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 18,
+     "role": "button",
+     "label": "T4, 28/10",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 19,
+     "role": "button",
+     "label": "T3, 27/10",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 20,
+     "role": "button",
+     "label": "T2, 26/10",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 21,
+     "role": "button",
+     "label": "CN, 25/10",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 22,
+     "role": "",
+     "label": "Ví dụ: Cơm tấm",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 23,
+     "role": "",
+     "label": "Không bắt buộc",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 24,
+     "role": "button",
+     "label": "1",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 25,
+     "role": "button",
+     "label": "2",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 26,
+     "role": "button",
+     "label": "3",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 27,
+     "role": "button",
+     "label": "4",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 28,
+     "role": "button",
+     "label": "5",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 29,
+     "role": "button",
+     "label": "6",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 30,
+     "role": "button",
+     "label": "7",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 31,
+     "role": "button",
+     "label": "8",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 32,
+     "role": "button",
+     "label": "9",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 33,
+     "role": "button",
+     "label": "000",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 34,
+     "role": "button",
+     "label": "0",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 35,
+     "role": "button",
+     "label": "Xóa",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0170-after-add.png"
+   }
+  },
+  {
+   "route": "/ask",
+   "pattern": "/ask",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": " Tháng này ăn uống hết bao nhiêu? ",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "",
+      "Ví Gọn trả lời",
+      "•••••• đ",
+      "Ăn uống · tháng này · 0 giao dịch",
+      "Đã hiểu: Ăn uống · tháng này · Sửa",
+      "Xem giao dịch"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0063-click-ask-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": " Khoản nào tăng nhiều nhất so với tháng trước? ",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "",
+      "Ví Gọn trả lời",
+      "Không khoản nào tăng",
+      "So với kỳ trước, chi tiêu tháng trước không tăng ở danh mục nào.",
+      "Đã hiểu: tổng chi · tháng trước · Sửa"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0064-click-ask-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": " Tháng này còn được chi bao nhiêu? ",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "",
+      "Ví Gọn trả lời",
+      "•••••• đ",
+      "Còn lại của ngân sách tháng · ≈ 12 tr/ngày trong 1 ngày",
+      "Đã hiểu: tổng chi · tháng này · Sửa",
+      "Xem giao dịch"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0065-click-ask-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": " Tuần này đi lại hết bao nhiêu? ",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "",
+      "Ví Gọn trả lời",
+      "•••••• đ",
+      "Đi lại · tuần này · 0 giao dịch",
+      "Đã hiểu: Đi lại · tuần này · Sửa",
+      "Xem giao dịch"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0066-click-ask-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "",
+     "label": "Hỏi về chi tiêu của bạn…",
+     "input": true,
+     "disabled": false,
+     "value": "Tháng này ăn uống hết bao nhiêu?",
+     "added": [
+      "",
+      "Ví Gọn trả lời",
+      "•••••• đ",
+      "Ăn uống · tháng này · 0 giao dịch",
+      "Đã hiểu: Ăn uống · tháng này · Sửa",
+      "Xem giao dịch"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "dup": "03ed740162ad2875d32b9721e63ce792"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Gửi",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    }
+   ],
+   "landed": "/ask",
+   "redirected": false,
+   "textExcerpt": "\nHỏi Ví Gọn\n\nSố liệu tính ngay trên máy\nCâu hỏi đơn giản không cần mạng. Câu khó: chỉ câu hỏi được gửi đi để hiểu ý — không gửi số tiền, nơi chi hay tài khoản.\nThử hỏi\n\nTháng này ăn uống hết bao nhiêu?\n\n\nKhoản nào tăng nhiều nhất so với tháng trước?\n\n\nTháng này còn được chi bao nhiêu?\n\n\nTuần này đi lại hết bao nhiêu?\n\n\nCâu khó còn 10/10 lượt hôm nay",
+   "shot": {
+    "file": "shots/0062-route-ask.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    }
+   ],
+   "elementCount": 7,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": " Tháng này ăn uống hết bao nhiêu? ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": " Khoản nào tăng nhiều nhất so với tháng trước? ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": " Tháng này còn được chi bao nhiêu? ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": " Tuần này đi lại hết bao nhiêu? ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "",
+     "label": "Hỏi về chi tiêu của bạn…",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Gửi",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0171-after-ask.png"
+   }
+  },
+  {
+   "route": "/backup",
+   "pattern": "/backup",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "",
+     "label": "",
+     "input": true,
+     "disabled": false,
+     "value": "MatKhau123!",
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0068-click-backup-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "",
+     "label": "",
+     "input": true,
+     "disabled": false,
+     "value": "MatKhau123!",
+     "added": [
+      "Chưa khớp"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0069-click-backup-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "",
+     "label": "Ví dụ: tên con mèo + năm",
+     "input": true,
+     "disabled": false,
+     "value": "Khách QA",
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0070-click-backup-3.jpg"
+     }
+    }
+   ],
+   "landed": "/backup",
+   "redirected": false,
+   "textExcerpt": "\nSao lưu mã hóa\n\nMã hóa đầu-cuối bằng mật khẩu của bạn. Ví Gọn không giữ mật khẩu — quên là không ai mở được.\nMật khẩu sao lưu\nNhập lại mật khẩu\nGợi ý (không bắt buộc)\nSau khi tạo, chọn “Lưu vào Tệp” (iPhone) hoặc Google Drive (Android) để giữ bản sao lưu ngoài máy.\nTạo & lưu bản sao lưu",
+   "shot": {
+    "file": "shots/0067-route-backup.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 4,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "",
+     "label": "",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "",
+     "label": "",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "",
+     "label": "Ví dụ: tên con mèo + năm",
+     "input": true,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0172-after-backup.png"
+   }
+  },
+  {
+   "route": "/budgets",
+   "pattern": "/budgets",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Sửa ngân sách tổng",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Ngân sách tháng",
+      "Số tiền mỗi kỳ",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0072-click-budgets-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": " Ăn uống",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Ngân sách Ăn uống",
+      "Số tiền mỗi kỳ",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0073-click-budgets-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": " Nhà & hóa đơn",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Ngân sách Nhà & hóa đơn",
+      "Số tiền mỗi kỳ",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0074-click-budgets-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": " Mua sắm",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Ngân sách Mua sắm",
+      "Số tiền mỗi kỳ",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0075-click-budgets-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": " Đi lại",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Ngân sách Đi lại",
+      "Số tiền mỗi kỳ",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0076-click-budgets-5.jpg"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": " Sức khỏe",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Ngân sách Sức khỏe",
+      "Số tiền mỗi kỳ",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0077-click-budgets-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": " Học tập",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Ngân sách Học tập",
+      "Số tiền mỗi kỳ",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0078-click-budgets-7.jpg"
+     }
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": " Gia đình",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Ngân sách Gia đình",
+      "Số tiền mỗi kỳ",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0079-click-budgets-8.jpg"
+     }
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": " Giải trí",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Ngân sách Giải trí",
+      "Số tiền mỗi kỳ",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0080-click-budgets-9.jpg"
+     }
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": " Điện thoại & mạng",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Ngân sách Điện thoại & mạng",
+      "Số tiền mỗi kỳ",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0081-click-budgets-10.jpg"
+     }
+    },
+    {
+     "i": 11,
+     "role": "button",
+     "label": " Quà & hiếu hỉ",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Ngân sách Quà & hiếu hỉ",
+      "Số tiền mỗi kỳ",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0082-click-budgets-11.jpg"
+     }
+    },
+    {
+     "i": 12,
+     "role": "button",
+     "label": " Khác",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Ngân sách Khác",
+      "Số tiền mỗi kỳ",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0083-click-budgets-12.jpg"
+     }
+    }
+   ],
+   "landed": "/budgets",
+   "redirected": false,
+   "textExcerpt": "\nNgân sách tháng 10\nTổng ngân sách\n0 / 12 tr\nNhấn giữ để bỏ ngân sách danh mục.\nThêm ngân sách danh mục\n\nĂn uống\n\nNhà & hóa đơn\n\nMua sắm\n\nĐi lại\n\nSức khỏe\n\nHọc tập\n\nGia đình\n\nGiải trí\n\nĐiện thoại & mạng\n\nQuà & hiếu hỉ\n\nKhác",
+   "shot": {
+    "file": "shots/0071-route-budgets.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 13,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Sửa ngân sách tổng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": " Ăn uống",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": " Nhà & hóa đơn",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": " Mua sắm",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": " Đi lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": " Sức khỏe",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": " Học tập",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": " Gia đình",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": " Giải trí",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": " Điện thoại & mạng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "button",
+     "label": " Quà & hiếu hỉ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 12,
+     "role": "button",
+     "label": " Khác",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0173-after-budgets.png"
+   }
+  },
+  {
+   "route": "/categories",
+   "pattern": "/categories",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Thêm danh mục",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Danh mục mới",
+      "Tên",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0085-click-categories-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "tab",
+     "label": "Chi (11)",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 3,
+     "role": "tab",
+     "label": "Thu (4)",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "",
+      "Lương",
+      "",
+      "Thưởng",
+      "",
+      "Thu nhập thêm",
+      "",
+      "Thu khác"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0086-click-categories-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Ăn uống",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Sửa danh mục",
+      "Tên",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0087-click-categories-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Nhà & hóa đơn",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Sửa danh mục",
+      "Tên",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0088-click-categories-5.jpg"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Mua sắm",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Sửa danh mục",
+      "Tên",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0089-click-categories-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Đi lại",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Sửa danh mục",
+      "Tên",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0090-click-categories-7.jpg"
+     }
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": "Sức khỏe",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Sửa danh mục",
+      "Tên",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0091-click-categories-8.jpg"
+     }
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": "Học tập",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Sửa danh mục",
+      "Tên",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0092-click-categories-9.jpg"
+     }
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": "Gia đình",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Sửa danh mục",
+      "Tên",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0093-click-categories-10.jpg"
+     }
+    },
+    {
+     "i": 11,
+     "role": "button",
+     "label": "Giải trí",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Sửa danh mục",
+      "Tên",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0094-click-categories-11.jpg"
+     }
+    },
+    {
+     "i": 12,
+     "role": "button",
+     "label": "Điện thoại & mạng",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Sửa danh mục",
+      "Tên",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0095-click-categories-12.jpg"
+     }
+    },
+    {
+     "i": 13,
+     "role": "button",
+     "label": "Quà & hiếu hỉ",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Sửa danh mục",
+      "Tên",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0096-click-categories-13.jpg"
+     }
+    },
+    {
+     "i": 14,
+     "role": "button",
+     "label": "Khác",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Sửa danh mục",
+      "Tên",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0097-click-categories-14.jpg"
+     }
+    },
+    {
+     "i": 15,
+     "role": "button",
+     "label": "+ Thêm",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Quy tắc tự xếp",
+      "Nội dung thông báo có chứa",
+      "Lương",
+      "Thưởng",
+      "Thu nhập thêm",
+      "Thu khác",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0098-click-categories-15.jpg"
+     }
+    }
+   ],
+   "landed": "/categories",
+   "redirected": false,
+   "textExcerpt": "\nDanh mục\n\nChi (11)\nThu (4)\n\nĂn uống\n\nNhà & hóa đơn\n\nMua sắm\n\nĐi lại\n\nSức khỏe\n\nHọc tập\n\nGia đình\n\nGiải trí\n\nĐiện thoại & mạng\n\nQuà & hiếu hỉ\n\nKhác\nQUY TẮC TỰ XẾP\n+ Thêm\n\nChưa có quy tắc\nKhi bạn đổi danh mục một giao dịch, Ví Gọn gợi ý tạo quy tắc.",
+   "shot": {
+    "file": "shots/0084-route-categories.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 16,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Thêm danh mục",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "tab",
+     "label": "Chi (11)",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "tab",
+     "label": "Thu (4)",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Ăn uống",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Nhà & hóa đơn",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Mua sắm",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Đi lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": "Sức khỏe",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": "Học tập",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": "Gia đình",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "button",
+     "label": "Giải trí",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 12,
+     "role": "button",
+     "label": "Điện thoại & mạng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 13,
+     "role": "button",
+     "label": "Quà & hiếu hỉ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 14,
+     "role": "button",
+     "label": "Khác",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 15,
+     "role": "button",
+     "label": "+ Thêm",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0174-after-categories.png"
+   }
+  },
+  {
+   "route": "/import",
+   "pattern": "/import",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "",
+     "label": "TK *1234 -85.000 VND lúc 12:31. ND: COM TAM",
+     "input": true,
+     "disabled": false,
+     "value": "150000",
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0100-click-import-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": " Dán từ bộ nhớ tạm",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Bộ nhớ tạm trống"
+     ],
+     "visualChange": true,
+     "errors": [
+      {
+       "type": "console.warning",
+       "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+     ],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0101-click-import-2.jpg"
+     }
+    }
+   ],
+   "landed": "/import",
+   "redirected": false,
+   "textExcerpt": "\nDán tin ngân hàng\nDán một hoặc nhiều thông báo / SMS biến động số dư. Ví Gọn đọc ngay trên máy, không gửi đi đâu.\n\nDán từ bộ nhớ tạm\nĐọc tin",
+   "shot": {
+    "file": "shots/0099-route-import.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 3,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "",
+     "label": "TK *1234 -85.000 VND lúc 12:31. ND: COM TAM",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": " Dán từ bộ nhớ tạm",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0175-after-import.png"
+   }
+  },
+  {
+   "route": "/paywall",
+   "pattern": "/paywall",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Theo năm",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Theo tháng",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Tiếp tục"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0103-click-paywall-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Dùng thử 7 ngày",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "",
+      "Mua trong app chưa sẵn sàng ở bản này. (Mã: IAP_NOT_CONFIGURED)"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0104-click-paywall-3.jpg"
+     }
+    }
+   ],
+   "landed": "/paywall",
+   "redirected": false,
+   "textExcerpt": "\nVí Gọn Pro\n\nDự báo cuối tháng, cảnh báo sớm\n\nQuỹ và ngân sách không giới hạn\n\nXuất Excel / CSV, báo cáo năm\n\nHỏi Ví Gọn nhiều hơn mỗi ngày\nTheo năm\nPRICE_PRO_YEAR\nDùng thử 7 ngày\nTIẾT KIỆM NHẤT\nTheo tháng\nPRICE_PRO_MONTH\nDùng thử 7 ngày\nKhôi phục giao dịch · Điều khoản",
+   "shot": {
+    "file": "shots/0102-route-paywall.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 5,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Theo năm",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Theo tháng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Dùng thử 7 ngày",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Khôi phục giao dịch · Điều khoản",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0176-after-paywall.png"
+   }
+  },
+  {
+   "route": "/pending",
+   "pattern": "/pending",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Về tổng quan",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    }
+   ],
+   "landed": "/pending",
+   "redirected": false,
+   "textExcerpt": "\nChờ xác nhận\n\nĐã xác nhận hết\nGiao dịch mới sẽ hiện ở đây khi cần bạn xem.\nVề tổng quan",
+   "shot": {
+    "file": "shots/0105-route-pending.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 2,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Về tổng quan",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0177-after-pending.png"
+   }
+  },
+  {
+   "route": "/restore",
+   "pattern": "/restore",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": " Chọn tệp sao lưu (.vgb)",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    }
+   ],
+   "landed": "/restore",
+   "redirected": false,
+   "textExcerpt": "\nKhôi phục sao lưu\nChọn tệp .vgb bạn đã lưu trong Tệp (iCloud Drive) hoặc Google Drive.\n\nChọn tệp sao lưu (.vgb)",
+   "shot": {
+    "file": "shots/0106-route-restore.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 2,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": " Chọn tệp sao lưu (.vgb)",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0178-after-restore.png"
+   }
+  },
+  {
+   "route": "/review",
+   "pattern": "/review",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    }
+   ],
+   "landed": "/review",
+   "redirected": false,
+   "textExcerpt": "\nKiểm tra giao dịch\n\nKhông còn gì cần kiểm tra",
+   "shot": {
+    "file": "shots/0107-route-review.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 1,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0179-after-review.png"
+   }
+  },
+  {
+   "route": "/settings",
+   "pattern": "/settings",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": " Ghi nhanh bằng dán tin Xem hướng dẫn ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/onboarding/permission",
+     "added": [
+      "Bỏ qua",
+      "Ghi chi tiêu nhanh",
+      "",
+      "Bản này chưa có bộ đọc thông báo. Bạn có thể dán thông báo / SMS ngân hàng để Ví Gọn tự đọc, hoặc nhập nhanh bằng bàn phím số.",
+      "Mẹo: nhấn giữ thông báo ngân hàng → Sao chép → mở Ví Gọn → “Dán tin ngân hàng”.",
+      "Bạn đổi lựa chọn này bất cứ lúc nào trong Cài đặt.",
+      "Tiếp tục"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0109-click-settings-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "switch",
+     "label": "Hỏi trước khi lưu",
+     "input": true,
+     "disabled": false,
+     "value": "Tháng này ăn uống hết bao nhiêu?",
+     "actionError": "locator.fill: Timeout 2500ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "26fe18c362a0fabaa05368a2583100fc"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": " Danh mục & quy tắc ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/categories",
+     "added": [
+      "Danh mục",
+      "Chi (11)",
+      "Thu (4)",
+      "",
+      "Ăn uống",
+      "",
+      "Nhà & hóa đơn",
+      "",
+      "Mua sắm",
+      "",
+      "Đi lại",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "c06532c8bf1590bedb3cc41a73dd1e45"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "26fe18c362a0fabaa05368a2583100fc"
+     }
+    },
+    {
+     "i": 5,
+     "role": "switch",
+     "label": "Khóa ứng dụng",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "actionError": "locator.fill: Timeout 2500ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "26fe18c362a0fabaa05368a2583100fc"
+     }
+    },
+    {
+     "i": 6,
+     "role": "switch",
+     "label": "Ẩn số tiền",
+     "input": true,
+     "disabled": false,
+     "value": "150000",
+     "actionError": "locator.fill: Timeout 2500ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "26fe18c362a0fabaa05368a2583100fc"
+     }
+    },
+    {
+     "i": 7,
+     "role": "switch",
+     "label": "AI nhận xét",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "actionError": "locator.fill: Timeout 2500ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "26fe18c362a0fabaa05368a2583100fc"
+     }
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": " Cảnh báo ngân sách & nhắc góp quỹ Cần quyền thông báo ",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Hãy bật thông báo cho Ví Gọn trong Cài đặt máy"
+     ],
+     "visualChange": true,
+     "errors": [
+      {
+       "type": "console.warning",
+       "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+     ],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0110-click-settings-8.jpg"
+     }
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": " Sao lưu mã hóa Chưa sao lưu ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/backup",
+     "added": [
+      "",
+      "Mã hóa đầu-cuối bằng mật khẩu của bạn. Ví Gọn không giữ mật khẩu — quên là không ai mở được.",
+      "Mật khẩu sao lưu",
+      "Nhập lại mật khẩu",
+      "Gợi ý (không bắt buộc)",
+      "Sau khi tạo, chọn “Lưu vào Tệp” (iPhone) hoặc Google Drive (Android) để giữ bản sao lưu ngoài máy.",
+      "Tạo & lưu bản sao lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0111-click-settings-9.jpg"
+     }
+    },
+    {
+     "i": 11,
+     "role": "button",
+     "label": " Xuất Excel / CSV PRO ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/paywall",
+     "added": [
+      "",
+      "Ví Gọn Pro",
+      "",
+      "Dự báo cuối tháng, cảnh báo sớm",
+      "",
+      "Quỹ và ngân sách không giới hạn",
+      "",
+      "Xuất Excel / CSV, báo cáo năm",
+      "",
+      "Hỏi Ví Gọn nhiều hơn mỗi ngày",
+      "Theo năm",
+      "PRICE_PRO_YEAR"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "b3d7dc8cfad5aa134ecd318e93903042"
+     }
+    },
+    {
+     "i": 12,
+     "role": "tab",
+     "label": "Theo máy",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0112-click-settings-12.jpg"
+     }
+    },
+    {
+     "i": 13,
+     "role": "tab",
+     "label": "Sáng",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0113-click-settings-13.jpg"
+     }
+    },
+    {
+     "i": 14,
+     "role": "tab",
+     "label": "Tối",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0114-click-settings-14.jpg"
+     }
+    },
+    {
+     "i": 15,
+     "role": "button",
+     "label": "Nâng cấp Ví Gọn Pro",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/paywall",
+     "added": [
+      "",
+      "Ví Gọn Pro",
+      "",
+      "Dự báo cuối tháng, cảnh báo sớm",
+      "",
+      "Quỹ và ngân sách không giới hạn",
+      "",
+      "Xuất Excel / CSV, báo cáo năm",
+      "",
+      "Hỏi Ví Gọn nhiều hơn mỗi ngày",
+      "Theo năm",
+      "PRICE_PRO_YEAR"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0115-click-settings-15.jpg"
+     }
+    }
+   ],
+   "landed": "/settings",
+   "redirected": false,
+   "textExcerpt": "\nCài đặt\nTỰ GHI NHẬN\n\nGhi nhanh bằng dán tin\nXem hướng dẫn\n\nHỏi trước khi lưu\nTắt = tự lưu những giao dịch đã có quy tắc\n\nDanh mục & quy tắc\n\nNgày bắt đầu tháng\nVí dụ ngày nhận lương\n\n1\n\nBẢO MẬT & RIÊNG TƯ\nKhóa bằng Face ID / vân tay\nẨn số tiền ở màn chính\nAI viết nhận xét tổng kết tháng\nChỉ gửi số tổng theo danh mục, không gửi giao dịch\nTHÔNG BÁO\n\nCảnh báo ngân sách & nhắc góp quỹ\nCần quyền thông báo\n\nDỮ LIỆU\n\nSao lưu mã hóa\nChưa sao lưu\n\n\nKhôi phục từ bản sao lưu\n\n\nXuất Excel / CSV\nPRO\n\nGIAO DIỆN\nTheo máy\nSáng\nTối\nTÀI KHOẢN\nNâng cấp Ví Gọn Pro\nXóa toàn bộ dữ liệu trên máy\nVí Gọn 0.1.0 · dữ liệu chỉ nằm trên máy này",
+   "shot": {
+    "file": "shots/0108-route-settings.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 17,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": " Ghi nhanh bằng dán tin Xem hướng dẫn ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "switch",
+     "label": "Hỏi trước khi lưu",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": " Danh mục & quy tắc ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "switch",
+     "label": "Khóa ứng dụng",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "switch",
+     "label": "Ẩn số tiền",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "switch",
+     "label": "AI nhận xét",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": " Cảnh báo ngân sách & nhắc góp quỹ Cần quyền thông báo ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": " Sao lưu mã hóa Chưa sao lưu ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": " Khôi phục từ bản sao lưu ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "button",
+     "label": " Xuất Excel / CSV PRO ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 12,
+     "role": "tab",
+     "label": "Theo máy",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 13,
+     "role": "tab",
+     "label": "Sáng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 14,
+     "role": "tab",
+     "label": "Tối",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 15,
+     "role": "button",
+     "label": "Nâng cấp Ví Gọn Pro",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 16,
+     "role": "button",
+     "label": "Xóa toàn bộ dữ liệu trên máy",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0180-after-settings.png"
+   }
+  },
+  {
+   "route": "/summary",
+   "pattern": "/summary",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Chia sẻ",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Kỳ trước",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Kỳ này (tạm tính)",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Tổng kết tháng 10"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0117-click-summary-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "2 kỳ trước",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Tổng kết tháng 8"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0118-click-summary-4.jpg"
+     }
+    }
+   ],
+   "landed": "/summary",
+   "redirected": false,
+   "textExcerpt": "\nTổng kết tháng 9\n\nKỳ trước\nKỳ này (tạm tính)\n2 kỳ trước\n\nChưa đủ dữ liệu\nKỳ này chưa có giao dịch đã xác nhận.",
+   "shot": {
+    "file": "shots/0116-route-summary.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    }
+   ],
+   "elementCount": 5,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Chia sẻ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Kỳ trước",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Kỳ này (tạm tính)",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "2 kỳ trước",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "67742d26e406c195e2c628e66e822009"
+   }
+  },
+  {
+   "route": "/",
+   "pattern": "/",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Hiện số tiền",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "",
+      "0%",
+      "0đ",
+      "/ 12.000.000đ",
+      "Còn 12.000.000đ/ngày",
+      "+0đ",
+      "+0đ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0120-click-root-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Cài đặt",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/settings",
+     "added": [
+      "",
+      "Cài đặt",
+      "TỰ GHI NHẬN",
+      "",
+      "Ghi nhanh bằng dán tin",
+      "Xem hướng dẫn",
+      "",
+      "Hỏi trước khi lưu",
+      "Tắt = tự lưu những giao dịch đã có quy tắc",
+      "",
+      "Danh mục & quy tắc",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0121-click-root-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Ngân sách",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/budgets",
+     "added": [
+      "",
+      "Ngân sách tháng 10",
+      "Tổng ngân sách",
+      "0 / 12 tr",
+      "Nhấn giữ để bỏ ngân sách danh mục.",
+      "Thêm ngân sách danh mục",
+      "Ăn uống",
+      "Nhà & hóa đơn",
+      "Mua sắm",
+      "Đi lại",
+      "Sức khỏe",
+      "Học tập"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0122-click-root-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Hỏi Ví Gọn",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/ask",
+     "added": [
+      "",
+      "",
+      "Số liệu tính ngay trên máy",
+      "Câu hỏi đơn giản không cần mạng. Câu khó: chỉ câu hỏi được gửi đi để hiểu ý — không gửi số tiền, nơi chi hay tài khoản.",
+      "Thử hỏi",
+      "Tháng này ăn uống hết bao nhiêu?",
+      "",
+      "Khoản nào tăng nhiều nhất so với tháng trước?",
+      "",
+      "Tháng này còn được chi bao nhiêu?",
+      "",
+      "Tuần này đi lại hết bao nhiêu?"
+     ],
+     "visualChange": true,
+     "errors": [
+      {
+       "type": "requestfailed",
+       "text": "http://localhost:8080/ net::ERR_ABORTED"
+      },
+      {
+       "type": "requestfailed",
+       "text": "http://localhost:8080/ net::ERR_ABORTED"
+      }
+     ],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0123-click-root-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Hỏi Ví Gọn",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Tất cả",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/transactions",
+     "added": [
+      "",
+      "‹",
+      "Tháng 10",
+      "Chi",
+      "Thu",
+      "",
+      "Chưa có giao dịch",
+      "Giao dịch tự ghi và nhập tay sẽ hiện ở đây.",
+      "Thêm giao dịch"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0124-click-root-5.jpg"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": " Dán tin ngân hàng",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/import",
+     "added": [
+      "",
+      "Dán một hoặc nhiều thông báo / SMS biến động số dư. Ví Gọn đọc ngay trên máy, không gửi đi đâu.",
+      "Dán từ bộ nhớ tạm",
+      "Đọc tin"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0125-click-root-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Thêm giao dịch",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/add",
+     "added": [
+      "",
+      "Thêm giao dịch",
+      "Chi",
+      "Thu",
+      "Góp quỹ",
+      "−0đ",
+      "",
+      "Ăn uống",
+      "",
+      "Nhà & hóa đơn",
+      "",
+      "Mua sắm"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0126-click-root-7.jpg"
+     }
+    },
+    {
+     "i": 8,
+     "role": "tab",
+     "label": "  Tổng quan",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 9,
+     "role": "tab",
+     "label": "  Giao dịch",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/transactions",
+     "added": [
+      "",
+      "‹",
+      "Tháng 10",
+      "Chi",
+      "Thu",
+      "",
+      "Chưa có giao dịch",
+      "Giao dịch tự ghi và nhập tay sẽ hiện ở đây.",
+      "Thêm giao dịch"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "a0801fafb22a472fea29b0648f1e0833"
+     }
+    },
+    {
+     "i": 10,
+     "role": "tab",
+     "label": "  Phân tích",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/analysis",
+     "added": [
+      "3 tháng",
+      "6 tháng",
+      "12 tháng",
+      "Dòng tiền",
+      "— Thu  - - Chi",
+      "Cần ít nhất 2 tháng dữ liệu để vẽ biểu đồ.",
+      "T5",
+      "T6",
+      "T7",
+      "T8",
+      "T9",
+      "T10"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0127-click-root-10.jpg"
+     }
+    },
+    {
+     "i": 11,
+     "role": "tab",
+     "label": "  Quỹ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/funds",
+     "added": [
+      "Chưa có quỹ nào",
+      "Đặt mục tiêu — Ví Gọn tính số cần để dành mỗi tháng.",
+      "Tạo quỹ",
+      "Gói miễn phí: 1 quỹ · Pro: không giới hạn"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0128-click-root-11.jpg"
+     }
+    }
+   ],
+   "landed": "/home",
+   "redirected": true,
+   "textExcerpt": "Tháng 10 · còn 1 ngày\nChào buổi chiều, Kiểm thử QA\n\n\n••\nngân sách\nĐã chi\n•••••• đ\n/ ••••••\n \nThu kỳ này\n•••••• đ\nChênh lệch\n•••••• đ\n\nHỏi Ví Gọn\n“Tháng này ăn uống hết bao nhiêu?”\nVỪA GHI NHẬN\nTất cả\nChưa có giao dịch. Nhấn + để ghi nhanh, hoặc dán tin nhắn ngân hàng.\n\nDán tin ngân hàng\n\n\n\nTổng quan\n\n\nGiao dịch\n\n\nPhân tích\n\n\nQuỹ",
+   "shot": {
+    "file": "shots/0119-route-root.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 12,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Hiện số tiền",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Cài đặt",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Ngân sách",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Hỏi Ví Gọn",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Hỏi Ví Gọn",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Tất cả",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": " Dán tin ngân hàng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Thêm giao dịch",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "tab",
+     "label": "  Tổng quan",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "tab",
+     "label": "  Giao dịch",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "tab",
+     "label": "  Phân tích",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "tab",
+     "label": "  Quỹ",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0181-after-root.png"
+   }
+  },
+  {
+   "route": "/onboarding/budget",
+   "pattern": "/onboarding/budget",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "8 tr",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "8.000.000đ",
+      "≈ 267.000đ mỗi ngày"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0130-click-onboarding_budget-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "12 tr",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "15 tr",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "15.000.000đ",
+      "≈ 500.000đ mỗi ngày"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0131-click-onboarding_budget-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "20 tr",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "20.000.000đ",
+      "≈ 667.000đ mỗi ngày"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0132-click-onboarding_budget-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Ngày 2"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0133-click-onboarding_budget-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "",
+     "label": "Để Ví Gọn chào bạn",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "1",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "120.000.001đ",
+      "≈ 4.000.000đ mỗi ngày"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0134-click-onboarding_budget-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "2",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "120.000.002đ",
+      "≈ 4.000.000đ mỗi ngày"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0135-click-onboarding_budget-7.jpg"
+     }
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": "3",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "120.000.003đ",
+      "≈ 4.000.000đ mỗi ngày"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0136-click-onboarding_budget-8.jpg"
+     }
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": "4",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "120.000.004đ",
+      "≈ 4.000.000đ mỗi ngày"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0137-click-onboarding_budget-9.jpg"
+     }
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": "5",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "120.000.005đ",
+      "≈ 4.000.000đ mỗi ngày"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0138-click-onboarding_budget-10.jpg"
+     }
+    },
+    {
+     "i": 11,
+     "role": "button",
+     "label": "6",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "120.000.006đ",
+      "≈ 4.000.000đ mỗi ngày"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0139-click-onboarding_budget-11.jpg"
+     }
+    },
+    {
+     "i": 12,
+     "role": "button",
+     "label": "7",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "120.000.007đ",
+      "≈ 4.000.000đ mỗi ngày"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0140-click-onboarding_budget-12.jpg"
+     }
+    },
+    {
+     "i": 13,
+     "role": "button",
+     "label": "8",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "120.000.008đ",
+      "≈ 4.000.000đ mỗi ngày"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0141-click-onboarding_budget-13.jpg"
+     }
+    },
+    {
+     "i": 14,
+     "role": "button",
+     "label": "9",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "120.000.009đ",
+      "≈ 4.000.000đ mỗi ngày"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0142-click-onboarding_budget-14.jpg"
+     }
+    },
+    {
+     "i": 15,
+     "role": "button",
+     "label": "000",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 16,
+     "role": "button",
+     "label": "0",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "120.000.000đ",
+      "≈ 4.000.000đ mỗi ngày"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0143-click-onboarding_budget-16.jpg"
+     }
+    },
+    {
+     "i": 18,
+     "role": "button",
+     "label": "Xong",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/home",
+     "added": [
+      "Tháng 10 · còn 1 ngày",
+      "Chào buổi chiều, Kiểm thử QA",
+      "",
+      "",
+      "0%",
+      "ngân sách",
+      "Đã chi",
+      "0đ",
+      "/ 12.000.000đ",
+      "Còn 12.000.000đ/ngày",
+      "Thu kỳ này",
+      "+0đ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0144-click-onboarding_budget-18.jpg"
+     }
+    },
+    {
+     "i": 19,
+     "role": "button",
+     "label": "Đặt sau",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/home",
+     "added": [
+      "Tháng 10 · còn 1 ngày",
+      "Chào buổi chiều, Kiểm thử QA",
+      "",
+      "",
+      "Đã chi tháng 10",
+      "0đ",
+      "Đặt ngân sách tháng",
+      "Thu kỳ này",
+      "+0đ",
+      "Chênh lệch",
+      "+0đ",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0145-click-onboarding_budget-19.jpg"
+     }
+    }
+   ],
+   "landed": "/onboarding/budget",
+   "redirected": false,
+   "textExcerpt": "Mỗi tháng bạn muốn chi tối đa?\n12.000.000đ\n≈ 400.000đ mỗi ngày\n8 tr\n12 tr\n15 tr\n20 tr\nNgày bắt đầu tháng (ngày lương)\n\nNgày 1\n\nTên gọi (không bắt buộc)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n000\n0\n\nXong\nĐặt sau",
+   "shot": {
+    "file": "shots/0129-route-onboarding_budget.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 20,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "8 tr",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "12 tr",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "15 tr",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "20 tr",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "",
+     "label": "Để Ví Gọn chào bạn",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "1",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "2",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": "3",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": "4",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": "5",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "button",
+     "label": "6",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 12,
+     "role": "button",
+     "label": "7",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 13,
+     "role": "button",
+     "label": "8",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 14,
+     "role": "button",
+     "label": "9",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 15,
+     "role": "button",
+     "label": "000",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 16,
+     "role": "button",
+     "label": "0",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 17,
+     "role": "button",
+     "label": "Xóa",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 18,
+     "role": "button",
+     "label": "Xong",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 19,
+     "role": "button",
+     "label": "Đặt sau",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "e8f4cb9ec3066a1ad22f10028a0a5605"
+   }
+  },
+  {
+   "route": "/onboarding/permission",
+   "pattern": "/onboarding/permission",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Bỏ qua",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/onboarding/budget",
+     "added": [
+      "Mỗi tháng bạn muốn chi tối đa?",
+      "12.000.000đ",
+      "≈ 400.000đ mỗi ngày",
+      "8 tr",
+      "12 tr",
+      "15 tr",
+      "20 tr",
+      "Ngày bắt đầu tháng (ngày lương)",
+      "",
+      "Ngày 1",
+      "",
+      "Tên gọi (không bắt buộc)"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0147-click-onboarding_permission-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Tiếp tục",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/onboarding/budget",
+     "added": [
+      "Mỗi tháng bạn muốn chi tối đa?",
+      "12.000.000đ",
+      "≈ 400.000đ mỗi ngày",
+      "8 tr",
+      "12 tr",
+      "15 tr",
+      "20 tr",
+      "Ngày bắt đầu tháng (ngày lương)",
+      "",
+      "Ngày 1",
+      "",
+      "Tên gọi (không bắt buộc)"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "8ef90ceb0e74ccbfdab6f83cdfc438e2"
+     }
+    }
+   ],
+   "landed": "/onboarding/permission",
+   "redirected": false,
+   "textExcerpt": "Bỏ qua\nGhi chi tiêu nhanh\n\nBản này chưa có bộ đọc thông báo. Bạn có thể dán thông báo / SMS ngân hàng để Ví Gọn tự đọc, hoặc nhập nhanh bằng bàn phím số.\nMẹo: nhấn giữ thông báo ngân hàng → Sao chép → mở Ví Gọn → “Dán tin ngân hàng”.\nBạn đổi lựa chọn này bất cứ lúc nào trong Cài đặt.\nTiếp tục",
+   "shot": {
+    "file": "shots/0146-route-onboarding_permission.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 2,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Bỏ qua",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Tiếp tục",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "de6f976b0fbc52c3de78ec9e3a779914"
+   }
+  },
+  {
+   "route": "/onboarding/privacy",
+   "pattern": "/onboarding/privacy",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Bỏ qua",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/onboarding/budget",
+     "added": [
+      "Mỗi tháng bạn muốn chi tối đa?",
+      "12.000.000đ",
+      "≈ 400.000đ mỗi ngày",
+      "8 tr",
+      "12 tr",
+      "15 tr",
+      "20 tr",
+      "Ngày bắt đầu tháng (ngày lương)",
+      "",
+      "Ngày 1",
+      "",
+      "Tên gọi (không bắt buộc)"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "8ef90ceb0e74ccbfdab6f83cdfc438e2"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Tiếp tục",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/onboarding/permission",
+     "added": [
+      "Ghi chi tiêu nhanh",
+      "",
+      "Bản này chưa có bộ đọc thông báo. Bạn có thể dán thông báo / SMS ngân hàng để Ví Gọn tự đọc, hoặc nhập nhanh bằng bàn phím số.",
+      "Mẹo: nhấn giữ thông báo ngân hàng → Sao chép → mở Ví Gọn → “Dán tin ngân hàng”.",
+      "Bạn đổi lựa chọn này bất cứ lúc nào trong Cài đặt."
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0149-click-onboarding_privacy-1.jpg"
+     }
+    }
+   ],
+   "landed": "/onboarding/privacy",
+   "redirected": false,
+   "textExcerpt": "Bỏ qua\n\nDữ liệu của bạn ở lại trên máy\n\nXử lý trên điện thoại\nNội dung thông báo không gửi lên máy chủ.\n\nKhóa bằng Face ID / vân tay\nKhông ai mở được Ví Gọn ngoài bạn.\n\nKhông cần mật khẩu ngân hàng\nVí Gọn không kết nối hay đăng nhập ngân hàng.\nTiếp tục",
+   "shot": {
+    "file": "shots/0148-route-onboarding_privacy.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 2,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Bỏ qua",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Tiếp tục",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "c1eb1ebc10122614b3a65d7a665e560d"
+   }
+  },
+  {
+   "route": "/welcome",
+   "pattern": "/welcome",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Bắt đầu",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/onboarding/privacy",
+     "added": [
+      "Bỏ qua",
+      "",
+      "Dữ liệu của bạn ở lại trên máy",
+      "",
+      "Xử lý trên điện thoại",
+      "Nội dung thông báo không gửi lên máy chủ.",
+      "",
+      "Khóa bằng Face ID / vân tay",
+      "Không ai mở được Ví Gọn ngoài bạn.",
+      "",
+      "Không cần mật khẩu ngân hàng",
+      "Ví Gọn không kết nối hay đăng nhập ngân hàng."
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0151-click-welcome-0.jpg"
+     }
+    }
+   ],
+   "landed": "/welcome",
+   "redirected": false,
+   "textExcerpt": "\nChi tiêu tự ghi, tiền tự rõ\nVí Gọn đọc thông báo ngân hàng ngay trên máy, xếp vào danh mục, nhắc khi sắp vượt ngân sách.\nBắt đầu\nKhôi phục từ bản sao lưu",
+   "shot": {
+    "file": "shots/0150-route-welcome.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 2,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Bắt đầu",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Khôi phục từ bản sao lưu",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "4402561a294c63b79fb54431b32e8a12"
+   }
+  },
+  {
+   "route": "/fund/new",
+   "pattern": "/fund/[id]",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0153-click-fund_new-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "",
+     "label": "Ví dụ: Mua laptop mới",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0154-click-fund_new-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "dup": "9a8f2c7a99e7e566fbf498c36b94c6ab"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0155-click-fund_new-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0156-click-fund_new-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0157-click-fund_new-5.jpg"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0158-click-fund_new-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0159-click-fund_new-7.jpg"
+     }
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": "",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0160-click-fund_new-8.jpg"
+     }
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": "",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0161-click-fund_new-9.jpg"
+     }
+    },
+    {
+     "i": 10,
+     "role": "",
+     "label": "25.000.000",
+     "input": true,
+     "disabled": false,
+     "value": "150000",
+     "added": [
+      "Cần để dành",
+      "25.000đ / tháng"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0162-click-fund_new-10.jpg"
+     }
+    },
+    {
+     "i": 11,
+     "role": "switch",
+     "label": "Đặt hạn",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "actionError": "locator.fill: Error: Input of type \"checkbox\" cannot be filled",
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "file": "shots/0163-click-fund_new-11.jpg"
+     }
+    },
+    {
+     "i": 12,
+     "role": "button",
+     "label": "Giảm",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Trong · đến CN, 28/3",
+      "5 tháng"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0164-click-fund_new-12.jpg"
+     }
+    },
+    {
+     "i": 13,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Trong · đến T6, 28/5",
+      "7 tháng"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0165-click-fund_new-13.jpg"
+     }
+    },
+    {
+     "i": 14,
+     "role": "switch",
+     "label": "Nhắc ngày lương",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "actionError": "locator.fill: Error: Input of type \"checkbox\" cannot be filled",
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "b50338093c85a3103f1c04f542941e30"
+     }
+    }
+   ],
+   "landed": "/fund/new",
+   "redirected": false,
+   "textExcerpt": "\nQuỹ mới\nTên quỹ\n\n\n\n\n\n\n\n\nMục tiêu (đồng)\nĐặt hạn\nTrong · đến T4, 28/4\n\n6 tháng\n\nNhắc góp vào ngày 1 hằng tháng\nTạo quỹ",
+   "shot": {
+    "file": "shots/0152-route-fund_new.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 15,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "",
+     "label": "Ví dụ: Mua laptop mới",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": "",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": "",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "",
+     "label": "25.000.000",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "switch",
+     "label": "Đặt hạn",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 12,
+     "role": "button",
+     "label": "Giảm",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 13,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 14,
+     "role": "switch",
+     "label": "Nhắc ngày lương",
+     "input": true,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "1362bcb688f8a6ac2e3ddb090ae27a64"
+   }
+  }
+ ],
+ "tablet": [
+  {
+   "route": "/analysis",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0182-fold-analysis.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/funds",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0183-fold-funds.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/home",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0184-fold-home.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/transactions",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0185-fold-transactions.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/add",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0186-fold-add.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/ask",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0187-fold-ask.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    }
+   ]
+  },
+  {
+   "route": "/backup",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0188-fold-backup.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/budgets",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0189-fold-budgets.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/categories",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0190-fold-categories.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/import",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0191-fold-import.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/paywall",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0192-fold-paywall.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/pending",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0193-fold-pending.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/restore",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0194-fold-restore.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/review",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0195-fold-review.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/settings",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0196-fold-settings.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/summary",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0197-fold-summary.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    }
+   ]
+  },
+  {
+   "route": "/",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0198-fold-root.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/onboarding/budget",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0199-fold-onboarding_budget.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/onboarding/permission",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0200-fold-onboarding_permission.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/onboarding/privacy",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0201-fold-onboarding_privacy.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/welcome",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0202-fold-welcome.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/fund/new",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0203-fold-fund_new.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/analysis",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0204-tablet-analysis.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/funds",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0205-tablet-funds.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/home",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0206-tablet-home.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/transactions",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0207-tablet-transactions.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/add",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0208-tablet-add.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/ask",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0209-tablet-ask.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    }
+   ]
+  },
+  {
+   "route": "/backup",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0210-tablet-backup.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/budgets",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0211-tablet-budgets.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/categories",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0212-tablet-categories.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/import",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0213-tablet-import.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/paywall",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0214-tablet-paywall.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/pending",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0215-tablet-pending.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/restore",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0216-tablet-restore.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/review",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0217-tablet-review.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/settings",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0218-tablet-settings.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/summary",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0219-tablet-summary.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    }
+   ]
+  },
+  {
+   "route": "/",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0220-tablet-root.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/onboarding/budget",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0221-tablet-onboarding_budget.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/onboarding/permission",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0222-tablet-onboarding_permission.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/onboarding/privacy",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0223-tablet-onboarding_privacy.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/welcome",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0224-tablet-welcome.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/fund/new",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0225-tablet-fund_new.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  }
+ ],
+ "destructive": [
+  {
+   "route": "/add",
+   "label": "Xóa",
+   "shot": {
+    "file": "shots/0226-destr-add-35.jpg"
+   },
+   "shotAfter": {
+    "dup": "e2ef100049e2d141be52fd4ea87fb136"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/paywall",
+   "label": "Khôi phục giao dịch · Điều khoản",
+   "shot": {
+    "file": "shots/0227-destr-paywall-4.jpg"
+   },
+   "shotAfter": {
+    "dup": "09a98ce2e5045a8702410c56f8e8c47f"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "console.warning",
+     "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+    }
+   ]
+  },
+  {
+   "route": "/settings",
+   "label": " Khôi phục từ bản sao lưu ",
+   "urlAfter": "/restore",
+   "shot": {
+    "file": "shots/0228-destr-settings-10.jpg"
+   },
+   "shotAfter": {
+    "dup": "522b94d938a5eb806c884f55ee1b4532"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/settings",
+   "label": "Xóa toàn bộ dữ liệu trên máy",
+   "confirmed": " Khôi phục từ bản sao lưu ",
+   "shot": {
+    "file": "shots/0229-destr-settings-16.jpg"
+   },
+   "shotAfter": {
+    "file": "shots/0230-destr2-settings-16.jpg"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/onboarding/budget",
+   "label": "Xóa",
+   "shot": {
+    "file": "shots/0231-destr-onboarding_budget-17.jpg"
+   },
+   "shotAfter": {
+    "dup": "3ef6beae00c1777682583cc4f53e098f"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/welcome",
+   "label": "Khôi phục từ bản sao lưu",
+   "urlAfter": "/restore",
+   "shot": {
+    "dup": "522b94d938a5eb806c884f55ee1b4532"
+   },
+   "shotAfter": {
+    "dup": "522b94d938a5eb806c884f55ee1b4532"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  }
+ ],
+ "errorsGlobal": [],
+ "notVisited": [],
+ "dynamicNeverReached": [
+  "/tx/[id]"
+ ],
+ "finishedAt": "2026-10-31T06:50:41.020Z"
+}

@@ -1,0 +1,4632 @@
+{
+ "app": "nhip",
+ "startedAt": "2026-10-31T06:41:32.973Z",
+ "firstRun": [
+  {
+   "step": 0,
+   "url": "/onboarding",
+   "shot": {
+    "file": "shots/0001-first-run-0.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "step": 1,
+   "url": "/onboarding",
+   "clicked": "Tiếp tục",
+   "filled": [],
+   "after": "/onboarding",
+   "shot": {
+    "file": "shots/0002-first-run-1.png"
+   },
+   "errors": []
+  },
+  {
+   "step": 2,
+   "url": "/onboarding",
+   "clicked": "Bật thông báo",
+   "filled": [],
+   "after": "/timer",
+   "shot": {
+    "file": "shots/0003-first-run-2.png"
+   },
+   "errors": []
+  }
+ ],
+ "routes": [
+  {
+   "route": "/me",
+   "pattern": "/me",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Nhịp Pro DÙNG THỬ Mọi gói âm thanh, không quảng cáo, thống kê theo việc.",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/paywall",
+     "added": [
+      "",
+      "",
+      "Mở mọi gói âm thanh, kể cả gói mới",
+      "",
+      "Không quảng cáo",
+      "",
+      "Thống kê theo từng việc, xuất CSV",
+      "",
+      "Thói quen không giới hạn",
+      "Theo năm",
+      "PRICE_PRO_YEAR",
+      "Dùng thử 7 ngày"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0005-click-me-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": " Mục tiêu hằng ngày 2 giờ · 5 phiên ",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "1 giờ",
+      "1 giờ 30 phút",
+      "2 giờ",
+      "3 giờ",
+      "4 giờ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0006-click-me-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": " Cài đặt hẹn giờ 25 / 5 / 15 ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/timer-settings",
+     "added": [
+      "",
+      "THỜI LƯỢNG",
+      "Tập trung",
+      "",
+      "25 phút",
+      "",
+      "Nghỉ ngắn",
+      "",
+      "5 phút",
+      "",
+      "Nghỉ dài",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0007-click-me-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": " Việc cần làm ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/tasks",
+     "added": [
+      "",
+      "",
+      "Hôm nay (2)",
+      "Sắp tới",
+      "Đã xong",
+      "",
+      "Viết báo cáo quý 3",
+      "0/4 phiên",
+      "",
+      "",
+      "Ôn từ vựng IELTS",
+      "0/2 phiên"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0008-click-me-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": " Thói quen ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/habits",
+     "added": [
+      "",
+      "",
+      "T2",
+      "26",
+      "T3",
+      "27",
+      "T4",
+      "28",
+      "T5",
+      "29",
+      "T6",
+      "30"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0009-click-me-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": " Giao diện Hệ thống ",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Sáng",
+      "Tối"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0010-click-me-5.jpg"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": " Cửa hàng âm thanh ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/store",
+     "added": [
+      "",
+      "Cửa hàng",
+      "Gói âm thanh",
+      "NỔI BẬT",
+      "Sài Gòn mưa chiều",
+      "Mưa mái tôn, xe qua phố, quán cóc, sấm xa.",
+      "Đà Lạt sương sớm",
+      "PRICE_PACK_DALAT",
+      "Thư viện cũ",
+      "PRICE_PACK_LIB",
+      "Biển đêm",
+      "PRICE_PACK_SEA"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0011-click-me-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": " Xuất dữ liệu (CSV) Pro ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/paywall",
+     "added": [
+      "",
+      "",
+      "Mở mọi gói âm thanh, kể cả gói mới",
+      "",
+      "Không quảng cáo",
+      "",
+      "Thống kê theo từng việc, xuất CSV",
+      "",
+      "Thói quen không giới hạn",
+      "Theo năm",
+      "PRICE_PRO_YEAR",
+      "Dùng thử 7 ngày"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "a79ddd099f141a8278b81a5f467d1111"
+     }
+    },
+    {
+     "i": 9,
+     "role": "tab",
+     "label": "  Hẹn giờ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/timer",
+     "added": [
+      "",
+      "Thông báo đang tắt — sẽ không báo hết giờ khi bạn ở app khác",
+      "Thứ Bảy · 0/5 phiên hôm nay",
+      "Sẵn sàng tập trung?",
+      "",
+      "Bật thông báo để không lỡ giờ nghỉ",
+      "Hoặc giữ Nhịp mở — màn hình sẽ luôn sáng trong phiên.",
+      "Bật ngay",
+      "Giữ sáng",
+      "Việc đang làm",
+      "Chọn việc (không bắt buộc)",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0012-click-me-9.jpg"
+     }
+    },
+    {
+     "i": 10,
+     "role": "tab",
+     "label": "  Âm thanh",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/sounds",
+     "added": [
+      "Trộn âm thanh",
+      "",
+      "Mưa đêm",
+      "Tập trung sâu",
+      "",
+      "Lưu",
+      "",
+      "Mưa rào",
+      "70%",
+      "",
+      "",
+      "Ồn nâu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0013-click-me-10.jpg"
+     }
+    },
+    {
+     "i": 11,
+     "role": "tab",
+     "label": "  Thống kê",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/stats",
+     "added": [
+      "0 NGÀY LIỀN",
+      "Ngày",
+      "Tuần",
+      "Tháng",
+      "0,0 giờ",
+      "tập trung",
+      "CN",
+      "T2",
+      "T3",
+      "T4",
+      "T5",
+      "T6"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0014-click-me-11.jpg"
+     }
+    },
+    {
+     "i": 12,
+     "role": "tab",
+     "label": "  Tôi",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    }
+   ],
+   "landed": "/me",
+   "redirected": false,
+   "textExcerpt": "B\nBạn\nMục tiêu 2 giờ/ngày\nNhịp Pro\nDÙNG THỬ\nMọi gói âm thanh, không quảng cáo, thống kê theo việc.\n\nMục tiêu hằng ngày\n2 giờ · 5 phiên\n\n\nCài đặt hẹn giờ\n25 / 5 / 15\n\n\nViệc cần làm\n\n\nThói quen\n\n\nGiao diện\nHệ thống\n\n\nCửa hàng âm thanh\n\n\nXuất dữ liệu (CSV)\nPro\n\n\nKhôi phục giao dịch\n\n\n\nHẹn giờ\n\n\nÂm thanh\n\n\nThống kê\n\n\nTôi",
+   "shot": {
+    "file": "shots/0004-route-me.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 13,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Nhịp Pro DÙNG THỬ Mọi gói âm thanh, không quảng cáo, thống kê theo việc.",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": " Mục tiêu hằng ngày 2 giờ · 5 phiên ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": " Cài đặt hẹn giờ 25 / 5 / 15 ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": " Việc cần làm ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": " Thói quen ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": " Giao diện Hệ thống ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": " Cửa hàng âm thanh ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": " Xuất dữ liệu (CSV) Pro ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": " Khôi phục giao dịch ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "tab",
+     "label": "  Hẹn giờ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "tab",
+     "label": "  Âm thanh",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "tab",
+     "label": "  Thống kê",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 12,
+     "role": "tab",
+     "label": "  Tôi",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "b30dbe37d95d030fac824f9a4560ac49"
+   }
+  },
+  {
+   "route": "/sounds",
+   "pattern": "/sounds",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Nghe thử",
+     "input": false,
+     "disabled": false,
+     "added": [
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0016-click-sounds-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Mưa đêm",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Tập trung sâu",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Ồn hồng",
+      "50%"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0017-click-sounds-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": " Lưu",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Lưu bản phối",
+      "Tên bản phối"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0018-click-sounds-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "slider",
+     "label": "Âm lượng Mưa rào",
+     "input": false,
+     "disabled": false,
+     "result": "không còn thấy phần tử sau khi tải lại"
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Bỏ Mưa rào",
+     "input": false,
+     "disabled": false,
+     "result": "không còn thấy phần tử sau khi tải lại"
+    },
+    {
+     "i": 6,
+     "role": "slider",
+     "label": "Âm lượng Ồn nâu",
+     "input": false,
+     "disabled": false,
+     "result": "không còn thấy phần tử sau khi tải lại"
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Bỏ Ồn nâu",
+     "input": false,
+     "disabled": false,
+     "result": "không còn thấy phần tử sau khi tải lại"
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": " Thêm âm thanh",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "",
+      "Mưa rào",
+      "",
+      "Ồn trắng",
+      "Ồn nâu",
+      "",
+      "Quán cà phê",
+      "",
+      "",
+      "Rừng thông",
+      "",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0019-click-sounds-8.jpg"
+     }
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": "GÓI MỚI PRICE_PACK_SAIGON Sài Gòn mưa chiều Mưa mái tôn, xe qua phố, quán cóc, sấm xa.",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/pack/saigon",
+     "added": [
+      "",
+      "",
+      "Quán cà phê",
+      "Vòng lặp liền mạch",
+      "NGHE THỬ",
+      "",
+      "Sấm xa",
+      "Vòng lặp liền mạch",
+      "",
+      "Giá gói",
+      "Mua gói",
+      "Đã có trong Nhịp Pro"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0020-click-sounds-9.jpg"
+     }
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": " Cửa hàng âm thanh",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/store",
+     "added": [
+      "",
+      "Cửa hàng",
+      "",
+      "Gói âm thanh",
+      "Giao diện",
+      "NỔI BẬT",
+      "Đà Lạt sương sớm",
+      "PRICE_PACK_DALAT",
+      "Thư viện cũ",
+      "PRICE_PACK_LIB",
+      "Biển đêm",
+      "PRICE_PACK_SEA"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "403b4a8e86becb42b91d876a074829b3"
+     }
+    },
+    {
+     "i": 11,
+     "role": "tab",
+     "label": "  Hẹn giờ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/timer",
+     "added": [
+      "",
+      "Thông báo đang tắt — sẽ không báo hết giờ khi bạn ở app khác",
+      "Thứ Bảy · 0/5 phiên hôm nay",
+      "Sẵn sàng tập trung?",
+      "",
+      "Bật thông báo để không lỡ giờ nghỉ",
+      "Hoặc giữ Nhịp mở — màn hình sẽ luôn sáng trong phiên.",
+      "Bật ngay",
+      "Giữ sáng",
+      "Việc đang làm",
+      "Chọn việc (không bắt buộc)",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0021-click-sounds-11.jpg"
+     }
+    },
+    {
+     "i": 12,
+     "role": "tab",
+     "label": "  Âm thanh",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 13,
+     "role": "tab",
+     "label": "  Thống kê",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/stats",
+     "added": [
+      "0 NGÀY LIỀN",
+      "Ngày",
+      "Tuần",
+      "Tháng",
+      "0,0 giờ",
+      "tập trung",
+      "CN",
+      "T2",
+      "T3",
+      "T4",
+      "T5",
+      "T6"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "b8142068ca49ed89cfd9b820a8f032f8"
+     }
+    },
+    {
+     "i": 14,
+     "role": "tab",
+     "label": "  Tôi",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/me",
+     "added": [
+      "B",
+      "Bạn",
+      "Mục tiêu 2 giờ/ngày",
+      "Nhịp Pro",
+      "DÙNG THỬ",
+      "Mọi gói âm thanh, không quảng cáo, thống kê theo việc.",
+      "",
+      "Mục tiêu hằng ngày",
+      "2 giờ · 5 phiên",
+      "",
+      "Cài đặt hẹn giờ",
+      "25 / 5 / 15"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0022-click-sounds-14.jpg"
+     }
+    }
+   ],
+   "landed": "/sounds",
+   "redirected": false,
+   "textExcerpt": "Trộn âm thanh\n\nMưa đêm\nTập trung sâu\n\nLưu\n\nMưa rào\n70%\n\n\nỒn nâu\n30%\n\n\nThêm âm thanh\nGÓI MỚI\nPRICE_PACK_SAIGON\nSài Gòn mưa chiều\nMưa mái tôn, xe qua phố, quán cóc, sấm xa.\n\nCửa hàng âm thanh\n\n\nHẹn giờ\n\n\nÂm thanh\n\n\nThống kê\n\n\nTôi",
+   "shot": {
+    "file": "shots/0015-route-sounds.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 15,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Nghe thử",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Mưa đêm",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Tập trung sâu",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": " Lưu",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "slider",
+     "label": "Âm lượng Mưa rào",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Bỏ Mưa rào",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "slider",
+     "label": "Âm lượng Ồn nâu",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Bỏ Ồn nâu",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": " Thêm âm thanh",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": "GÓI MỚI PRICE_PACK_SAIGON Sài Gòn mưa chiều Mưa mái tôn, xe qua phố, quán cóc, sấm xa.",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": " Cửa hàng âm thanh",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "tab",
+     "label": "  Hẹn giờ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 12,
+     "role": "tab",
+     "label": "  Âm thanh",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 13,
+     "role": "tab",
+     "label": "  Thống kê",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 14,
+     "role": "tab",
+     "label": "  Tôi",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0090-after-sounds.png"
+   }
+  },
+  {
+   "route": "/stats",
+   "pattern": "/stats",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "tab",
+     "label": "Ngày",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0024-click-stats-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "tab",
+     "label": "Tuần",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 2,
+     "role": "tab",
+     "label": "Tháng",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0025-click-stats-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "",
+     "label": "CN: 0 phút",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "CN: 0 phút"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0026-click-stats-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "",
+     "label": "T2: 0 phút",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "T2: 0 phút"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0027-click-stats-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "",
+     "label": "T3: 0 phút",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "T3: 0 phút"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0028-click-stats-5.jpg"
+     }
+    },
+    {
+     "i": 6,
+     "role": "",
+     "label": "T4: 0 phút",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "T4: 0 phút"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0029-click-stats-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "",
+     "label": "T5: 0 phút",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "T5: 0 phút"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0030-click-stats-7.jpg"
+     }
+    },
+    {
+     "i": 8,
+     "role": "",
+     "label": "T6: 0 phút",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "T6: 0 phút"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0031-click-stats-8.jpg"
+     }
+    },
+    {
+     "i": 9,
+     "role": "",
+     "label": "T7: 0 phút",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "T7: 0 phút"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0032-click-stats-9.jpg"
+     }
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": "Xem tất cả",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/habits",
+     "added": [
+      "",
+      "Thói quen",
+      "",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "1",
+      "",
+      "Tự cập nhật từ phiên tập trung"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "7558704a67c2b3300df8919e3a30ec2d"
+     }
+    },
+    {
+     "i": 11,
+     "role": "button",
+     "label": " Phiên tập trung 0/4 phiên",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/habits",
+     "added": [
+      "",
+      "Thói quen",
+      "",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "1",
+      "",
+      "Tự cập nhật từ phiên tập trung"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "7558704a67c2b3300df8919e3a30ec2d"
+     }
+    },
+    {
+     "i": 12,
+     "role": "button",
+     "label": " Uống nước 0/8 ly",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/habits",
+     "added": [
+      "",
+      "Thói quen",
+      "",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "1",
+      "",
+      "Tự cập nhật từ phiên tập trung"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "7558704a67c2b3300df8919e3a30ec2d"
+     }
+    },
+    {
+     "i": 13,
+     "role": "button",
+     "label": " Thống kê theo từng việc có trong Nhịp Pro PRO",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/paywall",
+     "added": [
+      "",
+      "Nhịp Pro",
+      "",
+      "Mở mọi gói âm thanh, kể cả gói mới",
+      "",
+      "Không quảng cáo",
+      "",
+      "Thống kê theo từng việc, xuất CSV",
+      "",
+      "Thói quen không giới hạn",
+      "Theo năm",
+      "PRICE_PRO_YEAR"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "a79ddd099f141a8278b81a5f467d1111"
+     }
+    },
+    {
+     "i": 14,
+     "role": "tab",
+     "label": "  Hẹn giờ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/timer",
+     "added": [
+      "",
+      "Thông báo đang tắt — sẽ không báo hết giờ khi bạn ở app khác",
+      "Thứ Bảy · 0/5 phiên hôm nay",
+      "Sẵn sàng tập trung?",
+      "",
+      "Bật thông báo để không lỡ giờ nghỉ",
+      "Hoặc giữ Nhịp mở — màn hình sẽ luôn sáng trong phiên.",
+      "Bật ngay",
+      "Giữ sáng",
+      "Việc đang làm",
+      "Chọn việc (không bắt buộc)",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "7cabb8415618f335f16a9aa782a379a7"
+     }
+    },
+    {
+     "i": 15,
+     "role": "tab",
+     "label": "  Âm thanh",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/sounds",
+     "added": [
+      "Trộn âm thanh",
+      "",
+      "Mưa đêm",
+      "Tập trung sâu",
+      "",
+      "Lưu",
+      "",
+      "Ồn hồng",
+      "50%",
+      "",
+      "",
+      "Thêm âm thanh"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "25d0e7494e2e2aa023b619b84083d059"
+     }
+    },
+    {
+     "i": 16,
+     "role": "tab",
+     "label": "  Thống kê",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 17,
+     "role": "tab",
+     "label": "  Tôi",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/me",
+     "added": [
+      "B",
+      "Bạn",
+      "Mục tiêu 2 giờ/ngày",
+      "Nhịp Pro",
+      "DÙNG THỬ",
+      "Mọi gói âm thanh, không quảng cáo, thống kê theo việc.",
+      "",
+      "Mục tiêu hằng ngày",
+      "2 giờ · 5 phiên",
+      "",
+      "Cài đặt hẹn giờ",
+      "25 / 5 / 15"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "37fec34f4fc5b3fa24ce967e7d07bf2d"
+     }
+    }
+   ],
+   "landed": "/stats",
+   "redirected": false,
+   "textExcerpt": "Thống kê\n0 NGÀY LIỀN\nNgày\nTuần\nTháng\n0,0 giờ\ntập trung\nCN\nT2\nT3\nT4\nT5\nT6\nT7\nTHÓI QUEN HÔM NAY\nXem tất cả\n\nPhiên tập trung\n0/4 phiên\n\nUống nước\n0/8 ly\nTHEO VIỆC\n\nThống kê theo từng việc có trong Nhịp Pro\nPRO\nBanner quảng cáo 320×50 — chỉ ở màn này\n\n\nHẹn giờ\n\n\nÂm thanh\n\n\nThống kê\n\n\nTôi",
+   "shot": {
+    "file": "shots/0023-route-stats.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 18,
+   "elements": [
+    {
+     "i": 0,
+     "role": "tab",
+     "label": "Ngày",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "tab",
+     "label": "Tuần",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "tab",
+     "label": "Tháng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "",
+     "label": "CN: 0 phút",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "",
+     "label": "T2: 0 phút",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "",
+     "label": "T3: 0 phút",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "",
+     "label": "T4: 0 phút",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "",
+     "label": "T5: 0 phút",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "",
+     "label": "T6: 0 phút",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "",
+     "label": "T7: 0 phút",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": "Xem tất cả",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "button",
+     "label": " Phiên tập trung 0/4 phiên",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 12,
+     "role": "button",
+     "label": " Uống nước 0/8 ly",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 13,
+     "role": "button",
+     "label": " Thống kê theo từng việc có trong Nhịp Pro PRO",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 14,
+     "role": "tab",
+     "label": "  Hẹn giờ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 15,
+     "role": "tab",
+     "label": "  Âm thanh",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 16,
+     "role": "tab",
+     "label": "  Thống kê",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 17,
+     "role": "tab",
+     "label": "  Tôi",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "0849283adddd059dc0469b4073c1542c"
+   }
+  },
+  {
+   "route": "/timer",
+   "pattern": "/timer",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Cài đặt hẹn giờ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/timer-settings",
+     "added": [
+      "",
+      "Cài đặt hẹn giờ",
+      "THỜI LƯỢNG",
+      "Tập trung",
+      "",
+      "25 phút",
+      "",
+      "Nghỉ ngắn",
+      "",
+      "5 phút",
+      "",
+      "Nghỉ dài"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "f9f2b7a9cec7300a5dafe4c0ee2764b1"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Bật ngay",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [
+      {
+       "type": "pageerror",
+       "text": "TypeError: s.default.openSettings is not a function\n    at onPress (http://localhost:8080/_expo/static/js/web/entry-5afa0658b8272a535eeadf4e6712b277.js:1453:2185)\n    at onClick (http://localhost:8080/_expo/static/js/web/entry-5afa0658b8272a535eeadf4e6712b277.js:430:3907)\n    at ef (http://localhost:8080/_expo/static/js/web/entry-5afa0658b8272a535eeadf4e6712b277.js:532:128098)\n    at http://localhost:8080/_expo/static/js/web/entry-5afa0658b8272a535eeadf4e6712b277.js:532:133049\n    at Bn (http://localhost:8080/_expo/static/js/web/entry-5afa0658b8272a535eeadf4e6712b277.js:532:21205)\n    at of (http://localhost:8080/_expo/static/js/web/entry-5afa0658b8272a535eeadf4e6712b277.js:532:129323)\n    at Fd (http://localhost:8080/_expo/static/js/web/entry-5afa0658b8272a535eeadf4e6712b277.js:532:160346)\n    at Td (http://localhost:8080/_expo/static/js/web/entry-5afa0658b8272a535eeadf4e6712b277.js:532"
+      }
+     ],
+     "outcome": "không phản hồi",
+     "shot": {
+      "dup": "7cabb8415618f335f16a9aa782a379a7"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Giữ sáng",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Sẽ giữ sáng ✓"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0034-click-timer-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Chọn việc",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/tasks?pick=1",
+     "added": [
+      "",
+      "Chọn việc",
+      "",
+      "Hôm nay (2)",
+      "Sắp tới",
+      "Đã xong",
+      "",
+      "Viết báo cáo quý 3",
+      "0/4 phiên",
+      "",
+      "Ôn từ vựng IELTS",
+      "0/2 phiên"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0035-click-timer-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Đổi thời lượng",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Thời lượng tập trung",
+      "15 phút",
+      "25 phút",
+      "45 phút",
+      "60 phút"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0036-click-timer-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "tab",
+     "label": "Pomodoro",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 6,
+     "role": "tab",
+     "label": "Đếm lên",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "00:00"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0037-click-timer-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": " Tập trung sâu",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Mưa đêm",
+      "Tắt âm thanh",
+      "Mở trộn âm thanh"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0038-click-timer-7.jpg"
+     }
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": " Bắt đầu",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/session",
+     "added": [
+      "Đang làm",
+      "Tập trung",
+      "24:59",
+      "Phiên 1 / 4 · Tập trung",
+      "",
+      "Mưa rào",
+      "",
+      "Ồn trắng",
+      "",
+      "Ồn hồng",
+      "",
+      "Ồn nâu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0039-click-timer-8.jpg"
+     }
+    },
+    {
+     "i": 9,
+     "role": "tab",
+     "label": "  Hẹn giờ",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 10,
+     "role": "tab",
+     "label": "  Âm thanh",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/sounds",
+     "added": [
+      "Trộn âm thanh",
+      "Mưa đêm",
+      "",
+      "Lưu",
+      "",
+      "Ồn hồng",
+      "50%",
+      "",
+      "",
+      "Thêm âm thanh",
+      "GÓI MỚI",
+      "PRICE_PACK_SAIGON"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "25d0e7494e2e2aa023b619b84083d059"
+     }
+    },
+    {
+     "i": 11,
+     "role": "tab",
+     "label": "  Thống kê",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/stats",
+     "added": [
+      "0 NGÀY LIỀN",
+      "Ngày",
+      "Tuần",
+      "Tháng",
+      "0,0 giờ",
+      "tập trung",
+      "CN",
+      "T2",
+      "T3",
+      "T4",
+      "T5",
+      "T6"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "b8142068ca49ed89cfd9b820a8f032f8"
+     }
+    },
+    {
+     "i": 12,
+     "role": "tab",
+     "label": "  Tôi",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/me",
+     "added": [
+      "B",
+      "Bạn",
+      "Mục tiêu 2 giờ/ngày",
+      "Nhịp Pro",
+      "DÙNG THỬ",
+      "Mọi gói âm thanh, không quảng cáo, thống kê theo việc.",
+      "",
+      "Mục tiêu hằng ngày",
+      "2 giờ · 5 phiên",
+      "",
+      "Cài đặt hẹn giờ",
+      "25 / 5 / 15"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "37fec34f4fc5b3fa24ce967e7d07bf2d"
+     }
+    }
+   ],
+   "landed": "/timer",
+   "redirected": false,
+   "textExcerpt": "\nThông báo đang tắt — sẽ không báo hết giờ khi bạn ở app khác\nThứ Bảy · 0/5 phiên hôm nay\nSẵn sàng tập trung?\n\nBật thông báo để không lỡ giờ nghỉ\nHoặc giữ Nhịp mở — màn hình sẽ luôn sáng trong phiên.\nBật ngay\nGiữ sáng\nViệc đang làm\nChọn việc (không bắt buộc)\n\n25:00\nPomodoro · 4 phiên\nĐổi thời lượng\nPomodoro\nĐếm lên\nÂm thanh nền\n\nTập trung sâu\n\nBắt đầu\n\n\nHẹn giờ\n\n\nÂm thanh\n\n\nThống kê\n\n\nTôi",
+   "shot": {
+    "file": "shots/0033-route-timer.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 13,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Cài đặt hẹn giờ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Bật ngay",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Giữ sáng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Chọn việc",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Đổi thời lượng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "tab",
+     "label": "Pomodoro",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "tab",
+     "label": "Đếm lên",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": " Tập trung sâu",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": " Bắt đầu",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "tab",
+     "label": "  Hẹn giờ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "tab",
+     "label": "  Âm thanh",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "tab",
+     "label": "  Thống kê",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 12,
+     "role": "tab",
+     "label": "  Tôi",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0091-after-timer.png"
+   }
+  },
+  {
+   "route": "/done",
+   "pattern": "/done",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "radio",
+     "label": "Kém",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Nghỉ 5 phút"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0041-click-done-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "radio",
+     "label": "Ổn",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Nghỉ 5 phút"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0042-click-done-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "radio",
+     "label": "Rất tốt",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Nghỉ 5 phút"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0043-click-done-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "",
+     "label": "Đã xong phần doanh thu…",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "added": [
+      "Nghỉ 5 phút"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0044-click-done-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Về trang chính",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/timer",
+     "added": [
+      "",
+      "Thông báo đang tắt — sẽ không báo hết giờ khi bạn ở app khác",
+      "Thứ Bảy · 0/5 phiên hôm nay",
+      "Sẵn sàng tập trung?",
+      "",
+      "Bật thông báo để không lỡ giờ nghỉ",
+      "Hoặc giữ Nhịp mở — màn hình sẽ luôn sáng trong phiên.",
+      "Bật ngay",
+      "Giữ sáng",
+      "Việc đang làm",
+      "Chọn việc (không bắt buộc)",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "7cabb8415618f335f16a9aa782a379a7"
+     }
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Nghỉ 5 phút (15)",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/session",
+     "added": [
+      "Nghỉ ngắn",
+      "Thư giãn một chút",
+      "",
+      "04:59",
+      "Nghỉ · rồi vào phiên 2",
+      "Đứng dậy, rời màn hình",
+      "",
+      "Vươn vai, xoay cổ",
+      "",
+      "Ra chỗ có ánh sáng tự nhiên",
+      "",
+      "Hít thở sâu 5 lần"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0045-click-done-5.jpg"
+     }
+    }
+   ],
+   "landed": "/done",
+   "redirected": false,
+   "textExcerpt": "\nXong phiên 1!\n25 phút\nBạn tập trung thế nào?\nKém\nỔn\nRất tốt\nGhi chú (không bắt buộc)\nVề trang chính\nNghỉ 5 phút (15)",
+   "shot": {
+    "file": "shots/0040-route-done.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 6,
+   "elements": [
+    {
+     "i": 0,
+     "role": "radio",
+     "label": "Kém",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "radio",
+     "label": "Ổn",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "radio",
+     "label": "Rất tốt",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "",
+     "label": "Đã xong phần doanh thu…",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Về trang chính",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Nghỉ 5 phút (15)",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "79d029c35f5fb52495688b1faa4b628b"
+   }
+  },
+  {
+   "route": "/habits",
+   "pattern": "/habits",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Thêm thói quen",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Thói quen mới",
+      "Tên thói quen",
+      "Mục tiêu mỗi ngày",
+      "lần",
+      "ly",
+      "trang",
+      "phút",
+      "Miễn phí tối đa 3 thói quen tự thêm.",
+      "Thêm"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0047-click-habits-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "",
+     "label": "T2 26",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0048-click-habits-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "",
+     "label": "T3 27",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0049-click-habits-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "",
+     "label": "T4 28",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0050-click-habits-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "",
+     "label": "T5 29",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0051-click-habits-5.jpg"
+     }
+    },
+    {
+     "i": 6,
+     "role": "",
+     "label": "T6 30",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0052-click-habits-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "",
+     "label": "T7 31",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 8,
+     "role": "",
+     "label": "CN 1",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": " Uống nước 0/8 ly ",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "1/8 ly"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0053-click-habits-9.jpg"
+     }
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": "Bớt",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "0/8 ly"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "dup": "7558704a67c2b3300df8919e3a30ec2d"
+     }
+    },
+    {
+     "i": 11,
+     "role": "button",
+     "label": " Đọc sách 0/20 trang ",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "1/20 trang"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0054-click-habits-11.jpg"
+     }
+    },
+    {
+     "i": 12,
+     "role": "button",
+     "label": "Bớt",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "0/20 trang"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "dup": "7558704a67c2b3300df8919e3a30ec2d"
+     }
+    },
+    {
+     "i": 13,
+     "role": "button",
+     "label": "+ Đi bộ",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Đi bộ",
+      "0/15 phút",
+      "Đã thêm thói quen"
+     ],
+     "visualChange": true,
+     "errors": [
+      {
+       "type": "console.warning",
+       "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+     ],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0055-click-habits-13.jpg"
+     }
+    },
+    {
+     "i": 14,
+     "role": "button",
+     "label": "+ Không mạng xã hội trước 9h",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/paywall",
+     "added": [
+      "",
+      "Nhịp Pro",
+      "",
+      "Mở mọi gói âm thanh, kể cả gói mới",
+      "",
+      "Không quảng cáo",
+      "",
+      "Thống kê theo từng việc, xuất CSV",
+      "",
+      "Thói quen không giới hạn",
+      "Theo năm",
+      "PRICE_PRO_YEAR"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "a79ddd099f141a8278b81a5f467d1111"
+     }
+    }
+   ],
+   "landed": "/habits",
+   "redirected": false,
+   "textExcerpt": "\nThói quen\n\nT2\n26\nT3\n27\nT4\n28\nT5\n29\nT6\n30\nT7\n31\nCN\n1\n\nPhiên tập trung\n0/4 phiên\nTự cập nhật từ phiên tập trung\n\nUống nước\n0/8 ly\n\n\nĐọc sách\n0/20 trang\n\nGợi ý thói quen\n+ Đi bộ\n+ Không mạng xã hội trước 9h",
+   "shot": {
+    "file": "shots/0046-route-habits.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 15,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Thêm thói quen",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "",
+     "label": "T2 26",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "",
+     "label": "T3 27",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "",
+     "label": "T4 28",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "",
+     "label": "T5 29",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "",
+     "label": "T6 30",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "",
+     "label": "T7 31",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "",
+     "label": "CN 1",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": " Uống nước 0/8 ly ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": "Bớt",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "button",
+     "label": " Đọc sách 0/20 trang ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 12,
+     "role": "button",
+     "label": "Bớt",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 13,
+     "role": "button",
+     "label": "+ Đi bộ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 14,
+     "role": "button",
+     "label": "+ Không mạng xã hội trước 9h",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0092-after-habits.png"
+   }
+  },
+  {
+   "route": "/paywall",
+   "pattern": "/paywall",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Theo năm",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Theo tháng",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Tiếp tục"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0057-click-paywall-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Trọn đời",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Tiếp tục"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0058-click-paywall-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Dùng thử 7 ngày",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "",
+      "Mua trong app chưa sẵn sàng ở bản này. (Mã: IAP_NOT_CONFIGURED)"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0059-click-paywall-4.jpg"
+     }
+    }
+   ],
+   "landed": "/paywall",
+   "redirected": false,
+   "textExcerpt": "\nNhịp Pro\n\nMở mọi gói âm thanh, kể cả gói mới\n\nKhông quảng cáo\n\nThống kê theo từng việc, xuất CSV\n\nThói quen không giới hạn\nTheo năm\nPRICE_PRO_YEAR\nDùng thử 7 ngày\nTIẾT KIỆM NHẤT\nTheo tháng\nPRICE_PRO_MONTH\nTrọn đời\nPRICE_PRO_LIFETIME\nDùng thử 7 ngày\nKhôi phục giao dịch · Điều khoản",
+   "shot": {
+    "file": "shots/0056-route-paywall.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 6,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Theo năm",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Theo tháng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Trọn đời",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Dùng thử 7 ngày",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Khôi phục giao dịch · Điều khoản",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "d8d2795fb9fc3ea5864f0f1b190409a5"
+   }
+  },
+  {
+   "route": "/session",
+   "pattern": "/session",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Bỏ nghỉ",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Đang làm",
+      "Tập trung",
+      "24:59",
+      "Phiên 2 / 4 · Tập trung",
+      "Âm thanh nền",
+      "",
+      "Mưa rào",
+      "",
+      "Ồn trắng",
+      "Ồn hồng",
+      "Ồn nâu",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0061-click-session-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Vào phiên tiếp ngay",
+     "input": false,
+     "disabled": false,
+     "result": "không còn thấy phần tử sau khi tải lại"
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Về trang chính",
+     "input": false,
+     "disabled": false,
+     "result": "không còn thấy phần tử sau khi tải lại"
+    }
+   ],
+   "landed": "/session",
+   "redirected": false,
+   "textExcerpt": "Nghỉ ngắn\nThư giãn một chút\n\n04:13\nNghỉ · rồi vào phiên 2\nĐứng dậy, rời màn hình\n\nVươn vai, xoay cổ\n\nRa chỗ có ánh sáng tự nhiên\n\nHít thở sâu 5 lần\nVào phiên tiếp ngay\nVề trang chính",
+   "shot": {
+    "file": "shots/0060-route-session.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 3,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Bỏ nghỉ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Vào phiên tiếp ngay",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Về trang chính",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0093-after-session.png"
+   }
+  },
+  {
+   "route": "/store",
+   "pattern": "/store",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 2,
+     "role": "tab",
+     "label": "Gói âm thanh",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 3,
+     "role": "tab",
+     "label": "Giao diện",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Giao diện vòng hẹn giờ sẽ có ở bản sau."
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0063-click-store-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "NỔI BẬT Sài Gòn mưa chiều Mưa mái tôn, xe qua phố, quán cóc, sấm xa.",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/pack/saigon",
+     "added": [
+      "",
+      "Quán cà phê",
+      "Vòng lặp liền mạch",
+      "NGHE THỬ",
+      "",
+      "Sấm xa",
+      "Vòng lặp liền mạch",
+      "",
+      "Giá gói",
+      "PRICE_PACK_SAIGON",
+      "Mua gói",
+      "Đã có trong Nhịp Pro"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "8cecdd4737d6fd94a207cfbe1c504e87"
+     }
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Đà Lạt sương sớm PRICE_PACK_DALAT",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/pack/dalat",
+     "added": [
+      "Thu âm thực địa tại Đà Lạt, phát lặp liền mạch, dùng mãi.",
+      "",
+      "Rừng thông",
+      "Vòng lặp liền mạch",
+      "NGHE THỬ",
+      "",
+      "Gió đồi thông",
+      "Vòng lặp liền mạch",
+      "",
+      "",
+      "Sương rơi mái hiên",
+      "Vòng lặp liền mạch"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0064-click-store-5.jpg"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Thư viện cũ PRICE_PACK_LIB",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/pack/library",
+     "added": [
+      "Lật trang, bút viết, tiếng quạt trần.",
+      "",
+      "Vòng lặp liền mạch",
+      "NGHE THỬ",
+      "Giá gói",
+      "Mua gói",
+      "Đã có trong Nhịp Pro"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0065-click-store-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Biển đêm PRICE_PACK_SEA",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/pack/sea",
+     "added": [
+      "Sóng vỗ nhẹ, gió biển.",
+      "",
+      "Vòng lặp liền mạch",
+      "NGHE THỬ",
+      "Giá gói",
+      "Mua gói",
+      "Đã có trong Nhịp Pro"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0066-click-store-7.jpg"
+     }
+    }
+   ],
+   "landed": "/store",
+   "redirected": false,
+   "textExcerpt": "\nCửa hàng\n\nGói âm thanh\nGiao diện\nNỔI BẬT\nSài Gòn mưa chiều\nMưa mái tôn, xe qua phố, quán cóc, sấm xa.\nĐà Lạt sương sớm\nPRICE_PACK_DALAT\nThư viện cũ\nPRICE_PACK_LIB\nBiển đêm\nPRICE_PACK_SEA",
+   "shot": {
+    "file": "shots/0062-route-store.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "pageerror",
+     "text": "NotAllowedError: play() failed because the user didn't interact with the document first. https://goo.gl/xX8pDD"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/assets/assets/sounds/pink.68be9603231cf3409a4aef01ac8b4e1d.wav net::ERR_ABORTED"
+    },
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "pageerror",
+     "text": "NotAllowedError: play() failed because the user didn't interact with the document first. https://goo.gl/xX8pDD"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/assets/assets/sounds/pink.68be9603231cf3409a4aef01ac8b4e1d.wav net::ERR_ABORTED"
+    },
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 8,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Khôi phục giao dịch",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "tab",
+     "label": "Gói âm thanh",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "tab",
+     "label": "Giao diện",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "NỔI BẬT Sài Gòn mưa chiều Mưa mái tôn, xe qua phố, quán cóc, sấm xa.",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Đà Lạt sương sớm PRICE_PACK_DALAT",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Thư viện cũ PRICE_PACK_LIB",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Biển đêm PRICE_PACK_SEA",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "df7122d2282a1e1226168ee157bad434"
+   }
+  },
+  {
+   "route": "/tasks",
+   "pattern": "/tasks",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Thêm việc",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Thêm việc",
+      "Tên việc",
+      "Số phiên ước tính",
+      "",
+      "2",
+      "Hôm nay",
+      "Ngày mai",
+      "Tuần sau",
+      "Thêm việc"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0068-click-tasks-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "tab",
+     "label": "Hôm nay (2)",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 3,
+     "role": "tab",
+     "label": "Sắp tới",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "",
+      "Chưa có việc nào",
+      "Thêm việc để biết mỗi phiên dành cho điều gì.",
+      "Thêm việc"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0069-click-tasks-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "tab",
+     "label": "Đã xong",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "",
+      "Chưa có việc nào",
+      "Thêm việc để biết mỗi phiên dành cho điều gì.",
+      "Thêm việc"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0070-click-tasks-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": " Viết báo cáo quý 3 0/4 phiên ",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Sửa việc",
+      "Tên việc",
+      "Số phiên ước tính",
+      "",
+      "4",
+      "Hôm nay",
+      "Ngày mai",
+      "Tuần sau",
+      "Xóa việc",
+      "Lưu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0071-click-tasks-5.jpg"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Đánh dấu xong",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Hôm nay (1)",
+      "2 phiên",
+      "≈ 50 phút · mục tiêu 2 giờ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0072-click-tasks-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Bắt đầu với việc này",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "ĐANG LÀM"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0073-click-tasks-7.jpg"
+     }
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": " Ôn từ vựng IELTS 0/2 phiên ",
+     "input": false,
+     "disabled": false,
+     "result": "không còn thấy phần tử sau khi tải lại"
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": "Đánh dấu xong",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Hôm nay (0)",
+      "",
+      "Chưa có việc nào",
+      "Thêm việc để biết mỗi phiên dành cho điều gì.",
+      "Thêm việc"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0074-click-tasks-9.jpg"
+     }
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": "Bắt đầu với việc này",
+     "input": false,
+     "disabled": false,
+     "result": "không còn thấy phần tử sau khi tải lại"
+    }
+   ],
+   "landed": "/tasks",
+   "redirected": false,
+   "textExcerpt": "\nViệc cần làm\n\nHôm nay (2)\nSắp tới\nĐã xong\n\nViết báo cáo quý 3\n0/4 phiên\n\n\nÔn từ vựng IELTS\n0/2 phiên\n\nƯớc tính hôm nay\n6 phiên\n≈ 2 giờ 30 phút · mục tiêu 2 giờ",
+   "shot": {
+    "file": "shots/0067-route-tasks.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 11,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Thêm việc",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "tab",
+     "label": "Hôm nay (2)",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "tab",
+     "label": "Sắp tới",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "tab",
+     "label": "Đã xong",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": " Viết báo cáo quý 3 0/4 phiên ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Đánh dấu xong",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Bắt đầu với việc này",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": " Ôn từ vựng IELTS 0/2 phiên ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": "Đánh dấu xong",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": "Bắt đầu với việc này",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0094-after-tasks.png"
+   }
+  },
+  {
+   "route": "/timer-settings",
+   "pattern": "/timer-settings",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Giảm",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "f9f2b7a9cec7300a5dafe4c0ee2764b1"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "f9f2b7a9cec7300a5dafe4c0ee2764b1"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Giảm",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "f9f2b7a9cec7300a5dafe4c0ee2764b1"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "f9f2b7a9cec7300a5dafe4c0ee2764b1"
+     }
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Giảm",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "f9f2b7a9cec7300a5dafe4c0ee2764b1"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "f9f2b7a9cec7300a5dafe4c0ee2764b1"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Giảm",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "f9f2b7a9cec7300a5dafe4c0ee2764b1"
+     }
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "f9f2b7a9cec7300a5dafe4c0ee2764b1"
+     }
+    },
+    {
+     "i": 9,
+     "role": "switch",
+     "label": "Tự vào giờ nghỉ",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "actionError": "locator.fill: Timeout 2500ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "f9f2b7a9cec7300a5dafe4c0ee2764b1"
+     }
+    },
+    {
+     "i": 10,
+     "role": "switch",
+     "label": "Tự vào phiên tiếp",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "actionError": "locator.fill: Timeout 2500ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "f9f2b7a9cec7300a5dafe4c0ee2764b1"
+     }
+    },
+    {
+     "i": 11,
+     "role": "switch",
+     "label": "Chế độ nghiêm",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "actionError": "locator.fill: Timeout 2500ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "f9f2b7a9cec7300a5dafe4c0ee2764b1"
+     }
+    },
+    {
+     "i": 12,
+     "role": "switch",
+     "label": "Rung khi hết giờ",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "actionError": "locator.fill: Timeout 2500ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "f9f2b7a9cec7300a5dafe4c0ee2764b1"
+     }
+    },
+    {
+     "i": 13,
+     "role": "switch",
+     "label": "Giữ màn hình sáng",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "actionError": "locator.fill: Timeout 2500ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "f9f2b7a9cec7300a5dafe4c0ee2764b1"
+     }
+    }
+   ],
+   "landed": "/timer-settings",
+   "redirected": false,
+   "textExcerpt": "\nCài đặt hẹn giờ\nTHỜI LƯỢNG\nTập trung\n\n25 phút\n\nNghỉ ngắn\n\n5 phút\n\nNghỉ dài\n\n15 phút\n\nNghỉ dài sau\n\n4 phiên\n\nTỰ ĐỘNG\nTự vào giờ nghỉ\nTự vào phiên tiếp\nChế độ nghiêm\nThoát app = bỏ phiên\nRung khi hết giờ\nGiữ màn hình sáng khi tập trung",
+   "shot": {
+    "file": "shots/0075-route-timer_settings.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 14,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Giảm",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Giảm",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Giảm",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Giảm",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "switch",
+     "label": "Tự vào giờ nghỉ",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "switch",
+     "label": "Tự vào phiên tiếp",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "switch",
+     "label": "Chế độ nghiêm",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 12,
+     "role": "switch",
+     "label": "Rung khi hết giờ",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 13,
+     "role": "switch",
+     "label": "Giữ màn hình sáng",
+     "input": true,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "3dc934a4425aff0f1f10fb0fcdc1682a"
+   }
+  },
+  {
+   "route": "/",
+   "pattern": "/",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Cài đặt hẹn giờ",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "file": "shots/0077-click-root-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Bật ngay",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "7d7dfaafbba1499c5e3dee422ba031a5"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Giữ sáng",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "7d7dfaafbba1499c5e3dee422ba031a5"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Chọn việc",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "7d7dfaafbba1499c5e3dee422ba031a5"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Đổi thời lượng",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "7d7dfaafbba1499c5e3dee422ba031a5"
+     }
+    },
+    {
+     "i": 5,
+     "role": "tab",
+     "label": "Pomodoro",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "7d7dfaafbba1499c5e3dee422ba031a5"
+     }
+    },
+    {
+     "i": 6,
+     "role": "tab",
+     "label": "Đếm lên",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "7d7dfaafbba1499c5e3dee422ba031a5"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": " Tập trung sâu",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "file": "shots/0078-click-root-7.jpg"
+     }
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": " Bắt đầu",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "file": "shots/0079-click-root-8.jpg"
+     }
+    },
+    {
+     "i": 9,
+     "role": "tab",
+     "label": "  Hẹn giờ",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "7d7dfaafbba1499c5e3dee422ba031a5"
+     }
+    },
+    {
+     "i": 10,
+     "role": "tab",
+     "label": "  Âm thanh",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "7d7dfaafbba1499c5e3dee422ba031a5"
+     }
+    },
+    {
+     "i": 11,
+     "role": "tab",
+     "label": "  Thống kê",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "7d7dfaafbba1499c5e3dee422ba031a5"
+     }
+    },
+    {
+     "i": 12,
+     "role": "tab",
+     "label": "  Tôi",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "7d7dfaafbba1499c5e3dee422ba031a5"
+     }
+    },
+    {
+     "i": 13,
+     "role": "alert",
+     "label": "Tiếp tục phiên dở? Phiên “Tập trung” bị gián đoạn lúc 13:44. Đã tính 0 phút tập trung. Tiế",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/session",
+     "added": [
+      "Đang làm",
+      "Tập trung",
+      "24:59",
+      "Phiên 2 / 4 · Tập trung",
+      "",
+      "Mưa rào",
+      "",
+      "Ồn trắng",
+      "",
+      "Ồn hồng",
+      "",
+      "Ồn nâu"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "0decb7874bcd2f2f23c19d2505378fa1"
+     }
+    },
+    {
+     "i": 14,
+     "role": "button",
+     "label": "Tiếp tục · còn 25:00",
+     "input": false,
+     "disabled": false,
+     "result": "không còn thấy phần tử sau khi tải lại"
+    },
+    {
+     "i": 15,
+     "role": "button",
+     "label": "Lưu 0 phút, kết thúc",
+     "input": false,
+     "disabled": false,
+     "result": "không còn thấy phần tử sau khi tải lại"
+    }
+   ],
+   "landed": "/timer",
+   "redirected": true,
+   "textExcerpt": "\nThông báo đang tắt — sẽ không báo hết giờ khi bạn ở app khác\nThứ Bảy · 0/5 phiên hôm nay\nSẵn sàng tập trung?\n\nBật thông báo để không lỡ giờ nghỉ\nHoặc giữ Nhịp mở — màn hình sẽ luôn sáng trong phiên.\nBật ngay\nGiữ sáng\nViệc đang làm\nÔn từ vựng IELTS\n\n25:00\nPomodoro · 4 phiên\nĐổi thời lượng\nPomodoro\nĐếm lên\nÂm thanh nền\n\nTập trung sâu\n\nBắt đầu\n\n\nHẹn giờ\n\n\nÂm thanh\n\n\nThống kê\n\n\nTôi\nTiếp tục phiên dở?\nPhiên “Tập trung” bị gián đoạn lúc 13:44. Đã tính 0 phút tập trung.\nTiếp tục · còn 25:00\nLưu 0 phút, kết thúc",
+   "shot": {
+    "file": "shots/0076-route-root.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 16,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Cài đặt hẹn giờ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Bật ngay",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Giữ sáng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Chọn việc",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Đổi thời lượng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "tab",
+     "label": "Pomodoro",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "tab",
+     "label": "Đếm lên",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": " Tập trung sâu",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": " Bắt đầu",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "tab",
+     "label": "  Hẹn giờ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "tab",
+     "label": "  Âm thanh",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "tab",
+     "label": "  Thống kê",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 12,
+     "role": "tab",
+     "label": "  Tôi",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 13,
+     "role": "alert",
+     "label": "Tiếp tục phiên dở? Phiên “Tập trung” bị gián đoạn lúc 13:44. Đã tính 0 phút tập trung. Tiế",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 14,
+     "role": "button",
+     "label": "Tiếp tục · còn 25:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 15,
+     "role": "button",
+     "label": "Lưu 0 phút, kết thúc",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "file": "shots/0095-after-root.png"
+   }
+  },
+  {
+   "route": "/onboarding",
+   "pattern": "/onboarding",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "",
+     "label": "Bỏ qua",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/timer",
+     "added": [
+      "",
+      "Thông báo đang tắt — sẽ không báo hết giờ khi bạn ở app khác",
+      "Thứ Bảy · 0/5 phiên hôm nay",
+      "Sẵn sàng tập trung?",
+      "",
+      "Bật thông báo để không lỡ giờ nghỉ",
+      "Hoặc giữ Nhịp mở — màn hình sẽ luôn sáng trong phiên.",
+      "Bật ngay",
+      "Giữ sáng",
+      "Việc đang làm",
+      "Ôn từ vựng IELTS",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0080-click-onboarding-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "1 giờ",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0081-click-onboarding-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "2 giờ",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "4 giờ",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0082-click-onboarding-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Học",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0083-click-onboarding-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Làm việc",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0084-click-onboarding-5.jpg"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Viết",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0085-click-onboarding-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Đọc sách",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0086-click-onboarding-7.jpg"
+     }
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": "Tiếp tục",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "",
+      "Báo khi hết phiên",
+      "Nhịp báo đúng giờ nghỉ kể cả khi bạn đang ở app khác hoặc khóa máy.",
+      "Bật thông báo",
+      "Để sau"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0087-click-onboarding-8.jpg"
+     }
+    }
+   ],
+   "landed": "/onboarding",
+   "redirected": false,
+   "textExcerpt": "Bỏ qua\nMỗi ngày bạn muốn tập trung bao lâu?\nNhịp dùng mục tiêu này để tính chuỗi ngày.\n1 giờ\n2 phiên · nhẹ nhàng\n2 giờ\n4 phiên · phổ biến nhất\n4 giờ\n8 phiên · cường độ cao\nBẠN DÙNG NHỊP ĐỂ\nHọc\nLàm việc\nViết\nĐọc sách\nTiếp tục",
+   "shot": {
+    "dup": "5acf2050307ec9a9855e0b55776d41ca"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "pageerror",
+     "text": "NotAllowedError: play() failed because the user didn't interact with the document first. https://goo.gl/xX8pDD"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/assets/assets/sounds/pink.68be9603231cf3409a4aef01ac8b4e1d.wav net::ERR_ABORTED"
+    },
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "pageerror",
+     "text": "NotAllowedError: play() failed because the user didn't interact with the document first. https://goo.gl/xX8pDD"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/assets/assets/sounds/pink.68be9603231cf3409a4aef01ac8b4e1d.wav net::ERR_ABORTED"
+    },
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "pageerror",
+     "text": "NotAllowedError: play() failed because the user didn't interact with the document first. https://goo.gl/xX8pDD"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/assets/assets/sounds/pink.68be9603231cf3409a4aef01ac8b4e1d.wav net::ERR_ABORTED"
+    },
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "pageerror",
+     "text": "NotAllowedError: play() failed because the user didn't interact with the document first. https://goo.gl/xX8pDD"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/assets/assets/sounds/pink.68be9603231cf3409a4aef01ac8b4e1d.wav net::ERR_ABORTED"
+    },
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 9,
+   "elements": [
+    {
+     "i": 0,
+     "role": "",
+     "label": "Bỏ qua",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "1 giờ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "2 giờ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "4 giờ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Học",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Làm việc",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Viết",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Đọc sách",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": "Tiếp tục",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "5acf2050307ec9a9855e0b55776d41ca"
+   }
+  },
+  {
+   "route": "/pack/saigon",
+   "pattern": "/pack/[id]",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Mua gói",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "",
+      "Giao dịch chưa hoàn tất",
+      "Mua trong app chưa sẵn sàng ở bản này."
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0089-click-pack_saigon-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Đã có trong Nhịp Pro",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/paywall",
+     "added": [
+      "",
+      "Nhịp Pro",
+      "",
+      "Mở mọi gói âm thanh, kể cả gói mới",
+      "",
+      "Không quảng cáo",
+      "",
+      "Thống kê theo từng việc, xuất CSV",
+      "",
+      "Thói quen không giới hạn",
+      "Theo năm",
+      "PRICE_PRO_YEAR"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "a79ddd099f141a8278b81a5f467d1111"
+     }
+    }
+   ],
+   "landed": "/pack/saigon",
+   "redirected": false,
+   "textExcerpt": "\nSài Gòn mưa chiều\nMưa mái tôn, xe qua phố, quán cóc, sấm xa.\n\nQuán cà phê\nVòng lặp liền mạch\nNGHE THỬ\n\nSấm xa\nVòng lặp liền mạch\n\nGiá gói\nPRICE_PACK_SAIGON\nMua gói\nĐã có trong Nhịp Pro",
+   "shot": {
+    "file": "shots/0088-route-pack_saigon.png"
+   },
+   "loadErrors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ],
+   "elementCount": 3,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Mua gói",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Đã có trong Nhịp Pro",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "e94b7eb201986f31f95276697c6347a0"
+   }
+  }
+ ],
+ "tablet": [
+  {
+   "route": "/me",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0096-fold-me.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/sounds",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0097-fold-sounds.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/stats",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0098-fold-stats.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/timer",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0099-fold-timer.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/done",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0100-fold-done.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/habits",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0101-fold-habits.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/paywall",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0102-fold-paywall.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/session",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0103-fold-session.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "pageerror",
+     "text": "NotAllowedError: play() failed because the user didn't interact with the document first. https://goo.gl/xX8pDD"
+    }
+   ]
+  },
+  {
+   "route": "/store",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0104-fold-store.png"
+   },
+   "errors": [
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/assets/assets/sounds/pink.68be9603231cf3409a4aef01ac8b4e1d.wav net::ERR_ABORTED"
+    },
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/tasks",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0105-fold-tasks.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/timer-settings",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0106-fold-timer_settings.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0107-fold-root.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "pageerror",
+     "text": "NotAllowedError: play() failed because the user didn't interact with the document first. https://goo.gl/xX8pDD"
+    }
+   ]
+  },
+  {
+   "route": "/onboarding",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0108-fold-onboarding.png"
+   },
+   "errors": [
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/assets/assets/sounds/pink.68be9603231cf3409a4aef01ac8b4e1d.wav net::ERR_ABORTED"
+    },
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/pack/saigon",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0109-fold-pack_saigon.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/me",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0110-tablet-me.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/sounds",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0111-tablet-sounds.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/stats",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0112-tablet-stats.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/timer",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0113-tablet-timer.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/done",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0114-tablet-done.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/habits",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0115-tablet-habits.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/paywall",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0116-tablet-paywall.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/session",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0117-tablet-session.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "pageerror",
+     "text": "NotAllowedError: play() failed because the user didn't interact with the document first. https://goo.gl/xX8pDD"
+    }
+   ]
+  },
+  {
+   "route": "/store",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0118-tablet-store.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/tasks",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0119-tablet-tasks.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/timer-settings",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0120-tablet-timer_settings.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0121-tablet-root.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "pageerror",
+     "text": "NotAllowedError: play() failed because the user didn't interact with the document first. https://goo.gl/xX8pDD"
+    }
+   ]
+  },
+  {
+   "route": "/onboarding",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0122-tablet-onboarding.png"
+   },
+   "errors": [
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/assets/assets/sounds/pink.68be9603231cf3409a4aef01ac8b4e1d.wav net::ERR_ABORTED"
+    },
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  },
+  {
+   "route": "/pack/saigon",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0123-tablet-pack_saigon.png"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    }
+   ]
+  }
+ ],
+ "destructive": [
+  {
+   "route": "/me",
+   "label": " Khôi phục giao dịch ",
+   "shot": {
+    "file": "shots/0124-destr-me-8.jpg"
+   },
+   "shotAfter": {
+    "dup": "6a6bb2fd5e6bd30ca672f15124292955"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "console.warning",
+     "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+    }
+   ]
+  },
+  {
+   "route": "/paywall",
+   "label": "Khôi phục giao dịch · Điều khoản",
+   "shot": {
+    "file": "shots/0125-destr-paywall-5.jpg"
+   },
+   "shotAfter": {
+    "dup": "c5dc577c0748fba3ea6617c64032f7ae"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "console.warning",
+     "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+    }
+   ]
+  },
+  {
+   "route": "/store",
+   "label": "Khôi phục giao dịch",
+   "shot": {
+    "file": "shots/0126-destr-store-1.jpg"
+   },
+   "shotAfter": {
+    "dup": "54a9a90e3ad84aa0ffc7d4e2bf34d9ef"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect."
+    },
+    {
+     "type": "console.warning",
+     "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+    }
+   ]
+  }
+ ],
+ "errorsGlobal": [],
+ "notVisited": [],
+ "dynamicNeverReached": [],
+ "finishedAt": "2026-10-31T06:48:52.162Z"
+}

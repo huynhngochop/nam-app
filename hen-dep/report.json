@@ -1,0 +1,5606 @@
+{
+ "app": "hen-dep",
+ "startedAt": "2026-10-31T06:41:41.807Z",
+ "firstRun": [
+  {
+   "step": 0,
+   "url": "/auth",
+   "shot": {
+    "file": "shots/0001-first-run-0.png"
+   },
+   "errors": []
+  },
+  {
+   "step": 1,
+   "url": "/auth",
+   "clicked": " Tôi là nhân viên, có mã mời",
+   "filled": [],
+   "after": "/auth",
+   "shot": {
+    "file": "shots/0002-first-run-1.png"
+   },
+   "errors": []
+  },
+  {
+   "step": 2,
+   "url": "/auth",
+   "clicked": "Vào tiệm",
+   "filled": [],
+   "after": "/calendar",
+   "shot": {
+    "file": "shots/0003-first-run-2.png"
+   },
+   "errors": [
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    }
+   ]
+  }
+ ],
+ "routes": [
+  {
+   "route": "/calendar",
+   "pattern": "/calendar",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Ngày trước",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Thứ Sáu, 30/10 · 0 lịch hẹn",
+      "Lịch T6, 30/10",
+      "Hôm nay"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0004-click-calendar-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Ngày sau",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Chủ nhật, 1/11 · 0 lịch hẹn",
+      "Lịch CN, 1/11",
+      "Hôm nay"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0005-click-calendar-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Ngày",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Thêm thợ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/staff",
+     "added": [
+      "Nhân viên",
+      "Chưa có nhân viên",
+      "Thêm nhân viên",
+      "Mời thợ dùng app",
+      "Thợ đăng nhập bằng SĐT và mã mời — chỉ thấy lịch của mình và khách, không thấy doanh thu.",
+      "SAL-4021",
+      "",
+      "Sao chép"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0006-click-calendar-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Tạo lịch hẹn",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/booking/new?at=1793428915053",
+     "added": [
+      "",
+      "Tạo lịch hẹn",
+      "",
+      "Khách vãng lai (không cần SĐT)",
+      "DỊCH VỤ",
+      "THỢ",
+      "NGÀY · T7, 31/10",
+      "Hôm nay",
+      "CN, 1/11",
+      "T2, 2/11",
+      "T3, 3/11",
+      "T4, 4/11"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0007-click-calendar-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "tab",
+     "label": "  Lịch",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 6,
+     "role": "tab",
+     "label": "  Khách",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/customers",
+     "added": [
+      "Khách hàng",
+      "",
+      "Tất cả",
+      "VIP",
+      "Lâu chưa đến",
+      "Khách mới",
+      "Sinh nhật tháng này",
+      "0 khách",
+      "Chưa có khách",
+      "Khách đặt qua link sẽ tự vào danh sách."
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0008-click-calendar-6.jpg"
+     }
+    }
+   ],
+   "landed": "/calendar",
+   "redirected": false,
+   "textExcerpt": "Thứ Bảy, 31/10 · 0 lịch hẹn\nLịch hôm nay\n\n\nNgày\n\nChưa có thợ\nThêm thợ để bắt đầu nhận lịch.\nThêm thợ\n\n\n\nLịch\n\n\nKhách",
+   "shot": {
+    "dup": "8488f180f040c791c8e7f5473d42e582"
+   },
+   "loadErrors": [
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    }
+   ],
+   "elementCount": 7,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Ngày trước",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Ngày sau",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Ngày",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Thêm thợ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Tạo lịch hẹn",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "tab",
+     "label": "  Lịch",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "tab",
+     "label": "  Khách",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "8488f180f040c791c8e7f5473d42e582"
+   }
+  },
+  {
+   "route": "/customers",
+   "pattern": "/customers",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "",
+     "label": "Tìm tên hoặc SĐT",
+     "input": true,
+     "disabled": false,
+     "value": "0901234567",
+     "added": [
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0010-click-customers-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Tất cả",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "VIP",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0011-click-customers-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Lâu chưa đến",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0012-click-customers-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Khách mới",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0013-click-customers-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Sinh nhật tháng này",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0014-click-customers-5.jpg"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Thêm khách",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/customer/new",
+     "added": [
+      "",
+      "Thêm khách",
+      "Họ tên",
+      "Số điện thoại",
+      "Sinh nhật (ngày/tháng)",
+      "Ghi chú",
+      "Khách đồng ý nhận tin ưu đãi",
+      "Lưu",
+      "Hủy"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0015-click-customers-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "tab",
+     "label": "  Lịch",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/calendar",
+     "added": [
+      "Thứ Bảy, 31/10 · 0 lịch hẹn",
+      "Lịch hôm nay",
+      "",
+      "",
+      "Ngày",
+      "Chưa có thợ",
+      "Thêm thợ để bắt đầu nhận lịch.",
+      "Thêm thợ"
+     ],
+     "visualChange": true,
+     "errors": [
+      {
+       "type": "requestfailed",
+       "text": "http://localhost:8080/ net::ERR_ABORTED"
+      },
+      {
+       "type": "requestfailed",
+       "text": "http://localhost:8080/ net::ERR_ABORTED"
+      }
+     ],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0016-click-customers-7.jpg"
+     }
+    },
+    {
+     "i": 8,
+     "role": "tab",
+     "label": "  Khách",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    }
+   ],
+   "landed": "/customers",
+   "redirected": false,
+   "textExcerpt": "Khách hàng\n\nTất cả\nVIP\nLâu chưa đến\nKhách mới\nSinh nhật tháng này\n0 khách\n\nChưa có khách\nKhách đặt qua link sẽ tự vào danh sách.\n\n\n\nLịch\n\n\nKhách",
+   "shot": {
+    "file": "shots/0009-route-customers.png"
+   },
+   "loadErrors": [],
+   "elementCount": 9,
+   "elements": [
+    {
+     "i": 0,
+     "role": "",
+     "label": "Tìm tên hoặc SĐT",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Tất cả",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "VIP",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Lâu chưa đến",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Khách mới",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Sinh nhật tháng này",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Thêm khách",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "tab",
+     "label": "  Lịch",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "tab",
+     "label": "  Khách",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "e31548de69db0df98997712418a7b272"
+   }
+  },
+  {
+   "route": "/revenue",
+   "pattern": "/revenue",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "tab",
+     "label": "Hôm nay",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0018-click-revenue-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "tab",
+     "label": "7 ngày",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 2,
+     "role": "tab",
+     "label": "30 ngày",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0019-click-revenue-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "tab",
+     "label": "  Lịch",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/calendar",
+     "added": [
+      "Thứ Bảy, 31/10 · 0 lịch hẹn",
+      "Lịch hôm nay",
+      "",
+      "",
+      "Ngày",
+      "Chưa có thợ",
+      "Thêm thợ để bắt đầu nhận lịch.",
+      "Thêm thợ",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [
+      {
+       "type": "requestfailed",
+       "text": "http://localhost:8080/ net::ERR_ABORTED"
+      },
+      {
+       "type": "requestfailed",
+       "text": "http://localhost:8080/ net::ERR_ABORTED"
+      }
+     ],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "27a3bc8aaa3cd20801ae9d01433615a6"
+     }
+    },
+    {
+     "i": 4,
+     "role": "tab",
+     "label": "  Khách",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/customers",
+     "added": [
+      "Khách hàng",
+      "",
+      "Tất cả",
+      "VIP",
+      "Lâu chưa đến",
+      "Khách mới",
+      "Sinh nhật tháng này",
+      "0 khách",
+      "Chưa có khách",
+      "Khách đặt qua link sẽ tự vào danh sách.",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "ba9348dcb34c8eeb59ba133548c2cc52"
+     }
+    }
+   ],
+   "landed": "/revenue",
+   "redirected": false,
+   "textExcerpt": "Doanh thu\nHôm nay\n7 ngày\n30 ngày\n\nChưa có số liệu\nDoanh thu tính từ lịch hẹn đã hoàn thành và thanh toán.\n\n\nLịch\n\n\nKhách",
+   "shot": {
+    "file": "shots/0017-route-revenue.png"
+   },
+   "loadErrors": [],
+   "elementCount": 5,
+   "elements": [
+    {
+     "i": 0,
+     "role": "tab",
+     "label": "Hôm nay",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "tab",
+     "label": "7 ngày",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "tab",
+     "label": "30 ngày",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "tab",
+     "label": "  Lịch",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "tab",
+     "label": "  Khách",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "d9362b3c4f42eb35b9e9cd2a0763871f"
+   }
+  },
+  {
+   "route": "/shop",
+   "pattern": "/shop",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Gói dịch vụ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/billing",
+     "added": [
+      "",
+      "Gói cho tiệm",
+      "Bạn đang dùng thử, còn 30 ngày. Hết hạn vẫn xem được lịch cũ.",
+      "",
+      "Không giới hạn lịch hẹn và khách",
+      "",
+      "Nhắc lịch tự động qua Zalo",
+      "",
+      "Gói Tiêu chuẩn: 60 lượt AI/tháng (đọc bảng giá, soạn ưu đãi)",
+      "",
+      "Gói Chuỗi: nhiều chi nhánh, báo cáo gộp",
+      "Tiêu chuẩn"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0021-click-shop-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": " Link & mã QR đặt lịch hendep.app/salon-may ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/link",
+     "added": [
+      "",
+      "Link đặt lịch",
+      "Quét để đặt lịch · in dán ở quầy, gương, cửa",
+      "",
+      "Lưu / chia sẻ QR",
+      "Link của tiệm",
+      "",
+      "Sao chép",
+      "",
+      "Chia sẻ",
+      "LINK THEO KÊNH",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0022-click-shop-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": " Gửi ưu đãi 0 chiến dịch đã gửi ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/campaign",
+     "added": [
+      "",
+      "Bản này chưa gửi tin tự động qua Zalo. Chia sẻ nội dung để tự gửi cho khách bên dưới.",
+      "GỬI CHO AI",
+      "Lâu chưa quay lại (45 ngày)",
+      "Khách VIP",
+      "Tự chọn",
+      "0 khách phù hợp",
+      "Nội dung",
+      "",
+      "AI soạn giúp",
+      "92/300 ký tự",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [
+      {
+       "type": "requestfailed",
+       "text": "http://localhost:8080/ net::ERR_ABORTED"
+      },
+      {
+       "type": "requestfailed",
+       "text": "http://localhost:8080/ net::ERR_ABORTED"
+      }
+     ],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0023-click-shop-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": " Dịch vụ & bảng giá 0 dịch vụ ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/services",
+     "added": [
+      "",
+      "",
+      "Chụp bảng giá",
+      "Chưa có dịch vụ",
+      "Chụp bảng giá để thêm nhanh, hoặc thêm từng dịch vụ.",
+      "Thêm dịch vụ",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0024-click-shop-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": " Nhân viên 0 người ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/staff",
+     "added": [
+      "",
+      "Chưa có nhân viên",
+      "Thêm nhân viên",
+      "Mời thợ dùng app",
+      "Thợ đăng nhập bằng SĐT và mã mời — chỉ thấy lịch của mình và khách, không thấy doanh thu.",
+      "SAL-4021",
+      "",
+      "Sao chép",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "56142d15732db3d4ad42a5dd42ba65d8"
+     }
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": " Cài đặt tiệm Giờ mở cửa, nhắc lịch, chống bỏ hẹn ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/settings",
+     "added": [
+      "",
+      "THÔNG TIN TIỆM",
+      "Tên tiệm",
+      "Địa chỉ",
+      "",
+      "SĐT tiệm",
+      "GIỜ MỞ CỬA",
+      "CN",
+      "T2",
+      "Mở 07:00",
+      "Mở 08:00",
+      "Mở 09:00"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0025-click-shop-5.jpg"
+     }
+    },
+    {
+     "i": 6,
+     "role": "tab",
+     "label": "  Lịch",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/calendar",
+     "added": [
+      "Thứ Bảy, 31/10 · 0 lịch hẹn",
+      "Lịch hôm nay",
+      "",
+      "Ngày",
+      "Chưa có thợ",
+      "Thêm thợ để bắt đầu nhận lịch.",
+      "Thêm thợ",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [
+      {
+       "type": "requestfailed",
+       "text": "http://localhost:8080/ net::ERR_ABORTED"
+      },
+      {
+       "type": "requestfailed",
+       "text": "http://localhost:8080/ net::ERR_ABORTED"
+      }
+     ],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "27a3bc8aaa3cd20801ae9d01433615a6"
+     }
+    },
+    {
+     "i": 7,
+     "role": "tab",
+     "label": "  Khách",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/customers",
+     "added": [
+      "Khách hàng",
+      "",
+      "Tất cả",
+      "VIP",
+      "Lâu chưa đến",
+      "Khách mới",
+      "Sinh nhật tháng này",
+      "0 khách",
+      "Chưa có khách",
+      "Khách đặt qua link sẽ tự vào danh sách.",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "ba9348dcb34c8eeb59ba133548c2cc52"
+     }
+    }
+   ],
+   "landed": "/shop",
+   "redirected": false,
+   "textExcerpt": "Salon tóc\nSalon Mây\nGói Dùng thử\nCÒN 30 NGÀY\nLượt AI tháng này: 0/10\nKHÁCH ĐẶT LỊCH\n\nLink & mã QR đặt lịch\nhendep.app/salon-may\n\n\nGửi ưu đãi\n0 chiến dịch đã gửi\n\nQUẢN LÝ\n\nDịch vụ & bảng giá\n0 dịch vụ\n\n\nNhân viên\n0 người\n\n\nCài đặt tiệm\nGiờ mở cửa, nhắc lịch, chống bỏ hẹn\n\n\n\nLịch\n\n\nKhách",
+   "shot": {
+    "file": "shots/0020-route-shop.png"
+   },
+   "loadErrors": [],
+   "elementCount": 8,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Gói dịch vụ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": " Link & mã QR đặt lịch hendep.app/salon-may ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": " Gửi ưu đãi 0 chiến dịch đã gửi ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": " Dịch vụ & bảng giá 0 dịch vụ ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": " Nhân viên 0 người ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": " Cài đặt tiệm Giờ mở cửa, nhắc lịch, chống bỏ hẹn ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "tab",
+     "label": "  Lịch",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "tab",
+     "label": "  Khách",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "d1bceb910cec15116e62ab750de525e8"
+   }
+  },
+  {
+   "route": "/billing",
+   "pattern": "/billing",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Tiêu chuẩn",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Cơ bản",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0027-click-billing-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Chuỗi",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0028-click-billing-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Đăng ký",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "",
+      "Mua trong app chưa sẵn sàng ở bản này. (Mã: IAP_NOT_CONFIGURED)"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0029-click-billing-4.jpg"
+     }
+    }
+   ],
+   "landed": "/billing",
+   "redirected": false,
+   "textExcerpt": "\nGói cho tiệm\nBạn đang dùng thử, còn 30 ngày. Hết hạn vẫn xem được lịch cũ.\n\nKhông giới hạn lịch hẹn và khách\n\nNhắc lịch tự động qua Zalo\n\nGói Tiêu chuẩn: 60 lượt AI/tháng (đọc bảng giá, soạn ưu đãi)\n\nGói Chuỗi: nhiều chi nhánh, báo cáo gộp\nTiêu chuẩn\nPRICE_B2B_STANDARD_MONTH\nTới 5 thợ\nPHỔ BIẾN\nCơ bản\nPRICE_B2B_BASIC_MONTH\n1–2 thợ\nChuỗi\nPRICE_B2B_CHAIN_MONTH\nNhiều chi nhánh\nĐăng ký\nKhôi phục giao dịch · Điều khoản",
+   "shot": {
+    "file": "shots/0026-route-billing.png"
+   },
+   "loadErrors": [],
+   "elementCount": 6,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Tiêu chuẩn",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Cơ bản",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Chuỗi",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Đăng ký",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Khôi phục giao dịch · Điều khoản",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "0e0224d618e37a07bf37762bef3d3bc6"
+   }
+  },
+  {
+   "route": "/booking/new",
+   "pattern": "/booking/new",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0031-click-booking_new-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "",
+     "label": "Tìm tên hoặc SĐT",
+     "input": true,
+     "disabled": false,
+     "value": "0901234567",
+     "added": [
+      "Tên khách mới"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0032-click-booking_new-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Khách vãng lai (không cần SĐT)",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0033-click-booking_new-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Hôm nay",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "dup": "2ce2e4fb09eb89c22ee2109b7da0d396"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "CN, 1/11",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "NGÀY · CN, 1/11"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0034-click-booking_new-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "T2, 2/11",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "NGÀY · T2, 2/11"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0035-click-booking_new-5.jpg"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "T3, 3/11",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "NGÀY · T3, 3/11"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0036-click-booking_new-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "T4, 4/11",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "NGÀY · T4, 4/11"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0037-click-booking_new-7.jpg"
+     }
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": "T5, 5/11",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "NGÀY · T5, 5/11"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0038-click-booking_new-8.jpg"
+     }
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": "T6, 6/11",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "NGÀY · T6, 6/11"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0039-click-booking_new-9.jpg"
+     }
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": "08:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 08:00 – 08:30"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0040-click-booking_new-10.jpg"
+     }
+    },
+    {
+     "i": 11,
+     "role": "button",
+     "label": "08:15",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 08:15 – 08:45"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0041-click-booking_new-11.jpg"
+     }
+    },
+    {
+     "i": 12,
+     "role": "button",
+     "label": "08:30",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 08:30 – 09:00"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0042-click-booking_new-12.jpg"
+     }
+    },
+    {
+     "i": 13,
+     "role": "button",
+     "label": "08:45",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 08:45 – 09:15"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0043-click-booking_new-13.jpg"
+     }
+    },
+    {
+     "i": 14,
+     "role": "button",
+     "label": "09:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 09:00 – 09:30"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0044-click-booking_new-14.jpg"
+     }
+    },
+    {
+     "i": 15,
+     "role": "button",
+     "label": "09:15",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 09:15 – 09:45"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0045-click-booking_new-15.jpg"
+     }
+    },
+    {
+     "i": 16,
+     "role": "button",
+     "label": "09:30",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 09:30 – 10:00"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0046-click-booking_new-16.jpg"
+     }
+    },
+    {
+     "i": 17,
+     "role": "button",
+     "label": "09:45",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 09:45 – 10:15"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0047-click-booking_new-17.jpg"
+     }
+    },
+    {
+     "i": 18,
+     "role": "button",
+     "label": "10:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 10:00 – 10:30"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0048-click-booking_new-18.jpg"
+     }
+    },
+    {
+     "i": 19,
+     "role": "button",
+     "label": "10:15",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 10:15 – 10:45"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0049-click-booking_new-19.jpg"
+     }
+    },
+    {
+     "i": 20,
+     "role": "button",
+     "label": "10:30",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 10:30 – 11:00"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0050-click-booking_new-20.jpg"
+     }
+    },
+    {
+     "i": 21,
+     "role": "button",
+     "label": "10:45",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 10:45 – 11:15"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0051-click-booking_new-21.jpg"
+     }
+    },
+    {
+     "i": 22,
+     "role": "button",
+     "label": "11:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 11:00 – 11:30"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0052-click-booking_new-22.jpg"
+     }
+    },
+    {
+     "i": 23,
+     "role": "button",
+     "label": "11:15",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 11:15 – 11:45"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0053-click-booking_new-23.jpg"
+     }
+    },
+    {
+     "i": 24,
+     "role": "button",
+     "label": "11:30",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 11:30 – 12:00"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0054-click-booking_new-24.jpg"
+     }
+    },
+    {
+     "i": 25,
+     "role": "button",
+     "label": "11:45",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 11:45 – 12:15"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0055-click-booking_new-25.jpg"
+     }
+    },
+    {
+     "i": 26,
+     "role": "button",
+     "label": "12:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 12:00 – 12:30"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0056-click-booking_new-26.jpg"
+     }
+    },
+    {
+     "i": 27,
+     "role": "button",
+     "label": "12:15",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 12:15 – 12:45"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0057-click-booking_new-27.jpg"
+     }
+    },
+    {
+     "i": 28,
+     "role": "button",
+     "label": "12:30",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 12:30 – 13:00"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0058-click-booking_new-28.jpg"
+     }
+    },
+    {
+     "i": 29,
+     "role": "button",
+     "label": "12:45",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 12:45 – 13:15"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0059-click-booking_new-29.jpg"
+     }
+    },
+    {
+     "i": 30,
+     "role": "button",
+     "label": "13:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 13:00 – 13:30"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0060-click-booking_new-30.jpg"
+     }
+    },
+    {
+     "i": 31,
+     "role": "button",
+     "label": "13:15",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 13:15 – 13:45"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0061-click-booking_new-31.jpg"
+     }
+    },
+    {
+     "i": 32,
+     "role": "button",
+     "label": "13:30",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 13:30 – 14:00"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0062-click-booking_new-32.jpg"
+     }
+    },
+    {
+     "i": 33,
+     "role": "button",
+     "label": "13:45",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0063-click-booking_new-33.jpg"
+     }
+    },
+    {
+     "i": 34,
+     "role": "button",
+     "label": "14:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 14:00 – 14:30"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0064-click-booking_new-34.jpg"
+     }
+    },
+    {
+     "i": 35,
+     "role": "button",
+     "label": "14:15",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 14:15 – 14:45"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0065-click-booking_new-35.jpg"
+     }
+    },
+    {
+     "i": 36,
+     "role": "button",
+     "label": "14:30",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 14:30 – 15:00"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0066-click-booking_new-36.jpg"
+     }
+    },
+    {
+     "i": 37,
+     "role": "button",
+     "label": "14:45",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 14:45 – 15:15"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0067-click-booking_new-37.jpg"
+     }
+    },
+    {
+     "i": 38,
+     "role": "button",
+     "label": "15:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 15:00 – 15:30"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0068-click-booking_new-38.jpg"
+     }
+    },
+    {
+     "i": 39,
+     "role": "button",
+     "label": "15:15",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 15:15 – 15:45"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0069-click-booking_new-39.jpg"
+     }
+    },
+    {
+     "i": 40,
+     "role": "button",
+     "label": "15:30",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 15:30 – 16:00"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0070-click-booking_new-40.jpg"
+     }
+    },
+    {
+     "i": 41,
+     "role": "button",
+     "label": "15:45",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 15:45 – 16:15"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0071-click-booking_new-41.jpg"
+     }
+    },
+    {
+     "i": 42,
+     "role": "button",
+     "label": "16:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 16:00 – 16:30"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0072-click-booking_new-42.jpg"
+     }
+    },
+    {
+     "i": 43,
+     "role": "button",
+     "label": "16:15",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 16:15 – 16:45"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0073-click-booking_new-43.jpg"
+     }
+    },
+    {
+     "i": 44,
+     "role": "button",
+     "label": "16:30",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "GIỜ · 16:30 – 17:00"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0074-click-booking_new-44.jpg"
+     }
+    }
+   ],
+   "landed": "/booking/new",
+   "redirected": false,
+   "textExcerpt": "\nTạo lịch hẹn\nKhách\n\nKhách vãng lai (không cần SĐT)\nDỊCH VỤ\nTHỢ\nNGÀY · T7, 31/10\nHôm nay\nCN, 1/11\nT2, 2/11\nT3, 3/11\nT4, 4/11\nT5, 5/11\nT6, 6/11\nGIỜ · 13:45 – 14:15\n08:00\n08:15\n08:30\n08:45\n09:00\n09:15\n09:30\n09:45\n10:00\n10:15\n10:30\n10:45\n11:00\n11:15\n11:30\n11:45\n12:00\n12:15\n12:30\n12:45\n13:00\n13:15\n13:30\n13:45\n14:00\n14:15\n14:30\n14:45\n15:00\n15:15\n15:30\n15:45\n16:00\n16:15\n16:30\n16:45\n17:00\n17:15\n17:30\n17:45\n18:00\n18:15\n18:30\n18:45\n19:00\n19:15\n19:30\n19:45\n20:00\n20:15\n20:30\n20:45\nThời lượng 30 phút\nTạo lịch hẹn",
+   "shot": {
+    "file": "shots/0030-route-booking_new.png"
+   },
+   "loadErrors": [],
+   "elementCount": 62,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "",
+     "label": "Tìm tên hoặc SĐT",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Khách vãng lai (không cần SĐT)",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Hôm nay",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "CN, 1/11",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "T2, 2/11",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "T3, 3/11",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "T4, 4/11",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": "T5, 5/11",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": "T6, 6/11",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": "08:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "button",
+     "label": "08:15",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 12,
+     "role": "button",
+     "label": "08:30",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 13,
+     "role": "button",
+     "label": "08:45",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 14,
+     "role": "button",
+     "label": "09:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 15,
+     "role": "button",
+     "label": "09:15",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 16,
+     "role": "button",
+     "label": "09:30",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 17,
+     "role": "button",
+     "label": "09:45",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 18,
+     "role": "button",
+     "label": "10:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 19,
+     "role": "button",
+     "label": "10:15",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 20,
+     "role": "button",
+     "label": "10:30",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 21,
+     "role": "button",
+     "label": "10:45",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 22,
+     "role": "button",
+     "label": "11:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 23,
+     "role": "button",
+     "label": "11:15",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 24,
+     "role": "button",
+     "label": "11:30",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 25,
+     "role": "button",
+     "label": "11:45",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 26,
+     "role": "button",
+     "label": "12:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 27,
+     "role": "button",
+     "label": "12:15",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 28,
+     "role": "button",
+     "label": "12:30",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 29,
+     "role": "button",
+     "label": "12:45",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 30,
+     "role": "button",
+     "label": "13:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 31,
+     "role": "button",
+     "label": "13:15",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 32,
+     "role": "button",
+     "label": "13:30",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 33,
+     "role": "button",
+     "label": "13:45",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 34,
+     "role": "button",
+     "label": "14:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 35,
+     "role": "button",
+     "label": "14:15",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 36,
+     "role": "button",
+     "label": "14:30",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 37,
+     "role": "button",
+     "label": "14:45",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 38,
+     "role": "button",
+     "label": "15:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 39,
+     "role": "button",
+     "label": "15:15",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 40,
+     "role": "button",
+     "label": "15:30",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 41,
+     "role": "button",
+     "label": "15:45",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 42,
+     "role": "button",
+     "label": "16:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 43,
+     "role": "button",
+     "label": "16:15",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 44,
+     "role": "button",
+     "label": "16:30",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 45,
+     "role": "button",
+     "label": "16:45",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 46,
+     "role": "button",
+     "label": "17:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 47,
+     "role": "button",
+     "label": "17:15",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 48,
+     "role": "button",
+     "label": "17:30",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 49,
+     "role": "button",
+     "label": "17:45",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 50,
+     "role": "button",
+     "label": "18:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 51,
+     "role": "button",
+     "label": "18:15",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 52,
+     "role": "button",
+     "label": "18:30",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 53,
+     "role": "button",
+     "label": "18:45",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 54,
+     "role": "button",
+     "label": "19:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 55,
+     "role": "button",
+     "label": "19:15",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 56,
+     "role": "button",
+     "label": "19:30",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 57,
+     "role": "button",
+     "label": "19:45",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 58,
+     "role": "button",
+     "label": "20:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 59,
+     "role": "button",
+     "label": "20:15",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 60,
+     "role": "button",
+     "label": "20:30",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 61,
+     "role": "button",
+     "label": "20:45",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "truncated": true,
+   "shotAfter": {
+    "file": "shots/0160-after-booking_new.png"
+   }
+  },
+  {
+   "route": "/campaign-ai",
+   "pattern": "/campaign-ai",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Lấp khung trưa",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0076-click-campaign_ai-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Khách lâu chưa đến",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Sinh nhật",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0077-click-campaign_ai-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Dịch vụ mới",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0078-click-campaign_ai-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Thân thiện",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Lịch sự",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0079-click-campaign_ai-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Vui vẻ",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0080-click-campaign_ai-7.jpg"
+     }
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": "Giảm",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "5%"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0081-click-campaign_ai-8.jpg"
+     }
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "15%"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0082-click-campaign_ai-9.jpg"
+     }
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": "Soạn tin",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "",
+      "Mẫu soạn sẵn (không dùng lượt AI).",
+      "Lâu rồi chưa gặp bạn! Salon Mây tặng bạn 10% cho lần hẹn tới. Đặt lịch: hendep.app/salon-may",
+      "Chạm để dùng",
+      "Salon Mây nhớ bạn nhiều. Quay lại tuần này giảm 10% nhé: hendep.app/salon-may",
+      "Chạm để dùng",
+      "Soạn lại"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0083-click-campaign_ai-10.jpg"
+     }
+    }
+   ],
+   "landed": "/campaign-ai",
+   "redirected": false,
+   "textExcerpt": "\nAI soạn tin ưu đãi\nMỤC ĐÍCH\nLấp khung trưa\nKhách lâu chưa đến\nSinh nhật\nDịch vụ mới\nGIỌNG VĂN\nThân thiện\nLịch sự\nVui vẻ\nMức giảm\n\n10%\n\nCòn 10 lượt AI tháng này\nSoạn tin",
+   "shot": {
+    "file": "shots/0075-route-campaign_ai.png"
+   },
+   "loadErrors": [],
+   "elementCount": 11,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Lấp khung trưa",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Khách lâu chưa đến",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Sinh nhật",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Dịch vụ mới",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Thân thiện",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Lịch sự",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Vui vẻ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": "Giảm",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": "Soạn tin",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "242ba2772cea1f0a173b098920789765"
+   }
+  },
+  {
+   "route": "/campaign",
+   "pattern": "/campaign",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Lâu chưa quay lại (45 ngày)",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Khách VIP",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0085-click-campaign-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Tự chọn",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0086-click-campaign-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": " AI soạn giúp",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/campaign-ai?window=",
+     "added": [
+      "AI soạn tin ưu đãi",
+      "MỤC ĐÍCH",
+      "Lấp khung trưa",
+      "Khách lâu chưa đến",
+      "Sinh nhật",
+      "Dịch vụ mới",
+      "GIỌNG VĂN",
+      "Thân thiện",
+      "Lịch sự",
+      "Vui vẻ",
+      "Mức giảm",
+      ""
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0087-click-campaign-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "",
+     "label": "Lâu rồi chưa gặp bạn! Salon Mây tặng bạn 10% cho lần hẹn tới. Đặt lịch: hendep.app/salon-m",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "added": [
+      "Nên có link đặt lịch để khách đặt ngay",
+      "12/300 ký tự"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0088-click-campaign-5.jpg"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": " Chia sẻ tin để tự gửi",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    }
+   ],
+   "landed": "/campaign",
+   "redirected": false,
+   "textExcerpt": "\nGửi ưu đãi\nBản này chưa gửi tin tự động qua Zalo. Chia sẻ nội dung để tự gửi cho khách bên dưới.\nGỬI CHO AI\nLâu chưa quay lại (45 ngày)\nKhách VIP\nTự chọn\n0 khách phù hợp\nNội dung\n\nAI soạn giúp\n92/300 ký tự\n\nChia sẻ tin để tự gửi",
+   "shot": {
+    "file": "shots/0084-route-campaign.png"
+   },
+   "loadErrors": [
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    }
+   ],
+   "elementCount": 7,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Lâu chưa quay lại (45 ngày)",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Khách VIP",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Tự chọn",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": " AI soạn giúp",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "",
+     "label": "Lâu rồi chưa gặp bạn! Salon Mây tặng bạn 10% cho lần hẹn tới. Đặt lịch: hendep.app/salon-m",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": " Chia sẻ tin để tự gửi",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "97779ab27185f39dac3c47a389b7f4bb"
+   }
+  },
+  {
+   "route": "/link",
+   "pattern": "/link",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/calendar",
+     "added": [
+      "Thứ Bảy, 31/10 · 0 lịch hẹn",
+      "Lịch hôm nay",
+      "",
+      "Ngày",
+      "",
+      "Chưa có thợ",
+      "Thêm thợ để bắt đầu nhận lịch.",
+      "Thêm thợ",
+      "",
+      "",
+      "",
+      "Lịch"
+     ],
+     "visualChange": true,
+     "errors": [
+      {
+       "type": "requestfailed",
+       "text": "http://localhost:8080/ net::ERR_ABORTED"
+      },
+      {
+       "type": "requestfailed",
+       "text": "http://localhost:8080/ net::ERR_ABORTED"
+      }
+     ],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "27a3bc8aaa3cd20801ae9d01433615a6"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": " Lưu / chia sẻ QR",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [
+      {
+       "type": "console.warning",
+       "text": "expo-file-system is not supported on web"
+      },
+      {
+       "type": "console.warning",
+       "text": "expo-file-system is not supported on web"
+      }
+     ],
+     "outcome": "không phản hồi",
+     "shot": {
+      "dup": "adf5ff41a036efa31022881eca9906c6"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": " Sao chép",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Đã sao chép link"
+     ],
+     "visualChange": true,
+     "errors": [
+      {
+       "type": "console.warning",
+       "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+     ],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0090-click-link-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": " Chia sẻ",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Chép",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "adf5ff41a036efa31022881eca9906c6"
+     }
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Chép",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "adf5ff41a036efa31022881eca9906c6"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Chép",
+     "input": false,
+     "disabled": false,
+     "actionError": "locator.click: Timeout 3000ms exceeded.",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "adf5ff41a036efa31022881eca9906c6"
+     }
+    }
+   ],
+   "landed": "/link",
+   "redirected": false,
+   "textExcerpt": "\nLink đặt lịch\nSalon Mây\nQuét để đặt lịch · in dán ở quầy, gương, cửa\n\nLưu / chia sẻ QR\nLink của tiệm\nhendep.app/salon-may\n\nSao chép\n\nChia sẻ\nLINK THEO KÊNH\n\nZalo OA / tin nhắn\nDán vào menu Zalo OA hoặc trả lời khách\nChép\n\nFacebook / Instagram\nNút “Đặt lịch” trên trang & bio\nChép\n\nGoogle Maps\nMục “Đặt chỗ” trong hồ sơ doanh nghiệp\nChép\nBáo cáo Doanh thu sẽ cho biết kênh nào mang về nhiều khách nhất.",
+   "shot": {
+    "file": "shots/0089-route-link.png"
+   },
+   "loadErrors": [],
+   "elementCount": 7,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": " Lưu / chia sẻ QR",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": " Sao chép",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": " Chia sẻ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Chép",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Chép",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Chép",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "46e8c7d7d5a1f2cbd5141db697d130a8"
+   }
+  },
+  {
+   "route": "/scan",
+   "pattern": "/scan",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": " Chụp ảnh",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": " Chọn ảnh",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 3,
+     "role": "",
+     "label": "Cắt nam 120k Nhuộm 650.000",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0092-click-scan-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Dùng ví dụ",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0093-click-scan-4.jpg"
+     }
+    }
+   ],
+   "landed": "/scan",
+   "redirected": false,
+   "textExcerpt": "\nChụp bảng giá\nChụp hoặc chọn ảnh bảng giá để đối chiếu, rồi dán chữ trên bảng giá vào ô bên dưới (mỗi dịch vụ một dòng).\n\nChụp ảnh\n\nChọn ảnh\nChữ trên bảng giá\nDùng ví dụ\nCó AI hỗ trợ · còn 10 lượt tháng này\nĐọc bảng giá",
+   "shot": {
+    "file": "shots/0091-route-scan.png"
+   },
+   "loadErrors": [],
+   "elementCount": 5,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": " Chụp ảnh",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": " Chọn ảnh",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "",
+     "label": "Cắt nam 120k Nhuộm 650.000",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Dùng ví dụ",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "7528d197412f0da1926efa8c835fb0f9"
+   }
+  },
+  {
+   "route": "/services",
+   "pattern": "/services",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": " Chụp bảng giá",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/scan",
+     "added": [
+      "Chụp hoặc chọn ảnh bảng giá để đối chiếu, rồi dán chữ trên bảng giá vào ô bên dưới (mỗi dịch vụ một dòng).",
+      "Chụp ảnh",
+      "",
+      "Chọn ảnh",
+      "Chữ trên bảng giá",
+      "Dùng ví dụ",
+      "Có AI hỗ trợ · còn 10 lượt tháng này",
+      "Đọc bảng giá"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0095-click-services-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Thêm dịch vụ",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Tên dịch vụ",
+      "Giá",
+      "Thời lượng",
+      "",
+      "45 phút",
+      "Nhóm",
+      "Tóc",
+      "Gội dưỡng",
+      "Nail",
+      "Spa",
+      "Trang điểm",
+      "Khác"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0096-click-services-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Thêm dịch vụ",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Tên dịch vụ",
+      "Giá",
+      "Thời lượng",
+      "",
+      "45 phút",
+      "Nhóm",
+      "Tóc",
+      "Gội dưỡng",
+      "Nail",
+      "Spa",
+      "Trang điểm",
+      "Khác"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "dup": "1a403e3071ef8cf224fd52c26fda356b"
+     }
+    }
+   ],
+   "landed": "/services",
+   "redirected": false,
+   "textExcerpt": "\nDịch vụ & bảng giá\n\nChụp bảng giá\n\nChưa có dịch vụ\nChụp bảng giá để thêm nhanh, hoặc thêm từng dịch vụ.\nThêm dịch vụ\n",
+   "shot": {
+    "file": "shots/0094-route-services.png"
+   },
+   "loadErrors": [],
+   "elementCount": 4,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": " Chụp bảng giá",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Thêm dịch vụ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Thêm dịch vụ",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "b4209a337b24f3de0120d3474060148e"
+   }
+  },
+  {
+   "route": "/settings",
+   "pattern": "/settings",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "",
+     "label": "Salon Mây",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "added": [
+      "Lưu thông tin"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0098-click-settings-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "",
+     "label": "12 Lê Lợi, Q.1, TP.HCM",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "added": [
+      "Lưu thông tin"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0099-click-settings-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "",
+     "label": "0901234567",
+     "input": true,
+     "disabled": false,
+     "value": "0901234567",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 4,
+     "role": "switch",
+     "label": "Mở cửa CN",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "actionError": "locator.fill: Error: Input of type \"checkbox\" cannot be filled",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "db95e1025cd215bad399c6dc8ba81162"
+     }
+    },
+    {
+     "i": 5,
+     "role": "switch",
+     "label": "Mở cửa T2",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "actionError": "locator.fill: Error: Input of type \"checkbox\" cannot be filled",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "dup": "db95e1025cd215bad399c6dc8ba81162"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Mở 07:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "1 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0100-click-settings-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Mở 08:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "2 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0101-click-settings-7.jpg"
+     }
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": "Mở 09:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "3 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0102-click-settings-8.jpg"
+     }
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": "Mở 10:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "4 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0103-click-settings-9.jpg"
+     }
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": "Đóng 18:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "5 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0104-click-settings-10.jpg"
+     }
+    },
+    {
+     "i": 11,
+     "role": "button",
+     "label": "Đóng 19:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "6 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0105-click-settings-11.jpg"
+     }
+    },
+    {
+     "i": 12,
+     "role": "button",
+     "label": "Đóng 20:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "7 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0106-click-settings-12.jpg"
+     }
+    },
+    {
+     "i": 13,
+     "role": "button",
+     "label": "Đóng 21:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "8 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0107-click-settings-13.jpg"
+     }
+    },
+    {
+     "i": 14,
+     "role": "button",
+     "label": "Đóng 22:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "9 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0108-click-settings-14.jpg"
+     }
+    },
+    {
+     "i": 15,
+     "role": "switch",
+     "label": "Mở cửa T3",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "actionError": "locator.fill: Error: Input of type \"checkbox\" cannot be filled",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "file": "shots/0109-click-settings-15.jpg"
+     }
+    },
+    {
+     "i": 16,
+     "role": "button",
+     "label": "Mở 07:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "10 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0110-click-settings-16.jpg"
+     }
+    },
+    {
+     "i": 17,
+     "role": "button",
+     "label": "Mở 08:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "11 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0111-click-settings-17.jpg"
+     }
+    },
+    {
+     "i": 18,
+     "role": "button",
+     "label": "Mở 09:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "12 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0112-click-settings-18.jpg"
+     }
+    },
+    {
+     "i": 19,
+     "role": "button",
+     "label": "Mở 10:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "13 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0113-click-settings-19.jpg"
+     }
+    },
+    {
+     "i": 20,
+     "role": "button",
+     "label": "Đóng 18:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "14 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0114-click-settings-20.jpg"
+     }
+    },
+    {
+     "i": 21,
+     "role": "button",
+     "label": "Đóng 19:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "15 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0115-click-settings-21.jpg"
+     }
+    },
+    {
+     "i": 22,
+     "role": "button",
+     "label": "Đóng 20:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "16 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0116-click-settings-22.jpg"
+     }
+    },
+    {
+     "i": 23,
+     "role": "button",
+     "label": "Đóng 21:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "17 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0117-click-settings-23.jpg"
+     }
+    },
+    {
+     "i": 24,
+     "role": "button",
+     "label": "Đóng 22:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "18 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0118-click-settings-24.jpg"
+     }
+    },
+    {
+     "i": 25,
+     "role": "switch",
+     "label": "Mở cửa T4",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "actionError": "locator.fill: Error: Input of type \"checkbox\" cannot be filled",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "file": "shots/0119-click-settings-25.jpg"
+     }
+    },
+    {
+     "i": 26,
+     "role": "button",
+     "label": "Mở 07:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "19 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0120-click-settings-26.jpg"
+     }
+    },
+    {
+     "i": 27,
+     "role": "button",
+     "label": "Mở 08:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "20 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0121-click-settings-27.jpg"
+     }
+    },
+    {
+     "i": 28,
+     "role": "button",
+     "label": "Mở 09:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "21 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0122-click-settings-28.jpg"
+     }
+    },
+    {
+     "i": 29,
+     "role": "button",
+     "label": "Mở 10:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "22 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0123-click-settings-29.jpg"
+     }
+    },
+    {
+     "i": 30,
+     "role": "button",
+     "label": "Đóng 18:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "23 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0124-click-settings-30.jpg"
+     }
+    },
+    {
+     "i": 31,
+     "role": "button",
+     "label": "Đóng 19:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "24 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0125-click-settings-31.jpg"
+     }
+    },
+    {
+     "i": 32,
+     "role": "button",
+     "label": "Đóng 20:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "25 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0126-click-settings-32.jpg"
+     }
+    },
+    {
+     "i": 33,
+     "role": "button",
+     "label": "Đóng 21:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "26 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0127-click-settings-33.jpg"
+     }
+    },
+    {
+     "i": 34,
+     "role": "button",
+     "label": "Đóng 22:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "27 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0128-click-settings-34.jpg"
+     }
+    },
+    {
+     "i": 35,
+     "role": "switch",
+     "label": "Mở cửa T5",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "actionError": "locator.fill: Error: Input of type \"checkbox\" cannot be filled",
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "lỗi thao tác",
+     "shot": {
+      "file": "shots/0129-click-settings-35.jpg"
+     }
+    },
+    {
+     "i": 36,
+     "role": "button",
+     "label": "Mở 07:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "28 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0130-click-settings-36.jpg"
+     }
+    },
+    {
+     "i": 37,
+     "role": "button",
+     "label": "Mở 08:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "29 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0131-click-settings-37.jpg"
+     }
+    },
+    {
+     "i": 38,
+     "role": "button",
+     "label": "Mở 09:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "30 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0132-click-settings-38.jpg"
+     }
+    },
+    {
+     "i": 39,
+     "role": "button",
+     "label": "Mở 10:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "31 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0133-click-settings-39.jpg"
+     }
+    },
+    {
+     "i": 40,
+     "role": "button",
+     "label": "Đóng 18:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "32 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0134-click-settings-40.jpg"
+     }
+    },
+    {
+     "i": 41,
+     "role": "button",
+     "label": "Đóng 19:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "33 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0135-click-settings-41.jpg"
+     }
+    },
+    {
+     "i": 42,
+     "role": "button",
+     "label": "Đóng 20:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "34 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0136-click-settings-42.jpg"
+     }
+    },
+    {
+     "i": 43,
+     "role": "button",
+     "label": "Đóng 21:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "35 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0137-click-settings-43.jpg"
+     }
+    },
+    {
+     "i": 44,
+     "role": "button",
+     "label": "Đóng 22:00",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "36 thay đổi chưa gửi lên máy chủ"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0138-click-settings-44.jpg"
+     }
+    }
+   ],
+   "landed": "/settings",
+   "redirected": false,
+   "textExcerpt": "\nCài đặt tiệm\nTHÔNG TIN TIỆM\nTên tiệm\nĐịa chỉ\n\nSĐT tiệm\nGIỜ MỞ CỬA\nCN\nT2\nMở 07:00\nMở 08:00\nMở 09:00\nMở 10:00\nĐóng 18:00\nĐóng 19:00\nĐóng 20:00\nĐóng 21:00\nĐóng 22:00\nT3\nMở 07:00\nMở 08:00\nMở 09:00\nMở 10:00\nĐóng 18:00\nĐóng 19:00\nĐóng 20:00\nĐóng 21:00\nĐóng 22:00\nT4\nMở 07:00\nMở 08:00\nMở 09:00\nMở 10:00\nĐóng 18:00\nĐóng 19:00\nĐóng 20:00\nĐóng 21:00\nĐóng 22:00\nT5\nMở 07:00\nMở 08:00\nMở 09:00\nMở 10:00\nĐóng 18:00\nĐóng 19:00\nĐóng 20:00\nĐóng 21:00\nĐóng 22:00\nT6\nMở 07:00\nMở 08:00\nMở 09:00\nMở 10:00\nĐóng 18:00\nĐóng 19:00\nĐóng 20:00\nĐóng 21:00\nĐóng 22:00\nT7\nMở 07:00\nMở 08:00\nMở 09:00\nMở 10:00\nĐóng 18:00\nĐóng 19:00\nĐóng 20:00\nĐóng 21:00\nĐóng 22:00\nKHÁCH TỰ ĐẶT LỊCH\nCho khách tự đặt qua link\nĐặt trước ít nhất\n\n1 giờ\n\nHủy trước\n\n2 giờ\n\nNghỉ giữa 2 khách\n\n10 phút\n\nBước giờ đặt\n15p\n30p\nNHẮC LỊCH & ĐÁNH GIÁ\nNhắc khách trước 24 giờ\nNhắc khách trước 2 giờ\nXin đánh giá sau khi xong\nYêu cầu cọc với khách từng bỏ hẹn\nKhách bỏ hẹn ≥ 2 lần phải cọc khi đặt qua link\nKHÁCH VIP\nTừ số lần\n\n5\n\nHoặc đã chi từ\n\n1,5 tr\n\nGIAO DIỆN\nTheo máy\nSáng\nTối\nDỮ LIỆU\nNạp dữ liệu mẫu\nXóa toàn bộ dữ liệu tiệm\nĐăng xuất\nHẹn Đẹp 0.1.0",
+   "shot": {
+    "file": "shots/0097-route-settings.png"
+   },
+   "loadErrors": [],
+   "elementCount": 88,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "",
+     "label": "Salon Mây",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "",
+     "label": "12 Lê Lợi, Q.1, TP.HCM",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "",
+     "label": "0901234567",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "switch",
+     "label": "Mở cửa CN",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "switch",
+     "label": "Mở cửa T2",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Mở 07:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "button",
+     "label": "Mở 08:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 8,
+     "role": "button",
+     "label": "Mở 09:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 9,
+     "role": "button",
+     "label": "Mở 10:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 10,
+     "role": "button",
+     "label": "Đóng 18:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 11,
+     "role": "button",
+     "label": "Đóng 19:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 12,
+     "role": "button",
+     "label": "Đóng 20:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 13,
+     "role": "button",
+     "label": "Đóng 21:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 14,
+     "role": "button",
+     "label": "Đóng 22:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 15,
+     "role": "switch",
+     "label": "Mở cửa T3",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 16,
+     "role": "button",
+     "label": "Mở 07:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 17,
+     "role": "button",
+     "label": "Mở 08:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 18,
+     "role": "button",
+     "label": "Mở 09:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 19,
+     "role": "button",
+     "label": "Mở 10:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 20,
+     "role": "button",
+     "label": "Đóng 18:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 21,
+     "role": "button",
+     "label": "Đóng 19:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 22,
+     "role": "button",
+     "label": "Đóng 20:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 23,
+     "role": "button",
+     "label": "Đóng 21:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 24,
+     "role": "button",
+     "label": "Đóng 22:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 25,
+     "role": "switch",
+     "label": "Mở cửa T4",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 26,
+     "role": "button",
+     "label": "Mở 07:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 27,
+     "role": "button",
+     "label": "Mở 08:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 28,
+     "role": "button",
+     "label": "Mở 09:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 29,
+     "role": "button",
+     "label": "Mở 10:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 30,
+     "role": "button",
+     "label": "Đóng 18:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 31,
+     "role": "button",
+     "label": "Đóng 19:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 32,
+     "role": "button",
+     "label": "Đóng 20:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 33,
+     "role": "button",
+     "label": "Đóng 21:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 34,
+     "role": "button",
+     "label": "Đóng 22:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 35,
+     "role": "switch",
+     "label": "Mở cửa T5",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 36,
+     "role": "button",
+     "label": "Mở 07:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 37,
+     "role": "button",
+     "label": "Mở 08:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 38,
+     "role": "button",
+     "label": "Mở 09:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 39,
+     "role": "button",
+     "label": "Mở 10:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 40,
+     "role": "button",
+     "label": "Đóng 18:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 41,
+     "role": "button",
+     "label": "Đóng 19:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 42,
+     "role": "button",
+     "label": "Đóng 20:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 43,
+     "role": "button",
+     "label": "Đóng 21:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 44,
+     "role": "button",
+     "label": "Đóng 22:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 45,
+     "role": "switch",
+     "label": "Mở cửa T6",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 46,
+     "role": "button",
+     "label": "Mở 07:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 47,
+     "role": "button",
+     "label": "Mở 08:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 48,
+     "role": "button",
+     "label": "Mở 09:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 49,
+     "role": "button",
+     "label": "Mở 10:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 50,
+     "role": "button",
+     "label": "Đóng 18:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 51,
+     "role": "button",
+     "label": "Đóng 19:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 52,
+     "role": "button",
+     "label": "Đóng 20:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 53,
+     "role": "button",
+     "label": "Đóng 21:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 54,
+     "role": "button",
+     "label": "Đóng 22:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 55,
+     "role": "switch",
+     "label": "Mở cửa T7",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 56,
+     "role": "button",
+     "label": "Mở 07:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 57,
+     "role": "button",
+     "label": "Mở 08:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 58,
+     "role": "button",
+     "label": "Mở 09:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 59,
+     "role": "button",
+     "label": "Mở 10:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 60,
+     "role": "button",
+     "label": "Đóng 18:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 61,
+     "role": "button",
+     "label": "Đóng 19:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 62,
+     "role": "button",
+     "label": "Đóng 20:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 63,
+     "role": "button",
+     "label": "Đóng 21:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 64,
+     "role": "button",
+     "label": "Đóng 22:00",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 65,
+     "role": "switch",
+     "label": "Khách tự đặt",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 66,
+     "role": "button",
+     "label": "Giảm",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 67,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 68,
+     "role": "button",
+     "label": "Giảm",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 69,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 70,
+     "role": "button",
+     "label": "Giảm",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 71,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 72,
+     "role": "tab",
+     "label": "15p",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 73,
+     "role": "tab",
+     "label": "30p",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 74,
+     "role": "switch",
+     "label": "Nhắc 24 giờ",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 75,
+     "role": "switch",
+     "label": "Nhắc 2 giờ",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 76,
+     "role": "switch",
+     "label": "Xin đánh giá",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 77,
+     "role": "switch",
+     "label": "Cọc chống bỏ hẹn",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 78,
+     "role": "button",
+     "label": "Giảm",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 79,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 80,
+     "role": "button",
+     "label": "Giảm",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 81,
+     "role": "button",
+     "label": "Tăng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 82,
+     "role": "tab",
+     "label": "Theo máy",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 83,
+     "role": "tab",
+     "label": "Sáng",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 84,
+     "role": "tab",
+     "label": "Tối",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 85,
+     "role": "button",
+     "label": "Nạp dữ liệu mẫu",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 86,
+     "role": "button",
+     "label": "Xóa toàn bộ dữ liệu tiệm",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 87,
+     "role": "button",
+     "label": "Đăng xuất",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "truncated": true,
+   "shotAfter": {
+    "file": "shots/0161-after-settings.png"
+   }
+  },
+  {
+   "route": "/staff",
+   "pattern": "/staff",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Thêm nhân viên",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Tên",
+      "SĐT (để đăng nhập)",
+      "Vai trò",
+      "Thợ",
+      "Phụ việc",
+      "Quản lý",
+      "Chủ tiệm",
+      "Bắt đầu ca",
+      "07:00",
+      "08:00",
+      "09:00",
+      "10:00"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0140-click-staff-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": " Sao chép",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Đã sao chép mã mời"
+     ],
+     "visualChange": true,
+     "errors": [
+      {
+       "type": "console.warning",
+       "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+     ],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0141-click-staff-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Thêm nhân viên",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Tên",
+      "SĐT (để đăng nhập)",
+      "Vai trò",
+      "Thợ",
+      "Phụ việc",
+      "Quản lý",
+      "Chủ tiệm",
+      "Bắt đầu ca",
+      "07:00",
+      "08:00",
+      "09:00",
+      "10:00"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "dup": "beb3d6d815ddea3b5fb5f3c9cb85a2ea"
+     }
+    }
+   ],
+   "landed": "/staff",
+   "redirected": false,
+   "textExcerpt": "\nNhân viên\n\nChưa có nhân viên\nThêm nhân viên\nMời thợ dùng app\nThợ đăng nhập bằng SĐT và mã mời — chỉ thấy lịch của mình và khách, không thấy doanh thu.\nSAL-4021\n\nSao chép\n",
+   "shot": {
+    "file": "shots/0139-route-staff.png"
+   },
+   "loadErrors": [],
+   "elementCount": 4,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Thêm nhân viên",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": " Sao chép",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Thêm nhân viên",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "204aea5bb32bb54c2355498fcaac7c9e"
+   }
+  },
+  {
+   "route": "/auth",
+   "pattern": "/auth",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "",
+     "label": "0912 345 678",
+     "input": true,
+     "disabled": false,
+     "value": "0901234567",
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0142-click-auth-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Nhận mã qua Zalo/SMS",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Số điện thoại chưa đúng"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0143-click-auth-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": " Tôi là nhân viên, có mã mời",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Mã mời 6 ký tự",
+      "Vào tiệm",
+      "Quay lại"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0144-click-auth-2.jpg"
+     }
+    }
+   ],
+   "landed": "/auth",
+   "redirected": false,
+   "textExcerpt": "\nHẹn Đẹp cho chủ tiệm\nLịch hẹn, nhắc khách, doanh thu — gọn trong điện thoại.\nSố điện thoại\nNhận mã qua Zalo/SMS\nhoặc\n\nTôi là nhân viên, có mã mời\nDùng thử miễn phí, không cần thẻ",
+   "shot": {
+    "dup": "ccf292f3c02a90a4b8a9041c1b23d4bb"
+   },
+   "loadErrors": [],
+   "elementCount": 3,
+   "elements": [
+    {
+     "i": 0,
+     "role": "",
+     "label": "0912 345 678",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Nhận mã qua Zalo/SMS",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": " Tôi là nhân viên, có mã mời",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "ccf292f3c02a90a4b8a9041c1b23d4bb"
+   }
+  },
+  {
+   "route": "/",
+   "pattern": "/",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Ngày trước",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Thứ Sáu, 30/10 · 0 lịch hẹn",
+      "Lịch T6, 30/10",
+      "Hôm nay"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "dup": "c78d278b11ec4182a384e92563c4abcb"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Ngày sau",
+     "input": false,
+     "disabled": false,
+     "added": [
+      "Chủ nhật, 1/11 · 0 lịch hẹn",
+      "Lịch CN, 1/11",
+      "Hôm nay"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "dup": "ea5533cd7c02fe52cef0a039afea257a"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Ngày",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Thêm thợ",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/staff",
+     "added": [
+      "Nhân viên",
+      "Chưa có nhân viên",
+      "Thêm nhân viên",
+      "Mời thợ dùng app",
+      "Thợ đăng nhập bằng SĐT và mã mời — chỉ thấy lịch của mình và khách, không thấy doanh thu.",
+      "SAL-4021",
+      "",
+      "Sao chép"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "56142d15732db3d4ad42a5dd42ba65d8"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Tạo lịch hẹn",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/booking/new?at=1793429304022",
+     "added": [
+      "",
+      "Tạo lịch hẹn",
+      "",
+      "Khách vãng lai (không cần SĐT)",
+      "DỊCH VỤ",
+      "THỢ",
+      "NGÀY · T7, 31/10",
+      "Hôm nay",
+      "CN, 1/11",
+      "T2, 2/11",
+      "T3, 3/11",
+      "T4, 4/11"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "file": "shots/0145-click-root-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "tab",
+     "label": "  Lịch",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 6,
+     "role": "tab",
+     "label": "  Khách",
+     "input": false,
+     "disabled": false,
+     "urlAfter": "/customers",
+     "added": [
+      "Khách hàng",
+      "",
+      "Tất cả",
+      "VIP",
+      "Lâu chưa đến",
+      "Khách mới",
+      "Sinh nhật tháng này",
+      "0 khách",
+      "Chưa có khách",
+      "Khách đặt qua link sẽ tự vào danh sách."
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "chuyển màn",
+     "shot": {
+      "dup": "ba9348dcb34c8eeb59ba133548c2cc52"
+     }
+    }
+   ],
+   "landed": "/calendar",
+   "redirected": true,
+   "textExcerpt": "Thứ Bảy, 31/10 · 0 lịch hẹn\nLịch hôm nay\n\n\nNgày\n\nChưa có thợ\nThêm thợ để bắt đầu nhận lịch.\nThêm thợ\n\n\n\nLịch\n\n\nKhách",
+   "shot": {
+    "dup": "8488f180f040c791c8e7f5473d42e582"
+   },
+   "loadErrors": [
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    }
+   ],
+   "elementCount": 7,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Ngày trước",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Ngày sau",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Ngày",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Thêm thợ",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Tạo lịch hẹn",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "tab",
+     "label": "  Lịch",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "tab",
+     "label": "  Khách",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "8488f180f040c791c8e7f5473d42e582"
+   }
+  },
+  {
+   "route": "/setup",
+   "pattern": "/setup",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "",
+     "label": "Ví dụ: Salon Mây",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "added": [
+      "Link đặt lịch: hendep.app/kiem-thu-qa"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0147-click-setup-0.jpg"
+     }
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Salon tóc",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0148-click-setup-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Nail",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0149-click-setup-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Spa",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0150-click-setup-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Barber",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0151-click-setup-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Studio",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0152-click-setup-5.jpg"
+     }
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Khác",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0153-click-setup-6.jpg"
+     }
+    },
+    {
+     "i": 7,
+     "role": "",
+     "label": "Số nhà, đường, quận",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0154-click-setup-7.jpg"
+     }
+    }
+   ],
+   "landed": "/setup",
+   "redirected": false,
+   "textExcerpt": "1/4\nTiệm của bạn\nTên tiệm\nLoại hình\nSalon tóc\nNail\nSpa\nBarber\nStudio\nKhác\nĐịa chỉ\n\nTiếp tục",
+   "shot": {
+    "file": "shots/0146-route-setup.png"
+   },
+   "loadErrors": [],
+   "elementCount": 8,
+   "elements": [
+    {
+     "i": 0,
+     "role": "",
+     "label": "Ví dụ: Salon Mây",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "button",
+     "label": "Salon tóc",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "button",
+     "label": "Nail",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "button",
+     "label": "Spa",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "button",
+     "label": "Barber",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Studio",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 6,
+     "role": "button",
+     "label": "Khác",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 7,
+     "role": "",
+     "label": "Số nhà, đường, quận",
+     "input": true,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "b5d289e5c02737e81b5e285da8373c84"
+   }
+  },
+  {
+   "route": "/customer/new",
+   "pattern": "/customer/[id]",
+   "clicks": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    },
+    {
+     "i": 1,
+     "role": "",
+     "label": "",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0156-click-customer_new-1.jpg"
+     }
+    },
+    {
+     "i": 2,
+     "role": "",
+     "label": "",
+     "input": true,
+     "disabled": false,
+     "value": "0901234567",
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0157-click-customer_new-2.jpg"
+     }
+    },
+    {
+     "i": 3,
+     "role": "",
+     "label": "24/12",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "added": [
+      "Nhập dạng ngày/tháng, ví dụ 24/12"
+     ],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "nội dung đổi",
+     "shot": {
+      "file": "shots/0158-click-customer_new-3.jpg"
+     }
+    },
+    {
+     "i": 4,
+     "role": "",
+     "label": "Ví dụ: da nhạy cảm, thích thợ Lan",
+     "input": true,
+     "disabled": false,
+     "value": "Kiểm thử QA",
+     "added": [],
+     "visualChange": true,
+     "errors": [],
+     "outcome": "giao diện đổi",
+     "shot": {
+      "file": "shots/0159-click-customer_new-4.jpg"
+     }
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Hủy",
+     "input": false,
+     "disabled": false,
+     "added": [],
+     "visualChange": false,
+     "errors": [],
+     "outcome": "không phản hồi"
+    }
+   ],
+   "landed": "/customer/new",
+   "redirected": false,
+   "textExcerpt": "\nThêm khách\nHọ tên\nSố điện thoại\nSinh nhật (ngày/tháng)\nGhi chú\nKhách đồng ý nhận tin ưu đãi\nLưu\nHủy",
+   "shot": {
+    "file": "shots/0155-route-customer_new.png"
+   },
+   "loadErrors": [],
+   "elementCount": 6,
+   "elements": [
+    {
+     "i": 0,
+     "role": "button",
+     "label": "Quay lại",
+     "input": false,
+     "disabled": false
+    },
+    {
+     "i": 1,
+     "role": "",
+     "label": "",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 2,
+     "role": "",
+     "label": "",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 3,
+     "role": "",
+     "label": "24/12",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 4,
+     "role": "",
+     "label": "Ví dụ: da nhạy cảm, thích thợ Lan",
+     "input": true,
+     "disabled": false
+    },
+    {
+     "i": 5,
+     "role": "button",
+     "label": "Hủy",
+     "input": false,
+     "disabled": false
+    }
+   ],
+   "shotAfter": {
+    "dup": "21f00bdbfe351f2e226dcc54f34692a3"
+   }
+  }
+ ],
+ "tablet": [
+  {
+   "route": "/calendar",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0162-fold-calendar.png"
+   },
+   "errors": [
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    }
+   ]
+  },
+  {
+   "route": "/customers",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0163-fold-customers.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/revenue",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0164-fold-revenue.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/shop",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0165-fold-shop.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/billing",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0166-fold-billing.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/booking/new",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0167-fold-booking_new.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/campaign-ai",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0168-fold-campaign_ai.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/campaign",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0169-fold-campaign.png"
+   },
+   "errors": [
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    }
+   ]
+  },
+  {
+   "route": "/link",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0170-fold-link.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/scan",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0171-fold-scan.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/services",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0172-fold-services.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/settings",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0173-fold-settings.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/staff",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0174-fold-staff.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/auth",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0175-fold-auth.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/",
+   "size": "fold",
+   "shot": {
+    "dup": "51793d06bc5868815b5446d36de4409e"
+   },
+   "errors": [
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    }
+   ]
+  },
+  {
+   "route": "/setup",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0176-fold-setup.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/customer/new",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0177-fold-customer_new.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/calendar",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0178-tablet-calendar.png"
+   },
+   "errors": [
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    }
+   ]
+  },
+  {
+   "route": "/customers",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0179-tablet-customers.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/revenue",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0180-tablet-revenue.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/shop",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0181-tablet-shop.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/billing",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0182-tablet-billing.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/booking/new",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0183-tablet-booking_new.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/campaign-ai",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0184-tablet-campaign_ai.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/campaign",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0185-tablet-campaign.png"
+   },
+   "errors": [
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    },
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    }
+   ]
+  },
+  {
+   "route": "/link",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0186-tablet-link.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/scan",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0187-tablet-scan.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/services",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0188-tablet-services.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/settings",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0189-tablet-settings.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/staff",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0190-tablet-staff.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/auth",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0191-tablet-auth.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/",
+   "size": "tablet",
+   "shot": {
+    "dup": "8de79e1e3465541ed410012116b86823"
+   },
+   "errors": [
+    {
+     "type": "requestfailed",
+     "text": "http://localhost:8080/ net::ERR_ABORTED"
+    }
+   ]
+  },
+  {
+   "route": "/setup",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0192-tablet-setup.png"
+   },
+   "errors": []
+  },
+  {
+   "route": "/customer/new",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0193-tablet-customer_new.png"
+   },
+   "errors": []
+  }
+ ],
+ "destructive": [
+  {
+   "route": "/billing",
+   "label": "Khôi phục giao dịch · Điều khoản",
+   "shot": {
+    "file": "shots/0194-destr-billing-5.jpg"
+   },
+   "shotAfter": {
+    "dup": "c77e5767bf5f0f2a520d0b5ed6de41f0"
+   },
+   "errors": [
+    {
+     "type": "console.warning",
+     "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+    }
+   ]
+  }
+ ],
+ "errorsGlobal": [],
+ "notVisited": [],
+ "dynamicNeverReached": [
+  "/booking/[id]"
+ ],
+ "finishedAt": "2026-10-31T06:49:46.569Z"
+}
