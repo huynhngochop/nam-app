@@ -93,7 +93,7 @@ await scenario(
     await expectText(p, /Điền sẵn vào văn khấn/);
     await p.getByPlaceholder('Ví dụ: Nguyễn Thị Lan').fill('Nguyễn Thị Lan');
     await p.getByPlaceholder('Số nhà, phường, tỉnh').fill('12 Lê Lợi, Quận 1, TP.HCM');
-    await p.getByPlaceholder('Ví dụ: Nguyễn').fill('Nguyễn');
+    await p.getByPlaceholder('Ví dụ: Nguyễn', { exact: true }).fill('Nguyễn');
     await click(p, /^Bắt đầu$/);
     s('điền tên, địa chỉ, họ');
     await expectText(p, /Lan/, 'tên "Lan" ở đầu Hôm nay');

@@ -73,7 +73,7 @@ rn+='}\n'
 open(d+'react-native.d.ts','w').write(rn)
 open(d+'vector-icons.d.ts','w').write(f'''declare module '@expo/vector-icons' {{
   export type FeatherGlyph = {union};
-  export function Feather(p: {{ name: FeatherGlyph; size?: number; color?: string; style?: any }}): any;
+  export function Feather(p: {{ name: FeatherGlyph; size?: number; color?: string; style?: any; [prop: string]: unknown }}): any;
   export namespace Feather {{ const glyphMap: Record<FeatherGlyph, number>; }}
   export const MaterialIcons: any;
   export const Ionicons: any;

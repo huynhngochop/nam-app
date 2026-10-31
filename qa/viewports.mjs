@@ -115,14 +115,39 @@ for (const scheme of ['light', 'dark']) {
             );
         }
         // chữ bị chồng lên nhau: hai khối chữ lá giao nhau đáng kể
+        // Chỉ tính phần thực sự nhìn thấy: cắt theo khung cuộn/khung ẩn của tổ tiên và theo màn hình.
+        // Bỏ chữ rỗng, ký tự biểu tượng (vùng Private Use của phông icon) và đoạn inline nằm trong cùng câu.
+        const clipRect = (e) => {
+          const r = e.getBoundingClientRect();
+          let x1 = Math.max(r.left, 0);
+          let y1 = Math.max(r.top, 0);
+          let x2 = Math.min(r.right, innerWidth);
+          let y2 = Math.min(r.bottom, innerHeight);
+          for (let p = e.parentElement; p && p !== document.body; p = p.parentElement) {
+            const s = getComputedStyle(p);
+            if (s.overflowX !== 'visible' || s.overflowY !== 'visible') {
+              const q = p.getBoundingClientRect();
+              x1 = Math.max(x1, q.left);
+              y1 = Math.max(y1, q.top);
+              x2 = Math.min(x2, q.right);
+              y2 = Math.min(y2, q.bottom);
+            }
+          }
+          return x2 - x1 > 2 && y2 - y1 > 2 ? { left: x1, top: y1, right: x2, bottom: y2, width: x2 - x1, height: y2 - y1 } : null;
+        };
+        const realText = (s) => s.replace(/[-\s]/g, '');
         const leaves = [...document.querySelectorAll('body *')]
-          .filter((e) => !e.children.length && (e.innerText || '').trim() && vis(e))
-          .slice(0, 400)
-          .map((e) => ({
-            t: e.innerText.trim().slice(0, 30),
-            r: e.getBoundingClientRect(),
-            z: getComputedStyle(e).position,
-          }));
+          .filter(
+            (e) =>
+              !e.children.length &&
+              realText(e.innerText || '') &&
+              vis(e) &&
+              getComputedStyle(e).display !== 'inline' &&
+              !e.closest('[aria-hidden="true"]'),
+          )
+          .slice(0, 500)
+          .map((e) => ({ t: e.innerText.trim().slice(0, 30), r: clipRect(e) }))
+          .filter((x) => x.r);
         const overlaps = [];
         for (let i = 0; i < leaves.length && overlaps.length < 5; i++)
           for (let j = i + 1; j < leaves.length && overlaps.length < 5; j++) {
@@ -203,4 +228,4 @@ fs.writeFileSync(
       )
       .join(''),
 );
-console.log(lines.slice(0, 60).join('\n'));
+console.log(lines.join('\n'));

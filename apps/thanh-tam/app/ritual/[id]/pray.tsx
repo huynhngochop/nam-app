@@ -9,7 +9,7 @@ import Animated, {
   useFrameCallback,
   useSharedValue,
 } from 'react-native-reanimated';
-import { useKeepAwake } from 'expo-keep-awake';
+import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import * as Speech from 'expo-speech';
 import { Icon, IconName, T, ttNight, useLayout } from '@nam/ui';
 import { track } from '@nam/core';
@@ -48,7 +48,15 @@ function Ctl({ icon, label, onPress, on }: { icon: IconName; label: string; onPr
 
 /** TT-10 · Chế độ khấn: nền tối ấm, chữ to, giữ màn sáng, tự cuộn chạy trên luồng giao diện, đọc to theo đoạn. */
 export default function Pray() {
-  useKeepAwake();
+  // Giữ màn sáng chỉ trong màn này. Trình duyệt có thể từ chối (Wake Lock) → bỏ qua, không văng lỗi.
+  useEffect(() => {
+    activateKeepAwakeAsync('pray').catch(() => {});
+    return () => {
+      Promise.resolve()
+        .then(() => deactivateKeepAwake('pray'))
+        .catch(() => {});
+    };
+  }, []);
   const L = useLayout();
   const { id, prayerId } = useLocalSearchParams<{ id: string; prayerId?: string }>();
   const data = usePrayer(id, prayerId);
