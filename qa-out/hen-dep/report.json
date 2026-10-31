@@ -1,0 +1,807 @@
+{
+ "app": "hen-dep",
+ "startedAt": "2026-10-31T06:15:26.495Z",
+ "firstRun": [
+  {
+   "step": 0,
+   "url": "/",
+   "shot": {
+    "file": "shots/0001-first-run-0.png"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "step": 1,
+   "url": "/",
+   "note": "không tìm thấy nút để đi tiếp",
+   "shot": {
+    "file": "shots/0002-first-run-1-stuck.png"
+   }
+  }
+ ],
+ "routes": [
+  {
+   "route": "/calendar",
+   "pattern": "/calendar",
+   "clicks": [],
+   "landed": "/calendar",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/customers",
+   "pattern": "/customers",
+   "clicks": [],
+   "landed": "/customers",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/revenue",
+   "pattern": "/revenue",
+   "clicks": [],
+   "landed": "/revenue",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/shop",
+   "pattern": "/shop",
+   "clicks": [],
+   "landed": "/shop",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/billing",
+   "pattern": "/billing",
+   "clicks": [],
+   "landed": "/billing",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/booking/new",
+   "pattern": "/booking/new",
+   "clicks": [],
+   "landed": "/booking/new",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/campaign-ai",
+   "pattern": "/campaign-ai",
+   "clicks": [],
+   "landed": "/campaign-ai",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/campaign",
+   "pattern": "/campaign",
+   "clicks": [],
+   "landed": "/campaign",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/link",
+   "pattern": "/link",
+   "clicks": [],
+   "landed": "/link",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/scan",
+   "pattern": "/scan",
+   "clicks": [],
+   "landed": "/scan",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/services",
+   "pattern": "/services",
+   "clicks": [],
+   "landed": "/services",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/settings",
+   "pattern": "/settings",
+   "clicks": [],
+   "landed": "/settings",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/staff",
+   "pattern": "/staff",
+   "clicks": [],
+   "landed": "/staff",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/auth",
+   "pattern": "/auth",
+   "clicks": [],
+   "landed": "/auth",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/",
+   "pattern": "/",
+   "clicks": [],
+   "landed": "/",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/setup",
+   "pattern": "/setup",
+   "clicks": [],
+   "landed": "/setup",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  }
+ ],
+ "tablet": [
+  {
+   "route": "/calendar",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0003-fold-calendar.png"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/customers",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/revenue",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/shop",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/billing",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/booking/new",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/campaign-ai",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/campaign",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/link",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/scan",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/services",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/settings",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/staff",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/auth",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/setup",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/calendar",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0004-tablet-calendar.png"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/customers",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/revenue",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/shop",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/billing",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/booking/new",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/campaign-ai",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/campaign",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/link",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/scan",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/services",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/settings",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/staff",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/auth",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/setup",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  }
+ ],
+ "destructive": [],
+ "errorsGlobal": [],
+ "notVisited": [],
+ "dynamicNeverReached": [
+  "/booking/[id]",
+  "/customer/[id]"
+ ],
+ "finishedAt": "2026-10-31T06:24:17.555Z"
+}

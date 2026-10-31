@@ -1,0 +1,662 @@
+{
+ "app": "nhip",
+ "startedAt": "2026-10-31T06:15:26.450Z",
+ "firstRun": [
+  {
+   "step": 0,
+   "url": "/",
+   "shot": {
+    "file": "shots/0001-first-run-0.png"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "step": 1,
+   "url": "/",
+   "note": "không tìm thấy nút để đi tiếp",
+   "shot": {
+    "file": "shots/0002-first-run-1-stuck.png"
+   }
+  }
+ ],
+ "routes": [
+  {
+   "route": "/me",
+   "pattern": "/me",
+   "clicks": [],
+   "landed": "/me",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/sounds",
+   "pattern": "/sounds",
+   "clicks": [],
+   "landed": "/sounds",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/stats",
+   "pattern": "/stats",
+   "clicks": [],
+   "landed": "/stats",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/timer",
+   "pattern": "/timer",
+   "clicks": [],
+   "landed": "/timer",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/done",
+   "pattern": "/done",
+   "clicks": [],
+   "landed": "/done",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/habits",
+   "pattern": "/habits",
+   "clicks": [],
+   "landed": "/habits",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/paywall",
+   "pattern": "/paywall",
+   "clicks": [],
+   "landed": "/paywall",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/session",
+   "pattern": "/session",
+   "clicks": [],
+   "landed": "/session",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/store",
+   "pattern": "/store",
+   "clicks": [],
+   "landed": "/store",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/tasks",
+   "pattern": "/tasks",
+   "clicks": [],
+   "landed": "/tasks",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/timer-settings",
+   "pattern": "/timer-settings",
+   "clicks": [],
+   "landed": "/timer-settings",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/",
+   "pattern": "/",
+   "clicks": [],
+   "landed": "/",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  },
+  {
+   "route": "/onboarding",
+   "pattern": "/onboarding",
+   "clicks": [],
+   "landed": "/onboarding",
+   "redirected": false,
+   "textExcerpt": "",
+   "shot": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   },
+   "loadErrors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ],
+   "elementCount": 0,
+   "elements": [],
+   "shotAfter": {
+    "dup": "3bb1c433bf72a0171149403b2c900e0d"
+   }
+  }
+ ],
+ "tablet": [
+  {
+   "route": "/me",
+   "size": "fold",
+   "shot": {
+    "file": "shots/0003-fold-me.png"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/sounds",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/stats",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/timer",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/done",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/habits",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/paywall",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/session",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/store",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/tasks",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/timer-settings",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/onboarding",
+   "size": "fold",
+   "shot": {
+    "dup": "e5e2752eeffe8dafd01c9ec08a7d85f6"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/me",
+   "size": "tablet",
+   "shot": {
+    "file": "shots/0004-tablet-me.png"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/sounds",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/stats",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/timer",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/done",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/habits",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/paywall",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/session",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/store",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/tasks",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/timer-settings",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  },
+  {
+   "route": "/onboarding",
+   "size": "tablet",
+   "shot": {
+    "dup": "c5880de44b316c8bd9d088f4a8a88f89"
+   },
+   "errors": [
+    {
+     "type": "pageerror",
+     "text": "SyntaxError: Cannot use 'import.meta' outside a module"
+    }
+   ]
+  }
+ ],
+ "destructive": [],
+ "errorsGlobal": [],
+ "notVisited": [],
+ "dynamicNeverReached": [
+  "/pack/[id]"
+ ],
+ "finishedAt": "2026-10-31T06:22:40.244Z"
+}
