@@ -1,0 +1,96 @@
+# Vòng kiểm thử tích hợp (IT) trên bản web với dữ liệu lớn như dùng thật.
+# Mỗi app: chép màn qa-seed (chỉ trong bản build này), export web, crawler tạo dữ liệu rồi bấm mọi màn, đo hiệu năng.
+# Kết quả (report.json, summary.md, ảnh chụp) được đẩy lên nhánh qa-results-it2.
+name: IT round (web, dữ liệu lớn)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [qa/it-round-2, fix/it-round-2]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: it-round
+  cancel-in-progress: true
+
+jobs:
+  crawl:
+    name: IT ${{ matrix.app }}
+    # Playwright 1.56 chưa hỗ trợ Ubuntu 26.04.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 170
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [meo-nha, nhip, hen-dep, vi-gon]
+    env:
+      A: node .github/scripts/annotate.mjs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+
+      - name: Chuẩn bị bản build QA (chỉ trong CI)
+        run: |
+          cp qa/seeds/${{ matrix.app }}.tsx apps/${{ matrix.app }}/app/qa-seed.tsx
+          # Hẹn Đẹp: cho phép mở màn qa-seed khi chưa đăng nhập (màn seed tự đăng nhập chủ tiệm).
+          sed -i "s/first !== 'auth'/first !== 'auth' \&\& first !== 'qa-seed'/" apps/hen-dep/src/access.ts
+          cat > apps/${{ matrix.app }}/metro.config.js <<'EOF'
+          const { getDefaultConfig } = require('expo/metro-config');
+          const config = getDefaultConfig(__dirname);
+          config.resolver.assetExts.push('wasm');
+          // Bản web: dùng "main" (CommonJS) để gói như zustand không mang import.meta vào bundle.
+          config.resolver.unstable_enablePackageExports = false;
+          module.exports = config;
+          EOF
+
+      - name: Export web
+        run: $A "export ${{ matrix.app }}" "cd apps/${{ matrix.app }} && npx expo export -p web --clear --output-dir dist-web 2>&1 | tail -25"
+
+      - name: Cài Playwright (ngoài monorepo)
+        run: |
+          mkdir -p /tmp/pw && cp qa/crawl.mjs /tmp/pw/
+          (cd /tmp/pw && npm init -y >/dev/null)
+          $A "playwright npm" "cd /tmp/pw && npm i --no-audit --no-fund playwright@1.56.1 2>&1 | tail -3"
+          $A "playwright browser" "cd /tmp/pw && npx playwright install --with-deps chromium 2>&1 | tail -3"
+
+      - name: Crawl với dữ liệu lớn
+        run: |
+          node qa/serve.mjs apps/${{ matrix.app }}/dist-web 8080 &
+          sleep 2
+          QA_SEED=1 QA_BUDGET_MIN=110 QA_MAX_CLICKS=45 $A "crawl ${{ matrix.app }}" node /tmp/pw/crawl.mjs ${{ matrix.app }} http://localhost:8080 qa-out/${{ matrix.app }}
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: it-${{ matrix.app }}
+          path: qa-out/${{ matrix.app }}
+          if-no-files-found: ignore
+
+  publish:
+    needs: crawl
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: results
+          pattern: it-*
+      - name: Đẩy lên nhánh qa-results-it2
+        run: |
+          mkdir -p /tmp/out
+          for a in meo-nha nhip hen-dep vi-gon; do
+            if [ -d "results/it-$a" ]; then cp -r "results/it-$a" "/tmp/out/$a"; fi
+          done
+          cd /tmp/out
+          git init -q -b qa-results-it2
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -qm "qa: kết quả IT round 2 (run ${{ github.run_id }})"
+          git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" qa-results-it2

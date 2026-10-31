@@ -12,15 +12,19 @@ import {
   ListItem,
   Row,
   Screen,
+  SearchField,
   SectionHeader,
   T,
   TextField,
   useTheme,
   useToast,
 } from '@nam/ui';
-import { getConfig, relativeTime, track, useOnline } from '@nam/core';
-import { customerStats, useHen } from '../src/store';
+import { fold, getConfig, relativeTime, track, useOnline } from '@nam/core';
+import { customerIndex, useHen } from '../src/store';
 import { templateVariants } from '../src/promo';
+
+/** Danh sách tự chọn chỉ vẽ chừng này dòng; tìm tên/SĐT để thấy khách khác (IT2). */
+const PICK_LIMIT = 100;
 
 type Aud = 'lapsed' | 'vip' | 'custom';
 
@@ -34,6 +38,7 @@ export default function Campaign() {
   const link = `hendep.app/${s.shop.slug}`;
   const [aud, setAud] = useState<Aud>('lapsed');
   const [picked, setPicked] = useState<string[]>([]);
+  const [q, setQ] = useState('');
   const [msg, setMsg] = useState(
     p.message ??
       templateVariants({
@@ -50,11 +55,12 @@ export default function Campaign() {
     if (p.message) setMsg(p.message);
   }, [p.message]);
 
+  const index = useMemo(() => customerIndex(s.bookings, s.services), [s.bookings, s.services]);
   const people = useMemo(() => {
     const now = Date.now();
     return s.customers
       .filter((cu) => cu.marketingConsent && cu.phone)
-      .map((cu) => ({ cu, st: customerStats(cu.id, s.bookings, s.services) }))
+      .map((cu) => ({ cu, st: index.get(cu.id) }))
       .filter(({ cu, st }) =>
         aud === 'custom'
           ? true
@@ -64,8 +70,24 @@ export default function Campaign() {
               ? now - st.lastAt > 45 * 86400000
               : now - cu.createdAt > 45 * 86400000,
       );
-  }, [s.customers, s.bookings, s.services, aud, s.shop.settings]);
-  const targets = aud === 'custom' ? people.filter((x) => picked.includes(x.cu.id)) : people;
+  }, [s.customers, index, aud, s.shop.settings]);
+  const pickedSet = useMemo(() => new Set(picked), [picked]);
+  const targets = aud === 'custom' ? people.filter((x) => pickedSet.has(x.cu.id)) : people;
+  const shown = useMemo(() => {
+    if (aud !== 'custom') return [];
+    const fq = fold(q.trim());
+    const digits = q.replace(/\D/g, '');
+    const hit = fq
+      ? people.filter(
+          ({ cu }) => fold(cu.name).includes(fq) || (digits.length >= 3 && (cu.phone ?? '').includes(digits)),
+        )
+      : people;
+    // Khách đã chọn luôn hiện trước, rồi tới khách đến gần đây nhất.
+    return [...hit].sort(
+      (a, b) =>
+        Number(pickedSet.has(b.cu.id)) - Number(pickedSet.has(a.cu.id)) || (b.st.lastAt ?? 0) - (a.st.lastAt ?? 0),
+    );
+  }, [aud, people, q, pickedSet]);
   const noConsent = s.customers.filter((x) => !x.marketingConsent).length;
   const missingLink = !msg.includes(link);
 
@@ -134,16 +156,17 @@ export default function Campaign() {
         <Chip label="Khách VIP" selected={aud === 'vip'} onPress={() => setAud('vip')} />
         <Chip label="Tự chọn" selected={aud === 'custom'} onPress={() => setAud('custom')} />
       </Chips>
+      {aud === 'custom' ? <SearchField value={q} onChangeText={setQ} placeholder="Tìm tên hoặc SĐT" /> : null}
       {aud === 'custom' ? (
-        people.map(({ cu, st }) => (
+        shown.slice(0, PICK_LIMIT).map(({ cu, st }) => (
           <ListItem
             key={cu.id}
             left={<Avatar name={cu.name} soft size={36} />}
             title={cu.name}
             subtitle={st.lastAt ? `Lần cuối ${relativeTime(st.lastAt)}` : 'Chưa đến lần nào'}
             right={
-              <T v="headline" color={picked.includes(cu.id) ? c.a : c.inkMuted}>
-                {picked.includes(cu.id) ? '✓' : '+'}
+              <T v="headline" color={pickedSet.has(cu.id) ? c.a : c.inkMuted}>
+                {pickedSet.has(cu.id) ? '✓' : '+'}
               </T>
             }
             onPress={() => setPicked((x) => (x.includes(cu.id) ? x.filter((y) => y !== cu.id) : [...x, cu.id]))}
@@ -152,6 +175,9 @@ export default function Campaign() {
       ) : (
         <T v="caption" muted>{`${targets.length} khách phù hợp`}</T>
       )}
+      {aud === 'custom' && shown.length > PICK_LIMIT ? (
+        <T v="caption" muted>{`Đang hiện ${PICK_LIMIT}/${shown.length} khách. Tìm tên hoặc SĐT để thấy khách khác.`}</T>
+      ) : null}
       {noConsent ? <T v="caption" muted>{`${noConsent} khách chưa đồng ý nhận tin — không gửi.`}</T> : null}
       <Row between>
         <T v="headline">Nội dung</T>

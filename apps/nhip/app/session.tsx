@@ -51,9 +51,10 @@ export default function SessionScreen() {
   // Giữ sáng màn hình nếu người dùng bật.
   useEffect(() => {
     if (!s.settings.keepAwake) return;
-    activateKeepAwakeAsync('nhip-session');
+    // Có thể bị từ chối (trình duyệt không cho, máy tiết kiệm pin): bỏ qua, phiên vẫn chạy.
+    activateKeepAwakeAsync('nhip-session').catch(() => {});
     return () => {
-      deactivateKeepAwake('nhip-session');
+      deactivateKeepAwake('nhip-session').catch(() => {});
     };
   }, [s.settings.keepAwake]);
   // Nhịp ghi mỗi 30 giây để khôi phục khi app bị tắt (NH-17).

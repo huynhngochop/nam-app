@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { createOutbox, kvStorage, uid } from '@nam/core';
+import { bigKvStorage, createOutbox, uid } from '@nam/core';
 import type { ThemePref } from '@nam/ui';
 import { nextBookingCode } from './codes';
 import { DEFAULT_SHOP, SEED_CUSTOMERS, SEED_SERVICES, SEED_STAFF, seedBookings } from './seed';
@@ -139,7 +139,8 @@ export const useHen = create<State>()(
     }),
     {
       name: 'hen-dep',
-      storage: kvStorage,
+      // Store lớn (hàng chục nghìn lịch hẹn): gom các lần ghi, xả khi app chuyển nền (IT3).
+      storage: bigKvStorage<unknown>(),
       partialize: ({ hydrated, ...rest }) => rest as never,
       onRehydrateStorage: () => () => useHen.setState({ hydrated: true }),
     },
@@ -167,6 +168,8 @@ export function customerStats(cId: string, bookings: Booking[], services: Servic
     history: mine.sort((a, b) => b.startAt - a.startAt),
   };
 }
+
+export { customerIndex, type CustomerSummary } from './customerIndex';
 
 /** Khung trống ≥ 60 phút trong 4 giờ tới của từng thợ (gợi ý gửi ưu đãi ở HD-C05). */
 export function findGap(
