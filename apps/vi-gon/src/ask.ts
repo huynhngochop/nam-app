@@ -7,13 +7,7 @@ import { Category, Fund } from './types';
  */
 export type Metric = 'sum' | 'count' | 'top' | 'change' | 'average' | 'fund_eta' | 'left';
 export type PeriodKey =
-  | 'this_month'
-  | 'last_month'
-  | 'this_week'
-  | 'today'
-  | 'yesterday'
-  | 'this_year'
-  | `month_${number}`;
+  'this_month' | 'last_month' | 'this_week' | 'today' | 'yesterday' | 'this_year' | `month_${number}`;
 export type Intent = {
   metric: Metric;
   kind: 'expense' | 'income';
