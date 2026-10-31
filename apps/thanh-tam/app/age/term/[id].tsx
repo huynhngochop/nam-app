@@ -9,15 +9,33 @@ import { SRC } from '../../../src/data/sources';
 export default function TermScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const t = termById(decodeURIComponent(id ?? ''));
-  if (!t) return <Screen><AppBar onBack={() => router.back()} /><EmptyState icon="star" title="Mục này đang được biên soạn" /></Screen>;
+  if (!t)
+    return (
+      <Screen>
+        <AppBar onBack={() => router.back()} />
+        <EmptyState icon="star" title="Mục này đang được biên soạn" />
+      </Screen>
+    );
   return (
     <Screen scroll>
       <AppBar onBack={() => router.back()} />
       <Badge label={t.kind} tone="accent" />
-      <T v="display" accessibilityRole="header">{t.title}</T>
-      {t.careful ? <Card variant="tint"><T v="body">Đây là quan niệm dân gian, không phải điều chắc chắn sẽ xảy ra.</T></Card> : null}
-      <T v="body" muted>{t.summary}</T>
-      <Layers folk={t.folk} practical={t.practical} advice={t.advice.length ? t.advice : ['Sống điều độ, giữ hòa khí trong nhà là đủ.']} />
+      <T v="display" accessibilityRole="header">
+        {t.title}
+      </T>
+      {t.careful ? (
+        <Card variant="tint">
+          <T v="body">Đây là quan niệm dân gian, không phải điều chắc chắn sẽ xảy ra.</T>
+        </Card>
+      ) : null}
+      <T v="body" muted>
+        {t.summary}
+      </T>
+      <Layers
+        folk={t.folk}
+        practical={t.practical}
+        advice={t.advice.length ? t.advice : ['Sống điều độ, giữ hòa khí trong nhà là đủ.']}
+      />
       {t.careful ? <Sources sources={[SRC.cv033]} /> : null}
     </Screen>
   );

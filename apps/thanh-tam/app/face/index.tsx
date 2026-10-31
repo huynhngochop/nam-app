@@ -10,16 +10,42 @@ export default function FaceIntro() {
   const { c } = useTheme();
   const face = useTT((s) => s.face);
   const setDraft = useSession((s) => s.set);
-  const start = () => { setDraft({ faceDraft: {} }); router.push('/face/step/0'); };
+  const start = () => {
+    setDraft({ faceDraft: {} });
+    router.push('/face/step/0');
+  };
   return (
-    <Screen scroll footer={<Button title={face ? 'Chọn lại từ đầu' : 'Bắt đầu'} variant={face ? 'secondary' : 'primary'} onPress={start} />}>
+    <Screen
+      scroll
+      footer={
+        <Button title={face ? 'Chọn lại từ đầu' : 'Bắt đầu'} variant={face ? 'secondary' : 'primary'} onPress={start} />
+      }
+    >
       <AppBar onBack={() => router.back()} title="Nhân tướng" large />
-      <T v="body" muted>Tự chọn nét mặt của chính mình qua {FACE_PARTS.length} bước. Thành Tâm tra theo nhân tướng học dân gian và ghép 3 nét tính cách nổi bật.</T>
+      <T v="body" muted>
+        Tự chọn nét mặt của chính mình qua {FACE_PARTS.length} bước. Thành Tâm tra theo nhân tướng học dân gian và ghép
+        3 nét tính cách nổi bật.
+      </T>
       {face ? (
-        <Card variant="tint" onPress={() => { setDraft({ faceDraft: face.answers }); router.push('/face/result?saved=1'); }} accessibilityLabel="Kết quả đã lưu">
-          <T v="micro" muted>Kết quả đã lưu</T>
-          <Row wrap gap={6}>{topTraits(face.answers).map((t) => <Badge key={t} label={t} tone="accent" />)}</Row>
-          <T v="caption" accent weight="semibold">Xem lại</T>
+        <Card
+          variant="tint"
+          onPress={() => {
+            setDraft({ faceDraft: face.answers });
+            router.push('/face/result?saved=1');
+          }}
+          accessibilityLabel="Kết quả đã lưu"
+        >
+          <T v="micro" muted>
+            Kết quả đã lưu
+          </T>
+          <Row wrap gap={6}>
+            {topTraits(face.answers).map((t) => (
+              <Badge key={t} label={t} tone="accent" />
+            ))}
+          </Row>
+          <T v="caption" accent weight="semibold">
+            Xem lại
+          </T>
         </Card>
       ) : null}
       <Card>
@@ -30,7 +56,9 @@ export default function FaceIntro() {
       </Card>
       <Card style={{ borderColor: c.line }}>
         <T v="body">{FACE_ADVICE}</T>
-        <T v="caption" muted>{FACE_DISCLAIMER}</T>
+        <T v="caption" muted>
+          {FACE_DISCLAIMER}
+        </T>
       </Card>
     </Screen>
   );

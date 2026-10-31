@@ -30,11 +30,18 @@ export function jdToDate(jd: number): { day: number; month: number; year: number
   const d = INT((4 * c + 3) / 1461);
   const e = c - INT((1461 * d) / 4);
   const m = INT((5 * e + 2) / 153);
-  return { day: e - INT((153 * m + 2) / 5) + 1, month: m + 3 - 12 * INT(m / 10), year: b * 100 + d - 4800 + INT(m / 10) };
+  return {
+    day: e - INT((153 * m + 2) / 5) + 1,
+    month: m + 3 - 12 * INT(m / 10),
+    year: b * 100 + d - 4800 + INT(m / 10),
+  };
 }
 
 function newMoon(k: number): number {
-  const T = k / 1236.85, T2 = T * T, T3 = T2 * T, dr = PI / 180;
+  const T = k / 1236.85,
+    T2 = T * T,
+    T3 = T2 * T,
+    dr = PI / 180;
   let Jd1 = 2415020.75933 + 29.53058868 * k + 0.0001178 * T2 - 0.000000155 * T3;
   Jd1 += 0.00033 * Math.sin((166.56 + 132.87 * T - 0.009173 * T2) * dr);
   const M = 359.2242 + 29.10535608 * k - 0.0000333 * T2 - 0.00000347 * T3;
@@ -46,10 +53,11 @@ function newMoon(k: number): number {
   C1 = C1 + 0.0104 * Math.sin(dr * 2 * F) - 0.0051 * Math.sin(dr * (M + Mpr));
   C1 = C1 - 0.0074 * Math.sin(dr * (M - Mpr)) + 0.0004 * Math.sin(dr * (2 * F + M));
   C1 = C1 - 0.0004 * Math.sin(dr * (2 * F - M)) - 0.0006 * Math.sin(dr * (2 * F + Mpr));
-  C1 = C1 + 0.0010 * Math.sin(dr * (2 * F - Mpr)) + 0.0005 * Math.sin(dr * (2 * Mpr + M));
-  const deltat = T < -11
-    ? 0.001 + 0.000839 * T + 0.0002261 * T2 - 0.00000845 * T3 - 0.000000081 * T * T3
-    : -0.000278 + 0.000265 * T + 0.000262 * T2;
+  C1 = C1 + 0.001 * Math.sin(dr * (2 * F - Mpr)) + 0.0005 * Math.sin(dr * (2 * Mpr + M));
+  const deltat =
+    T < -11
+      ? 0.001 + 0.000839 * T + 0.0002261 * T2 - 0.00000845 * T3 - 0.000000081 * T * T3
+      : -0.000278 + 0.000265 * T + 0.000262 * T2;
   return Jd1 + C1 - deltat;
 }
 
@@ -58,11 +66,13 @@ const newMoonDay = (k: number, tz = TZ) => INT(newMoon(k) + 0.5 + tz / 24);
 
 /** Kinh độ mặt trời theo cung 30° (0…11) tại đầu ngày jdn. */
 function sunLongitudeSector(jdn: number, tz = TZ): number {
-  const T = (jdn - 2451545.5 - tz / 24) / 36525, T2 = T * T, dr = PI / 180;
-  const M = 357.52910 + 35999.05030 * T - 0.0001559 * T2 - 0.00000048 * T * T2;
+  const T = (jdn - 2451545.5 - tz / 24) / 36525,
+    T2 = T * T,
+    dr = PI / 180;
+  const M = 357.5291 + 35999.0503 * T - 0.0001559 * T2 - 0.00000048 * T * T2;
   const L0 = 280.46645 + 36000.76983 * T + 0.0003032 * T2;
-  let DL = (1.914600 - 0.004817 * T - 0.000014 * T2) * Math.sin(dr * M);
-  DL += (0.019993 - 0.000101 * T) * Math.sin(dr * 2 * M) + 0.000290 * Math.sin(dr * 3 * M);
+  let DL = (1.9146 - 0.004817 * T - 0.000014 * T2) * Math.sin(dr * M);
+  DL += (0.019993 - 0.000101 * T) * Math.sin(dr * 2 * M) + 0.00029 * Math.sin(dr * 3 * M);
   let L = (L0 + DL) * dr;
   L = L - PI * 2 * INT(L / (PI * 2));
   return INT((L / PI) * 6);
@@ -97,8 +107,14 @@ export function solarToLunarAstro(dd: number, mm: number, yy: number, tz = TZ): 
   let monthStart = newMoonDay(k + 1, tz);
   if (monthStart > dayNumber) monthStart = newMoonDay(k, tz);
   // dò lại: ước lượng k có thể lệch một tháng ở vài ngày sát điểm sóc (8/5/2054, 9/4/2062…)
-  while (monthStart > dayNumber) { k -= 1; monthStart = newMoonDay(k, tz); }
-  while (newMoonDay(k + 1, tz) <= dayNumber && newMoonDay(k + 1, tz) > monthStart) { k += 1; monthStart = newMoonDay(k, tz); }
+  while (monthStart > dayNumber) {
+    k -= 1;
+    monthStart = newMoonDay(k, tz);
+  }
+  while (newMoonDay(k + 1, tz) <= dayNumber && newMoonDay(k + 1, tz) > monthStart) {
+    k += 1;
+    monthStart = newMoonDay(k, tz);
+  }
   let a11 = lunarMonth11(yy, tz);
   let b11 = a11;
   let lunarYear: number;
@@ -127,11 +143,14 @@ export function solarToLunarAstro(dd: number, mm: number, yy: number, tz = TZ): 
 
 /** Kinh độ mặt trời (độ, 0–360) tại thời điểm jd (số thực, giờ UT). Công thức rút gọn Meeus chương 25. */
 export function sunLongitudeDeg(jd: number): number {
-  const T = (jd - 2451545.0) / 36525, dr = PI / 180;
-  const M = 357.52910 + 35999.05030 * T - 0.0001559 * T * T;
+  const T = (jd - 2451545.0) / 36525,
+    dr = PI / 180;
+  const M = 357.5291 + 35999.0503 * T - 0.0001559 * T * T;
   const L0 = 280.46645 + 36000.76983 * T + 0.0003032 * T * T;
-  const C = (1.914600 - 0.004817 * T - 0.000014 * T * T) * Math.sin(dr * M)
-    + (0.019993 - 0.000101 * T) * Math.sin(dr * 2 * M) + 0.000290 * Math.sin(dr * 3 * M);
+  const C =
+    (1.9146 - 0.004817 * T - 0.000014 * T * T) * Math.sin(dr * M) +
+    (0.019993 - 0.000101 * T) * Math.sin(dr * 2 * M) +
+    0.00029 * Math.sin(dr * 3 * M);
   const omega = 125.04 - 1934.136 * T;
   const lambda = L0 + C - 0.00569 - 0.00478 * Math.sin(dr * omega);
   return ((lambda % 360) + 360) % 360;

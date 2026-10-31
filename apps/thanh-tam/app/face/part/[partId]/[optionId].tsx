@@ -9,15 +9,35 @@ export default function FacePart() {
   const { partId, optionId } = useLocalSearchParams<{ partId: string; optionId: string }>();
   const part = FACE_PARTS.find((p) => p.id === partId);
   const o = optionOf(partId, optionId);
-  if (!part || !o) return <Screen><AppBar onBack={() => router.back()} /><EmptyState icon="smile" title="Không tìm thấy mục này" /></Screen>;
+  if (!part || !o)
+    return (
+      <Screen>
+        <AppBar onBack={() => router.back()} />
+        <EmptyState icon="smile" title="Không tìm thấy mục này" />
+      </Screen>
+    );
   return (
     <Screen scroll>
       <AppBar onBack={() => router.back()} />
-      <T v="micro" muted>{part.name}</T>
-      <T v="display" accessibilityRole="header">{o.label}</T>
-      <Row wrap gap={6}>{o.traits.map((t) => <Badge key={t} label={t} tone="accent" />)}</Row>
-      <T v="body" muted>{o.summary}</T>
-      <Layers folk={o.folk ?? o.summary} practical={FACE_REAL} advice={[FACE_ADVICE, 'Hỏi người thân xem họ thấy điểm mạnh nào ở mình.']} />
+      <T v="micro" muted>
+        {part.name}
+      </T>
+      <T v="display" accessibilityRole="header">
+        {o.label}
+      </T>
+      <Row wrap gap={6}>
+        {o.traits.map((t) => (
+          <Badge key={t} label={t} tone="accent" />
+        ))}
+      </Row>
+      <T v="body" muted>
+        {o.summary}
+      </T>
+      <Layers
+        folk={o.folk ?? o.summary}
+        practical={FACE_REAL}
+        advice={[FACE_ADVICE, 'Hỏi người thân xem họ thấy điểm mạnh nào ở mình.']}
+      />
     </Screen>
   );
 }

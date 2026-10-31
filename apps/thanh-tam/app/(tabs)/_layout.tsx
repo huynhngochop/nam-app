@@ -7,10 +7,34 @@ export default function TabsLayout() {
   const opts = useAdaptiveTabOptions();
   return (
     <Tabs screenOptions={opts}>
-      <Tabs.Screen name="today" options={{ title: 'Hôm nay', tabBarIcon: ({ color }: { color: string }) => <Icon name="home" color={color} size={22} /> }} />
-      <Tabs.Screen name="rituals" options={{ title: 'Bài cúng', tabBarIcon: ({ color }: { color: string }) => <Icon name="book-open" color={color} size={22} /> }} />
-      <Tabs.Screen name="calendar" options={{ title: 'Lịch', tabBarIcon: ({ color }: { color: string }) => <Icon name="calendar" color={color} size={22} /> }} />
-      <Tabs.Screen name="explore" options={{ title: 'Tra cứu', tabBarIcon: ({ color }: { color: string }) => <Icon name="compass" color={color} size={22} /> }} />
+      <Tabs.Screen
+        name="today"
+        options={{
+          title: 'Hôm nay',
+          tabBarIcon: ({ color }: { color: string }) => <Icon name="home" color={color} size={22} />,
+        }}
+      />
+      <Tabs.Screen
+        name="rituals"
+        options={{
+          title: 'Bài cúng',
+          tabBarIcon: ({ color }: { color: string }) => <Icon name="book-open" color={color} size={22} />,
+        }}
+      />
+      <Tabs.Screen
+        name="calendar"
+        options={{
+          title: 'Lịch',
+          tabBarIcon: ({ color }: { color: string }) => <Icon name="calendar" color={color} size={22} />,
+        }}
+      />
+      <Tabs.Screen
+        name="explore"
+        options={{
+          title: 'Tra cứu',
+          tabBarIcon: ({ color }: { color: string }) => <Icon name="compass" color={color} size={22} />,
+        }}
+      />
     </Tabs>
   );
 }

@@ -1,6 +1,13 @@
 import { jdFromDate, jdToDate, solarTermDay, solarToLunarAstro } from './astro';
 
-export type LunarTable = { firstMonthJd: number; firstYear: number; monthBits: string; monthCount: number; leapMonths: string; thanhMinh: string };
+export type LunarTable = {
+  firstMonthJd: number;
+  firstYear: number;
+  monthBits: string;
+  monthCount: number;
+  leapMonths: string;
+  thanhMinh: string;
+};
 
 /** Ngày Thanh minh (tháng 4 dương) của từng năm, 2 chữ số mỗi năm. */
 export function buildThanhMinh(fromYear = 1900, toYear = 2100): string {
@@ -26,7 +33,7 @@ export function buildLunarTable(fromYear = 1900, toYear = 2100): LunarTable {
   let start = jd;
   let cur = solarToLunarAstro(...ymd(jd));
   jd++;
-  for (;; jd++) {
+  for (; ; jd++) {
     const l = solarToLunarAstro(...ymd(jd));
     if (l.day === 1) {
       lengths.push(jd - start);
@@ -44,7 +51,14 @@ export function buildLunarTable(fromYear = 1900, toYear = 2100): LunarTable {
   }
   let leapMonths = '';
   for (let y = fromYear; y <= toYear + 1; y++) leapMonths += (leap[y] ?? 0).toString(16);
-  return { firstMonthJd, firstYear: fromYear, monthBits, monthCount: lengths.length, leapMonths, thanhMinh: buildThanhMinh(fromYear, toYear) };
+  return {
+    firstMonthJd,
+    firstYear: fromYear,
+    monthBits,
+    monthCount: lengths.length,
+    leapMonths,
+    thanhMinh: buildThanhMinh(fromYear, toYear),
+  };
 }
 
 function ymd(jd: number): [number, number, number] {

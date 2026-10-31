@@ -67,7 +67,9 @@ for (const scheme of ['light', 'dark']) {
     for (const [key, route] of ROUTES) {
       errs = [];
       const t0 = Date.now();
-      await page.goto(base + route, { waitUntil: 'domcontentloaded', timeout: 60000 }).catch((e) => errs.push(String(e)));
+      await page
+        .goto(base + route, { waitUntil: 'domcontentloaded', timeout: 60000 })
+        .catch((e) => errs.push(String(e)));
       // chờ nội dung ổn định
       let prev = '';
       for (let i = 0; i < 20; i++) {
@@ -96,20 +98,31 @@ for (const scheme of ['light', 'dark']) {
           if (!e.children.length && vis(e)) {
             const r = e.getBoundingClientRect();
             if ((r.right > W + 1 || r.left < -1) && !scrollsX(e))
-              outside.push(`${(e.innerText || e.getAttribute('aria-label') || e.tagName).slice(0, 40)} [${Math.round(r.left)}–${Math.round(r.right)}]`);
+              outside.push(
+                `${(e.innerText || e.getAttribute('aria-label') || e.tagName).slice(0, 40)} [${Math.round(r.left)}–${Math.round(r.right)}]`,
+              );
           }
         }
         const small = [];
-        for (const e of document.querySelectorAll('[role=button],[role=link],[role=checkbox],[role=radio],[role=switch],[role=tab],input,button,a[href]')) {
+        for (const e of document.querySelectorAll(
+          '[role=button],[role=link],[role=checkbox],[role=radio],[role=switch],[role=tab],input,button,a[href]',
+        )) {
           if (!vis(e)) continue;
           const r = e.getBoundingClientRect();
-          if (r.width < 32 || r.height < 32) small.push(`${(e.getAttribute('aria-label') || e.innerText || e.tagName).slice(0, 30)} ${Math.round(r.width)}×${Math.round(r.height)}`);
+          if (r.width < 32 || r.height < 32)
+            small.push(
+              `${(e.getAttribute('aria-label') || e.innerText || e.tagName).slice(0, 30)} ${Math.round(r.width)}×${Math.round(r.height)}`,
+            );
         }
         // chữ bị chồng lên nhau: hai khối chữ lá giao nhau đáng kể
         const leaves = [...document.querySelectorAll('body *')]
           .filter((e) => !e.children.length && (e.innerText || '').trim() && vis(e))
           .slice(0, 400)
-          .map((e) => ({ t: e.innerText.trim().slice(0, 30), r: e.getBoundingClientRect(), z: getComputedStyle(e).position }));
+          .map((e) => ({
+            t: e.innerText.trim().slice(0, 30),
+            r: e.getBoundingClientRect(),
+            z: getComputedStyle(e).position,
+          }));
         const overlaps = [];
         for (let i = 0; i < leaves.length && overlaps.length < 5; i++)
           for (let j = i + 1; j < leaves.length && overlaps.length < 5; j++) {
@@ -140,7 +153,21 @@ for (const scheme of ['light', 'dark']) {
       if (m.outsideN) issues.push(`${m.outsideN} phần tử ra ngoài màn: ${m.outside.join('; ')}`);
       if (m.textLen < 15) issues.push('màn trắng');
       if (m.overlaps.length) issues.push(`chữ chồng nhau: ${m.overlaps.join('; ')}`);
-      report.results.push({ scheme, profile: pid, label, w, h, key, route, landed: m.url, loadMs, file, errors: errs, ...m, issues });
+      report.results.push({
+        scheme,
+        profile: pid,
+        label,
+        w,
+        h,
+        key,
+        route,
+        landed: m.url,
+        loadMs,
+        file,
+        errors: errs,
+        ...m,
+        issues,
+      });
       console.log(`${scheme} ${pid} ${key}: ${issues.length ? issues.join(' | ') : 'ok'} (${loadMs} ms)`);
     }
   }
@@ -159,7 +186,9 @@ const lines = [
   ...bad.map((r) => `- ${r.scheme} · ${r.profile} (${r.w}×${r.h}) · ${r.key}: ${r.issues.join(' | ')}`),
   '',
   '## Vùng chạm < 32px (theo màn, cỡ iphone-16)',
-  ...report.results.filter((r) => r.profile === 'iphone-16' && r.scheme === 'light' && r.smallN).map((r) => `- ${r.key}: ${r.smallN} (${r.small.join('; ')})`),
+  ...report.results
+    .filter((r) => r.profile === 'iphone-16' && r.scheme === 'light' && r.smallN)
+    .map((r) => `- ${r.key}: ${r.smallN} (${r.small.join('; ')})`),
 ];
 fs.writeFileSync(path.join(outDir, 'summary.md'), lines.join('\n') + '\n');
 const byProfile = {};

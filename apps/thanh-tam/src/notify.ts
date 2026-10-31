@@ -7,7 +7,12 @@ import { planNotifications } from './lib/schedule';
 import { useTT } from './store';
 
 Notifications.setNotificationHandler({
-  handleNotification: async () => ({ shouldShowBanner: true, shouldShowList: true, shouldPlaySound: false, shouldSetBadge: false }),
+  handleNotification: async () => ({
+    shouldShowBanner: true,
+    shouldShowList: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
 });
 
 export async function requestNotify(): Promise<boolean> {
@@ -28,11 +33,23 @@ export async function rescheduleAll() {
   const perm = await Notifications.getPermissionsAsync();
   if (!perm.granted) return;
   if (Platform.OS === 'android') {
-    await Notifications.setNotificationChannelAsync('lich', { name: 'Nhắc lịch cúng', importance: Notifications.AndroidImportance.DEFAULT });
+    await Notifications.setNotificationChannelAsync('lich', {
+      name: 'Nhắc lịch cúng',
+      importance: Notifications.AndroidImportance.DEFAULT,
+    });
   }
   const existing = await Notifications.getAllScheduledNotificationsAsync();
-  await Promise.all(existing.filter((n: { identifier: string }) => n.identifier.startsWith(PREFIX)).map((n: { identifier: string }) => Notifications.cancelScheduledNotificationAsync(n.identifier)));
-  const plan = planNotifications(new Date(), { ...s.remind, mung10: s.remind.mung10 && s.household.altars.includes('than-tai') }, RITUALS, s.anniversaries);
+  await Promise.all(
+    existing
+      .filter((n: { identifier: string }) => n.identifier.startsWith(PREFIX))
+      .map((n: { identifier: string }) => Notifications.cancelScheduledNotificationAsync(n.identifier)),
+  );
+  const plan = planNotifications(
+    new Date(),
+    { ...s.remind, mung10: s.remind.mung10 && s.household.altars.includes('than-tai') },
+    RITUALS,
+    s.anniversaries,
+  );
   for (const n of plan) {
     await Notifications.scheduleNotificationAsync({
       identifier: `${PREFIX}${n.id}`,
@@ -48,7 +65,11 @@ export async function remindTakedown(minutes: number) {
   await Notifications.scheduleNotificationAsync({
     identifier: 'takedown',
     content: { title: 'Hương đã cháy gần hết', body: 'Có thể vái xin hạ lễ.' },
-    trigger: { type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL, seconds: minutes * 60, channelId: 'lich' },
+    trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+      seconds: minutes * 60,
+      channelId: 'lich',
+    },
   });
   return true;
 }
@@ -57,7 +78,9 @@ export function useNotifications() {
   const remind = useTT((s) => s.remind);
   const anniversaries = useTT((s) => s.anniversaries);
   const altars = useTT((s) => s.household.altars);
-  useEffect(() => { rescheduleAll().catch(() => {}); }, [remind, anniversaries, altars]);
+  useEffect(() => {
+    rescheduleAll().catch(() => {});
+  }, [remind, anniversaries, altars]);
   useEffect(() => {
     // mở lại app (có thể đã đổi ngày, đổi múi giờ) → lên lịch lại
     let tz = new Date().getTimezoneOffset();
@@ -67,10 +90,15 @@ export function useNotifications() {
       if (now !== tz) tz = now;
       rescheduleAll().catch(() => {});
     });
-    const tap = Notifications.addNotificationResponseReceivedListener((r: { notification: { request: { content: { data?: { url?: unknown } } } } }) => {
-      const url = r.notification.request.content.data?.url;
-      if (typeof url === 'string') router.push(url as never);
-    });
-    return () => { sub.remove(); tap.remove(); };
+    const tap = Notifications.addNotificationResponseReceivedListener(
+      (r: { notification: { request: { content: { data?: { url?: unknown } } } } }) => {
+        const url = r.notification.request.content.data?.url;
+        if (typeof url === 'string') router.push(url as never);
+      },
+    );
+    return () => {
+      sub.remove();
+      tap.remove();
+    };
   }, []);
 }

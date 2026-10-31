@@ -13,18 +13,25 @@ let ROWS: MonthRow[] | null = null;
 function rows(): MonthRow[] {
   if (ROWS) return ROWS;
   const out: MonthRow[] = [];
-  let start = FIRST_MONTH_JD, year = FIRST_LUNAR_YEAR, month = 1, leap = false;
+  let start = FIRST_MONTH_JD,
+    year = FIRST_LUNAR_YEAR,
+    month = 1,
+    leap = false;
   for (let i = 0; i < MONTH_COUNT; i++) {
     const nib = parseInt(MONTH_BITS[i >> 2], 16);
     const len = (nib >> (3 - (i & 3))) & 1 ? 30 : 29;
     out.push({ start, len, month, year, leap });
     start += len;
     // tháng kế tiếp
-    if (!leap && leapOf(year) === month) { leap = true; }
-    else {
+    if (!leap && leapOf(year) === month) {
+      leap = true;
+    } else {
       leap = false;
       month += 1;
-      if (month > 12) { month = 1; year += 1; }
+      if (month > 12) {
+        month = 1;
+        year += 1;
+      }
     }
   }
   ROWS = out;
@@ -39,15 +46,21 @@ export function leapOf(lunarYear: number): number {
 }
 
 export const RANGE = { from: { day: 31, month: 1, year: 1900 }, to: { day: 31, month: 12, year: 2100 } };
-export class OutOfRangeError extends Error { constructor() { super('Ngày ngoài phạm vi 1900–2100'); } }
+export class OutOfRangeError extends Error {
+  constructor() {
+    super('Ngày ngoài phạm vi 1900–2100');
+  }
+}
 
 function rowIndexForJd(jd: number): number {
   const r = rows();
-  let lo = 0, hi = r.length - 1;
+  let lo = 0,
+    hi = r.length - 1;
   if (jd < r[0].start || jd >= r[hi].start + r[hi].len) throw new OutOfRangeError();
   while (lo < hi) {
     const mid = (lo + hi + 1) >> 1;
-    if (r[mid].start <= jd) lo = mid; else hi = mid - 1;
+    if (r[mid].start <= jd) lo = mid;
+    else hi = mid - 1;
   }
   return lo;
 }
@@ -57,7 +70,9 @@ export function solarToLunar(day: number, month: number, year: number): LunarDat
   const r = rows()[rowIndexForJd(jd)];
   return { day: jd - r.start + 1, month: r.month, year: r.year, leap: r.leap };
 }
-export function lunarOf(d: Date): LunarDate { return solarToLunar(d.getDate(), d.getMonth() + 1, d.getFullYear()); }
+export function lunarOf(d: Date): LunarDate {
+  return solarToLunar(d.getDate(), d.getMonth() + 1, d.getFullYear());
+}
 
 function findRow(year: number, month: number, leap: boolean): MonthRow | undefined {
   const r = rows();
@@ -86,7 +101,9 @@ export function lunarToSolar(day: number, month: number, year: number, leap = fa
 }
 
 /** Ngày dương của mùng 1 Tết năm âm. */
-export function tetOf(lunarYear: number): Date { return lunarToSolar(1, 1, lunarYear)!; }
+export function tetOf(lunarYear: number): Date {
+  return lunarToSolar(1, 1, lunarYear)!;
+}
 
 /* ---------------------------------------------------------------- can chi */
 export const CAN = ['Giáp', 'Ất', 'Bính', 'Đinh', 'Mậu', 'Kỷ', 'Canh', 'Tân', 'Nhâm', 'Quý'];
@@ -100,16 +117,23 @@ export function canChiDay(d: Date): string {
 }
 export const chiIndexOfDay = (d: Date) => (jdFromDate(d.getDate(), d.getMonth() + 1, d.getFullYear()) + 1) % 12;
 /** Can chi tháng âm (tháng nhuận dùng can chi của tháng thường cùng số). */
-export const canChiMonth = (month: number, year: number) => `${CAN[(year * 12 + month + 3) % 10]} ${CHI[(month + 1) % 12]}`;
+export const canChiMonth = (month: number, year: number) =>
+  `${CAN[(year * 12 + month + 3) % 10]} ${CHI[(month + 1) % 12]}`;
 
 /* ---------------------------------------------------------------- giờ hoàng đạo */
 const HOANG_DAO: number[][] = [
-  [0, 1, 3, 6, 8, 9], [2, 3, 5, 8, 10, 11], [0, 1, 4, 5, 7, 10], [0, 2, 3, 6, 7, 9], [2, 4, 5, 8, 9, 11], [1, 4, 6, 7, 10, 11],
+  [0, 1, 3, 6, 8, 9],
+  [2, 3, 5, 8, 10, 11],
+  [0, 1, 4, 5, 7, 10],
+  [0, 2, 3, 6, 7, 9],
+  [2, 4, 5, 8, 9, 11],
+  [1, 4, 6, 7, 10, 11],
 ];
 /** 6 giờ hoàng đạo của ngày, dạng "Sửu 1–3". Giờ Tý = 23–1. */
 export function hoangDaoHours(d: Date): { chi: string; from: number; to: number; label: string }[] {
   return HOANG_DAO[chiIndexOfDay(d) % 6].map((i) => {
-    const from = (i * 2 + 23) % 24, to = (from + 2) % 24;
+    const from = (i * 2 + 23) % 24,
+      to = (from + 2) % 24;
     return { chi: CHI[i], from, to, label: `${CHI[i]} ${from}–${to}` };
   });
 }
@@ -124,7 +148,8 @@ export function lunarDayWords(d: number): string {
   if (d >= 1 && d <= 10) return `mùng ${DAY_1_10[d - 1]}`;
   if (d === 15) return 'Rằm';
   if (d < 20) return `mười ${d === 15 ? 'lăm' : DIGIT[d - 10]}`;
-  const tens = Math.floor(d / 10), unit = d % 10;
+  const tens = Math.floor(d / 10),
+    unit = d % 10;
   const head = `${DIGIT[tens]} mươi`;
   if (unit === 0) return head;
   const tail = unit === 1 ? 'mốt' : unit === 4 ? 'tư' : unit === 5 ? 'lăm' : DIGIT[unit];

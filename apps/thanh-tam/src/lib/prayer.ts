@@ -7,12 +7,28 @@ export type Paragraph = { segments: Segment[]; repeat?: number };
 export type FieldValues = Partial<Record<PrayerField, string>>;
 
 export const FIELD_LABEL: Record<PrayerField, string> = {
-  tinChu: 'Tín chủ', diaChi: 'Địa chỉ', hoGiaTien: 'Họ gia tiên', ngayAm: 'Ngày âm', thangAm: 'Tháng âm', namCanChi: 'Năm',
-  tenNguoiMat: 'Tên người đã khuất', quanHe: 'Là gì của mình', tenCuaHang: 'Tên cửa hàng', tenEmBe: 'Tên bé',
+  tinChu: 'Tín chủ',
+  diaChi: 'Địa chỉ',
+  hoGiaTien: 'Họ gia tiên',
+  ngayAm: 'Ngày âm',
+  thangAm: 'Tháng âm',
+  namCanChi: 'Năm',
+  tenNguoiMat: 'Tên người đã khuất',
+  quanHe: 'Là gì của mình',
+  tenCuaHang: 'Tên cửa hàng',
+  tenEmBe: 'Tên bé',
 };
 export const FIELD_FALLBACK: Record<PrayerField, string> = {
-  tinChu: '(tên gia chủ)', diaChi: '(địa chỉ)', hoGiaTien: '(họ)', ngayAm: '(ngày)', thangAm: '(tháng)', namCanChi: '(năm)',
-  tenNguoiMat: '(tên người đã khuất)', quanHe: '(ông/bà…)', tenCuaHang: '(tên cửa hàng)', tenEmBe: '(tên bé)',
+  tinChu: '(tên gia chủ)',
+  diaChi: '(địa chỉ)',
+  hoGiaTien: '(họ)',
+  ngayAm: '(ngày)',
+  thangAm: '(tháng)',
+  namCanChi: '(năm)',
+  tenNguoiMat: '(tên người đã khuất)',
+  quanHe: '(ông/bà…)',
+  tenCuaHang: '(tên cửa hàng)',
+  tenEmBe: '(tên bé)',
 };
 
 /** Ngày tháng năm âm bằng chữ theo ngày cúng. */
@@ -26,10 +42,14 @@ export function buildPrayer(body: string, values: FieldValues): Paragraph[] {
     let line = raw.trim();
     let repeat: number | undefined;
     const m = line.match(/\s*\[x(\d+)\]\s*$/);
-    if (m) { repeat = Number(m[1]); line = line.slice(0, m.index).trim(); }
+    if (m) {
+      repeat = Number(m[1]);
+      line = line.slice(0, m.index).trim();
+    }
     const segments: Segment[] = [];
     const re = /\{(\w+)\}/g;
-    let last = 0, mm: RegExpExecArray | null;
+    let last = 0,
+      mm: RegExpExecArray | null;
     while ((mm = re.exec(line))) {
       if (mm.index > last) segments.push({ text: line.slice(last, mm.index) });
       const f = mm[1] as PrayerField;
@@ -67,4 +87,5 @@ export function skipEmpty(paras: Paragraph[]): Paragraph[] {
   });
 }
 
-export const plainText = (p: Paragraph) => p.segments.map((s) => s.text).join('') + (p.repeat ? ` (${p.repeat} lần)` : '');
+export const plainText = (p: Paragraph) =>
+  p.segments.map((s) => s.text).join('') + (p.repeat ? ` (${p.repeat} lần)` : '');

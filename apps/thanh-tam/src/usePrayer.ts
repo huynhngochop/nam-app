@@ -18,7 +18,13 @@ export function usePrayer(ritualId: string, prayerId?: string) {
   const prayDate = prayDateMs ? new Date(prayDateMs) : today;
   return useMemo(() => {
     if (!r || !p) return null;
-    const values: FieldValues = { tinChu: hh.tinChu, diaChi: hh.diaChi, hoGiaTien: hh.hoGiaTien, ...dateFields(prayDate), ...extra };
+    const values: FieldValues = {
+      tinChu: hh.tinChu,
+      diaChi: hh.diaChi,
+      hoGiaTien: hh.hoGiaTien,
+      ...dateFields(prayDate),
+      ...extra,
+    };
     const paras = buildPrayer(p.body, values);
     const fields = fieldsUsed(p.body);
     const missing = fields.filter((f) => !values[f]?.trim());

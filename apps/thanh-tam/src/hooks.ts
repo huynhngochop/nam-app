@@ -11,10 +11,16 @@ import { ageYear } from './age';
 export function useToday() {
   const [d, setD] = useState(() => startOfDay(new Date()));
   useEffect(() => {
-    const check = () => { const n = startOfDay(new Date()); setD((cur) => (cur.getTime() === n.getTime() ? cur : n)); };
+    const check = () => {
+      const n = startOfDay(new Date());
+      setD((cur) => (cur.getTime() === n.getTime() ? cur : n));
+    };
     const sub = AppState.addEventListener('change', (s) => s === 'active' && check());
     const t = setInterval(check, 60_000);
-    return () => { sub.remove(); clearInterval(t); };
+    return () => {
+      sub.remove();
+      clearInterval(t);
+    };
   }, []);
   return d;
 }
@@ -34,7 +40,13 @@ export function useUpcoming(days = 30) {
     const gios = anniversaries
       .map((a) => ({ a, o: nextGio(a, today) }))
       .filter((x): x is { a: typeof x.a; o: NonNullable<typeof x.o> } => !!x.o && daysBetween(today, x.o.date) <= days)
-      .map(({ a, o }) => ({ a, date: o.date, days: daysBetween(today, o.date), missing: o.missing, leapShifted: o.leapShifted }))
+      .map(({ a, o }) => ({
+        a,
+        date: o.date,
+        days: daysBetween(today, o.date),
+        missing: o.missing,
+        leapShifted: o.leapShifted,
+      }))
       .sort((x, y) => x.days - y.days);
     return { today, rituals, gios };
   }, [today, filter, anniversaries, days]);

@@ -13,7 +13,10 @@ function Routes() {
       <Stack.Screen name="paywall" options={modal} />
       <Stack.Screen name="anniversaries/edit" options={modal} />
       <Stack.Screen name="people/edit" options={modal} />
-      <Stack.Screen name="ritual/[id]/pray" options={{ presentation: 'fullScreenModal', animation: 'fade', gestureEnabled: false }} />
+      <Stack.Screen
+        name="ritual/[id]/pray"
+        options={{ presentation: 'fullScreenModal', animation: 'fade', gestureEnabled: false }}
+      />
       <Stack.Screen name="face/step/[n]" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />
     </Stack>
   );

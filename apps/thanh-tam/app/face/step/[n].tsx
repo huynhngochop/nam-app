@@ -20,28 +20,68 @@ export default function FaceStep() {
   const pick = (id: string) => set({ faceDraft: { ...draft, [part.id]: id } });
 
   return (
-    <Screen scroll edges={['top', 'bottom']} footer={
-      <Row gap={8}>
-        <Button title="Không chắc" variant="secondary" onPress={() => { pick('khong-chac'); next(); }} style={{ flexGrow: 0.6 }} />
-        <Button title={last ? 'Xem kết quả' : 'Tiếp'} disabled={!chosen} onPress={next} />
-      </Row>
-    }>
-      <AppBar onBack={() => (i === 0 ? router.back() : router.replace(`/face/step/${i - 1}`))} backIcon={i === 0 ? 'x' : 'chevron-left'} title={`Bước ${i + 1}/${FACE_PARTS.length} · ${part.name}`} />
+    <Screen
+      scroll
+      edges={['top', 'bottom']}
+      footer={
+        <Row gap={8}>
+          <Button
+            title="Không chắc"
+            variant="secondary"
+            onPress={() => {
+              pick('khong-chac');
+              next();
+            }}
+            style={{ flexGrow: 0.6 }}
+          />
+          <Button title={last ? 'Xem kết quả' : 'Tiếp'} disabled={!chosen} onPress={next} />
+        </Row>
+      }
+    >
+      <AppBar
+        onBack={() => (i === 0 ? router.back() : router.replace(`/face/step/${i - 1}`))}
+        backIcon={i === 0 ? 'x' : 'chevron-left'}
+        title={`Bước ${i + 1}/${FACE_PARTS.length} · ${part.name}`}
+      />
       <StepBar count={FACE_PARTS.length} index={i} />
       <T v="title">{part.question}</T>
-      {part.hint ? <T v="caption" muted>{part.hint}</T> : null}
+      {part.hint ? (
+        <T v="caption" muted>
+          {part.hint}
+        </T>
+      ) : null}
       <Grid min={1} gap={10}>
         {part.options.map((o) => {
           const on = chosen === o.id;
           return (
-            <Pressable key={o.id} onPress={() => pick(o.id)} accessibilityRole="radio" accessibilityState={{ checked: on }} accessibilityLabel={o.label}
-              style={{ minHeight: 64, borderRadius: 14, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: on ? c.at : c.surface, borderWidth: on ? 2 : 1, borderColor: on ? c.a : c.line }}>
+            <Pressable
+              key={o.id}
+              onPress={() => pick(o.id)}
+              accessibilityRole="radio"
+              accessibilityState={{ checked: on }}
+              accessibilityLabel={o.label}
+              style={{
+                minHeight: 64,
+                borderRadius: 14,
+                padding: 14,
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 12,
+                backgroundColor: on ? c.at : c.surface,
+                borderWidth: on ? 2 : 1,
+                borderColor: on ? c.a : c.line,
+              }}
+            >
               {o.shape ? (
                 <View style={{ width: 40, height: 48 }}>
-                  <Svg width={40} height={48} viewBox="0 0 40 48"><Path d={o.shape} fill="none" stroke={on ? c.a : c.inkMuted} strokeWidth={2} /></Svg>
+                  <Svg width={40} height={48} viewBox="0 0 40 48">
+                    <Path d={o.shape} fill="none" stroke={on ? c.a : c.inkMuted} strokeWidth={2} />
+                  </Svg>
                 </View>
               ) : null}
-              <T v="headline" style={{ flex: 1 }}>{o.label}</T>
+              <T v="headline" style={{ flex: 1 }}>
+                {o.label}
+              </T>
               <Radio on={on} />
             </Pressable>
           );

@@ -21,7 +21,10 @@ export default function Household() {
   const finish = async (skip = false) => {
     setBusy(true);
     set({
-      household: { ...h, ...(skip ? {} : { tinChu: tinChu.trim(), diaChi: diaChi.trim(), hoGiaTien: hoGiaTien.trim() }) },
+      household: {
+        ...h,
+        ...(skip ? {} : { tinChu: tinChu.trim(), diaChi: diaChi.trim(), hoGiaTien: hoGiaTien.trim() }),
+      },
       remind: { ...remind, mung1Ram, mung10, festivals },
       onboarded: true,
     });
@@ -36,23 +39,65 @@ export default function Household() {
   };
 
   return (
-    <Screen scroll footer={<>
-      <Button title="Bắt đầu" loading={busy} onPress={() => finish()} />
-      <Button title="Để sau" variant="text" size="sm" onPress={() => finish(true)} style={{ alignSelf: 'center' }} />
-    </>}>
-      <Row style={{ minHeight: 48 }}><StepDots count={2} index={1} /></Row>
+    <Screen
+      scroll
+      footer={
+        <>
+          <Button title="Bắt đầu" loading={busy} onPress={() => finish()} />
+          <Button
+            title="Để sau"
+            variant="text"
+            size="sm"
+            onPress={() => finish(true)}
+            style={{ alignSelf: 'center' }}
+          />
+        </>
+      }
+    >
+      <Row style={{ minHeight: 48 }}>
+        <StepDots count={2} index={1} />
+      </Row>
       <T v="display">Điền sẵn vào văn khấn</T>
-      <T v="body" muted>Tên và địa chỉ được điền vào chỗ trống trong bài khấn. Chỉ lưu trên máy này, không gửi đi đâu.</T>
-      <TextField label="Tên gia chủ (người đứng khấn)" value={tinChu} onChangeText={setTinChu} placeholder="Ví dụ: Nguyễn Thị Lan" autoCapitalize="words" />
+      <T v="body" muted>
+        Tên và địa chỉ được điền vào chỗ trống trong bài khấn. Chỉ lưu trên máy này, không gửi đi đâu.
+      </T>
+      <TextField
+        label="Tên gia chủ (người đứng khấn)"
+        value={tinChu}
+        onChangeText={setTinChu}
+        placeholder="Ví dụ: Nguyễn Thị Lan"
+        autoCapitalize="words"
+      />
       <TextField label="Địa chỉ" value={diaChi} onChangeText={setDiaChi} placeholder="Số nhà, phường, tỉnh" />
-      <TextField label="Họ gia tiên" value={hoGiaTien} onChangeText={setHo} placeholder="Ví dụ: Nguyễn" autoCapitalize="words" />
+      <TextField
+        label="Họ gia tiên"
+        value={hoGiaTien}
+        onChangeText={setHo}
+        placeholder="Ví dụ: Nguyễn"
+        autoCapitalize="words"
+      />
       <SectionHeader title="Nhắc lịch" />
       <Card>
-        <ListItem title="Mùng 1 và rằm" subtitle="Tối hôm trước và sáng hôm đó" right={<Toggle label="Nhắc mùng 1 và rằm" value={mung1Ram} onChange={setM} />} />
-        <ListItem title="Mùng 10 Thần tài" subtitle="Sáng mùng 10 hằng tháng" right={<Toggle label="Nhắc mùng 10" value={mung10} onChange={setT} />} />
-        <ListItem title="Lễ lớn trong năm" subtitle="Ông Công ông Táo, Thanh minh, Vu Lan…" divider={false} right={<Toggle label="Nhắc lễ lớn" value={festivals} onChange={setF} />} />
+        <ListItem
+          title="Mùng 1 và rằm"
+          subtitle="Tối hôm trước và sáng hôm đó"
+          right={<Toggle label="Nhắc mùng 1 và rằm" value={mung1Ram} onChange={setM} />}
+        />
+        <ListItem
+          title="Mùng 10 Thần tài"
+          subtitle="Sáng mùng 10 hằng tháng"
+          right={<Toggle label="Nhắc mùng 10" value={mung10} onChange={setT} />}
+        />
+        <ListItem
+          title="Lễ lớn trong năm"
+          subtitle="Ông Công ông Táo, Thanh minh, Vu Lan…"
+          divider={false}
+          right={<Toggle label="Nhắc lễ lớn" value={festivals} onChange={setF} />}
+        />
       </Card>
-      <T v="caption" muted>Không quá 6 lần nhắc mỗi tháng, không có tin quảng cáo.</T>
+      <T v="caption" muted>
+        Không quá 6 lần nhắc mỗi tháng, không có tin quảng cáo.
+      </T>
     </Screen>
   );
 }

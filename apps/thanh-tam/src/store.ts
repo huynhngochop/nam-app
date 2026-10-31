@@ -8,9 +8,20 @@ import type { Sex } from './age';
 import type { FaceAnswers } from './face/data';
 
 export type Altar = 'gia-tien' | 'than-tai' | 'phat' | 'ong-tao';
-export type Household = { tinChu: string; diaChi: string; hoGiaTien: string; region: Region; diet: Diet; altars: Altar[] };
+export type Household = {
+  tinChu: string;
+  diaChi: string;
+  hoGiaTien: string;
+  region: Region;
+  diet: Diet;
+  altars: Altar[];
+};
 export type Person = {
-  id: string; name: string; short: string; relation: string; sex: Sex;
+  id: string;
+  name: string;
+  short: string;
+  relation: string;
+  sex: Sex;
   /** Năm âm sinh đã quy đổi (sinh trước Tết thuộc năm trước). */
   birthLunarYear: number;
   birth: { calendar: 'duong' | 'am'; day: number; month: number; year: number; leap?: boolean };
@@ -58,7 +69,14 @@ type State = {
 
 const DEFAULTS = {
   onboarded: false,
-  household: { tinChu: '', diaChi: '', hoGiaTien: '', region: 'bac' as Region, diet: 'man' as Diet, altars: ['gia-tien'] as Altar[] },
+  household: {
+    tinChu: '',
+    diaChi: '',
+    hoGiaTien: '',
+    region: 'bac' as Region,
+    diet: 'man' as Diet,
+    altars: ['gia-tien'] as Altar[],
+  },
   remind: { mung1Ram: true, eveBefore: true, mung10: false, festivals: true, time: '06:30' },
   theme: 'system' as ThemePref,
   fontScale: 1.15,
@@ -76,56 +94,68 @@ const DEFAULTS = {
   firstTimeDismissed: false,
 };
 
-export const useTT = create<State>()(persist((set, get) => ({
-  hydrated: false,
-  ...DEFAULTS,
-  set: (p) => set(p),
-  setHousehold: (p) => set((s) => ({ household: { ...s.household, ...p } })),
-  setRemind: (p) => set((s) => ({ remind: { ...s.remind, ...p } })),
-  toggleSave: (key) => {
-    const on = !get().saves.includes(key);
-    set((s) => ({ saves: on ? [key, ...s.saves] : s.saves.filter((x) => x !== key) }));
-    return on;
-  },
-  toggleOffering: (ritualId, name) => set((s) => {
-    const cur = s.offeringChecks[ritualId] ?? [];
-    return { offeringChecks: { ...s.offeringChecks, [ritualId]: cur.includes(name) ? cur.filter((x) => x !== name) : [...cur, name] } };
-  }),
-  resetOfferings: (ritualId) => set((s) => ({ offeringChecks: { ...s.offeringChecks, [ritualId]: [] } })),
-  logPray: (ritualId) => {
-    const log = { id: uid(), ritualId, at: Date.now() };
-    set((s) => ({ prayLogs: [log, ...s.prayLogs].slice(0, 500) }));
-    return log;
-  },
-  upsertAnniversary: (a) => {
-    const id = a.id ?? uid();
-    set((s) => ({ anniversaries: [...s.anniversaries.filter((x) => x.id !== id), { ...a, id }] }));
-    return id;
-  },
-  removeAnniversary: (id) => {
-    const a = get().anniversaries.find((x) => x.id === id);
-    set((s) => ({ anniversaries: s.anniversaries.filter((x) => x.id !== id) }));
-    return a;
-  },
-  upsertPerson: (p) => {
-    const id = p.id ?? uid();
-    set((s) => {
-      let people = [...s.people.filter((x) => x.id !== id), { ...p, id }];
-      if (p.isHouseOwner) people = people.map((x) => ({ ...x, isHouseOwner: x.id === id }));
-      return { people };
-    });
-    return id;
-  },
-  removePerson: (id) => set((s) => ({ people: s.people.filter((x) => x.id !== id) })),
-  addSearch: (q) => set((s) => ({ recentSearches: [q, ...s.recentSearches.filter((x) => x !== q)].slice(0, 8) })),
-  removeSearch: (q) => set((s) => ({ recentSearches: s.recentSearches.filter((x) => x !== q) })),
-  wipe: () => set({ ...DEFAULTS, onboarded: true }),
-}), {
-  name: 'thanh-tam',
-  storage: kvStorage,
-  version: 1,
-  partialize: ({ hydrated, ...rest }) => Object.fromEntries(Object.entries(rest).filter(([, v]) => typeof v !== 'function')) as never,
-  onRehydrateStorage: () => () => useTT.setState({ hydrated: true }),
-}));
+export const useTT = create<State>()(
+  persist(
+    (set, get) => ({
+      hydrated: false,
+      ...DEFAULTS,
+      set: (p) => set(p),
+      setHousehold: (p) => set((s) => ({ household: { ...s.household, ...p } })),
+      setRemind: (p) => set((s) => ({ remind: { ...s.remind, ...p } })),
+      toggleSave: (key) => {
+        const on = !get().saves.includes(key);
+        set((s) => ({ saves: on ? [key, ...s.saves] : s.saves.filter((x) => x !== key) }));
+        return on;
+      },
+      toggleOffering: (ritualId, name) =>
+        set((s) => {
+          const cur = s.offeringChecks[ritualId] ?? [];
+          return {
+            offeringChecks: {
+              ...s.offeringChecks,
+              [ritualId]: cur.includes(name) ? cur.filter((x) => x !== name) : [...cur, name],
+            },
+          };
+        }),
+      resetOfferings: (ritualId) => set((s) => ({ offeringChecks: { ...s.offeringChecks, [ritualId]: [] } })),
+      logPray: (ritualId) => {
+        const log = { id: uid(), ritualId, at: Date.now() };
+        set((s) => ({ prayLogs: [log, ...s.prayLogs].slice(0, 500) }));
+        return log;
+      },
+      upsertAnniversary: (a) => {
+        const id = a.id ?? uid();
+        set((s) => ({ anniversaries: [...s.anniversaries.filter((x) => x.id !== id), { ...a, id }] }));
+        return id;
+      },
+      removeAnniversary: (id) => {
+        const a = get().anniversaries.find((x) => x.id === id);
+        set((s) => ({ anniversaries: s.anniversaries.filter((x) => x.id !== id) }));
+        return a;
+      },
+      upsertPerson: (p) => {
+        const id = p.id ?? uid();
+        set((s) => {
+          let people = [...s.people.filter((x) => x.id !== id), { ...p, id }];
+          if (p.isHouseOwner) people = people.map((x) => ({ ...x, isHouseOwner: x.id === id }));
+          return { people };
+        });
+        return id;
+      },
+      removePerson: (id) => set((s) => ({ people: s.people.filter((x) => x.id !== id) })),
+      addSearch: (q) => set((s) => ({ recentSearches: [q, ...s.recentSearches.filter((x) => x !== q)].slice(0, 8) })),
+      removeSearch: (q) => set((s) => ({ recentSearches: s.recentSearches.filter((x) => x !== q) })),
+      wipe: () => set({ ...DEFAULTS, onboarded: true }),
+    }),
+    {
+      name: 'thanh-tam',
+      storage: kvStorage,
+      version: 1,
+      partialize: ({ hydrated, ...rest }) =>
+        Object.fromEntries(Object.entries(rest).filter(([, v]) => typeof v !== 'function')) as never,
+      onRehydrateStorage: () => () => useTT.setState({ hydrated: true }),
+    },
+  ),
+);
 
 export const isSaved = (saves: string[], key: string) => saves.includes(key);
