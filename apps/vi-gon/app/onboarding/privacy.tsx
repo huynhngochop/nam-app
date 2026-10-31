@@ -1,8 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import { Button, Icon, Row, Screen, StepDots, T, Thumb, useTheme } from '@nam/ui';
-import { IconName } from '@nam/ui';
+import { Button, Icon, Row, Screen, StepDots, T, Thumb, useTheme , IconName } from '@nam/ui';
 
 const PROMISES: { icon: IconName; t: string; s: string }[] = [
   { icon: 'smartphone', t: 'Xử lý trên điện thoại', s: 'Nội dung thông báo không gửi lên máy chủ.' },

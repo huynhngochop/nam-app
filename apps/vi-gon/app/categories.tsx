@@ -20,8 +20,7 @@ import {
   useLayout,
   useTheme,
   useToast,
-} from '@nam/ui';
-import { IconName } from '@nam/ui';
+ IconName } from '@nam/ui';
 import { catOf, useVi } from '../src/store';
 
 const ICONS: IconName[] = [
