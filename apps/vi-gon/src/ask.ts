@@ -27,6 +27,11 @@ const CAT_WORDS: Record<string, string[]> = {
   salary: ['luong'],
 };
 
+/** Cụm không nói về danh mục: thời gian, thứ trong tuần, "còn bao nhiêu". Chuỗi đã bỏ dấu và có dấu cách hai đầu. */
+const NOT_TOPIC = / (?:hom (?:qua|kia|nay)|thang (?:truoc|roi|nay|\d{1,2})|tuan (?:nay|truoc)|nam nay|ca nam|7 ngay|thu (?:hai|ba|bay)|chu nhat|con lai bao nhieu|con bao nhieu|con duoc chi)(?= )/g;
+// Không gồm "thứ tư/năm/sáu": trùng với "thu từ…", "thu năm nay", "thu sau thuế" (danh từ "thu" = khoản thu).
+// Không gồm "còn lại" / "còn được" đứng riêng: "chi cho con lại tăng" vẫn phải hiểu là Gia đình.
+
 export function parseIntent(q: string, cats: Category[], funds: Fund[], now = new Date()): Intent | null {
   const f = ` ${fold(q).replace(/[?!.,]/g, ' ')} `.replace(/\s+/g, ' ');
   let period: PeriodKey = 'this_month';
@@ -40,15 +45,19 @@ export function parseIntent(q: string, cats: Category[], funds: Fund[], now = ne
   const fund = funds.find((x) => f.includes(` ${fold(x.name)} `) || fold(x.name).split(' ').some((w) => w.length > 3 && f.includes(` ${w} `)));
   if (fund && / quy | bao lau | khi nao | bao gio | du /.test(f)) return { metric: 'fund_eta', kind: 'expense', categoryId: null, period, fundId: fund.id, merchant: null };
 
+  // Bỏ cụm chỉ thời gian, thứ trong tuần và "còn bao nhiêu" trước khi dò danh mục / thu-chi (lỗi V2):
+  // "hôm qua" chứa "qua" (Quà), "còn bao nhiêu" chứa "con" (Gia đình), "thứ hai" chứa "thu" (khoản thu).
+  const fc = f.replace(NOT_TOPIC, ' ').replace(/\s+/g, ' ');
+
   // Danh mục: tên người dùng đặt trước, rồi từ khóa (cụm dài trước)
   let categoryId: string | null = null;
-  const own = cats.find((c) => f.includes(` ${fold(c.name)} `));
+  const own = cats.find((c) => fc.includes(` ${fold(c.name)} `));
   if (own) categoryId = own.id;
   else {
     let best = 0;
-    for (const [id, words] of Object.entries(CAT_WORDS)) for (const w of words) if (f.includes(` ${w} `) && w.length > best) { best = w.length; categoryId = id; }
+    for (const [id, words] of Object.entries(CAT_WORDS)) for (const w of words) if (fc.includes(` ${w} `) && w.length > best) { best = w.length; categoryId = id; }
   }
-  const kind: Intent['kind'] = / thu | thu nhap | kiem duoc | nhan duoc | luong /.test(f) && !/ chi /.test(f) ? 'income' : 'expense';
+  const kind: Intent['kind'] = / thu | thu nhap | kiem duoc | nhan duoc | luong /.test(fc) && !/ chi /.test(fc) ? 'income' : 'expense';
   if (categoryId === 'salary') categoryId = kind === 'income' ? 'salary' : null;
 
   let metric: Metric | null = null;
