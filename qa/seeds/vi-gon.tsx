@@ -167,8 +167,8 @@ async function run(log: (s: string) => void) {
     list.push(c, e);
   }
   // Lô nhỏ: SQLite bản web (worker đồng bộ) lỗi với giao dịch lớn. Ghi lại chi tiết lỗi đầu tiên để báo cáo.
-  // Thử ghi cả 12 nghìn dòng một lần như khi khôi phục bản sao lưu (IT6); lỗi thì chia nhỏ dần.
-  let chunk = list.length;
+  // Lô 1.000 dòng: bản web của expo-sqlite có giới hạn thời gian cho mỗi lệnh đồng bộ, một giao dịch 12 nghìn dòng vượt giới hạn đó (IT6, chỉ web).
+  let chunk = 1000;
   for (let i = 0; i < list.length; ) {
     const t1 = Date.now();
     try {
