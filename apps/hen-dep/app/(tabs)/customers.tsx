@@ -18,7 +18,7 @@ import {
   useTheme,
 } from '@nam/ui';
 import { fold, relativeTime, vnd } from '@nam/core';
-import { customerStats, useHen } from '../../src/store';
+import { customerIndex, useHen } from '../../src/store';
 import { CustomerDetail } from '../../src/CustomerDetail';
 
 type Filter = 'all' | 'vip' | 'lapsed' | 'new' | 'birthday';
@@ -34,19 +34,27 @@ const FILTERS: { key: Filter; label: string }[] = [
 export default function Customers() {
   const { c } = useTheme();
   const L = useLayout();
-  const s = useHen();
+  // Chọn từng phần: màn không vẽ lại khi phần khác của store đổi.
+  const customers = useHen((x) => x.customers);
+  const bookings = useHen((x) => x.bookings);
+  const services = useHen((x) => x.services);
+  const settings = useHen((x) => x.shop.settings);
   const [q, setQ] = useState('');
   const [f, setF] = useState<Filter>('all');
   const [sel, setSel] = useState<string | null>(null);
-  const { vipVisits, vipSpend } = s.shop.settings;
+  const { vipVisits, vipSpend } = settings;
   const month = new Date().getMonth() + 1;
 
+  // Số liệu khách tính một lần cho mọi khách (IT2); gõ tìm hay đổi bộ lọc không tính lại.
+  const index = useMemo(() => customerIndex(bookings, services), [bookings, services]);
   const rows = useMemo(() => {
     const now = Date.now();
-    return s.customers
-      .map((cu) => ({ cu, st: customerStats(cu.id, s.bookings, s.services) }))
+    const fq = fold(q);
+    const phoneQ = q.replace(/\s/g, '');
+    return customers
+      .map((cu) => ({ cu, st: index.get(cu.id) }))
       .filter(({ cu, st }) => {
-        if (q && !fold(cu.name).includes(fold(q)) && !(cu.phone ?? '').includes(q.replace(/\s/g, ''))) return false;
+        if (q && !fold(cu.name).includes(fq) && !(cu.phone ?? '').includes(phoneQ)) return false;
         if (f === 'vip') return st.visits >= vipVisits || st.spend >= vipSpend;
         if (f === 'lapsed') return !!st.lastAt && now - st.lastAt > 45 * 86400000;
         if (f === 'new') return now - cu.createdAt < 30 * 86400000;
@@ -54,7 +62,7 @@ export default function Customers() {
         return true;
       })
       .sort((a, b) => (b.st.lastAt ?? 0) - (a.st.lastAt ?? 0));
-  }, [s.customers, s.bookings, s.services, q, f, vipVisits, vipSpend, month]);
+  }, [customers, index, q, f, vipVisits, vipSpend, month]);
 
   const open = (id: string) => (L.twoPane ? setSel(id) : router.push(`/customer/${id}`));
 
@@ -75,8 +83,8 @@ export default function Customers() {
       {!rows.length ? (
         <EmptyState
           icon="users"
-          title={s.customers.length ? 'Không có khách phù hợp' : 'Chưa có khách'}
-          body={s.customers.length ? 'Thử bộ lọc khác.' : 'Khách đặt qua link sẽ tự vào danh sách.'}
+          title={customers.length ? 'Không có khách phù hợp' : 'Chưa có khách'}
+          body={customers.length ? 'Thử bộ lọc khác.' : 'Khách đặt qua link sẽ tự vào danh sách.'}
         />
       ) : (
         <FlashList

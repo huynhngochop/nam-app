@@ -6,8 +6,7 @@ name: IT round (web, dữ liệu lớn)
 on:
   workflow_dispatch:
   push:
-    branches: [qa/it-round-2]
-    paths: ['qa/**', '.github/workflows/it-round.yml']
+    branches: [qa/it-round-2, fix/it-round-2]
 
 permissions:
   contents: write

@@ -83,57 +83,48 @@ const toTx = (r: Row): Tx => ({
   createdAt: r.created_at,
 });
 
+const txArgs = (t: Tx) => [
+  t.id,
+  Math.round(t.amount),
+  t.kind,
+  t.categoryId,
+  t.merchant,
+  t.note,
+  t.at,
+  t.account,
+  t.source,
+  t.status,
+  t.raw,
+  t.fundId,
+  t.flag,
+  t.pairId,
+  t.createdAt,
+];
+
 export function insertTx(t: Tx) {
   getDb().runSync(
     `INSERT INTO tx (id, amount, kind, category_id, merchant, note, at, account, source, status, raw, fund_id, flag, pair_id, created_at)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    [
-      t.id,
-      Math.round(t.amount),
-      t.kind,
-      t.categoryId,
-      t.merchant,
-      t.note,
-      t.at,
-      t.account,
-      t.source,
-      t.status,
-      t.raw,
-      t.fundId,
-      t.flag,
-      t.pairId,
-      t.createdAt,
-    ],
+    txArgs(t),
   );
   bump();
 }
 
+/** 15 cột × 60 dòng = 900 tham số, dưới giới hạn 999 của SQLite cũ. */
+export const INSERT_ROWS_PER_STMT = 60;
+
 export function insertMany(list: Tx[], opts: { replaceAll?: boolean } = {}) {
   const d = getDb();
   // Một giao dịch SQLite: lỗi giữa chừng thì không mất dữ liệu cũ.
+  // Ghi nhiều dòng mỗi câu lệnh: khôi phục 12 nghìn giao dịch chỉ còn ~200 lần gọi thay vì 12 nghìn (IT6).
   d.withTransactionSync(() => {
     if (opts.replaceAll) d.runSync('DELETE FROM tx');
-    for (const t of list) {
+    for (let i = 0; i < list.length; i += INSERT_ROWS_PER_STMT) {
+      const part = list.slice(i, i + INSERT_ROWS_PER_STMT);
       d.runSync(
         `INSERT OR REPLACE INTO tx (id, amount, kind, category_id, merchant, note, at, account, source, status, raw, fund_id, flag, pair_id, created_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [
-          t.id,
-          Math.round(t.amount),
-          t.kind,
-          t.categoryId,
-          t.merchant,
-          t.note,
-          t.at,
-          t.account,
-          t.source,
-          t.status,
-          t.raw,
-          t.fundId,
-          t.flag,
-          t.pairId,
-          t.createdAt,
-        ],
+         VALUES ${part.map(() => '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').join(', ')}`,
+        part.flatMap(txArgs),
       );
     }
   });
@@ -259,8 +250,31 @@ export function lastAutoAt(): number | null {
   return getDb().getFirstSync<{ m: number | null }>("SELECT MAX(at) AS m FROM tx WHERE source = 'auto'")?.m ?? null;
 }
 
-export function allTx(): Tx[] {
-  return getDb().getAllSync<Row>('SELECT * FROM tx ORDER BY at').map(toTx);
+/** Số dòng mỗi lần đọc khi xuất / sao lưu toàn bộ. */
+export const EXPORT_PAGE = 1000;
+
+/**
+ * Toàn bộ giao dịch, cũ trước. Đọc theo trang (IT1): một lần đọc cả bảng 12 nghìn dòng vượt bộ đệm
+ * kết quả của SQLite bản web ("offset is out of bounds") và giữ luồng JS quá lâu trên máy yếu.
+ */
+export function allTx(pageSize = EXPORT_PAGE): Tx[] {
+  const d = getDb();
+  const out: Tx[] = [];
+  let last: { at: number; id: string } | null = null;
+  for (;;) {
+    const rows: Row[] = last
+      ? d.getAllSync<Row>('SELECT * FROM tx WHERE at > ? OR (at = ? AND id > ?) ORDER BY at, id LIMIT ?', [
+          last.at,
+          last.at,
+          last.id,
+          pageSize,
+        ])
+      : d.getAllSync<Row>('SELECT * FROM tx ORDER BY at, id LIMIT ?', [pageSize]);
+    for (const r of rows) out.push(toTx(r));
+    if (rows.length < pageSize) return out;
+    const tail = rows[rows.length - 1];
+    last = { at: tail.at, id: tail.id };
+  }
 }
 export function wipeTx() {
   getDb().runSync('DELETE FROM tx');

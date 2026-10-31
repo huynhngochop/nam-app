@@ -508,23 +508,17 @@ export const ListItem = memo(function ListItem({
   titleColor?: string;
 }) {
   const { c } = useTheme();
-  return (
-    <Pressable
-      disabled={!onPress && !onLongPress}
-      onPress={onPress}
-      onLongPress={onLongPress}
-      accessibilityRole={onPress ? 'button' : undefined}
-      style={({ pressed }) => ({
-        minHeight: 56,
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 12,
-        paddingVertical: 10,
-        borderBottomWidth: divider ? StyleSheet.hairlineWidth : 0,
-        borderColor: c.line,
-        opacity: pressed ? 0.7 : 1,
-      })}
-    >
+  const base = {
+    minHeight: 56,
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
+    gap: 12,
+    paddingVertical: 10,
+    borderBottomWidth: divider ? StyleSheet.hairlineWidth : 0,
+    borderColor: c.line,
+  };
+  const body = (
+    <>
       {left}
       <View style={{ flex: 1, gap: 2 }}>
         <T v={strong ? 'headline' : 'body'} color={titleColor}>
@@ -538,6 +532,19 @@ export const ListItem = memo(function ListItem({
       </View>
       {right}
       {chevron ? <Feather name="chevron-right" size={18} color={c.inkMuted} /> : null}
+    </>
+  );
+  // Dòng không bấm được (thường chứa công tắc / nút +/−): dùng View. Pressable bị tắt đánh dấu cả dòng là
+  // "vô hiệu" và gộp phần tử con, nên trình đọc màn hình đọc sai công tắc bên trong (IT5).
+  if (!onPress && !onLongPress) return <View style={base}>{body}</View>;
+  return (
+    <Pressable
+      onPress={onPress}
+      onLongPress={onLongPress}
+      accessibilityRole={onPress ? 'button' : undefined}
+      style={({ pressed }) => ({ ...base, opacity: pressed ? 0.7 : 1 })}
+    >
+      {body}
     </Pressable>
   );
 });

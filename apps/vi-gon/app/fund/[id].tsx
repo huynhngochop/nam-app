@@ -22,7 +22,7 @@ import {
   useToast,
 } from '@nam/ui';
 import { shortDate, track, uid, vnd } from '@nam/core';
-import { insertTx, totals } from '../../src/db';
+import { insertTx, totals, useQuery } from '../../src/db';
 import { monthlyNeed } from '../../src/funds';
 import { periodOf, useVi } from '../../src/store';
 import { FUND_ICONS } from '../../src/types';
@@ -51,6 +51,20 @@ export default function FundScreen() {
   const [amount, setAmount] = useState('');
   const [del, setDel] = useState(false);
 
+  // Dư trung bình 3 kỳ trước. Qua useQuery (IT4): không truy vấn SQLite mỗi lần vẽ / mỗi phím gõ, lỗi CSDL không làm hỏng màn.
+  const avg = useQuery(
+    () => {
+      const arr = Array.from({ length: 3 }, (_, k) => {
+        const p = periodOf(s.monthStartDay, -1 - k);
+        const t = totals(p.from, p.to);
+        return t.income - t.expense;
+      }).filter((x) => x > 0);
+      return arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+    },
+    [s.monthStartDay],
+    0,
+  );
+
   if (!isNew && !fund)
     return (
       <Screen>
@@ -63,14 +77,6 @@ export default function FundScreen() {
     ? new Date(new Date().getFullYear(), new Date().getMonth() + months, 28).getTime()
     : null;
   const need = monthlyNeed({ goal: digits(goal), saved: fund?.saved ?? 0, deadline });
-  const avg = (() => {
-    const arr = Array.from({ length: 3 }, (_, k) => {
-      const p = periodOf(s.monthStartDay, -1 - k);
-      const t = totals(p.from, p.to);
-      return t.income - t.expense;
-    }).filter((x) => x > 0);
-    return arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
-  })();
 
   if (edit) {
     return (
