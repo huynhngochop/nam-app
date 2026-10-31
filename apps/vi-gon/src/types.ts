@@ -28,7 +28,16 @@ export type Tx = {
 
 export type Category = { id: string; name: string; icon: IconName; kind: 'expense' | 'income'; builtin?: boolean };
 export type Rule = { id: string; keyword: string; categoryId: string };
-export type Fund = { id: string; name: string; icon: IconName; goal: number; saved: number; deadline: number | null; remindPayday: boolean; createdAt: number };
+export type Fund = {
+  id: string;
+  name: string;
+  icon: IconName;
+  goal: number;
+  saved: number;
+  deadline: number | null;
+  remindPayday: boolean;
+  createdAt: number;
+};
 /** Thông báo chưa đọc được (VG-18) — chờ người dùng điền một lần. */
 export type Unparsed = { id: string; text: string; app: string | null; at: number };
 
@@ -50,4 +59,13 @@ export const DEFAULT_CATEGORIES: Category[] = [
   { id: 'in_other', name: 'Thu khác', icon: 'plus-circle', kind: 'income', builtin: true },
 ];
 
-export const FUND_ICONS: IconName[] = ['map-pin', 'shield', 'smartphone', 'heart', 'home', 'gift', 'book-open', 'truck'];
+export const FUND_ICONS: IconName[] = [
+  'map-pin',
+  'shield',
+  'smartphone',
+  'heart',
+  'home',
+  'gift',
+  'book-open',
+  'truck',
+];

@@ -54,8 +54,20 @@ export default function Scan() {
   const header = (
     <Row between style={{ paddingHorizontal: 16, minHeight: 52 }}>
       <IconButton icon="x" label="Đóng" bg={SOFT} color={INK} onPress={() => router.back()} />
-      <T v="headline" color={INK}>Chụp nguyên liệu</T>
-      {perm?.granted ? <IconButton icon="zap" label="Đèn" bg={torch ? '#a64a22' : SOFT} color={INK} onPress={() => setTorch((t) => !t)} /> : <View style={{ width: 40 }} />}
+      <T v="headline" color={INK}>
+        Chụp nguyên liệu
+      </T>
+      {perm?.granted ? (
+        <IconButton
+          icon="zap"
+          label="Đèn"
+          bg={torch ? '#a64a22' : SOFT}
+          color={INK}
+          onPress={() => setTorch((t) => !t)}
+        />
+      ) : (
+        <View style={{ width: 40 }} />
+      )}
     </Row>
   );
 
@@ -63,16 +75,51 @@ export default function Scan() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: DARK }}>
         {header}
-        <View style={{ flex: 1, margin: 16, borderRadius: 22, borderWidth: 2, borderColor: 'rgba(255,255,255,0.4)', alignItems: 'center', justifyContent: 'center', gap: 10, padding: 24, backgroundColor: '#2a2724' }}>
+        <View
+          style={{
+            flex: 1,
+            margin: 16,
+            borderRadius: 22,
+            borderWidth: 2,
+            borderColor: 'rgba(255,255,255,0.4)',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 10,
+            padding: 24,
+            backgroundColor: '#2a2724',
+          }}
+        >
           <Icon name="camera" size={40} color="#bdb6ad" />
-          <T v="headline" color={INK} center>Mẹo Nhà chưa được dùng camera</T>
-          <T v="caption" color="#bdb6ad" center>Ảnh chỉ xử lý trên máy để nhận nguyên liệu, không lưu, không gửi đi.</T>
+          <T v="headline" color={INK} center>
+            Mẹo Nhà chưa được dùng camera
+          </T>
+          <T v="caption" color="#bdb6ad" center>
+            Ảnh chỉ xử lý trên máy để nhận nguyên liệu, không lưu, không gửi đi.
+          </T>
         </View>
         <View style={{ padding: 16, gap: 10, maxWidth: 560, width: '100%', alignSelf: 'center' }}>
-          <Button title={perm.canAskAgain ? 'Cho phép camera' : 'Mở Cài đặt'} onPress={() => (perm.canAskAgain ? requestPerm() : Linking.openSettings())} />
+          <Button
+            title={perm.canAskAgain ? 'Cho phép camera' : 'Mở Cài đặt'}
+            onPress={() => (perm.canAskAgain ? requestPerm() : Linking.openSettings())}
+          />
           <Row>
-            <Button title="Chọn ảnh" icon="image" variant="secondary" color={SOFT} textColor={INK} onPress={gallery} style={{ backgroundColor: SOFT }} />
-            <Button title="Gõ tên" icon="edit-2" variant="secondary" textColor={INK} onPress={() => router.back()} style={{ backgroundColor: SOFT }} />
+            <Button
+              title="Chọn ảnh"
+              icon="image"
+              variant="secondary"
+              color={SOFT}
+              textColor={INK}
+              onPress={gallery}
+              style={{ backgroundColor: SOFT }}
+            />
+            <Button
+              title="Gõ tên"
+              icon="edit-2"
+              variant="secondary"
+              textColor={INK}
+              onPress={() => router.back()}
+              style={{ backgroundColor: SOFT }}
+            />
           </Row>
         </View>
       </SafeAreaView>
@@ -84,30 +131,74 @@ export default function Scan() {
     <SafeAreaView style={{ flex: 1, backgroundColor: DARK }}>
       {header}
       <View style={{ flex: 1, flexDirection: L.landscape ? 'row' : 'column', gap: 12, padding: 16 }}>
-        <View style={{ flex: L.landscape ? 1 : undefined, height: camH, borderRadius: 22, overflow: 'hidden', borderWidth: 2, borderColor: 'rgba(255,255,255,0.7)', backgroundColor: '#2a2724' }}>
+        <View
+          style={{
+            flex: L.landscape ? 1 : undefined,
+            height: camH,
+            borderRadius: 22,
+            overflow: 'hidden',
+            borderWidth: 2,
+            borderColor: 'rgba(255,255,255,0.7)',
+            backgroundColor: '#2a2724',
+          }}
+        >
           {perm?.granted ? <CameraView ref={cam} style={{ flex: 1 }} facing="back" enableTorch={torch} /> : null}
           <T v="caption" color={INK} center style={{ position: 'absolute', bottom: 10, left: 10, right: 10 }}>
-            {busy ? 'Đang nhận diện…' : guessing ? 'Chưa nhận ra chắc chắn — chọn nhanh bên dưới' : 'Đưa nguyên liệu vào khung, giữ yên 1 giây'}
+            {busy
+              ? 'Đang nhận diện…'
+              : guessing
+                ? 'Chưa nhận ra chắc chắn — chọn nhanh bên dưới'
+                : 'Đưa nguyên liệu vào khung, giữ yên 1 giây'}
           </T>
         </View>
         <View style={{ flex: L.landscape ? 1 : 1, gap: 12, justifyContent: 'space-between' }}>
           <View style={{ gap: 8 }}>
-            <Row between><T v="headline" color={INK}>{`Đã chọn ${picked.length} nguyên liệu`}</T></Row>
-            <T v="caption" color="#bdb6ad">{guessing ? 'Có phải là…' : 'Chạm để chọn nguyên liệu bạn thấy'}</T>
+            <Row between>
+              <T v="headline" color={INK}>{`Đã chọn ${picked.length} nguyên liệu`}</T>
+            </Row>
+            <T v="caption" color="#bdb6ad">
+              {guessing ? 'Có phải là…' : 'Chạm để chọn nguyên liệu bạn thấy'}
+            </T>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-              {QUICK_GUESSES.filter((id) => !pantry.includes(id)).map((id) => <Chip key={id} label={ingName(id)} selected={picked.includes(id)} onPress={() => toggle(id)} />)}
+              {QUICK_GUESSES.filter((id) => !pantry.includes(id)).map((id) => (
+                <Chip key={id} label={ingName(id)} selected={picked.includes(id)} onPress={() => toggle(id)} />
+              ))}
             </View>
           </View>
           <View style={{ gap: 8 }}>
             <Row between>
               <IconButton icon="image" label="Chọn ảnh" bg={SOFT} color={INK} onPress={gallery} />
-              <Pressable accessibilityRole="button" accessibilityLabel="Chụp" onPress={shoot} disabled={!perm?.granted}
-                style={{ width: 72, height: 72, borderRadius: 36, borderWidth: 4, borderColor: INK, alignItems: 'center', justifyContent: 'center' }}>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Chụp"
+                onPress={shoot}
+                disabled={!perm?.granted}
+                style={{
+                  width: 72,
+                  height: 72,
+                  borderRadius: 36,
+                  borderWidth: 4,
+                  borderColor: INK,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
                 <View style={{ width: 56, height: 56, borderRadius: 28, backgroundColor: INK }} />
               </Pressable>
-              <IconButton icon="check" label="Thêm vào tủ lạnh" bg={picked.length ? '#a64a22' : SOFT} color="#ffffff" onPress={() => (picked.length ? confirm() : router.back())} />
+              <IconButton
+                icon="check"
+                label="Thêm vào tủ lạnh"
+                bg={picked.length ? '#a64a22' : SOFT}
+                color="#ffffff"
+                onPress={() => (picked.length ? confirm() : router.back())}
+              />
             </Row>
-            <Row style={{ justifyContent: 'center' }}><Icon name="shield" size={12} color="#bdb6ad" /><T v="caption" color="#bdb6ad">Xử lý trên máy · ảnh không rời điện thoại</T></Row>
+            <Row style={{ justifyContent: 'center' }}>
+              <Icon name="shield" size={12} color="#bdb6ad" />
+              <T v="caption" color="#bdb6ad">
+                Xử lý trên máy · ảnh không rời điện thoại
+              </T>
+            </Row>
           </View>
         </View>
       </View>

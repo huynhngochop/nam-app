@@ -11,7 +11,9 @@ export type PurchaseProvider = {
 };
 
 let provider: PurchaseProvider | null = null;
-export function setPurchaseProvider(p: PurchaseProvider) { provider = p; }
+export function setPurchaseProvider(p: PurchaseProvider) {
+  provider = p;
+}
 
 export async function buy(productId: string): Promise<PurchaseResult> {
   if (provider) return provider.buy(productId);

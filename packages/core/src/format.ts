@@ -30,12 +30,22 @@ export const weekdayLong = (d: Date) => WD_LONG[d.getDay()];
 export const shortDate = (d: Date) => `${WD[d.getDay()]}, ${d.getDate()}/${d.getMonth() + 1}`;
 export const dayMonth = (d: Date) => `${pad(d.getDate())}/${pad(d.getMonth() + 1)}`;
 export const hhmm = (d: Date) => `${pad(d.getHours())}:${pad(d.getMinutes())}`;
-export const mmss = (sec: number) => `${pad(Math.floor(Math.max(0, sec) / 60))}:${pad(Math.floor(Math.max(0, sec) % 60))}`;
+export const mmss = (sec: number) =>
+  `${pad(Math.floor(Math.max(0, sec) / 60))}:${pad(Math.floor(Math.max(0, sec) % 60))}`;
 export const dateKey = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
-export function startOfDay(d: Date) { const x = new Date(d); x.setHours(0, 0, 0, 0); return x; }
-export function addDays(d: Date, n: number) { const x = new Date(d); x.setDate(x.getDate() + n); return x; }
+export function startOfDay(d: Date) {
+  const x = new Date(d);
+  x.setHours(0, 0, 0, 0);
+  return x;
+}
+export function addDays(d: Date, n: number) {
+  const x = new Date(d);
+  x.setDate(x.getDate() + n);
+  return x;
+}
 export function minutesLabel(min: number) {
-  const h = Math.floor(min / 60); const m = Math.round(min % 60);
+  const h = Math.floor(min / 60);
+  const m = Math.round(min % 60);
   if (h && m) return `${h} giờ ${m} phút`;
   if (h) return `${h} giờ`;
   return `${m} phút`;

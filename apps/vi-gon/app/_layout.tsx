@@ -10,24 +10,43 @@ import { checkBudgets, syncFundReminder } from '../src/alerts';
 import { refreshListenerState, startListening } from '../src/listener';
 
 Notifications.setNotificationHandler({
-  handleNotification: async () => ({ shouldShowBanner: true, shouldShowList: true, shouldPlaySound: false, shouldSetBadge: false }),
+  handleNotification: async () => ({
+    shouldShowBanner: true,
+    shouldShowList: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
 });
 
 function Effects() {
   useEffect(() => {
     const stop = startListening();
     refreshListenerState();
-    const app = AppState.addEventListener('change', (s) => { if (s === 'active') refreshListenerState(); });
+    const app = AppState.addEventListener('change', (s) => {
+      if (s === 'active') refreshListenerState();
+    });
     // Kiểm tra ngân sách sau mỗi lần dữ liệu đổi (gộp lại 1,5 giây).
     let t: ReturnType<typeof setTimeout> | null = null;
-    const unsub = useTxVersion.subscribe(() => { if (t) clearTimeout(t); t = setTimeout(() => checkBudgets().catch(() => {}), 1500); });
+    const unsub = useTxVersion.subscribe(() => {
+      if (t) clearTimeout(t);
+      t = setTimeout(() => checkBudgets().catch(() => {}), 1500);
+    });
     const tap = Notifications.addNotificationResponseReceivedListener((r) => {
       const url = r.notification.request.content.data?.url;
       if (typeof url === 'string') router.push(url as never);
     });
     syncFundReminder();
-    const unsubFunds = useVi.subscribe((st, prev) => { if (st.funds !== prev.funds || st.monthStartDay !== prev.monthStartDay) syncFundReminder(); });
-    return () => { stop(); app.remove(); unsub(); unsubFunds(); tap.remove(); if (t) clearTimeout(t); };
+    const unsubFunds = useVi.subscribe((st, prev) => {
+      if (st.funds !== prev.funds || st.monthStartDay !== prev.monthStartDay) syncFundReminder();
+    });
+    return () => {
+      stop();
+      app.remove();
+      unsub();
+      unsubFunds();
+      tap.remove();
+      if (t) clearTimeout(t);
+    };
   }, []);
   return null;
 }

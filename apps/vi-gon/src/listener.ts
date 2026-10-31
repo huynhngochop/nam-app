@@ -20,7 +20,10 @@ import { useVi } from './store';
 type NativeListener = {
   isPermissionGranted(): Promise<boolean>;
   openPermissionSettings(): void;
-  addListener(ev: 'notification', cb: (e: { packageName: string; title: string; text: string; postedAt: number }) => void): { remove(): void };
+  addListener(
+    ev: 'notification',
+    cb: (e: { packageName: string; title: string; text: string; postedAt: number }) => void,
+  ): { remove(): void };
 };
 
 let native: NativeListener | null = null;
@@ -38,13 +41,16 @@ export async function checkPermission(): Promise<'granted' | 'lost' | 'unsupport
   return ok ? 'granted' : 'lost';
 }
 
-export function openPermissionSettings() { native?.openPermissionSettings(); }
+export function openPermissionSettings() {
+  native?.openPermissionSettings();
+}
 
 /** Gọi khi app mở / quay lại: cập nhật trạng thái quyền, ghi lại thời điểm mất quyền (VG-17). */
 export async function refreshListenerState() {
   const s = useVi.getState();
   const st = await checkPermission();
-  if (st === 'lost' && s.listenerState === 'granted') s.set({ listenerState: 'lost', lostSince: lastAutoAt() ?? Date.now() });
+  if (st === 'lost' && s.listenerState === 'granted')
+    s.set({ listenerState: 'lost', lostSince: lastAutoAt() ?? Date.now() });
   else if (st === 'granted') s.set({ listenerState: 'granted', lostSince: null });
   else if (st === 'unsupported' && s.listenerState !== 'unsupported') s.set({ listenerState: 'unsupported' });
 }

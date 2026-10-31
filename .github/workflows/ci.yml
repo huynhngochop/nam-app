@@ -1,0 +1,32 @@
+# Kiểm tra mọi pull request và mọi lần đẩy lên main: lint, định dạng, kiểu, test.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Lint · format · typecheck · test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Lint
+        run: npm run lint
+      - name: Định dạng (Prettier)
+        run: npm run format:check
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Test
+        run: npm test

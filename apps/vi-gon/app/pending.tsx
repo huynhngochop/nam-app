@@ -22,7 +22,13 @@ export default function Pending() {
     return (
       <Screen edges={['top', 'bottom']}>
         <AppBar title="Chờ xác nhận" onBack={() => router.back()} backIcon="x" />
-        <EmptyState icon="check-circle" title="Đã xác nhận hết" body="Giao dịch mới sẽ hiện ở đây khi cần bạn xem." action="Về tổng quan" onAction={() => router.back()} />
+        <EmptyState
+          icon="check-circle"
+          title="Đã xác nhận hết"
+          body="Giao dịch mới sẽ hiện ở đây khi cần bạn xem."
+          action="Về tổng quan"
+          onAction={() => router.back()}
+        />
       </Screen>
     );
   }
@@ -44,10 +50,20 @@ export default function Pending() {
   };
 
   return (
-    <Screen scroll edges={['top', 'bottom']} footer={<Row>
-      <View style={{ flex: 1 }}><Button title="Bỏ qua" variant="secondary" onPress={skip} /></View>
-      <View style={{ flex: 2 }}><Button title="Lưu" icon="check" onPress={save} /></View>
-    </Row>}>
+    <Screen
+      scroll
+      edges={['top', 'bottom']}
+      footer={
+        <Row>
+          <View style={{ flex: 1 }}>
+            <Button title="Bỏ qua" variant="secondary" onPress={skip} />
+          </View>
+          <View style={{ flex: 2 }}>
+            <Button title="Lưu" icon="check" onPress={save} />
+          </View>
+        </Row>
+      }
+    >
       <AppBar title={`Chờ xác nhận · ${list.length}`} onBack={() => router.back()} backIcon="x" />
       {tx.raw ? (
         <Card variant="fill">
@@ -55,18 +71,52 @@ export default function Pending() {
           <T v="caption">{tx.raw}</T>
         </Card>
       ) : null}
-      {tx.flag === 'dup' ? <Card variant="danger"><T v="body">Có thể trùng với một giao dịch khác cùng số tiền.</T><Button title="Kiểm tra" size="sm" variant="text" onPress={() => router.push('/review')} /></Card> : null}
-      <T v="caption" color={c.a} weight="semibold">Ví Gọn đọc được</T>
+      {tx.flag === 'dup' ? (
+        <Card variant="danger">
+          <T v="body">Có thể trùng với một giao dịch khác cùng số tiền.</T>
+          <Button title="Kiểm tra" size="sm" variant="text" onPress={() => router.push('/review')} />
+        </Card>
+      ) : null}
+      <T v="caption" color={c.a} weight="semibold">
+        Ví Gọn đọc được
+      </T>
       <Card variant="tint">
-        <Row between><T v="caption">Số tiền</T><Money amount={tx.amount} kind={tx.kind} v="title" /></Row>
-        <Row between><T v="caption">{tx.kind === 'income' ? 'Nguồn' : 'Nơi chi'}</T><T v="headline" style={{ flexShrink: 1, textAlign: 'right' }}>{tx.merchant}</T></Row>
-        <Row between><T v="caption">Thời gian</T><T v="headline">{`${hhmm(new Date(tx.at))} · ${relativeTime(tx.at)}`}</T></Row>
-        {tx.account ? <Row between><T v="caption">Tài khoản</T><T v="headline">{`*${tx.account}`}</T></Row> : null}
+        <Row between>
+          <T v="caption">Số tiền</T>
+          <Money amount={tx.amount} kind={tx.kind} v="title" />
+        </Row>
+        <Row between>
+          <T v="caption">{tx.kind === 'income' ? 'Nguồn' : 'Nơi chi'}</T>
+          <T v="headline" style={{ flexShrink: 1, textAlign: 'right' }}>
+            {tx.merchant}
+          </T>
+        </Row>
+        <Row between>
+          <T v="caption">Thời gian</T>
+          <T v="headline">{`${hhmm(new Date(tx.at))} · ${relativeTime(tx.at)}`}</T>
+        </Row>
+        {tx.account ? (
+          <Row between>
+            <T v="caption">Tài khoản</T>
+            <T v="headline">{`*${tx.account}`}</T>
+          </Row>
+        ) : null}
       </Card>
       <T v="headline">Danh mục</T>
-      <Chips>{cats.map((x) => <Chip key={x.id} label={x.name} icon={x.icon} selected={chosen === x.id} onPress={() => setCat(x.id)} />)}</Chips>
+      <Chips>
+        {cats.map((x) => (
+          <Chip key={x.id} label={x.name} icon={x.icon} selected={chosen === x.id} onPress={() => setCat(x.id)} />
+        ))}
+      </Chips>
       {kw ? (
-        <Row><Check on={learn} /><T v="body" style={{ flex: 1 }} onPress={() => setLearn((v) => !v)}>{`Lần sau tự xếp “${kw}” vào ${cats.find((x) => x.id === chosen)?.name ?? 'danh mục này'}`}</T></Row>
+        <Row>
+          <Check on={learn} />
+          <T
+            v="body"
+            style={{ flex: 1 }}
+            onPress={() => setLearn((v) => !v)}
+          >{`Lần sau tự xếp “${kw}” vào ${cats.find((x) => x.id === chosen)?.name ?? 'danh mục này'}`}</T>
+        </Row>
       ) : null}
       <Button title="Mở chi tiết để sửa" variant="text" size="sm" onPress={() => router.push(`/tx/${tx.id}`)} />
     </Screen>

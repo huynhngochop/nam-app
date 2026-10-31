@@ -51,7 +51,10 @@ test('dọn nội dung', () => {
 test('phân loại: quy tắc người dùng thắng', () => {
   assert.equal(categorize('Grab car', 'expense', []).categoryId, 'move');
   assert.equal(categorize('Highlands coffee', 'expense', []).categoryId, 'food');
-  assert.deepEqual(categorize('Com tam ba ghien', 'expense', [{ id: '1', keyword: 'COM TAM', categoryId: 'family' }]), { categoryId: 'family', confident: true });
+  assert.deepEqual(categorize('Com tam ba ghien', 'expense', [{ id: '1', keyword: 'COM TAM', categoryId: 'family' }]), {
+    categoryId: 'family',
+    confident: true,
+  });
   assert.equal(categorize('Xyz', 'expense', []).categoryId, 'other');
   assert.equal(categorize('Luong', 'expense', []).categoryId, 'other');
 });

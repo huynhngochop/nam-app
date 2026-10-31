@@ -22,8 +22,17 @@ export default function Calendar() {
   const day = addDays(new Date(), offset);
   const myStaffId = s.auth?.role === 'staff' ? s.auth.staffId : undefined;
 
-  const dayBookings = useMemo(() => s.bookings.filter((b) => new Date(b.startAt).toDateString() === day.toDateString()), [s.bookings, day]);
-  const staff = useMemo(() => s.staff.filter((x) => (myStaffId ? x.id === myStaffId : view === 'staff' && staffFocus ? x.id === staffFocus : true)), [s.staff, myStaffId, view, staffFocus]);
+  const dayBookings = useMemo(
+    () => s.bookings.filter((b) => new Date(b.startAt).toDateString() === day.toDateString()),
+    [s.bookings, day],
+  );
+  const staff = useMemo(
+    () =>
+      s.staff.filter((x) =>
+        myStaffId ? x.id === myStaffId : view === 'staff' && staffFocus ? x.id === staffFocus : true,
+      ),
+    [s.staff, myStaffId, view, staffFocus],
+  );
   const hours = s.shop.hours.find((h) => h.day === day.getDay());
   const openFrom = Number((hours?.from ?? '08:00').slice(0, 2));
   const openTo = Number((hours?.to ?? '20:00').slice(0, 2)) + 1;
@@ -36,49 +45,113 @@ export default function Calendar() {
       <View style={{ paddingHorizontal: L.gutter, gap: 10, paddingTop: 8 }}>
         <Row between>
           <View style={{ flex: 1 }}>
-            <T v="caption" muted>{`${weekdayLong(day)}, ${shortDate(day).split(', ')[1]} · ${dayBookings.filter(isActive).length} lịch hẹn`}</T>
-            <T v="display" accessibilityRole="header">{offset === 0 ? 'Lịch hôm nay' : `Lịch ${shortDate(day)}`}</T>
+            <T
+              v="caption"
+              muted
+            >{`${weekdayLong(day)}, ${shortDate(day).split(', ')[1]} · ${dayBookings.filter(isActive).length} lịch hẹn`}</T>
+            <T v="display" accessibilityRole="header">
+              {offset === 0 ? 'Lịch hôm nay' : `Lịch ${shortDate(day)}`}
+            </T>
           </View>
           <IconButton icon="chevron-left" label="Ngày trước" onPress={() => setOffset((o) => o - 1)} />
           <IconButton icon="chevron-right" label="Ngày sau" onPress={() => setOffset((o) => o + 1)} />
         </Row>
         {!myStaffId ? (
           <Chips scroll>
-            <Chip label="Ngày" selected={view === 'day'} onPress={() => { setView('day'); setStaffFocus(null); }} />
+            <Chip
+              label="Ngày"
+              selected={view === 'day'}
+              onPress={() => {
+                setView('day');
+                setStaffFocus(null);
+              }}
+            />
             {offset !== 0 ? <Chip label="Hôm nay" onPress={() => setOffset(0)} /> : null}
-            {s.staff.map((st) => <Chip key={st.id} label={st.name} selected={view === 'staff' && staffFocus === st.id} onPress={() => { setView('staff'); setStaffFocus(st.id); }} />)}
+            {s.staff.map((st) => (
+              <Chip
+                key={st.id}
+                label={st.name}
+                selected={view === 'staff' && staffFocus === st.id}
+                onPress={() => {
+                  setView('staff');
+                  setStaffFocus(st.id);
+                }}
+              />
+            ))}
           </Chips>
         ) : null}
         {gap ? (
           <Card variant="tint">
             <Row between>
-              <T v="headline" style={{ flex: 1 }}>{`Trống ${hhmm(new Date(gap.from))}–${hhmm(new Date(gap.to))} · ${s.staff.find((x) => x.id === gap.staffId)?.name}`}</T>
-              <Button title="Gửi ưu đãi" size="sm" onPress={() => router.push({ pathname: '/campaign', params: { window: `${hhmm(new Date(gap.from))}–${hhmm(new Date(gap.to))}` } })} />
+              <T
+                v="headline"
+                style={{ flex: 1 }}
+              >{`Trống ${hhmm(new Date(gap.from))}–${hhmm(new Date(gap.to))} · ${s.staff.find((x) => x.id === gap.staffId)?.name}`}</T>
+              <Button
+                title="Gửi ưu đãi"
+                size="sm"
+                onPress={() =>
+                  router.push({
+                    pathname: '/campaign',
+                    params: { window: `${hhmm(new Date(gap.from))}–${hhmm(new Date(gap.to))}` },
+                  })
+                }
+              />
             </Row>
             <T v="caption">Gợi ý: nhắn khách quen lâu chưa quay lại</T>
           </Card>
         ) : null}
       </View>
       {!s.staff.length ? (
-        <ScrollView><EmptyState icon="users" title="Chưa có thợ" body="Thêm thợ để bắt đầu nhận lịch." action="Thêm thợ" onAction={() => router.push('/staff')} /></ScrollView>
+        <ScrollView>
+          <EmptyState
+            icon="users"
+            title="Chưa có thợ"
+            body="Thêm thợ để bắt đầu nhận lịch."
+            action="Thêm thợ"
+            onAction={() => router.push('/staff')}
+          />
+        </ScrollView>
       ) : !hours?.open ? (
         <EmptyState icon="moon" title="Tiệm nghỉ ngày này" body="Đổi giờ mở cửa trong Cài đặt tiệm." />
       ) : (
         <View style={{ flex: 1, paddingHorizontal: L.gutter - 4, paddingTop: 8 }}>
-          <Timeline day={day} staff={staff} bookings={dayBookings} services={s.services} customers={s.customers} openFrom={openFrom} openTo={openTo}
-            selectedId={sel} onOpen={open} onEmpty={(staffId, at) => router.push({ pathname: '/booking/new', params: { staffId, at: String(at) } })} />
+          <Timeline
+            day={day}
+            staff={staff}
+            bookings={dayBookings}
+            services={s.services}
+            customers={s.customers}
+            openFrom={openFrom}
+            openTo={openTo}
+            selectedId={sel}
+            onOpen={open}
+            onEmpty={(staffId, at) => router.push({ pathname: '/booking/new', params: { staffId, at: String(at) } })}
+          />
         </View>
       )}
-      <FAB label="Tạo lịch hẹn" onPress={() => router.push({ pathname: '/booking/new', params: { at: String(Date.now()) } })} />
+      <FAB
+        label="Tạo lịch hẹn"
+        onPress={() => router.push({ pathname: '/booking/new', params: { at: String(Date.now()) } })}
+      />
     </View>
   );
 
   return (
     <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: c.bg }}>
       <SyncBar />
-      <TwoPane listWidth={0.6} list={main}
-        detail={selected ? <ScrollView contentContainerStyle={{ padding: 24 }}><BookingDetail booking={selected} onClose={() => setSel(null)} /></ScrollView> : undefined}
-        emptyDetail={<EmptyState icon="calendar" title="Chọn một lịch hẹn" body="Chi tiết sẽ hiện ở đây." />} />
+      <TwoPane
+        listWidth={0.6}
+        list={main}
+        detail={
+          selected ? (
+            <ScrollView contentContainerStyle={{ padding: 24 }}>
+              <BookingDetail booking={selected} onClose={() => setSel(null)} />
+            </ScrollView>
+          ) : undefined
+        }
+        emptyDetail={<EmptyState icon="calendar" title="Chọn một lịch hẹn" body="Chi tiết sẽ hiện ở đây." />}
+      />
     </SafeAreaView>
   );
 }

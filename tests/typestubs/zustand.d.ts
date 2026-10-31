@@ -14,6 +14,16 @@ declare module 'zustand' {
 }
 declare module 'zustand/middleware' {
   import { StateCreator } from 'zustand';
-  export function persist<T>(init: StateCreator<T>, opts: { name: string; storage?: any; partialize?: (s: T) => any; onRehydrateStorage?: (s: T) => any; version?: number; migrate?: any }): StateCreator<T>;
+  export function persist<T>(
+    init: StateCreator<T>,
+    opts: {
+      name: string;
+      storage?: any;
+      partialize?: (s: T) => any;
+      onRehydrateStorage?: (s: T) => any;
+      version?: number;
+      migrate?: any;
+    },
+  ): StateCreator<T>;
   export function createJSONStorage(...a: any[]): any;
 }

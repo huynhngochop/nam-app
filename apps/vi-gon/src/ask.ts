@@ -6,12 +6,31 @@ import { Category, Fund } from './types';
  * để nhận lại "cách hiểu" dạng JSON. Mọi con số luôn tính trên máy.
  */
 export type Metric = 'sum' | 'count' | 'top' | 'change' | 'average' | 'fund_eta' | 'left';
-export type PeriodKey = 'this_month' | 'last_month' | 'this_week' | 'today' | 'yesterday' | 'this_year' | `month_${number}`;
-export type Intent = { metric: Metric; kind: 'expense' | 'income'; categoryId: string | null; period: PeriodKey; fundId: string | null; merchant: string | null };
+export type PeriodKey =
+  'this_month' | 'last_month' | 'this_week' | 'today' | 'yesterday' | 'this_year' | `month_${number}`;
+export type Intent = {
+  metric: Metric;
+  kind: 'expense' | 'income';
+  categoryId: string | null;
+  period: PeriodKey;
+  fundId: string | null;
+  merchant: string | null;
+};
 
 export const PERIOD_LABEL = (p: PeriodKey) =>
-  p === 'this_month' ? 'tháng này' : p === 'last_month' ? 'tháng trước' : p === 'this_week' ? 'tuần này' : p === 'today' ? 'hôm nay'
-  : p === 'yesterday' ? 'hôm qua' : p === 'this_year' ? 'năm nay' : `tháng ${p.split('_')[1]}`;
+  p === 'this_month'
+    ? 'tháng này'
+    : p === 'last_month'
+      ? 'tháng trước'
+      : p === 'this_week'
+        ? 'tuần này'
+        : p === 'today'
+          ? 'hôm nay'
+          : p === 'yesterday'
+            ? 'hôm qua'
+            : p === 'this_year'
+              ? 'năm nay'
+              : `tháng ${p.split('_')[1]}`;
 
 const CAT_WORDS: Record<string, string[]> = {
   food: ['an uong', 'an', 'uong', 'cafe', 'ca phe', 'com', 'tra sua', 'nha hang'],
@@ -28,7 +47,8 @@ const CAT_WORDS: Record<string, string[]> = {
 };
 
 /** Cụm không nói về danh mục: thời gian, thứ trong tuần, "còn bao nhiêu". Chuỗi đã bỏ dấu và có dấu cách hai đầu. */
-const NOT_TOPIC = / (?:hom (?:qua|kia|nay)|thang (?:truoc|roi|nay|\d{1,2})|tuan (?:nay|truoc)|nam nay|ca nam|7 ngay|thu (?:hai|ba|bay)|chu nhat|con lai bao nhieu|con bao nhieu|con duoc chi)(?= )/g;
+const NOT_TOPIC =
+  / (?:hom (?:qua|kia|nay)|thang (?:truoc|roi|nay|\d{1,2})|tuan (?:nay|truoc)|nam nay|ca nam|7 ngay|thu (?:hai|ba|bay)|chu nhat|con lai bao nhieu|con bao nhieu|con duoc chi)(?= )/g;
 // Không gồm "thứ tư/năm/sáu": trùng với "thu từ…", "thu năm nay", "thu sau thuế" (danh từ "thu" = khoản thu).
 // Không gồm "còn lại" / "còn được" đứng riêng: "chi cho con lại tăng" vẫn phải hiểu là Gia đình.
 
@@ -40,10 +60,20 @@ export function parseIntent(q: string, cats: Category[], funds: Fund[], now = ne
   else if (/ hom nay /.test(f)) period = 'today';
   else if (/ hom qua /.test(f)) period = 'yesterday';
   else if (/ nam nay | ca nam /.test(f)) period = 'this_year';
-  else { const m = f.match(/ thang (\d{1,2}) /); if (m && Number(m[1]) >= 1 && Number(m[1]) <= 12) period = `month_${Number(m[1])}`; }
+  else {
+    const m = f.match(/ thang (\d{1,2}) /);
+    if (m && Number(m[1]) >= 1 && Number(m[1]) <= 12) period = `month_${Number(m[1])}`;
+  }
 
-  const fund = funds.find((x) => f.includes(` ${fold(x.name)} `) || fold(x.name).split(' ').some((w) => w.length > 3 && f.includes(` ${w} `)));
-  if (fund && / quy | bao lau | khi nao | bao gio | du /.test(f)) return { metric: 'fund_eta', kind: 'expense', categoryId: null, period, fundId: fund.id, merchant: null };
+  const fund = funds.find(
+    (x) =>
+      f.includes(` ${fold(x.name)} `) ||
+      fold(x.name)
+        .split(' ')
+        .some((w) => w.length > 3 && f.includes(` ${w} `)),
+  );
+  if (fund && / quy | bao lau | khi nao | bao gio | du /.test(f))
+    return { metric: 'fund_eta', kind: 'expense', categoryId: null, period, fundId: fund.id, merchant: null };
 
   // Bỏ cụm chỉ thời gian, thứ trong tuần và "còn bao nhiêu" trước khi dò danh mục / thu-chi (lỗi V2):
   // "hôm qua" chứa "qua" (Quà), "còn bao nhiêu" chứa "con" (Gia đình), "thứ hai" chứa "thu" (khoản thu).
@@ -55,9 +85,15 @@ export function parseIntent(q: string, cats: Category[], funds: Fund[], now = ne
   if (own) categoryId = own.id;
   else {
     let best = 0;
-    for (const [id, words] of Object.entries(CAT_WORDS)) for (const w of words) if (fc.includes(` ${w} `) && w.length > best) { best = w.length; categoryId = id; }
+    for (const [id, words] of Object.entries(CAT_WORDS))
+      for (const w of words)
+        if (fc.includes(` ${w} `) && w.length > best) {
+          best = w.length;
+          categoryId = id;
+        }
   }
-  const kind: Intent['kind'] = / thu | thu nhap | kiem duoc | nhan duoc | luong /.test(fc) && !/ chi /.test(fc) ? 'income' : 'expense';
+  const kind: Intent['kind'] =
+    / thu | thu nhap | kiem duoc | nhan duoc | luong /.test(fc) && !/ chi /.test(fc) ? 'income' : 'expense';
   if (categoryId === 'salary') categoryId = kind === 'income' ? 'salary' : null;
 
   let metric: Metric | null = null;
@@ -71,36 +107,82 @@ export function parseIntent(q: string, cats: Category[], funds: Fund[], now = ne
   return { metric, kind, categoryId, period, fundId: null, merchant: null };
 }
 
-export function periodRange(p: PeriodKey, startDay: number, now = new Date()): { from: number; to: number; prevFrom: number; prevTo: number } {
-  const d0 = new Date(now); d0.setHours(0, 0, 0, 0);
+export function periodRange(
+  p: PeriodKey,
+  startDay: number,
+  now = new Date(),
+): { from: number; to: number; prevFrom: number; prevTo: number } {
+  const d0 = new Date(now);
+  d0.setHours(0, 0, 0, 0);
   const day = 86400000;
   const month = (offset: number) => {
-    const y = now.getFullYear(); let m = now.getMonth(); if (now.getDate() < startDay) m -= 1; m += offset;
+    const y = now.getFullYear();
+    let m = now.getMonth();
+    if (now.getDate() < startDay) m -= 1;
+    m += offset;
     return { from: new Date(y, m, startDay).getTime(), to: new Date(y, m + 1, startDay).getTime() };
   };
-  if (p === 'today') return { from: d0.getTime(), to: d0.getTime() + day, prevFrom: d0.getTime() - day, prevTo: d0.getTime() };
-  if (p === 'yesterday') return { from: d0.getTime() - day, to: d0.getTime(), prevFrom: d0.getTime() - 2 * day, prevTo: d0.getTime() - day };
-  if (p === 'this_week') { const s = d0.getTime() - ((d0.getDay() + 6) % 7) * day; return { from: s, to: s + 7 * day, prevFrom: s - 7 * day, prevTo: s }; }
-  if (p === 'this_year') { const s = new Date(now.getFullYear(), 0, 1).getTime(); return { from: s, to: new Date(now.getFullYear() + 1, 0, 1).getTime(), prevFrom: new Date(now.getFullYear() - 1, 0, 1).getTime(), prevTo: s }; }
-  if (p === 'last_month') { const a = month(-1); const b = month(-2); return { ...a, prevFrom: b.from, prevTo: b.to }; }
-  if (p.startsWith('month_')) {
-    const m = Number(p.split('_')[1]) - 1; const y = m > now.getMonth() ? now.getFullYear() - 1 : now.getFullYear();
-    return { from: new Date(y, m, startDay).getTime(), to: new Date(y, m + 1, startDay).getTime(), prevFrom: new Date(y, m - 1, startDay).getTime(), prevTo: new Date(y, m, startDay).getTime() };
+  if (p === 'today')
+    return { from: d0.getTime(), to: d0.getTime() + day, prevFrom: d0.getTime() - day, prevTo: d0.getTime() };
+  if (p === 'yesterday')
+    return { from: d0.getTime() - day, to: d0.getTime(), prevFrom: d0.getTime() - 2 * day, prevTo: d0.getTime() - day };
+  if (p === 'this_week') {
+    const s = d0.getTime() - ((d0.getDay() + 6) % 7) * day;
+    return { from: s, to: s + 7 * day, prevFrom: s - 7 * day, prevTo: s };
   }
-  const a = month(0); const b = month(-1); return { ...a, prevFrom: b.from, prevTo: b.to };
+  if (p === 'this_year') {
+    const s = new Date(now.getFullYear(), 0, 1).getTime();
+    return {
+      from: s,
+      to: new Date(now.getFullYear() + 1, 0, 1).getTime(),
+      prevFrom: new Date(now.getFullYear() - 1, 0, 1).getTime(),
+      prevTo: s,
+    };
+  }
+  if (p === 'last_month') {
+    const a = month(-1);
+    const b = month(-2);
+    return { ...a, prevFrom: b.from, prevTo: b.to };
+  }
+  if (p.startsWith('month_')) {
+    const m = Number(p.split('_')[1]) - 1;
+    const y = m > now.getMonth() ? now.getFullYear() - 1 : now.getFullYear();
+    return {
+      from: new Date(y, m, startDay).getTime(),
+      to: new Date(y, m + 1, startDay).getTime(),
+      prevFrom: new Date(y, m - 1, startDay).getTime(),
+      prevTo: new Date(y, m, startDay).getTime(),
+    };
+  }
+  const a = month(0);
+  const b = month(-1);
+  return { ...a, prevFrom: b.from, prevTo: b.to };
 }
 
 /** Không hiểu bằng quy tắc → nhờ AI hiểu câu hỏi. Chỉ gửi câu hỏi + danh sách TÊN danh mục/quỹ, không gửi số liệu. */
 export async function intentViaAi(q: string, cats: Category[], funds: Fund[]): Promise<Intent | null> {
   try {
-    const r = await callAi<Partial<Intent>>('finance-intent', { question: q.slice(0, 200), categories: cats.map((c) => ({ id: c.id, name: c.name })), funds: funds.map((x) => ({ id: x.id, name: x.name })) }, { timeoutMs: 8000 });
+    const r = await callAi<Partial<Intent>>(
+      'finance-intent',
+      {
+        question: q.slice(0, 200),
+        categories: cats.map((c) => ({ id: c.id, name: c.name })),
+        funds: funds.map((x) => ({ id: x.id, name: x.name })),
+      },
+      { timeoutMs: 8000 },
+    );
     const metrics: Metric[] = ['sum', 'count', 'top', 'change', 'average', 'fund_eta', 'left'];
     if (!r.metric || !metrics.includes(r.metric)) return null;
     return {
-      metric: r.metric, kind: r.kind === 'income' ? 'income' : 'expense',
+      metric: r.metric,
+      kind: r.kind === 'income' ? 'income' : 'expense',
       categoryId: cats.some((c) => c.id === r.categoryId) ? r.categoryId! : null,
-      period: (typeof r.period === 'string' && /^(this_month|last_month|this_week|today|yesterday|this_year|month_\d{1,2})$/.test(r.period) ? r.period : 'this_month') as PeriodKey,
-      fundId: funds.some((x) => x.id === r.fundId) ? r.fundId! : null, merchant: null,
+      period: (typeof r.period === 'string' &&
+      /^(this_month|last_month|this_week|today|yesterday|this_year|month_\d{1,2})$/.test(r.period)
+        ? r.period
+        : 'this_month') as PeriodKey,
+      fundId: funds.some((x) => x.id === r.fundId) ? r.fundId! : null,
+      merchant: null,
     };
   } catch (e) {
     if (e instanceof AiUnavailableError) return null;
@@ -108,4 +190,9 @@ export async function intentViaAi(q: string, cats: Category[], funds: Fund[]): P
   }
 }
 
-export const SUGGESTED = ['Tháng này ăn uống hết bao nhiêu?', 'Khoản nào tăng nhiều nhất so với tháng trước?', 'Tháng này còn được chi bao nhiêu?', 'Tuần này đi lại hết bao nhiêu?'];
+export const SUGGESTED = [
+  'Tháng này ăn uống hết bao nhiêu?',
+  'Khoản nào tăng nhiều nhất so với tháng trước?',
+  'Tháng này còn được chi bao nhiêu?',
+  'Tuần này đi lại hết bao nhiêu?',
+];

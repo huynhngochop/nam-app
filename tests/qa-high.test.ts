@@ -50,7 +50,12 @@ test('V2: "thứ Hai" không làm câu hỏi thành khoản thu', () => {
   assert.equal(intent('Thứ hai tuần này ăn uống hết bao nhiêu')!.kind, 'expense');
 });
 test('V2: danh từ "thu" trước năm / từ / sau vẫn là khoản thu', () => {
-  for (const q of ['Tổng thu năm nay', 'Khoản thu năm nay bao nhiêu', 'Thu từ bán hàng tháng này bao nhiêu', 'Thu sau thuế năm nay bao nhiêu'])
+  for (const q of [
+    'Tổng thu năm nay',
+    'Khoản thu năm nay bao nhiêu',
+    'Thu từ bán hàng tháng này bao nhiêu',
+    'Thu sau thuế năm nay bao nhiêu',
+  ])
     assert.equal(intent(q)!.kind, 'income', q);
   assert.equal(intent('Tháng này còn được chi bao nhiêu')!.categoryId, null);
   assert.equal(intent('Chi cho con lại tăng tháng này')!.categoryId, 'family');
@@ -63,7 +68,10 @@ test('V2: vẫn hiểu quà, gia đình khi người dùng hỏi thật', () => 
 
 /* ---------------- V4 · bỏ đánh dấu chuyển nội bộ phải trả lại đúng chiều thu/chi ---------------- */
 test('V4: chân tiền vào trả lại thành khoản thu, chân kia thành khoản chi', () => {
-  const r = untransferKinds({ raw: 'TK 5678 +3,000,000VND ND: CHUYEN TIEN' }, { raw: 'TK 1234 -3,000,000VND ND: CHUYEN TIEN' });
+  const r = untransferKinds(
+    { raw: 'TK 5678 +3,000,000VND ND: CHUYEN TIEN' },
+    { raw: 'TK 1234 -3,000,000VND ND: CHUYEN TIEN' },
+  );
   assert.deepEqual(r, { self: 'income', pair: 'expense' });
 });
 test('V4: không có tin gốc thì suy từ chân kia; không đoán được thì null (hỏi người dùng)', () => {
@@ -82,17 +90,25 @@ test('H1: "1,5tr", "1.2tr", "2,5 triệu" đọc đúng', () => {
 
 /* ---------------- H2 · thời lượng đứng sau giá ---------------- */
 test('H2: dòng có thời lượng sau giá vẫn đọc được giá và tên sạch', () => {
-  const [a, b, c] = parseLocally('Uốn lạnh 800K 150 phút\nCombo cắt + gội 200k - 45p\nMassage mặt 30\'  250k');
+  const [a, b, c] = parseLocally("Uốn lạnh 800K 150 phút\nCombo cắt + gội 200k - 45p\nMassage mặt 30'  250k");
   assert.deepEqual([a.name, a.price, a.durationMin, a.durationGuessed], ['Uốn lạnh', 800000, 150, false]);
   assert.deepEqual([b.name, b.price, b.durationMin], ['Combo cắt + gội', 200000, 45]);
   assert.deepEqual([c.name, c.price, c.durationMin], ['Massage mặt', 250000, 30]);
 });
 test('H2: đoạn mẫu của nút "Dùng ví dụ" đọc đủ giá từng dòng', () => {
-  const SAMPLE = 'BẢNG GIÁ\nCắt + gội + sấy ........ 180K\nCắt nam 120.000\nNhuộm thời trang 650k\nUốn lạnh 800K 150 phút\nGội dưỡng sinh 150k';
+  const SAMPLE =
+    'BẢNG GIÁ\nCắt + gội + sấy ........ 180K\nCắt nam 120.000\nNhuộm thời trang 650k\nUốn lạnh 800K 150 phút\nGội dưỡng sinh 150k';
   const rows = parseLocally(SAMPLE);
-  assert.deepEqual(rows.map((r) => [r.name, r.price]), [
-    ['Cắt + gội + sấy', 180000], ['Cắt nam', 120000], ['Nhuộm thời trang', 650000], ['Uốn lạnh', 800000], ['Gội dưỡng sinh', 150000],
-  ]);
+  assert.deepEqual(
+    rows.map((r) => [r.name, r.price]),
+    [
+      ['Cắt + gội + sấy', 180000],
+      ['Cắt nam', 120000],
+      ['Nhuộm thời trang', 650000],
+      ['Uốn lạnh', 800000],
+      ['Gội dưỡng sinh', 150000],
+    ],
+  );
 });
 test('H3: "Gội đầu dưỡng sinh" không bị đoán là uốn tóc', () => {
   const [g] = parseLocally('Gội đầu dưỡng sinh 80.000');

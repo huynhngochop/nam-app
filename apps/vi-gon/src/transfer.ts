@@ -9,7 +9,7 @@ type Kind = 'expense' | 'income';
  * Không đoán được → null, màn hình hỏi người dùng.
  */
 export function untransferKinds(self: Leg, pair: Leg | null): { self: Kind | null; pair: Kind | null } {
-  const kindOf = (l: Leg | null): Kind | null => (l?.raw ? parseBankText(l.raw)?.kind ?? null : null);
+  const kindOf = (l: Leg | null): Kind | null => (l?.raw ? (parseBankText(l.raw)?.kind ?? null) : null);
   const flip = (k: Kind): Kind => (k === 'income' ? 'expense' : 'income');
   let a = kindOf(self);
   let b = kindOf(pair);

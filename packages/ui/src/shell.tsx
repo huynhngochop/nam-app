@@ -25,10 +25,22 @@ function Inner({ children }: { children: ReactNode }) {
  * Khung gốc dùng chung cho mọi app: phông, splash (tối đa đến khi phông + dữ liệu sẵn sàng), theme sáng/tối, toast.
  * `ready` = dữ liệu bắt buộc đã nạp (ví dụ store đã hydrate).
  */
-export function AppShell({ app, pref, ready = true, children }: { app: AppId; pref?: ThemePref; ready?: boolean; children: ReactNode }) {
+export function AppShell({
+  app,
+  pref,
+  ready = true,
+  children,
+}: {
+  app: AppId;
+  pref?: ThemePref;
+  ready?: boolean;
+  children: ReactNode;
+}) {
   const fontsReady = useAppFonts();
   const ok = fontsReady && ready;
-  useEffect(() => { if (ok) SplashScreen.hideAsync().catch(() => {}); }, [ok]);
+  useEffect(() => {
+    if (ok) SplashScreen.hideAsync().catch(() => {});
+  }, [ok]);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>

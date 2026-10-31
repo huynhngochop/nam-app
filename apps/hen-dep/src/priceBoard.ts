@@ -5,7 +5,13 @@ import { AiUnavailableError, callAi, fold } from '@nam/core';
  * Văn bản lấy từ OCR trên máy (khi tích hợp ML Kit/Vision) hoặc người dùng dán vào.
  * Có cổng AI → nhờ AI tách; không có → bộ tách theo quy tắc chạy trên máy.
  */
-export type ParsedService = { name: string; price: number | null; durationMin: number; durationGuessed: boolean; group: string };
+export type ParsedService = {
+  name: string;
+  price: number | null;
+  durationMin: number;
+  durationGuessed: boolean;
+  group: string;
+};
 
 const GUESS: { re: RegExp; min: number; group: string }[] = [
   // So khớp nguyên từ (\b) trên chuỗi đã bỏ dấu: "duong" (dưỡng) không được khớp "uon" (uốn) — lỗi H3.
@@ -46,14 +52,17 @@ export function parseLocally(text: string): ParsedService[] {
     const dur = l.match(DURATION);
     const rest = (dur ? l.replace(dur[0], ' ') : l).replace(/[\s\-–:.…]+$/, '').trim();
     const m = rest.match(/^(.*?)[\s.:\-–…]*((?:\d[\d.,]*\s*(?:k|K|đ|d|vnd|VND|tr|triệu)?)(?:\s*\d+)?)\s*$/);
-    const name = (m ? m[1] : rest).replace(/[.:\-–…]+$/, '').replace(/\s+/g, ' ').trim();
+    const name = (m ? m[1] : rest)
+      .replace(/[.:\-–…]+$/, '')
+      .replace(/\s+/g, ' ')
+      .trim();
     if (!name || /^bang gia|^menu|^gia$/.test(fold(name))) continue;
     const price = m ? parsePrice(m[2]) : null;
     const g = GUESS.find((x) => x.re.test(fold(name)));
     out.push({
       name: name.charAt(0).toUpperCase() + name.slice(1).toLowerCase(),
       price,
-      durationMin: dur ? Number(dur[1]) : g?.min ?? 45,
+      durationMin: dur ? Number(dur[1]) : (g?.min ?? 45),
       durationGuessed: !dur,
       group: g?.group ?? 'Khác',
     });
