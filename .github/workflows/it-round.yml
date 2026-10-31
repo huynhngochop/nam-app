@@ -51,6 +51,9 @@ jobs:
           EOF
 
       - name: Export web
+        # Giống bản APK "preview" người thử nhận: bật đăng nhập thử (mã 123456) của Hẹn Đẹp.
+        env:
+          EXPO_PUBLIC_APP_VARIANT: preview
         run: $A "export ${{ matrix.app }}" "cd apps/${{ matrix.app }} && npx expo export -p web --clear --output-dir dist-web 2>&1 | tail -25"
 
       - name: Cài Playwright (ngoài monorepo)
