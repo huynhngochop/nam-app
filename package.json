@@ -14,11 +14,11 @@
     "hen": "npm --workspace @nam/hen-dep run start",
     "vi": "npm --workspace @nam/vi-gon run start"
   },
+  "dependencies": {
+    "expo-asset": "~12.0.14"
+  },
   "devDependencies": {
     "tsx": "^4.20.5",
     "typescript": "~5.9.2"
-  },
-  "overrides": {
-    "expo-asset": "~12.0.14"
   }
 }
