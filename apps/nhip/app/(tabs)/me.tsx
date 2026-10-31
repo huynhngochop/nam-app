@@ -49,7 +49,7 @@ export default function Me() {
           <T v="caption" muted>{`Mục tiêu ${minutesLabel(s.goalMin)}/ngày`}</T>
         </View>
       </Row>
-      <Card variant="fill" onPress={() => router.push('/paywall')}>
+      <Card variant="accent" onPress={() => router.push('/paywall')}>
         <Row between>
           <T v="headline" color={c.onAccent}>
             Nhịp Pro

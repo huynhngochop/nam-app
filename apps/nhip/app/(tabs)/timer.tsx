@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Linking, View } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
 import {
@@ -19,14 +19,21 @@ import {
   T,
   useLayout,
   useTheme,
+  useToast,
 } from '@nam/ui';
 import { dateKey, mmss, track, weekdayLong } from '@nam/core';
 import { focusedSecOf, useNhip } from '../../src/store';
 import { notifyStatus, requestNotify, schedulePhaseEnd } from '../../src/notify';
+import { useNow } from '../../src/clock';
+import { classifySession } from '../../src/recovery';
+
+/** Đã kiểm tra "phiên dở" kể từ khi app khởi động chưa (biến cấp module: mất khi app bị tắt hẳn). */
+let launchChecked = false;
 
 /** NH-03 Hẹn giờ · NH-17 Khôi phục phiên · NH-18 Thông báo bị tắt. */
 export default function Timer() {
   const { c } = useTheme();
+  const toast = useToast();
   const L = useLayout();
   const s = useNhip();
   const [mode, setMode] = useState<'pomodoro' | 'countup'>('pomodoro');
@@ -35,7 +42,27 @@ export default function Timer() {
   const [notif, setNotif] = useState<'granted' | 'denied' | 'undetermined'>('granted');
   const [keepAwakeOnce, setKeepAwakeOnce] = useState(false);
 
-  const stale = s.session && Date.now() - s.session.lastHeartbeatAt > 90_000 ? s.session : null;
+  // N1/N2: chỉ hỏi "phiên dở" ở lần mở đầu tiên sau khi app khởi động (app đã bị tắt giữa phiên).
+  const [firstOpen] = useState(() => {
+    const first = !launchChecked;
+    launchChecked = true;
+    return first;
+  });
+  const now = useNow(!!s.session && s.session.status === 'running', 1000);
+  const state = classifySession(s.session, now, firstOpen);
+  const stale = state === 'stale' ? s.session : null;
+  const active = state === 'active' ? s.session : null;
+  useEffect(() => {
+    if (state !== 'expired' || !s.session) return;
+    const sess = s.session;
+    // Phiên đã đủ giờ trong lúc người dùng không ở màn phiên (hoặc app bị tắt): tính là hoàn thành.
+    if (sess.phase === 'focus') {
+      s.endSession('completed');
+      track('session_completed', { focusMin: Math.round(sess.plannedSec / 60), recovered: true });
+      toast(`Đã xong phiên ${Math.round(sess.plannedSec / 60)} phút`, { tone: 'success' });
+    } else s.set({ session: null });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
   useFocusEffect(
     useCallback(() => {
       notifyStatus().then(setNotif);
@@ -137,7 +164,29 @@ export default function Timer() {
           </T>
           <Chip label={mix?.name ?? 'Tắt'} icon="headphones" selected={!!mix} onPress={() => setMixOpen(true)} />
         </Row>
-        <Button title="Bắt đầu" icon="play" onPress={start} />
+        {active ? (
+          <Card variant="tint">
+            <Row between>
+              <View style={{ flex: 1 }}>
+                <T v="headline">{active.phase === 'focus' ? 'Đang có phiên tập trung' : 'Đang nghỉ giải lao'}</T>
+                <T v="caption" muted>
+                  {active.mode === 'countup'
+                    ? `Đã ${mmss(focusedSecOf(active, now))}`
+                    : `Còn ${mmss(active.status === 'paused' ? (active.pausedRemainingSec ?? 0) : Math.max(0, Math.round((active.endAt - now) / 1000)))}${active.status === 'paused' ? ' · tạm dừng' : ''}`}
+                </T>
+              </View>
+              <Button
+                title="Quay lại phiên"
+                size="sm"
+                icon="play"
+                full={false}
+                onPress={() => router.push('/session')}
+              />
+            </Row>
+          </Card>
+        ) : (
+          <Button title="Bắt đầu" icon="play" onPress={start} />
+        )}
       </View>
 
       <Sheet visible={quick} onClose={() => setQuick(false)} title="Thời lượng tập trung">

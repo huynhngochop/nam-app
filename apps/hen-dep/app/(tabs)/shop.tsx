@@ -20,7 +20,7 @@ export default function ShopTab() {
 
   return (
     <Screen scroll>
-      <T v="caption" muted>
+      <T v="caption" muted style={{ paddingTop: 8 }}>
         {s.shop.type}
       </T>
       <T v="display" accessibilityRole="header">

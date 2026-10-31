@@ -57,7 +57,7 @@ export default function Budgets() {
   return (
     <Screen scroll edges={['top', 'bottom']}>
       <AppBar title={`Ngân sách ${p.label.toLowerCase()}`} onBack={() => router.back()} />
-      <Card variant="fill" onPress={() => open('total')} accessibilityLabel="Sửa ngân sách tổng">
+      <Card variant="accent" onPress={() => open('total')} accessibilityLabel="Sửa ngân sách tổng">
         <T v="caption">Tổng ngân sách</T>
         <T v="title">
           {s.monthlyBudget ? `${shortMoney(spentTotal)} / ${shortMoney(s.monthlyBudget)}` : 'Chưa đặt — chạm để đặt'}
