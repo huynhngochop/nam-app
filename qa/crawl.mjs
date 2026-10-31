@@ -132,6 +132,15 @@ async function fillEmptyInputs() {
 const PRIMARY = [/^tiếp tục/i, /^tiếp theo/i, /^tiếp$/i, /^bắt đầu/i, /^gửi mã/i, /^xác nhận/i, /^đăng nhập/i, /^tạo/i, /^lưu/i, /^xong/i, /^hoàn tất/i, /^đồng ý/i, /^vào /i, /^cho phép/i, /^bật/i, /^bỏ qua/i, /^để sau/i, /^lúc khác/i];
 await go('/');
 report.firstRun.push({ step: 0, url: page.url().replace(base, ''), shot: await shot('first-run-0'), errors: drain() });
+// Dừng sớm nếu app sập ngay khi mở (trang trắng): không có gì để bấm, đừng tốn cả tiếng quét.
+if (!(await candidates()).length && report.firstRun[0].errors.some((e) => e.type === 'pageerror')) {
+  report.fatal = report.firstRun[0].errors.filter((e) => e.type === 'pageerror').map((e) => e.text);
+  fs.writeFileSync(path.join(outDir, 'report.json'), JSON.stringify(report, null, 1));
+  fs.writeFileSync(path.join(outDir, 'summary.md'), `# ${app}\nAPP SẬP KHI MỞ:\n${report.fatal.join('\n')}\n`);
+  console.log(`APP SẬP KHI MỞ: ${report.fatal.join(' | ')}`);
+  await browser.close();
+  process.exit(1);
+}
 for (let step = 1; step <= 20; step++) {
   const url = page.url().replace(base, '');
   if (!isEntry(url.split('?')[0]) && step > 1) break;
