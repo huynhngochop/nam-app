@@ -37,7 +37,8 @@ jobs:
           cat > apps/${{ matrix.app }}/babel.config.js <<'EOF'
           module.exports = (api) => {
             api.cache(true);
-            return { presets: [['babel-preset-expo', { unstable_transformImportMeta: true }]] };
+            const preset = require.resolve('babel-preset-expo', { paths: [require.resolve('expo/package.json')] });
+            return { presets: [[preset, { unstable_transformImportMeta: true }]] };
           };
           EOF
           cat > apps/${{ matrix.app }}/metro.config.js <<'EOF'
