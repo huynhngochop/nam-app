@@ -1,31 +1,138 @@
 import { Booking, Customer, Service, Shop, Staff } from './types';
 
 /** Dữ liệu mẫu để thử app ngay sau khi thiết lập (có thể xóa trong Cài đặt). */
-const at = (h: number, m = 0, dayOffset = 0) => { const d = new Date(); d.setDate(d.getDate() + dayOffset); d.setHours(h, m, 0, 0); return d.getTime(); };
+const at = (h: number, m = 0, dayOffset = 0) => {
+  const d = new Date();
+  d.setDate(d.getDate() + dayOffset);
+  d.setHours(h, m, 0, 0);
+  return d.getTime();
+};
 
 export const DEFAULT_SHOP: Shop = {
-  name: 'Salon Mây', type: 'Salon tóc', address: '12 Lê Lợi, Q.1, TP.HCM', phone: '0901234567', slug: 'salon-may',
+  name: 'Salon Mây',
+  type: 'Salon tóc',
+  address: '12 Lê Lợi, Q.1, TP.HCM',
+  phone: '0901234567',
+  slug: 'salon-may',
   hours: [0, 1, 2, 3, 4, 5, 6].map((day) => ({ day, open: day !== 0, from: '08:00', to: '20:00' })),
-  settings: { selfBooking: true, minLeadMin: 60, cancelBeforeH: 2, bufferMin: 10, slotStepMin: 15, remind24h: true, remind2h: true, askReview: true, depositForNoShow: false, vipVisits: 5, vipSpend: 1500000 },
+  settings: {
+    selfBooking: true,
+    minLeadMin: 60,
+    cancelBeforeH: 2,
+    bufferMin: 10,
+    slotStepMin: 15,
+    remind24h: true,
+    remind2h: true,
+    askReview: true,
+    depositForNoShow: false,
+    vipVisits: 5,
+    vipSpend: 1500000,
+  },
 };
 
 export const SEED_STAFF: Staff[] = [
-  { id: 's1', name: 'Chị Hà', role: 'stylist', shiftFrom: '08:00', shiftTo: '17:00', onlineToday: true, commissionPct: 15 },
-  { id: 's2', name: 'Anh Tuấn', role: 'stylist', shiftFrom: '12:00', shiftTo: '20:00', onlineToday: true, commissionPct: 15 },
-  { id: 's3', name: 'Ngọc', role: 'stylist', shiftFrom: '08:00', shiftTo: '17:00', onlineToday: true, commissionPct: 12 },
+  {
+    id: 's1',
+    name: 'Chị Hà',
+    role: 'stylist',
+    shiftFrom: '08:00',
+    shiftTo: '17:00',
+    onlineToday: true,
+    commissionPct: 15,
+  },
+  {
+    id: 's2',
+    name: 'Anh Tuấn',
+    role: 'stylist',
+    shiftFrom: '12:00',
+    shiftTo: '20:00',
+    onlineToday: true,
+    commissionPct: 15,
+  },
+  {
+    id: 's3',
+    name: 'Ngọc',
+    role: 'stylist',
+    shiftFrom: '08:00',
+    shiftTo: '17:00',
+    onlineToday: true,
+    commissionPct: 12,
+  },
 ];
 
 export const SEED_SERVICES: Service[] = [
-  { id: 'v1', group: 'Tóc', name: 'Cắt + gội + sấy', durationMin: 45, price: 180000, staffIds: ['s1', 's2'], visible: true, order: 0 },
-  { id: 'v2', group: 'Tóc', name: 'Cắt nam', durationMin: 30, price: 120000, staffIds: ['s1', 's2'], visible: true, order: 1 },
-  { id: 'v3', group: 'Tóc', name: 'Nhuộm thời trang', durationMin: 120, price: 650000, staffIds: ['s1'], visible: true, order: 2 },
-  { id: 'v4', group: 'Tóc', name: 'Uốn lạnh', durationMin: 150, price: 800000, staffIds: ['s2'], visible: true, order: 3 },
-  { id: 'v5', group: 'Gội dưỡng', name: 'Gội dưỡng sinh', durationMin: 60, price: 150000, staffIds: ['s1', 's2', 's3'], visible: true, order: 4 },
-  { id: 'v6', group: 'Nail', name: 'Sơn gel', durationMin: 60, price: 200000, staffIds: ['s3'], visible: true, order: 5 },
+  {
+    id: 'v1',
+    group: 'Tóc',
+    name: 'Cắt + gội + sấy',
+    durationMin: 45,
+    price: 180000,
+    staffIds: ['s1', 's2'],
+    visible: true,
+    order: 0,
+  },
+  {
+    id: 'v2',
+    group: 'Tóc',
+    name: 'Cắt nam',
+    durationMin: 30,
+    price: 120000,
+    staffIds: ['s1', 's2'],
+    visible: true,
+    order: 1,
+  },
+  {
+    id: 'v3',
+    group: 'Tóc',
+    name: 'Nhuộm thời trang',
+    durationMin: 120,
+    price: 650000,
+    staffIds: ['s1'],
+    visible: true,
+    order: 2,
+  },
+  {
+    id: 'v4',
+    group: 'Tóc',
+    name: 'Uốn lạnh',
+    durationMin: 150,
+    price: 800000,
+    staffIds: ['s2'],
+    visible: true,
+    order: 3,
+  },
+  {
+    id: 'v5',
+    group: 'Gội dưỡng',
+    name: 'Gội dưỡng sinh',
+    durationMin: 60,
+    price: 150000,
+    staffIds: ['s1', 's2', 's3'],
+    visible: true,
+    order: 4,
+  },
+  {
+    id: 'v6',
+    group: 'Nail',
+    name: 'Sơn gel',
+    durationMin: 60,
+    price: 200000,
+    staffIds: ['s3'],
+    visible: true,
+    order: 5,
+  },
 ];
 
 export const SEED_CUSTOMERS: Customer[] = [
-  { id: 'c1', name: 'Nguyễn Minh Anh', phone: '0903123456', birthday: '14/03', note: 'Thích chị Hà. Da đầu nhạy cảm — dùng dầu gội dịu nhẹ.', createdAt: at(10, 0, -200), marketingConsent: true },
+  {
+    id: 'c1',
+    name: 'Nguyễn Minh Anh',
+    phone: '0903123456',
+    birthday: '14/03',
+    note: 'Thích chị Hà. Da đầu nhạy cảm — dùng dầu gội dịu nhẹ.',
+    createdAt: at(10, 0, -200),
+    marketingConsent: true,
+  },
   { id: 'c2', name: 'Trần Thu Lan', phone: '0912888777', createdAt: at(10, 0, -60), marketingConsent: true },
   { id: 'c3', name: 'Phạm Hằng', phone: '0938555444', createdAt: at(10, 0, -300), marketingConsent: true },
   { id: 'c4', name: 'Khoa Võ', phone: '0977111222', createdAt: at(10, 0, -1), marketingConsent: false },
@@ -33,8 +140,26 @@ export const SEED_CUSTOMERS: Customer[] = [
 ];
 
 let n = 2400;
-const b = (customerId: string, staffId: string, serviceIds: string[], start: number, dur: number, status: Booking['status'], source: Booking['source'], paid?: number): Booking => ({
-  id: `b${++n}`, code: `HD-${n}`, customerId, staffId, serviceIds, startAt: start, endAt: start + dur * 60000, status, source, synced: true,
+const b = (
+  customerId: string,
+  staffId: string,
+  serviceIds: string[],
+  start: number,
+  dur: number,
+  status: Booking['status'],
+  source: Booking['source'],
+  paid?: number,
+): Booking => ({
+  id: `b${++n}`,
+  code: `HD-${n}`,
+  customerId,
+  staffId,
+  serviceIds,
+  startAt: start,
+  endAt: start + dur * 60000,
+  status,
+  source,
+  synced: true,
   payment: paid ? { amount: paid, method: 'cash', paidAt: start + dur * 60000 } : undefined,
 });
 

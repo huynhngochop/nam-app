@@ -7,7 +7,15 @@ export type ThemePref = 'system' | 'light' | 'dark';
 type ThemeCtx = { app: AppId; scheme: SchemeName; c: Palette };
 const Ctx = createContext<ThemeCtx | null>(null);
 
-export function ThemeProvider({ app, pref = 'system', children }: { app: AppId; pref?: ThemePref; children: React.ReactNode }) {
+export function ThemeProvider({
+  app,
+  pref = 'system',
+  children,
+}: {
+  app: AppId;
+  pref?: ThemePref;
+  children: React.ReactNode;
+}) {
   const sys = useColorScheme();
   const scheme: SchemeName = pref === 'system' ? (sys === 'dark' ? 'dark' : 'light') : pref;
   const value = useMemo(() => ({ app, scheme, c: palette(app, scheme) }), [app, scheme]);

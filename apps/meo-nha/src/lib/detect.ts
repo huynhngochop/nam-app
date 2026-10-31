@@ -10,4 +10,17 @@ export async function detectIngredients(_photoUri: string): Promise<Detection[]>
 }
 
 /** Gợi ý chọn nhanh khi chưa nhận ra: nguyên liệu phổ biến nhất ở chợ Việt. */
-export const QUICK_GUESSES = ['trung', 'ca-chua', 'hanh-la', 'dau-phu', 'rau-muong', 'thit-heo', 'bi-dao', 'khoai-tay', 'ca-rot', 'tom', 'cai-thao', 'toi'];
+export const QUICK_GUESSES = [
+  'trung',
+  'ca-chua',
+  'hanh-la',
+  'dau-phu',
+  'rau-muong',
+  'thit-heo',
+  'bi-dao',
+  'khoai-tay',
+  'ca-rot',
+  'tom',
+  'cai-thao',
+  'toi',
+];

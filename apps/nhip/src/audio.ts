@@ -11,14 +11,22 @@ let modeSet = false;
 async function ensureMode() {
   if (modeSet) return;
   modeSet = true;
-  try { await setAudioModeAsync({ playsInSilentMode: true, shouldPlayInBackground: true }); } catch { modeSet = false; }
+  try {
+    await setAudioModeAsync({ playsInSilentMode: true, shouldPlayInBackground: true });
+  } catch {
+    modeSet = false;
+  }
 }
 
 export async function syncMix(layers: { id: SoundId; vol: number }[], playing: boolean) {
   await ensureMode();
   const want = new Map(layers.filter((l) => soundById(l.id).file).map((l) => [l.id, l.vol]));
   for (const [id, p] of players) {
-    if (!want.has(id)) { p.pause(); p.remove(); players.delete(id); }
+    if (!want.has(id)) {
+      p.pause();
+      p.remove();
+      players.delete(id);
+    }
   }
   for (const [id, vol] of want) {
     let p = players.get(id);
@@ -34,6 +42,9 @@ export async function syncMix(layers: { id: SoundId; vol: number }[], playing: b
 }
 
 export function stopAll() {
-  for (const [, p] of players) { p.pause(); p.remove(); }
+  for (const [, p] of players) {
+    p.pause();
+    p.remove();
+  }
   players.clear();
 }

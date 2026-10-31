@@ -32,7 +32,12 @@ declare module 'react' {
     function createContext<T>(d: T): Context<T>;
     function memo<T>(c: T, eq?: any): T;
     function forwardRef<R, P = {}>(fn: (props: P, ref: any) => any): (props: P & { ref?: any; key?: any }) => any;
-    const Children: { toArray(c: any): any[]; count(c: any): number; map(c: any, fn: (x: any, i: number) => any): any[]; only(c: any): any };
+    const Children: {
+      toArray(c: any): any[];
+      count(c: any): number;
+      map(c: any, fn: (x: any, i: number) => any): any[];
+      only(c: any): any;
+    };
     const Fragment: any;
     const StrictMode: any;
     const Suspense: any;
@@ -47,11 +52,21 @@ declare module 'react' {
 declare module 'react/jsx-runtime' {
   export namespace JSX {
     type Element = any;
-    interface ElementClass { render: any }
-    interface ElementAttributesProperty { props: {} }
-    interface ElementChildrenAttribute { children: {} }
-    interface IntrinsicAttributes { key?: any }
-    interface IntrinsicElements { [k: string]: any }
+    interface ElementClass {
+      render: any;
+    }
+    interface ElementAttributesProperty {
+      props: {};
+    }
+    interface ElementChildrenAttribute {
+      children: {};
+    }
+    interface IntrinsicAttributes {
+      key?: any;
+    }
+    interface IntrinsicElements {
+      [k: string]: any;
+    }
   }
   export const jsx: any;
   export const jsxs: any;

@@ -8,6 +8,20 @@ import { BookingDetail } from '../../src/BookingDetail';
 export default function BookingScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const b = useHen((s) => s.bookings.find((x) => x.id === id));
-  if (!b) return <Screen><EmptyState icon="alert-circle" title="Không tìm thấy lịch hẹn" action="Về lịch" onAction={() => router.replace('/(tabs)/calendar')} /></Screen>;
-  return <Screen scroll><BookingDetail booking={b} onClose={() => router.back()} /></Screen>;
+  if (!b)
+    return (
+      <Screen>
+        <EmptyState
+          icon="alert-circle"
+          title="Không tìm thấy lịch hẹn"
+          action="Về lịch"
+          onAction={() => router.replace('/(tabs)/calendar')}
+        />
+      </Screen>
+    );
+  return (
+    <Screen scroll>
+      <BookingDetail booking={b} onClose={() => router.back()} />
+    </Screen>
+  );
 }

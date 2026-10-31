@@ -6,7 +6,12 @@ import { useMeo } from '../store';
 import { dailyTip } from './search';
 
 Notifications.setNotificationHandler({
-  handleNotification: async () => ({ shouldShowBanner: true, shouldShowList: true, shouldPlaySound: false, shouldSetBadge: false }),
+  handleNotification: async () => ({
+    shouldShowBanner: true,
+    shouldShowList: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
 });
 
 export async function requestNotify(): Promise<boolean> {
@@ -22,7 +27,10 @@ export async function scheduleDailyTip(time: string, enabled: boolean, title: st
   await Notifications.cancelScheduledNotificationAsync('daily-tip').catch(() => {});
   if (!enabled) return;
   if (Platform.OS === 'android') {
-    await Notifications.setNotificationChannelAsync('daily', { name: 'Mẹo hôm nay', importance: Notifications.AndroidImportance.DEFAULT });
+    await Notifications.setNotificationChannelAsync('daily', {
+      name: 'Mẹo hôm nay',
+      importance: Notifications.AndroidImportance.DEFAULT,
+    });
   }
   const [hour, minute] = time.split(':').map(Number);
   await Notifications.scheduleNotificationAsync({

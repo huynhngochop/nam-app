@@ -3,7 +3,9 @@
  * tiếp tục được khi rớt mạng. Khi chưa cấu hình máy chủ nội dung, trả lỗi rõ ràng để màn hiển thị và cho thử lại.
  */
 export class PackDownloadError extends Error {
-  constructor(public code: 'NO_CONTENT_SERVER' | 'NETWORK' | 'STORAGE') { super(code); }
+  constructor(public code: 'NO_CONTENT_SERVER' | 'NETWORK' | 'STORAGE') {
+    super(code);
+  }
 }
 
 export async function downloadPack(_packId: string, onProgress: (pct: number) => void): Promise<void> {

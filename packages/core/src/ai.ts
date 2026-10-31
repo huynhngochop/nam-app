@@ -5,12 +5,24 @@ import { uid } from './id';
  * Client của "Cổng AI" dùng chung (Chuẩn spec › 13). App KHÔNG chứa khóa API của nhà cung cấp.
  * Khi chưa cấu hình EXPO_PUBLIC_AI_GATEWAY_URL, mọi lời gọi ném AiUnavailableError để màn dùng phương án không AI.
  */
-export class AiUnavailableError extends Error { constructor(msg = 'AI chưa sẵn sàng') { super(msg); } }
-export class AiQuotaError extends Error { constructor() { super('Hết lượt hôm nay'); } }
+export class AiUnavailableError extends Error {
+  constructor(msg = 'AI chưa sẵn sàng') {
+    super(msg);
+  }
+}
+export class AiQuotaError extends Error {
+  constructor() {
+    super('Hết lượt hôm nay');
+  }
+}
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-export async function callAi<T>(feature: string, payload: unknown, opts: { timeoutMs?: number; userId?: string } = {}): Promise<T> {
+export async function callAi<T>(
+  feature: string,
+  payload: unknown,
+  opts: { timeoutMs?: number; userId?: string } = {},
+): Promise<T> {
   const base = getConfig().aiGatewayUrl;
   if (!base) throw new AiUnavailableError();
   const key = uid();
@@ -23,12 +35,19 @@ export async function callAi<T>(feature: string, payload: unknown, opts: { timeo
     try {
       const res = await fetch(`${base}/${feature}`, {
         method: 'POST',
-        headers: { 'content-type': 'application/json', 'idempotency-key': key, ...(opts.userId ? { 'x-user': opts.userId } : {}) },
+        headers: {
+          'content-type': 'application/json',
+          'idempotency-key': key,
+          ...(opts.userId ? { 'x-user': opts.userId } : {}),
+        },
         body: JSON.stringify(payload),
         signal: ctrl.signal,
       });
       if (res.status === 429) throw new AiQuotaError();
-      if (res.status >= 500) { lastErr = new Error(`AI ${res.status}`); continue; }
+      if (res.status >= 500) {
+        lastErr = new Error(`AI ${res.status}`);
+        continue;
+      }
       if (!res.ok) throw new AiUnavailableError(`AI ${res.status}`);
       return (await res.json()) as T;
     } catch (e) {

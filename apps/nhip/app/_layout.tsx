@@ -8,7 +8,9 @@ export default function RootLayout() {
   const hydrated = useNhip((s) => s.hydrated);
   const theme = useNhip((s) => s.theme);
   useEffect(() => {
-    const sub = Notifications.addNotificationResponseReceivedListener(() => { if (useNhip.getState().session) router.push('/session'); });
+    const sub = Notifications.addNotificationResponseReceivedListener(() => {
+      if (useNhip.getState().session) router.push('/session');
+    });
     return () => sub.remove();
   }, []);
   return (

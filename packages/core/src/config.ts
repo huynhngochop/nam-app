@@ -26,8 +26,16 @@ let current: RemoteConfig = {
   adEveryN: 6,
 };
 
-export function getConfig(): RemoteConfig { return current; }
-export function setConfig(patch: Partial<RemoteConfig>) { current = { ...current, ...patch }; }
+export function getConfig(): RemoteConfig {
+  return current;
+}
+export function setConfig(patch: Partial<RemoteConfig>) {
+  current = { ...current, ...patch };
+}
 /** Giá hiển thị hoặc null khi chưa chốt → UI hiện PricePlaceholder. */
-export function getPrice(key: string): string | null { return current.prices[key] ?? null; }
-export function getLimit(key: string, fallback = 0): number { return current.limits[key] ?? fallback; }
+export function getPrice(key: string): string | null {
+  return current.prices[key] ?? null;
+}
+export function getLimit(key: string, fallback = 0): number {
+  return current.limits[key] ?? fallback;
+}

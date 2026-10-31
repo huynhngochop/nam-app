@@ -3,14 +3,31 @@ import { View } from 'react-native';
 import { router } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Avatar, Badge, Chip, Chips, EmptyState, FAB, ListItem, SearchField, T, TwoPane, useLayout, useTheme } from '@nam/ui';
+import {
+  Avatar,
+  Badge,
+  Chip,
+  Chips,
+  EmptyState,
+  FAB,
+  ListItem,
+  SearchField,
+  T,
+  TwoPane,
+  useLayout,
+  useTheme,
+} from '@nam/ui';
 import { fold, relativeTime, vnd } from '@nam/core';
 import { customerStats, useHen } from '../../src/store';
 import { CustomerDetail } from '../../src/CustomerDetail';
 
 type Filter = 'all' | 'vip' | 'lapsed' | 'new' | 'birthday';
 const FILTERS: { key: Filter; label: string }[] = [
-  { key: 'all', label: 'Tất cả' }, { key: 'vip', label: 'VIP' }, { key: 'lapsed', label: 'Lâu chưa đến' }, { key: 'new', label: 'Khách mới' }, { key: 'birthday', label: 'Sinh nhật tháng này' },
+  { key: 'all', label: 'Tất cả' },
+  { key: 'vip', label: 'VIP' },
+  { key: 'lapsed', label: 'Lâu chưa đến' },
+  { key: 'new', label: 'Khách mới' },
+  { key: 'birthday', label: 'Sinh nhật tháng này' },
 ];
 
 /** HD-C08 · Danh sách khách. Tablet: danh sách trái, hồ sơ khách phải. */
@@ -26,7 +43,8 @@ export default function Customers() {
 
   const rows = useMemo(() => {
     const now = Date.now();
-    return s.customers.map((cu) => ({ cu, st: customerStats(cu.id, s.bookings, s.services) }))
+    return s.customers
+      .map((cu) => ({ cu, st: customerStats(cu.id, s.bookings, s.services) }))
       .filter(({ cu, st }) => {
         if (q && !fold(cu.name).includes(fold(q)) && !(cu.phone ?? '').includes(q.replace(/\s/g, ''))) return false;
         if (f === 'vip') return st.visits >= vipVisits || st.spend >= vipSpend;
@@ -43,13 +61,23 @@ export default function Customers() {
   const list = (
     <View style={{ flex: 1 }}>
       <View style={{ paddingHorizontal: L.gutter, gap: 10, paddingTop: 8 }}>
-        <T v="display" accessibilityRole="header">Khách hàng</T>
+        <T v="display" accessibilityRole="header">
+          Khách hàng
+        </T>
         <SearchField value={q} onChangeText={setQ} placeholder="Tìm tên hoặc SĐT" />
-        <Chips scroll>{FILTERS.map((x) => <Chip key={x.key} label={x.label} selected={f === x.key} onPress={() => setF(x.key)} />)}</Chips>
+        <Chips scroll>
+          {FILTERS.map((x) => (
+            <Chip key={x.key} label={x.label} selected={f === x.key} onPress={() => setF(x.key)} />
+          ))}
+        </Chips>
         <T v="caption" muted>{`${rows.length} khách`}</T>
       </View>
       {!rows.length ? (
-        <EmptyState icon="users" title={s.customers.length ? 'Không có khách phù hợp' : 'Chưa có khách'} body={s.customers.length ? 'Thử bộ lọc khác.' : 'Khách đặt qua link sẽ tự vào danh sách.'} />
+        <EmptyState
+          icon="users"
+          title={s.customers.length ? 'Không có khách phù hợp' : 'Chưa có khách'}
+          body={s.customers.length ? 'Thử bộ lọc khác.' : 'Khách đặt qua link sẽ tự vào danh sách.'}
+        />
       ) : (
         <FlashList
           data={rows}
@@ -62,7 +90,13 @@ export default function Customers() {
                 left={<Avatar name={cu.name} soft />}
                 title={cu.name}
                 subtitle={`${st.visits} lần · ${vnd(st.spend)}${st.lastAt ? ` · ${relativeTime(st.lastAt)}` : ''}`}
-                right={vip ? <Badge label="VIP" tone="pro" /> : st.noShows ? <Badge label={`${st.noShows} lần bỏ hẹn`} tone="negative" /> : undefined}
+                right={
+                  vip ? (
+                    <Badge label="VIP" tone="pro" />
+                  ) : st.noShows ? (
+                    <Badge label={`${st.noShows} lần bỏ hẹn`} tone="negative" />
+                  ) : undefined
+                }
                 onPress={() => open(cu.id)}
                 titleColor={sel === cu.id ? c.a : undefined}
               />
@@ -76,8 +110,11 @@ export default function Customers() {
 
   return (
     <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: c.bg }}>
-      <TwoPane list={list} detail={sel ? <CustomerDetail id={sel} embedded /> : undefined}
-        emptyDetail={<EmptyState icon="user" title="Chọn một khách" body="Lịch sử và ghi chú hiện ở đây." />} />
+      <TwoPane
+        list={list}
+        detail={sel ? <CustomerDetail id={sel} embedded /> : undefined}
+        emptyDetail={<EmptyState icon="user" title="Chọn một khách" body="Lịch sử và ghi chú hiện ở đây." />}
+      />
     </SafeAreaView>
   );
 }

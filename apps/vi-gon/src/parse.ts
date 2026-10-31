@@ -9,7 +9,14 @@ import { Rule } from './types';
  *   "Số dư TK VCB 0011 -50,000 VND lúc 29-10-2026 08:12:05. Số dư 2,345,000 VND. Ref MBVCB.123.CA PHE"
  *   "+18,500,000 VND ... ND: LUONG THANG 10"
  */
-export type Parsed = { amount: number; kind: 'expense' | 'income'; at: number | null; account: string | null; merchant: string; balance: number | null };
+export type Parsed = {
+  amount: number;
+  kind: 'expense' | 'income';
+  at: number | null;
+  account: string | null;
+  merchant: string;
+  balance: number | null;
+};
 
 const MONEY = /([+\-−–])\s*([\d]{1,3}(?:[.,]\d{3})+|\d+)(?:[.,]00)?\s*(?:VND|VNĐ|đ|d\b|dong)?/i;
 const BAL = /(?:SD|S[ốo] d[ưu]|so du|balance)\s*[:.]?\s*([\d.,]+)/i;
@@ -46,7 +53,8 @@ export function parseBankText(text: string, now = new Date()): Parsed | null {
   if (time || date) {
     const d = new Date(now);
     if (date) {
-      const day = Number(date[1]); const mon = Number(date[2]) - 1;
+      const day = Number(date[1]);
+      const mon = Number(date[2]) - 1;
       let yr = date[3] ? Number(date[3]) : now.getFullYear();
       if (yr < 100) yr += 2000;
       if (day >= 1 && day <= 31 && mon >= 0 && mon <= 11) d.setFullYear(yr, mon, day);
@@ -84,8 +92,14 @@ const BUILTIN: { re: RegExp; cat: string }[] = [
   { re: /\b(luong|salary|payroll)\b/, cat: 'salary' },
   { re: /\b(thuong|bonus)\b/, cat: 'bonus' },
   { re: /\b(grab|be |gojek|xanh sm|taxi|xang|petrolimex|gui xe|vetc|epass)\b/, cat: 'move' },
-  { re: /\b(com|pho|bun|banh mi|cafe|ca phe|coffee|highlands|phuc long|tra sua|katinat|circle k|ga ran|kfc|lotteria|nha hang|quan an|an uong|shopeefood|grabfood)\b/, cat: 'food' },
-  { re: /\b(dien luc|evn|tien dien|tien nuoc|cap nuoc|nuoc sach|internet|fpt telecom|vnpt|tien nha|thue nha|chung cu|quan ly)\b/, cat: 'home' },
+  {
+    re: /\b(com|pho|bun|banh mi|cafe|ca phe|coffee|highlands|phuc long|tra sua|katinat|circle k|ga ran|kfc|lotteria|nha hang|quan an|an uong|shopeefood|grabfood)\b/,
+    cat: 'food',
+  },
+  {
+    re: /\b(dien luc|evn|tien dien|tien nuoc|cap nuoc|nuoc sach|internet|fpt telecom|vnpt|tien nha|thue nha|chung cu|quan ly)\b/,
+    cat: 'home',
+  },
   { re: /\b(viettel|mobifone|vinaphone|nap tien dt|nap dien thoai|data|topup)\b/, cat: 'phone' },
   { re: /\b(shopee|lazada|tiki|sendo|tiktok shop|bach hoa|winmart|coopmart|big c|go!|aeon|uniqlo)\b/, cat: 'shop' },
   { re: /\b(nha thuoc|pharmacity|long chau|benh vien|phong kham|nha khoa)\b/, cat: 'health' },
@@ -95,10 +109,16 @@ const BUILTIN: { re: RegExp; cat: string }[] = [
 ];
 
 /** Quy tắc người dùng trước, rồi bộ từ khóa sẵn có. confident = có thể lưu mà không cần hỏi. */
-export function categorize(merchant: string, kind: 'expense' | 'income', rules: Rule[]): { categoryId: string; confident: boolean } {
+export function categorize(
+  merchant: string,
+  kind: 'expense' | 'income',
+  rules: Rule[],
+): { categoryId: string; confident: boolean } {
   const f = ` ${fold(merchant)} `;
   const up = merchant.toUpperCase();
-  const r = rules.find((x) => up.includes(x.keyword) || f.includes(` ${fold(x.keyword)} `) || f.includes(fold(x.keyword)));
+  const r = rules.find(
+    (x) => up.includes(x.keyword) || f.includes(` ${fold(x.keyword)} `) || f.includes(fold(x.keyword)),
+  );
   if (r) return { categoryId: r.categoryId, confident: true };
   const b = BUILTIN.find((x) => x.re.test(f));
   if (b) {
@@ -115,5 +135,8 @@ export function ruleKeyword(merchant: string) {
 
 /** Nhận diện dấu hiệu định dạng (VG-18): các từ không phải số ở đầu thông báo. */
 export function signatureOf(text: string) {
-  return fold(text).replace(/[\d.,:+\-−/]+/g, '#').replace(/\s+/g, ' ').slice(0, 24);
+  return fold(text)
+    .replace(/[\d.,:+\-−/]+/g, '#')
+    .replace(/\s+/g, ' ')
+    .slice(0, 24);
 }

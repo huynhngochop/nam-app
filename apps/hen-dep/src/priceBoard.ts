@@ -5,7 +5,13 @@ import { AiUnavailableError, callAi, fold } from '@nam/core';
  * Văn bản lấy từ OCR trên máy (khi tích hợp ML Kit/Vision) hoặc người dùng dán vào.
  * Có cổng AI → nhờ AI tách; không có → bộ tách theo quy tắc chạy trên máy.
  */
-export type ParsedService = { name: string; price: number | null; durationMin: number; durationGuessed: boolean; group: string };
+export type ParsedService = {
+  name: string;
+  price: number | null;
+  durationMin: number;
+  durationGuessed: boolean;
+  group: string;
+};
 
 const GUESS: { re: RegExp; min: number; group: string }[] = [
   { re: /nhuom|tay|highlight|balayage/, min: 120, group: 'Tóc' },
@@ -43,7 +49,7 @@ export function parseLocally(text: string): ParsedService[] {
     out.push({
       name: name.charAt(0).toUpperCase() + name.slice(1).toLowerCase(),
       price,
-      durationMin: dur ? Number(dur[1]) : g?.min ?? 45,
+      durationMin: dur ? Number(dur[1]) : (g?.min ?? 45),
       durationGuessed: !dur,
       group: g?.group ?? 'Khác',
     });

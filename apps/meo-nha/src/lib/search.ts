@@ -3,7 +3,9 @@ import { CategoryId, Tip, TIPS } from '../data/tips';
 
 /** Tìm kiếm trên máy, không phân biệt dấu. Máy chủ (GET /search) thay thế khi có mạng. */
 export function scoreTip(t: Tip, q: string): number {
-  const words = fold(q).split(/\s+/).filter((w) => w.length > 1);
+  const words = fold(q)
+    .split(/\s+/)
+    .filter((w) => w.length > 1);
   if (!words.length) return 0;
   const title = fold(t.title);
   const hay = `${title} ${fold(t.summary)} ${t.keywords} ${fold(t.steps.join(' '))}`;
@@ -20,14 +22,24 @@ export function searchTips(q: string, opts: { category?: CategoryId | 'all'; sor
   let list = TIPS.map((t) => ({ t, s: scoreTip(t, q) })).filter((x) => x.s > 0.3);
   if (opts.category && opts.category !== 'all') list = list.filter((x) => x.t.categoryId === opts.category);
   const sort = opts.sort ?? 'popular';
-  list.sort((a, b) => (sort === 'rating' ? b.t.rating - a.t.rating : sort === 'easy' ? a.t.minutes - b.t.minutes : sort === 'new' ? b.t.id.localeCompare(a.t.id) : b.s - a.s || b.t.ratingCount - a.t.ratingCount));
+  list.sort((a, b) =>
+    sort === 'rating'
+      ? b.t.rating - a.t.rating
+      : sort === 'easy'
+        ? a.t.minutes - b.t.minutes
+        : sort === 'new'
+          ? b.t.id.localeCompare(a.t.id)
+          : b.s - a.s || b.t.ratingCount - a.t.ratingCount,
+  );
   return list.map((x) => x.t);
 }
 
 export function suggestions(q: string): string[] {
   const f = fold(q);
   if (f.length < 2) return [];
-  return TIPS.filter((t) => fold(t.title).includes(f) || t.keywords.includes(f)).slice(0, 5).map((t) => t.title);
+  return TIPS.filter((t) => fold(t.title).includes(f) || t.keywords.includes(f))
+    .slice(0, 5)
+    .map((t) => t.title);
 }
 
 export const TRENDING = ['nồm ẩm', 'dọn nhà Tết', 'kiến trong bếp', 'giặt gối', 'tiền điện'];

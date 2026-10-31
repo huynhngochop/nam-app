@@ -1,7 +1,21 @@
 import React, { useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Button, Chip, Chips, EmptyState, Icon, IconButton, Row, Screen, Stepper, T, useLayout, useTheme, useToast } from '@nam/ui';
+import {
+  Button,
+  Chip,
+  Chips,
+  EmptyState,
+  Icon,
+  IconButton,
+  Row,
+  Screen,
+  Stepper,
+  T,
+  useLayout,
+  useTheme,
+  useToast,
+} from '@nam/ui';
 import { track } from '@nam/core';
 import { ingName, RECIPES } from '../../src/data/recipes';
 import { useMeo } from '../../src/store';
@@ -20,26 +34,87 @@ export default function RecipeScreen() {
   const saved = useMeo((s) => (r ? s.savedRecipes.includes(r.id) : false));
   const toggleSave = useMeo((s) => s.toggleSaveRecipe);
   const [servings, setServings] = useState(r?.baseServings ?? 2);
-  const items = useMemo(() => (r ? r.ingredients.map((i) => ({ id: i.id, name: ingName(i.id), qty: `${fmtQty((i.qty * servings) / r.baseServings)} ${i.unit}`, have: pantry.includes(i.id) })) : []), [r, servings, pantry]);
-  if (!r) return <Screen><EmptyState icon="alert-circle" title="Không tìm thấy công thức" action="Quay lại" onAction={() => router.back()} /></Screen>;
+  const items = useMemo(
+    () =>
+      r
+        ? r.ingredients.map((i) => ({
+            id: i.id,
+            name: ingName(i.id),
+            qty: `${fmtQty((i.qty * servings) / r.baseServings)} ${i.unit}`,
+            have: pantry.includes(i.id),
+          }))
+        : [],
+    [r, servings, pantry],
+  );
+  if (!r)
+    return (
+      <Screen>
+        <EmptyState
+          icon="alert-circle"
+          title="Không tìm thấy công thức"
+          action="Quay lại"
+          onAction={() => router.back()}
+        />
+      </Screen>
+    );
   const missing = items.filter((i) => !i.have);
   const steps = (
     <View style={{ gap: 8 }}>
       <T v="headline">Các bước</T>
       {r.steps.map((s, i) => (
         <Row key={i} style={{ alignItems: 'flex-start' }} gap={10}>
-          <T v="headline" accent style={{ width: 22 }}>{i + 1}</T>
-          <View style={{ flex: 1 }}>{s.title ? <T v="micro" accent>{s.title}</T> : null}<T v="body">{s.text}</T></View>
+          <T v="headline" accent style={{ width: 22 }}>
+            {i + 1}
+          </T>
+          <View style={{ flex: 1 }}>
+            {s.title ? (
+              <T v="micro" accent>
+                {s.title}
+              </T>
+            ) : null}
+            <T v="body">{s.text}</T>
+          </View>
         </Row>
       ))}
     </View>
   );
   return (
-    <Screen scroll readable={!L.twoPane} footer={<Button title="Bắt đầu nấu" icon="play" onPress={() => { track('cook_started', { recipeId: r.id }); router.push(`/cook/${r.id}`); }} />}>
-      <View style={{ height: 160, marginHorizontal: -L.gutter, backgroundColor: c.at, alignItems: 'center', justifyContent: 'center' }}>
+    <Screen
+      scroll
+      readable={!L.twoPane}
+      footer={
+        <Button
+          title="Bắt đầu nấu"
+          icon="play"
+          onPress={() => {
+            track('cook_started', { recipeId: r.id });
+            router.push(`/cook/${r.id}`);
+          }}
+        />
+      }
+    >
+      <View
+        style={{
+          height: 160,
+          marginHorizontal: -L.gutter,
+          backgroundColor: c.at,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         <Icon name="coffee" size={64} color={c.a} />
-        <View style={{ position: 'absolute', top: 12, left: L.gutter }}><IconButton icon="chevron-left" label="Quay lại" bg={c.surface} onPress={() => router.back()} /></View>
-        <View style={{ position: 'absolute', top: 12, right: L.gutter }}><IconButton icon="bookmark" label="Lưu" bg={c.surface} color={saved ? c.a : undefined} onPress={() => toggleSave(r.id)} /></View>
+        <View style={{ position: 'absolute', top: 12, left: L.gutter }}>
+          <IconButton icon="chevron-left" label="Quay lại" bg={c.surface} onPress={() => router.back()} />
+        </View>
+        <View style={{ position: 'absolute', top: 12, right: L.gutter }}>
+          <IconButton
+            icon="bookmark"
+            label="Lưu"
+            bg={c.surface}
+            color={saved ? c.a : undefined}
+            onPress={() => toggleSave(r.id)}
+          />
+        </View>
       </View>
       <T v="title">{r.title}</T>
       <Chips>
@@ -55,8 +130,13 @@ export default function RecipeScreen() {
           </Row>
           <IngredientChecklist items={items} />
           {missing.length ? (
-            <Button title={`Ghi ${missing.length} món thiếu để đi chợ`} variant="text" size="sm" icon="list"
-              onPress={() => toast(`Đã ghi: ${missing.map((m) => m.name).join(', ')}`, { tone: 'success' })} />
+            <Button
+              title={`Ghi ${missing.length} món thiếu để đi chợ`}
+              variant="text"
+              size="sm"
+              icon="list"
+              onPress={() => toast(`Đã ghi: ${missing.map((m) => m.name).join(', ')}`, { tone: 'success' })}
+            />
           ) : null}
         </View>
         {L.twoPane ? <View style={{ flex: 1 }}>{steps}</View> : null}
