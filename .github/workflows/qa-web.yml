@@ -43,15 +43,18 @@ jobs:
         run: $A "export ${{ matrix.app }}" "cd apps/${{ matrix.app }} && npx expo export -p web --output-dir dist-web 2>&1 | tail -40"
 
       - name: Cài Playwright
+        # Cài ngoài repo: thư mục con của monorepo (npm workspaces) không cài gói riêng được.
         run: |
-          cd qa && npm init -y >/dev/null && npm i --no-audit --no-fund playwright@1.56.1 >/dev/null
-          npx playwright install --with-deps chromium >/dev/null
+          mkdir -p /tmp/pw && cp qa/crawl.mjs /tmp/pw/
+          (cd /tmp/pw && npm init -y >/dev/null)
+          $A "playwright npm" "cd /tmp/pw && npm i --no-audit --no-fund playwright@1.56.1 2>&1 | tail -5"
+          $A "playwright browser" "cd /tmp/pw && npx playwright install --with-deps chromium 2>&1 | tail -8"
 
       - name: Crawl
         run: |
           node qa/serve.mjs apps/${{ matrix.app }}/dist-web 8080 &
           sleep 2
-          QA_BUDGET_MIN=80 $A "crawl ${{ matrix.app }}" node qa/crawl.mjs ${{ matrix.app }} http://localhost:8080 qa-out/${{ matrix.app }}
+          QA_BUDGET_MIN=80 $A "crawl ${{ matrix.app }}" node /tmp/pw/crawl.mjs ${{ matrix.app }} http://localhost:8080 qa-out/${{ matrix.app }}
 
       - uses: actions/upload-artifact@v4
         if: always()
