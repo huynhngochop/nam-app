@@ -7,7 +7,16 @@ import { useHen } from '../src/store';
 
 const VN_PHONE = /^(0|\+?84)(3|5|7|8|9)\d{8}$/;
 
-/** HD-C01 · Chủ tiệm đăng nhập bằng SĐT + mã OTP (Zalo/SMS). Chưa có máy chủ: mã thử 123456. */
+/**
+ * Mã thử 123456 (và mã mời bất kỳ) chỉ dùng được ở bản dev / preview khi chưa có máy chủ.
+ * Bản production thiếu EXPO_PUBLIC_API_BASE_URL thì không đăng nhập được (app.config.js cũng chặn build).
+ * EXPO_PUBLIC_APP_VARIANT đặt theo profile trong eas.json.
+ */
+const VARIANT = process.env.EXPO_PUBLIC_APP_VARIANT;
+const TEST_LOGIN = __DEV__ || VARIANT === 'development' || VARIANT === 'preview';
+const TEST_CODE = '123456';
+
+/** HD-C01 · Chủ tiệm đăng nhập bằng SĐT + mã OTP (Zalo/SMS). Chưa có máy chủ: mã thử (chỉ bản dev/preview). */
 export default function Auth() {
   const { c } = useTheme();
   const set = useHen((s) => s.set);
@@ -34,7 +43,8 @@ export default function Auth() {
     if (base) {
       try { const r = await fetch(`${base}/auth/otp/verify`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ phone: clean, code: v }) }); ok = r.ok; }
       catch { setErr('Không kết nối được. Thử lại.'); return; }
-    } else ok = v === '123456';
+    } else if (TEST_LOGIN) ok = v === TEST_CODE;
+    else { setErr('Chưa kết nối được máy chủ đăng nhập. Thử lại sau.'); return; }
     if (!ok) { setErr('Mã chưa đúng. Kiểm tra lại tin nhắn.'); return; }
     set({ auth: { phone: clean, role: 'owner' } });
     track('owner_signed_up');
@@ -59,7 +69,7 @@ export default function Auth() {
       ) : step === 'otp' ? (
         <>
           <T v="headline">Nhập mã 6 số</T>
-          <T v="caption" muted>{`Đã gửi tới ${clean}.${getConfig().apiBaseUrl ? '' : ' Bản chạy thử: nhập 123456.'}`}</T>
+          <T v="caption" muted>{`Đã gửi tới ${clean}.${!getConfig().apiBaseUrl && TEST_LOGIN ? ` Bản chạy thử: nhập ${TEST_CODE}.` : ''}`}</T>
           <TextField ref={otpRef} value={code} onChangeText={(v) => verify(v.replace(/\D/g, '').slice(0, 6))} keyboardType="number-pad" textContentType="oneTimeCode" autoComplete="sms-otp" maxLength={6} error={err ?? undefined}
             style={{ fontSize: 24, letterSpacing: 12, textAlign: 'center' }} />
           <Button title={wait > 0 ? `Gửi lại mã sau ${wait}s` : 'Gửi lại mã'} variant="text" disabled={wait > 0} onPress={() => setWait(30)} />
@@ -68,7 +78,13 @@ export default function Auth() {
       ) : (
         <>
           <TextField label="Mã mời 6 ký tự" autoCapitalize="characters" maxLength={6} value={code} onChangeText={setCode} />
-          <Button title="Vào tiệm" disabled={code.length < 6} onPress={() => { set({ auth: { phone: clean, role: 'staff' }, setupDone: true }); router.replace('/'); }} />
+          <Button title="Vào tiệm" disabled={code.length < 6} onPress={() => {
+            // Chưa có máy chủ kiểm tra mã mời: chỉ cho vào ở bản dev/preview.
+            if (!getConfig().apiBaseUrl && !TEST_LOGIN) { setErr('Chưa kết nối được máy chủ. Thử lại sau.'); return; }
+            set({ auth: { phone: clean, role: 'staff' }, setupDone: true });
+            router.replace('/');
+          }} />
+          {err ? <T v="caption" color={c.negative}>{err}</T> : null}
           <Button title="Quay lại" variant="text" onPress={() => setStep('phone')} />
         </>
       )}

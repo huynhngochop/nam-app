@@ -1,0 +1,6 @@
+node_modules
+dist
+dist-web
+.expo
+qa-out
+package-lock.json
