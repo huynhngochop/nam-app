@@ -1,0 +1,250 @@
+# Kiểm thử Thành Tâm đủ các tầng: UT, IT (typecheck thật, bundle iOS/Android, crawler web dữ liệu lớn),
+# ST (20 cỡ màn web; Android emulator: điện thoại, máy gập, tablet, xoay, chữ 200 %, nền tối; iOS Simulator: iPhone, iPad),
+# UAT (12 hành trình người dùng). Kết quả đẩy lên nhánh qa-results-tt.
+name: Thành Tâm QA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [feat/thanh-tam]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: thanh-tam-qa-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  A: node .github/scripts/annotate.mjs
+
+jobs:
+  prep:
+    name: Đồng bộ lockfile, phiên bản Expo, định dạng
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    outputs:
+      sha: ${{ steps.push.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - name: expo install --fix (Thành Tâm)
+        run: $A "expo install" "cd apps/thanh-tam && npx expo install --fix 2>&1 | tail -30"
+      - run: npm install --no-audit --no-fund
+      - name: Định dạng + sửa lint tự động
+        run: |
+          npx prettier --write "apps/thanh-tam/**/*.{ts,tsx,js}" "tests/**/*.ts" "qa/**/*.{mjs,tsx}" >/dev/null
+          npx eslint apps/thanh-tam qa tests --fix || true
+      - id: push
+        name: Đẩy thay đổi (nếu có)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git diff --cached --stat | tail -20
+            git commit -qm "chore(thanh-tam): đồng bộ lockfile, phiên bản Expo SDK 54, định dạng (tự động)"
+            git push -q origin HEAD:${{ github.ref_name }}
+          fi
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+  check:
+    name: UT + IT (lint, kiểu, test, bundle iOS/Android)
+    needs: prep
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prep.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Lint
+        run: $A "lint" npm run lint
+      - name: Định dạng
+        run: $A "format" npm run format:check
+      - name: Typecheck thật (mọi app)
+        run: $A "typecheck" npm run typecheck
+      - name: Unit test (giờ Việt Nam)
+        run: $A "test VN" "TZ=Asia/Ho_Chi_Minh npm test"
+      - name: Unit test (máy ở Mỹ, UTC−5)
+        run: $A "test UTC-5" "TZ=America/New_York npm test"
+      - name: Bundle Android + iOS (Metro resolve mọi module)
+        run: |
+          $A "bundle android" "cd apps/thanh-tam && npx expo export -p android --output-dir /tmp/tt-android 2>&1 | tail -15"
+          $A "bundle ios" "cd apps/thanh-tam && npx expo export -p ios --output-dir /tmp/tt-ios 2>&1 | tail -15"
+          du -sh /tmp/tt-android /tmp/tt-ios
+
+  web:
+    name: Web · ${{ matrix.kind }}
+    needs: prep
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        kind: [crawl, viewports-uat]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prep.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Bản build QA
+        run: |
+          cp qa/seeds/thanh-tam.tsx apps/thanh-tam/app/qa-seed.tsx
+          cat > apps/thanh-tam/metro.config.js <<'EOF'
+          const { getDefaultConfig } = require('expo/metro-config');
+          const config = getDefaultConfig(__dirname);
+          config.resolver.assetExts.push('wasm');
+          config.resolver.unstable_enablePackageExports = false;
+          module.exports = config;
+          EOF
+      - name: Export web
+        run: $A "export web" "cd apps/thanh-tam && npx expo export -p web --clear --output-dir dist-web 2>&1 | tail -25"
+      - name: Cài Playwright
+        run: |
+          mkdir -p /tmp/pw && cp qa/*.mjs /tmp/pw/
+          (cd /tmp/pw && npm init -y >/dev/null && npm i --no-audit --no-fund playwright@1.56.1 >/dev/null)
+          (cd /tmp/pw && npx playwright install --with-deps chromium >/dev/null)
+      - name: Crawler bấm mọi nút với 1.000 ngày giỗ
+        if: matrix.kind == 'crawl'
+        run: |
+          node qa/serve.mjs apps/thanh-tam/dist-web 8080 &
+          sleep 2
+          QA_SEED=1 QA_BUDGET_MIN=80 QA_MAX_CLICKS=40 $A "crawl" node /tmp/pw/crawl.mjs thanh-tam http://localhost:8080 qa-out/web-crawl
+      - name: 20 cỡ màn + UAT
+        if: matrix.kind == 'viewports-uat'
+        run: |
+          node qa/serve.mjs apps/thanh-tam/dist-web 8080 &
+          sleep 2
+          $A "uat" node /tmp/pw/uat-thanh-tam.mjs http://localhost:8080 qa-out/web-uat
+          $A "viewports" node /tmp/pw/viewports.mjs "$PWD/qa/thanh-tam-routes.json" http://localhost:8080 qa-out/web-viewports
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tt-web-${{ matrix.kind }}
+          path: qa-out
+          if-no-files-found: ignore
+
+  android:
+    name: Android emulator (điện thoại, gập, tablet)
+    needs: prep
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prep.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - run: npm ci --no-audit --no-fund
+      - name: Prebuild
+        run: |
+          cp qa/seeds/thanh-tam.tsx apps/thanh-tam/app/qa-seed.tsx
+          $A "prebuild android" "cd apps/thanh-tam && npx expo prebuild -p android --clean --no-install 2>&1 | tail -20"
+      - name: Build APK release (x86_64)
+        run: $A "gradle" "cd apps/thanh-tam/android && ./gradlew assembleRelease -PreactNativeArchitectures=x86_64 --no-daemon -q 2>&1 | tail -60"
+      - name: Bật KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Chạy trên emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: bash qa/native/android.sh apps/thanh-tam/android/app/build/outputs/apk/release/app-release.apk qa-out/android
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tt-android
+          path: qa-out
+          if-no-files-found: ignore
+
+  ios:
+    name: iOS Simulator (iPhone, iPad)
+    needs: prep
+    runs-on: macos-15
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prep.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Prebuild (CocoaPods)
+        run: |
+          cp qa/seeds/thanh-tam.tsx apps/thanh-tam/app/qa-seed.tsx
+          $A "prebuild ios" "cd apps/thanh-tam && npx expo prebuild -p ios --clean 2>&1 | tail -30"
+      - name: Build Release cho Simulator
+        run: |
+          cd apps/thanh-tam/ios
+          WS=$(ls -d *.xcworkspace | head -1)
+          SCHEME=$(basename "$WS" .xcworkspace)
+          echo "workspace $WS, scheme $SCHEME"
+          set -o pipefail
+          xcodebuild -workspace "$WS" -scheme "$SCHEME" -configuration Release -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' -derivedDataPath build ARCHS=arm64 ONLY_ACTIVE_ARCH=YES \
+            CODE_SIGNING_ALLOWED=NO COMPILER_INDEX_STORE_ENABLE=NO build 2>&1 | grep -E "error:|warning: .*deprecated|BUILD (SUCCEEDED|FAILED)" | tail -60
+      - name: Chạy trên Simulator
+        run: |
+          APP=$(find apps/thanh-tam/ios/build/Build/Products -maxdepth 2 -name "*.app" | head -1)
+          echo "app: $APP"
+          bash qa/native/ios.sh "$APP" qa-out/ios
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tt-ios
+          path: qa-out
+          if-no-files-found: ignore
+
+  publish:
+    name: Gom kết quả
+    needs: [prep, check, web, android, ios]
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: results
+          pattern: tt-*
+          merge-multiple: true
+      - name: Đẩy lên nhánh qa-results-tt
+        run: |
+          cd results
+          {
+            echo "# Thành Tâm QA · run ${{ github.run_id }} · ${{ needs.prep.outputs.sha }}"
+            echo "check=${{ needs.check.result }} web=${{ needs.web.result }} android=${{ needs.android.result }} ios=${{ needs.ios.result }}"
+          } > RUN.md
+          git init -q -b qa-results-tt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -qm "qa: Thành Tâm (run ${{ github.run_id }})"
+          git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" qa-results-tt
