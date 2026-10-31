@@ -193,3 +193,21 @@ test('Nhân tướng: 3 nét nổi bật, bỏ qua bước "Không chắc"', () 
   assert.deepEqual(topTraits({}), []);
   assert.equal(FACE_PARTS.length, 8);
 });
+
+test('Màn hình: không lộ chữ kỹ thuật cho người dùng; tuyến nào cũng có tệp', () => {
+  const { readdirSync, statSync } = require('node:fs') as typeof import('node:fs');
+  const walk = (d: string): string[] => readdirSync(d).flatMap((f) => { const p = join(d, f); return statSync(p).isDirectory() ? walk(p) : [p]; });
+  const root = join(__dirname, '../apps/thanh-tam');
+  const files = [...walk(join(root, 'app')), join(root, 'src/components.tsx'), join(root, 'src/DateInput.tsx'), ...walk(join(root, 'src/screens'))].filter((f) => f.endsWith('.tsx'));
+  // Chỉ xét chữ trong JSX và chuỗi có dấu tiếng Việt (bỏ qua mã, tên biến, đường dẫn import).
+  const TECH = [/ngoại tuyến/i, /đồng bộ/i, /\bPRICE_/, /\bJSON\b/, /\bserver\b/i, /\bcache\b/i, /\bAPI\b/, /\.json\b/, /TT-\d+/];
+  for (const f of files) {
+    const visible = readFileSync(f, 'utf8').split('\n').filter((l) => !/^\s*(\/\/|\/\*|\*|import )/.test(l))
+      .flatMap((l) => [...l.matchAll(/>([^<>{}]+)</g), ...l.matchAll(/'([^']*[À-ỹ][^']*)'/g), ...l.matchAll(/`([^`]*[À-ỹ][^`]*)`/g)].map((m) => m[1]));
+    for (const s of visible) for (const re of TECH) assert.ok(!re.test(s), `${f}: "${s.trim()}" có chữ kỹ thuật`);
+  }
+  const routes = ['(tabs)/today', '(tabs)/rituals', '(tabs)/calendar', '(tabs)/explore', 'ritual/[id]/index', 'ritual/[id]/offerings', 'ritual/[id]/prayer', 'ritual/[id]/pray', 'ritual/[id]/after',
+    'anniversaries/index', 'anniversaries/edit', 'sign/[id]', 'tip/[id]', 'age/index', 'age/plan', 'age/term/[id]', 'people/edit', 'face/index', 'face/step/[n]', 'face/result', 'face/part/[partId]/[optionId]',
+    'me', 'settings', 'paywall', 'about/sources', 'search', 'onboarding/tradition', 'onboarding/household'];
+  for (const r of routes) assert.ok(files.includes(join(root, 'app', `${r}.tsx`)), `thiếu màn ${r}`);
+});

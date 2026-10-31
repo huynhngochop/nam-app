@@ -298,3 +298,20 @@ declare module '@expo-google-fonts/be-vietnam-pro' {
   export const BeVietnamPro_700Bold: any;
   export type BeVietnamPro_700Bold = any;
 }
+declare module 'expo-speech' {
+  export const speak: any;
+  export const stop: any;
+  export const isSpeakingAsync: any;
+  export const getAvailableVoicesAsync: any;
+}
+declare module 'react-native-reanimated' {
+  const Animated: any;
+  export default Animated;
+  export const useSharedValue: any;
+  export const useAnimatedRef: any;
+  export const useFrameCallback: any;
+  export const useAnimatedScrollHandler: any;
+  export const scrollTo: any;
+  export const runOnJS: any;
+  export const runOnUI: any;
+}
