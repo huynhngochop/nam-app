@@ -21,10 +21,10 @@ import {
 } from '@nam/ui';
 import { fold, getConfig, relativeTime, track, useOnline } from '@nam/core';
 import { customerIndex, useHen } from '../src/store';
+import { templateVariants } from '../src/promo';
 
 /** Danh sách tự chọn chỉ vẽ chừng này dòng; tìm tên/SĐT để thấy khách khác (IT2). */
 const PICK_LIMIT = 100;
-import { templateVariants } from '../src/promo';
 
 type Aud = 'lapsed' | 'vip' | 'custom';
 
