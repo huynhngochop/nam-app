@@ -22,6 +22,8 @@ type State = {
   campaigns: Campaign[];
   plan: Plan;
   aiUsed: { month: string; count: number };
+  /** Số mã lịch hẹn lớn nhất đã cấp (HD-n). Không đặt lại khi xóa dữ liệu, để không cấp trùng mã. */
+  lastBookingCode: number;
   set: (p: Partial<State>) => void;
   setShop: (p: Partial<Shop>) => void;
   upsertService: (s: Omit<Service, 'id' | 'order'> & { id?: string }) => void;
@@ -54,6 +56,7 @@ export const useHen = create<State>()(persist((set, get) => ({
   campaigns: [],
   plan: { code: 'trial', trialEndsAt: Date.now() + 30 * 86400000 },
   aiUsed: { month: '', count: 0 },
+  lastBookingCode: 3000,
   set: (p) => set(p),
   setShop: (p) => { set((s) => ({ shop: { ...s.shop, ...p, settings: { ...s.shop.settings, ...(p.settings ?? {}) } } })); enqueue('shop.update', p); },
   upsertService: (svc) => {
@@ -83,8 +86,9 @@ export const useHen = create<State>()(persist((set, get) => ({
     return id;
   },
   createBooking: (bk) => {
-    const b: Booking = { ...bk, status: bk.status ?? 'confirmed', id: uid(), code: nextBookingCode(get().bookings), synced: false };
-    set((s) => ({ bookings: [...s.bookings, b] }));
+    const next = nextBookingCode(get().bookings, get().lastBookingCode);
+    const b: Booking = { ...bk, status: bk.status ?? 'confirmed', id: uid(), code: next.code, synced: false };
+    set((s) => ({ bookings: [...s.bookings, b], lastBookingCode: next.n }));
     enqueue('booking.create', b);
     return b;
   },

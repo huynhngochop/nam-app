@@ -18,6 +18,8 @@ export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) 
   const toast = useToast();
   const s = useVi();
   const tx = useQuery(() => getTx(id), [id], null);
+  // Chân kia của cặp chuyển nội bộ (V4). Qua useQuery: không đọc SQLite mỗi lần render, lỗi CSDL không làm sập màn.
+  const pairTx = useQuery(() => (tx?.kind === 'transfer' && tx.pairId ? getTx(tx.pairId) : null), [tx?.kind, tx?.pairId], null);
   const [note, setNote] = useState(tx?.note ?? '');
   const [confirmDel, setConfirmDel] = useState(false);
   const [split, setSplit] = useState(false);
@@ -36,8 +38,8 @@ export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) 
     }
   };
   // V4: trả lại đúng chiều thu/chi cho giao dịch này và chân kia của cặp chuyển khoản.
-  const pairTx = tx.kind === 'transfer' && tx.pairId ? getTx(tx.pairId) : null;
-  const untransfer = untransferKinds(tx, pairTx);
+  const untransfer = tx.kind === 'transfer' ? untransferKinds(tx, pairTx) : { self: null, pair: null };
+  // Hai chân của một lần chuyển khoản luôn ngược chiều, nên chân kia lấy chiều ngược với chân này.
   const undoTransfer = (kind: 'expense' | 'income') => {
     const other = kind === 'income' ? 'expense' : 'income';
     updateTx(tx.id, { kind, flag: null, pairId: null, categoryId: kind === 'income' ? 'in_other' : 'other' });

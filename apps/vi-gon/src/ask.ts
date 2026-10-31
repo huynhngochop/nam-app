@@ -28,7 +28,9 @@ const CAT_WORDS: Record<string, string[]> = {
 };
 
 /** Cụm không nói về danh mục: thời gian, thứ trong tuần, "còn bao nhiêu". Chuỗi đã bỏ dấu và có dấu cách hai đầu. */
-const NOT_TOPIC = / (?:hom (?:qua|kia|nay)|thang (?:truoc|roi|nay|\d{1,2})|tuan (?:nay|truoc)|nam nay|ca nam|7 ngay|thu (?:hai|ba|tu|nam|sau|bay)|chu nhat|con lai bao nhieu|con bao nhieu|con lai|con duoc)(?= )/g;
+const NOT_TOPIC = / (?:hom (?:qua|kia|nay)|thang (?:truoc|roi|nay|\d{1,2})|tuan (?:nay|truoc)|nam nay|ca nam|7 ngay|thu (?:hai|ba|bay)|chu nhat|con lai bao nhieu|con bao nhieu|con duoc chi)(?= )/g;
+// Không gồm "thứ tư/năm/sáu": trùng với "thu từ…", "thu năm nay", "thu sau thuế" (danh từ "thu" = khoản thu).
+// Không gồm "còn lại" / "còn được" đứng riêng: "chi cho con lại tăng" vẫn phải hiểu là Gia đình.
 
 export function parseIntent(q: string, cats: Category[], funds: Fund[], now = new Date()): Intent | null {
   const f = ` ${fold(q).replace(/[?!.,]/g, ' ')} `.replace(/\s+/g, ' ');
