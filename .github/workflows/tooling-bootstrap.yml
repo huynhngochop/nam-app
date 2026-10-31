@@ -33,14 +33,14 @@ jobs:
       - name: Prettier --write
         run: |
           $A "format" "npm run format 2>&1 | tail -5"
-          git add -A ':!node_modules'
+          git add -A .
           git diff --cached --quiet || git commit -qm "style: định dạng toàn repo bằng Prettier (chỉ đổi khoảng trắng/xuống dòng)"
 
       - name: ESLint --fix
         continue-on-error: true
         run: |
           npx eslint . --fix >/dev/null 2>&1 || true
-          git add -A ':!node_modules'
+          git add -A .
           git diff --cached --quiet || git commit -qm "fix: áp dụng eslint --fix"
 
       - name: Báo cáo lint
