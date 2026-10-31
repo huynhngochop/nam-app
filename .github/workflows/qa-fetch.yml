@@ -1,0 +1,42 @@
+# TẠM: tải artifact kết quả QA của một lượt chạy (run id trong qa/.fetch-run) và đẩy lên nhánh riêng qa-results.
+name: QA fetch results (tạm)
+
+on:
+  push:
+    branches: [qa/e2e-web]
+    paths: ['qa/.fetch-run', '.github/workflows/qa-fetch.yml']
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  fetch:
+    runs-on: ubuntu-24.04
+    env:
+      A: node .github/scripts/annotate.mjs
+    steps:
+      - uses: actions/checkout@v4
+      - name: Đọc run id
+        id: run
+        run: echo "id=$(tr -d '[:space:]' < qa/.fetch-run)" >> "$GITHUB_OUTPUT"
+      - uses: actions/download-artifact@v4
+        with:
+          path: results
+          pattern: qa-*
+          run-id: ${{ steps.run.outputs.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Đẩy lên nhánh qa-results
+        run: |
+          $A "artifacts" "find results -maxdepth 2 | head -30; du -sh results/*"
+          mkdir -p /tmp/out
+          for a in meo-nha nhip hen-dep vi-gon; do
+            if [ -d "results/qa-$a" ]; then cp -r "results/qa-$a" "/tmp/out/$a"; fi
+          done
+          cd /tmp/out
+          git init -q -b qa-results
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -qm "qa: kết quả crawl web từ run ${{ steps.run.outputs.id }}"
+          git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" qa-results
