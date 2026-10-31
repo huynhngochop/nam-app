@@ -33,6 +33,13 @@ jobs:
 
       - name: Cho Metro nhận file .wasm (expo-sqlite trên web) — chỉ trong CI
         run: |
+          # Bundle web không chạy dạng module: chuyển import.meta (zustand ESM…) khi build, tránh trang trắng.
+          cat > apps/${{ matrix.app }}/babel.config.js <<'EOF'
+          module.exports = (api) => {
+            api.cache(true);
+            return { presets: [['babel-preset-expo', { unstable_transformImportMeta: true }]] };
+          };
+          EOF
           cat > apps/${{ matrix.app }}/metro.config.js <<'EOF'
           const { getDefaultConfig } = require('expo/metro-config');
           const config = getDefaultConfig(__dirname);
