@@ -70,14 +70,19 @@ jobs:
       - name: Lint
         run: $A "lint" npm run lint
       - name: Định dạng
+        if: ${{ !cancelled() }}
         run: $A "format" npm run format:check
       - name: Typecheck thật (mọi app)
+        if: ${{ !cancelled() }}
         run: $A "typecheck" npm run typecheck
       - name: Unit test (giờ Việt Nam)
+        if: ${{ !cancelled() }}
         run: $A "test VN" "TZ=Asia/Ho_Chi_Minh npm test"
       - name: Unit test (máy ở Mỹ, UTC−5)
+        if: ${{ !cancelled() }}
         run: $A "test UTC-5" "TZ=America/New_York npm test"
       - name: Bundle Android + iOS (Metro resolve mọi module)
+        if: ${{ !cancelled() }}
         run: |
           $A "bundle android" "cd apps/thanh-tam && npx expo export -p android --output-dir /tmp/tt-android 2>&1 | tail -15"
           $A "bundle ios" "cd apps/thanh-tam && npx expo export -p ios --output-dir /tmp/tt-ios 2>&1 | tail -15"

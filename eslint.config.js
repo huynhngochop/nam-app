@@ -14,6 +14,8 @@ module.exports = defineConfig([
       'qa/seeds/**',
       // Crawler chạy ngoài monorepo, Playwright cài riêng trong CI.
       'qa/crawl.mjs',
+      'qa/viewports.mjs',
+      'qa/uat-thanh-tam.mjs',
       'qa-out/**',
       '**/expo-env.d.ts',
       'tests/typestubs/**',
