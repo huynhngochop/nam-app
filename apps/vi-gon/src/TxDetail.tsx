@@ -6,6 +6,7 @@ import { hhmm, shortDate, uid, vnd } from '@nam/core';
 import { deleteTx, getTx, insertTx, updateTx, useQuery } from './db';
 import { ruleKeyword } from './parse';
 import { catOf, useVi } from './store';
+import { untransferKinds } from './transfer';
 import { Tx } from './types';
 import { Money } from './ui';
 
@@ -33,6 +34,15 @@ export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) 
       const kw = ruleKeyword(tx.merchant);
       toast(`Đã đổi sang ${catOf(categoryId, s.categories).name}`, { action: kw ? { label: `Luôn xếp “${kw}”`, onPress: () => { s.addRule(kw, categoryId); toast('Đã tạo quy tắc'); } } : undefined });
     }
+  };
+  // V4: trả lại đúng chiều thu/chi cho giao dịch này và chân kia của cặp chuyển khoản.
+  const pairTx = tx.kind === 'transfer' && tx.pairId ? getTx(tx.pairId) : null;
+  const untransfer = untransferKinds(tx, pairTx);
+  const undoTransfer = (kind: 'expense' | 'income') => {
+    const other = kind === 'income' ? 'expense' : 'income';
+    updateTx(tx.id, { kind, flag: null, pairId: null, categoryId: kind === 'income' ? 'in_other' : 'other' });
+    if (pairTx && pairTx.kind === 'transfer') updateTx(pairTx.id, { kind: other, flag: null, pairId: null, categoryId: other === 'income' ? 'in_other' : 'other' });
+    toast(kind === 'income' ? 'Đã chuyển thành khoản thu' : 'Đã chuyển thành khoản chi');
   };
   const remove = () => {
     const copy = { ...tx };
@@ -68,7 +78,17 @@ export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) 
           <T v="caption" muted weight="semibold">Danh mục</T>
           <Chips>{cats.map((x) => <Chip key={x.id} label={x.name} icon={x.icon} selected={tx.categoryId === x.id} onPress={() => setCat(x.id)} />)}</Chips>
         </>
-      ) : <Card variant="fill"><T v="body">Chuyển giữa tài khoản của bạn — không tính vào chi tiêu.</T><Button title="Không phải chuyển nội bộ" size="sm" variant="text" onPress={() => updateTx(tx.id, { kind: 'expense', flag: null })} /></Card>}
+      ) : <Card variant="fill">
+        <T v="body">{tx.fundId ? 'Góp / rút quỹ — không tính vào thu chi.' : 'Chuyển giữa tài khoản của bạn — không tính vào chi tiêu.'}</T>
+        {tx.fundId ? null : untransfer.self ? (
+          <Button title="Không phải chuyển nội bộ" size="sm" variant="text" onPress={() => undoTransfer(untransfer.self!)} />
+        ) : (
+          <Row wrap>
+            <Button title="Thật ra là khoản chi" size="sm" variant="text" onPress={() => undoTransfer('expense')} />
+            <Button title="Thật ra là khoản thu" size="sm" variant="text" onPress={() => undoTransfer('income')} />
+          </Row>
+        )}
+      </Card>}
       <TextField label="Ghi chú" value={note} onChangeText={setNote} onBlur={() => note !== tx.note && updateTx(tx.id, { note: note.trim() })} placeholder="Thêm ghi chú…" maxLength={200} />
       {tx.status === 'pending' ? <Button title="Xác nhận" icon="check" onPress={() => { updateTx(tx.id, { status: 'confirmed' }); toast('Đã lưu'); }} /> : null}
       {tx.kind === 'expense' ? <Button title="Tách giao dịch" icon="git-branch" variant="secondary" size="md" onPress={() => { setParts([{ categoryId: cats[0].id, amount: '' }]); setSplit(true); }} /> : null}

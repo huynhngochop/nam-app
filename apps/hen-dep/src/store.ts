@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createOutbox, kvStorage, uid } from '@nam/core';
 import type { ThemePref } from '@nam/ui';
+import { nextBookingCode } from './codes';
 import { DEFAULT_SHOP, SEED_CUSTOMERS, SEED_SERVICES, SEED_STAFF, seedBookings } from './seed';
 import { Booking, BookingStatus, Campaign, Customer, Plan, Service, Shop, Staff } from './types';
 
@@ -39,7 +40,6 @@ type State = {
 };
 
 const enqueue = (kind: string, payload: unknown) => useOutbox.getState().enqueue(kind, payload);
-let codeSeq = 3000;
 
 export const useHen = create<State>()(persist((set, get) => ({
   hydrated: false,
@@ -83,7 +83,7 @@ export const useHen = create<State>()(persist((set, get) => ({
     return id;
   },
   createBooking: (bk) => {
-    const b: Booking = { ...bk, status: bk.status ?? 'confirmed', id: uid(), code: `HD-${++codeSeq}`, synced: false };
+    const b: Booking = { ...bk, status: bk.status ?? 'confirmed', id: uid(), code: nextBookingCode(get().bookings), synced: false };
     set((s) => ({ bookings: [...s.bookings, b] }));
     enqueue('booking.create', b);
     return b;
