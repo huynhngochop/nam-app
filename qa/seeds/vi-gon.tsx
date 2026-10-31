@@ -70,7 +70,22 @@ async function run(log: (s: string) => void) {
     const e = mk({ amount: 2_000_000 + i * 100_000, kind: 'income', at: at - 3590000, account: '5678', raw: `TK 5678 +${dot(2_000_000 + i * 100_000)} VND ND: CHUYEN TIEN` });
     c.flag = e.flag = 'transfer'; c.pairId = e.id; e.pairId = c.id; list.push(c, e);
   }
-  for (let i = 0; i < list.length; i += 2000) { insertMany(list.slice(i, i + 2000)); log(`Đã ghi ${Math.min(list.length, i + 2000)}/${list.length} giao dịch`); await new Promise((r) => setTimeout(r, 0)); }
+  // Lô nhỏ: SQLite bản web (worker đồng bộ) lỗi với giao dịch lớn. Ghi lại chi tiết lỗi đầu tiên để báo cáo.
+  let chunk = 250;
+  for (let i = 0; i < list.length; ) {
+    const t1 = Date.now();
+    try {
+      insertMany(list.slice(i, i + chunk));
+    } catch (e) {
+      const detail = e && typeof e === 'object' ? JSON.stringify(e, Object.getOwnPropertyNames(e)) : String(e);
+      log(`LỖI GHI lô ${i}-${i + chunk}: ${detail.slice(0, 600)}`);
+      if (chunk > 25) { chunk = Math.floor(chunk / 2); continue; }
+      throw new Error(`Ghi SQLite thất bại ở dòng ${i}: ${detail.slice(0, 300)}`);
+    }
+    i += chunk;
+    if (i % 2000 < chunk) log(`Đã ghi ${Math.min(list.length, i)}/${list.length} giao dịch (lô ${chunk} dòng, ${Date.now() - t1} ms)`);
+    await new Promise((r) => setTimeout(r, 0));
+  }
   const tTx = Date.now() - t0;
 
   useVi.setState({
