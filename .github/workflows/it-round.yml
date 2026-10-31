@@ -39,6 +39,8 @@ jobs:
       - name: Chuẩn bị bản build QA (chỉ trong CI)
         run: |
           cp qa/seeds/${{ matrix.app }}.tsx apps/${{ matrix.app }}/app/qa-seed.tsx
+          # Lỗi expo-sqlite bản web: kết quả đồng bộ > 255 byte bị cắt (xem qa/patch-sqlite-web.mjs).
+          $A "patch expo-sqlite web" node qa/patch-sqlite-web.mjs
           # Hẹn Đẹp: cho phép mở màn qa-seed khi chưa đăng nhập (màn seed tự đăng nhập chủ tiệm).
           sed -i "s/first !== 'auth'/first !== 'auth' \&\& first !== 'qa-seed'/" apps/hen-dep/src/access.ts
           cat > apps/${{ matrix.app }}/metro.config.js <<'EOF'
