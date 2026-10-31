@@ -1,6 +1,6 @@
 /** Sinh từ design system "Năm App" (tokens.json). Đổi màu ở đây, không viết cứng trong màn hình. */
 export type SchemeName = 'light' | 'dark';
-export type AppId = 'meo' | 'nhip' | 'sansang' | 'hen' | 'vi';
+export type AppId = 'meo' | 'nhip' | 'sansang' | 'hen' | 'vi' | 'tt';
 
 const base = {
   light: {
@@ -40,7 +40,11 @@ const accents: Record<AppId, Record<SchemeName, { a: string; a2: string; at: str
   },
   hen: { light: { a: '#9b2c55', a2: '#8f6215', at: '#f9e8ee' }, dark: { a: '#ef8fb2', a2: '#d9ab5a', at: '#3a1a26' } },
   vi: { light: { a: '#0b6e5f', a2: '#1f7a4d', at: '#e2f3ef' }, dark: { a: '#4fd1b8', a2: '#5cc48e', at: '#12302b' } },
+  tt: { light: { a: '#6e3b1f', a2: '#b8862b', at: '#f6ece0' }, dark: { a: '#e0b07a', a2: '#d9ab5a', at: '#33241a' } },
 };
+
+/** Chế độ khấn của Thành Tâm luôn tối ấm (TT-10). */
+export const ttNight = { bg: '#1a1410', ink: '#f3e6d3', inkMuted: '#bfa98c', field: '#e9c48c', gold: '#d9ab5a', soft: 'rgba(255,255,255,0.08)', now: 'rgba(217,171,90,0.16)' };
 
 /** Màn tập trung của Nhịp luôn tối. */
 export const night = {
