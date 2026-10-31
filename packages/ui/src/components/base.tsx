@@ -265,22 +265,16 @@ export function IconButton({
   badge?: boolean;
 }) {
   const { c } = useTheme();
-  return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityLabel={label}
-      hitSlop={6}
-      style={({ pressed }) => ({
-        width: 40,
-        height: 40,
-        borderRadius: radius.sm,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: bg ?? (soft ? c.surface2 : 'transparent'),
-        opacity: pressed ? 0.7 : 1,
-      })}
-    >
+  const box = {
+    width: 40,
+    height: 40,
+    borderRadius: radius.sm,
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
+    backgroundColor: bg ?? (soft ? c.surface2 : 'transparent'),
+  };
+  const inner = (
+    <>
       <Feather name={icon} size={20} color={color ?? c.ink} />
       {badge ? (
         <View
@@ -295,6 +289,30 @@ export function IconButton({
           }}
         />
       ) : null}
+    </>
+  );
+  // Chỉ là biểu tượng (nằm trong thẻ bấm được): không chiếm cú chạm, để thẻ cha nhận (IT7).
+  // Pressable không có onPress vẫn nuốt cú chạm nên bấm vào biểu tượng không làm gì.
+  if (!onPress)
+    return (
+      <View
+        style={box}
+        pointerEvents="none"
+        importantForAccessibility="no-hide-descendants"
+        accessibilityElementsHidden
+      >
+        {inner}
+      </View>
+    );
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      hitSlop={6}
+      style={({ pressed }) => ({ ...box, opacity: pressed ? 0.7 : 1 })}
+    >
+      {inner}
     </Pressable>
   );
 }

@@ -23,10 +23,31 @@ function summarizeProfile(prof) {
     const key = `${f.functionName || '(anon)'} ${(f.url || '').split('/').pop()}:${f.lineNumber + 1}`;
     self.set(key, (self.get(key) || 0) + (dt[i] || 0) / 1000);
   });
-  return [...self]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 30)
-    .map(([k, ms]) => `${ms.toFixed(1)} ms  ${k}`);
+  // Thời gian bao gồm cả hàm con, theo tên component React (tên bắt đầu bằng chữ hoa) — để biết component nào vẽ.
+  const parent = new Map();
+  for (const n of prof.nodes) for (const ch of n.children || []) parent.set(ch, n.id);
+  const incl = new Map();
+  (prof.samples || []).forEach((id, i) => {
+    const seen = new Set();
+    for (let cur = id; cur != null; cur = parent.get(cur)) {
+      const name = byId.get(cur).callFrame.functionName;
+      if (/^[A-Z][A-Za-z0-9]+$/.test(name) && !seen.has(name)) {
+        seen.add(name);
+        incl.set(name, (incl.get(name) || 0) + (dt[i] || 0) / 1000);
+      }
+    }
+  });
+  return [
+    ...[...self]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 20)
+      .map(([k, ms]) => `${ms.toFixed(1)} ms  ${k}`),
+    '-- component (gồm con) --',
+    ...[...incl]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 30)
+      .map(([k, ms]) => `${ms.toFixed(1)} ms  ${k}`),
+  ];
 }
 fs.mkdirSync(path.join(outDir, 'shots'), { recursive: true });
 
