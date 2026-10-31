@@ -10,6 +10,24 @@ const [app, base, outDir] = process.argv.slice(2);
 const T0 = Date.now();
 const BUDGET_MS = Number(process.env.QA_BUDGET_MIN || 75) * 60_000;
 const MAX_CLICKS = Number(process.env.QA_MAX_CLICKS || 45);
+// Ghi CPU profile cho tối đa 3 lần bấm khớp "<route> <nhãn>" (vd: "^/customers (Thêm khách|VY)").
+const PROFILE_RE = process.env.QA_PROFILE ? new RegExp(process.env.QA_PROFILE) : null;
+let profilesLeft = 3;
+/** Tóm tắt CPU profile: hàm tốn nhiều thời gian tự thân nhất. */
+function summarizeProfile(prof) {
+  const byId = new Map(prof.nodes.map((n) => [n.id, n]));
+  const self = new Map();
+  const dt = prof.timeDeltas || [];
+  (prof.samples || []).forEach((id, i) => {
+    const f = byId.get(id).callFrame;
+    const key = `${f.functionName || '(anon)'} ${(f.url || '').split('/').pop()}:${f.lineNumber + 1}`;
+    self.set(key, (self.get(key) || 0) + (dt[i] || 0) / 1000);
+  });
+  return [...self]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 30)
+    .map(([k, ms]) => `${ms.toFixed(1)} ms  ${k}`);
+}
 fs.mkdirSync(path.join(outDir, 'shots'), { recursive: true });
 
 /* ---------- route list từ cây thư mục app/ ---------- */
@@ -377,6 +395,14 @@ async function sweep(route) {
     const beforeUrl = page.url();
     const beforeHash = await quickHash();
     const loc = page.locator(`[data-qa-i="${t.i}"]`);
+    let cdp = null;
+    if (PROFILE_RE && profilesLeft > 0 && PROFILE_RE.test(`${route} ${c.label.trim()}`)) {
+      profilesLeft--;
+      cdp = await page.context().newCDPSession(page);
+      await cdp.send('Profiler.enable');
+      await cdp.send('Profiler.setSamplingInterval', { interval: 200 });
+      await cdp.send('Profiler.start');
+    }
     try {
       if (t.input) {
         res.value = sampleFor(t);
@@ -405,6 +431,12 @@ async function sweep(route) {
     res.settleMs = settle;
     delete res.t0;
     res.lt = await longTasks();
+    if (cdp) {
+      const { profile } = await cdp.send('Profiler.stop');
+      res.profile = summarizeProfile(profile);
+      console.log(`PROFILE ${route} «${c.label.trim()}»\n${res.profile.join('\n')}`);
+      await cdp.detach().catch(() => {});
+    }
     const afterText = await text();
     const afterUrl = page.url();
     const afterHash = await quickHash();
