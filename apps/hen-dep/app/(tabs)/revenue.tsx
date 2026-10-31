@@ -105,7 +105,7 @@ export default function Revenue() {
 
   return (
     <Screen scroll>
-      <T v="display" accessibilityRole="header">
+      <T v="display" accessibilityRole="header" style={{ paddingTop: 8 }}>
         Doanh thu
       </T>
       <Segmented

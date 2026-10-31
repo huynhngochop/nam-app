@@ -55,7 +55,7 @@ export default function Store() {
       {tab === 'packs' ? (
         <>
           <Card
-            variant="fill"
+            variant="accent"
             onPress={() => {
               track('pack_opened', { packId: featured.id });
               router.push(`/pack/${featured.id}`);

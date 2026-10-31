@@ -201,7 +201,9 @@ function ToastView({ msg, onDone }: { msg: ToastMsg; onDone: () => void }) {
         opacity: op,
       }}
     >
+      {/* W2: thân toast không nhận chạm, để nút bên dưới vẫn bấm được; chỉ nút hành động (Hoàn tác…) nhận chạm. */}
       <View
+        pointerEvents="box-none"
         style={{
           maxWidth: 520,
           width: '100%',
@@ -215,10 +217,12 @@ function ToastView({ msg, onDone }: { msg: ToastMsg; onDone: () => void }) {
           paddingVertical: 10,
         }}
       >
-        <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: dot }} />
-        <T v="caption" color={c.surface} style={{ flex: 1 }}>
-          {msg.text}
-        </T>
+        <View pointerEvents="none" style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+          <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: dot }} />
+          <T v="caption" color={c.surface} style={{ flex: 1 }}>
+            {msg.text}
+          </T>
+        </View>
         {msg.action ? (
           <Pressable
             hitSlop={8}

@@ -117,7 +117,8 @@ export default function Scan() {
               icon="edit-2"
               variant="secondary"
               textColor={INK}
-              onPress={() => router.back()}
+              // M14: mở thẳng ô thêm nguyên liệu ở Tủ lạnh (trước đây chỉ quay lại, không làm gì khi mở trực tiếp).
+              onPress={() => router.replace({ pathname: '/(tabs)/fridge', params: { add: '1' } })}
               style={{ backgroundColor: SOFT }}
             />
           </Row>

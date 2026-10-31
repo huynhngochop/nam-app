@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { router } from 'expo-router';
+import React, { useEffect, useMemo, useState } from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
 import {
   Badge,
   Button,
@@ -23,7 +23,15 @@ import { useMeo } from '../../src/store';
 export default function Fridge() {
   const pantry = useMeo((s) => s.pantry);
   const toggle = useMeo((s) => s.togglePantry);
+  const { add } = useLocalSearchParams<{ add?: string }>();
   const [addOpen, setAddOpen] = useState(false);
+  // Mở ô thêm nguyên liệu khi đến từ nút "Gõ tên" ở màn chụp (M14).
+  useEffect(() => {
+    if (add === '1') {
+      setAddOpen(true);
+      router.setParams({ add: undefined });
+    }
+  }, [add]);
   const [q, setQ] = useState('');
   const matches = useMemo(() => matchRecipes(pantry), [pantry]);
   const options = INGREDIENTS.filter(

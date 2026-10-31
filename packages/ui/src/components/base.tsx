@@ -33,15 +33,29 @@ type TProps = TextProps & {
   center?: boolean;
   weight?: keyof typeof fonts;
 };
+/**
+ * Màu chữ mặc định khi nằm trên nền màu nhấn (Card variant="fill"). Không có giá trị = nền thường.
+ * Lỗi W1: chữ màu ink/accent trên nền màu nhấn gần như không đọc được, nhất là ở giao diện tối.
+ */
+const OnFillCtx = React.createContext<string | null>(null);
+/** Màu chữ cần dùng khi đang nằm trong thẻ nền màu nhấn, hoặc null. */
+export function useOnFill() {
+  return React.useContext(OnFillCtx);
+}
+
 export function T({ v = 'body', color, muted, accent, center, weight, style, ...rest }: TProps) {
   const { c } = useTheme();
-  const col = color ?? (accent ? c.a : muted ? c.inkMuted : c.ink);
+  const onFill = useOnFill();
+  // Trên nền màu nhấn: mọi biến thể (thường / muted / accent) dùng màu onAccent; muted giảm độ đậm.
+  const col = color ?? onFill ?? (accent ? c.a : muted ? c.inkMuted : c.ink);
+  const fade = onFill && !color && muted ? { opacity: 0.8 } : null;
   return (
     <Text
       maxFontSizeMultiplier={v === 'numeral' || v === 'display' ? 1.3 : 2}
       style={[
         typeScale[v] as TextStyle,
         { color: col },
+        fade,
         center && { textAlign: 'center' },
         weight && { fontFamily: fonts[weight] },
         style,
@@ -413,14 +427,16 @@ export function Card({
   accessibilityLabel,
 }: {
   children: ReactNode;
-  variant?: 'default' | 'tint' | 'fill' | 'outlineAccent' | 'danger';
+  /** fill = nền trung tính đậm hơn thẻ thường · accent = nền màu nhấn, chữ bên trong tự đổi sang onAccent. */
+  variant?: 'default' | 'tint' | 'fill' | 'accent' | 'outlineAccent' | 'danger';
   onPress?: () => void;
   style?: StyleProp<ViewStyle>;
   accessibilityLabel?: string;
 }) {
   const { c } = useTheme();
   const s: ViewStyle = {
-    backgroundColor: variant === 'tint' ? c.at : variant === 'fill' ? c.a : c.surface,
+    backgroundColor:
+      variant === 'tint' ? c.at : variant === 'fill' ? c.surface2 : variant === 'accent' ? c.a : c.surface,
     borderWidth: variant === 'outlineAccent' ? 2 : variant === 'danger' ? 1.5 : 1,
     borderColor:
       variant === 'outlineAccent'
@@ -434,6 +450,7 @@ export function Card({
     padding: 16,
     gap: 8,
   };
+  const body = variant === 'accent' ? <OnFillCtx.Provider value={c.onAccent}>{children}</OnFillCtx.Provider> : children;
   if (onPress) {
     return (
       <Pressable
@@ -442,11 +459,11 @@ export function Card({
         onPress={onPress}
         style={({ pressed }) => [s, { opacity: pressed ? 0.85 : 1 }, style]}
       >
-        {children}
+        {body}
       </Pressable>
     );
   }
-  return <View style={[s, style]}>{children}</View>;
+  return <View style={[s, style]}>{body}</View>;
 }
 
 export function Thumb({ icon, color, bg, size = 40 }: { icon: IconName; color?: string; bg?: string; size?: number }) {
