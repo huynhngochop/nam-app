@@ -50,7 +50,7 @@ jobs:
           EOF
 
       - name: Export web
-        run: $A "export ${{ matrix.app }}" "cd apps/${{ matrix.app }} && npx expo export -p web --clear --output-dir dist-web ${{ matrix.app == 'hen-dep' && '--no-minify' || '' }} 2>&1 | tail -25"
+        run: $A "export ${{ matrix.app }}" "cd apps/${{ matrix.app }} && npx expo export -p web --clear --output-dir dist-web 2>&1 | tail -25"
 
       - name: Cài Playwright (ngoài monorepo)
         run: |
@@ -63,8 +63,6 @@ jobs:
         run: |
           node qa/serve.mjs apps/${{ matrix.app }}/dist-web 8080 &
           sleep 2
-          # Hẹn Đẹp: bản không rút gọn tên hàm + CPU profile khi bấm mở khách từ danh sách (đo IT7).
-          export QA_PROFILE='${{ matrix.app == 'hen-dep' && '^/customers [A-ZĐ]{2} ' || '' }}'
           QA_SEED=1 QA_BUDGET_MIN=110 QA_MAX_CLICKS=45 $A "crawl ${{ matrix.app }}" node /tmp/pw/crawl.mjs ${{ matrix.app }} http://localhost:8080 qa-out/${{ matrix.app }}
 
       - uses: actions/upload-artifact@v4
