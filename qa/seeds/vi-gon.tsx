@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text } from 'react-native';
 import Storage from 'expo-sqlite/kv-store';
-import { allTx, insertMany, wipeTx } from '../src/db';
+import { countWhere, insertMany, wipeTx } from '../src/db';
 import { useVi } from '../src/store';
 import { Tx } from '../src/types';
 
@@ -103,7 +103,7 @@ async function run(log: (s: string) => void) {
   });
   await new Promise((r) => setTimeout(r, 2500));
   const kv = (await Storage.getItem('vi-gon')) ?? '';
-  return { app: 'vi-gon', tx: allTx().length, txWriteMs: tTx, totalMs: Date.now() - t0, kvBytes: kv.length };
+  return { app: 'vi-gon', tx: countWhere('1 = 1'), txWriteMs: tTx, totalMs: Date.now() - t0, kvBytes: kv.length };
 }
 
 export default function QaSeed() {
