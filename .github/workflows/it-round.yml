@@ -12,6 +12,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: it-round
+  cancel-in-progress: true
+
 jobs:
   crawl:
     name: IT ${{ matrix.app }}

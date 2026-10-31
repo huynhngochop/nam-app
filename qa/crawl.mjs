@@ -225,7 +225,12 @@ async function sweep(route) {
       if (t.input) { res.value = sampleFor(t); await loc.fill(res.value, { timeout: 2500 }); await loc.press('Enter').catch(() => {}); }
       else await loc.click({ timeout: 3000 });
       res.t0 = Date.now();
-    } catch (e) { res.actionError = String(e.message || e).split('\n')[0].slice(0, 200); }
+    } catch (e) {
+      const lines = String(e.message || e).split('\n');
+      res.actionError = lines[0].slice(0, 200);
+      // Lý do Playwright không bấm được (bị che, không ổn định, ngoài khung nhìn…).
+      res.actionWhy = [...new Set(lines.slice(1).map((s) => s.trim()).filter((s) => /intercepts|not stable|not visible|outside of the viewport|not enabled|detached/.test(s)))].slice(0, 3).map((s) => s.slice(0, 300));
+    }
     await page.waitForTimeout(150); const settle = await ready(4000);
     res.ms = res.t0 ? Date.now() - res.t0 : undefined; res.settleMs = settle; delete res.t0; res.lt = await longTasks();
     const afterText = await text(); const afterUrl = page.url(); const afterHash = await quickHash();
