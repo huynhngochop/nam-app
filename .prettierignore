@@ -4,3 +4,4 @@ dist-web
 .expo
 qa-out
 package-lock.json
+qa/seeds
