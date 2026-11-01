@@ -180,18 +180,20 @@ async function run(log: (s: string) => void) {
   // Lô nhỏ: SQLite bản web (worker đồng bộ) lỗi với giao dịch lớn. Ghi lại chi tiết lỗi đầu tiên để báo cáo.
   // Lô 1.000 dòng: bản web của expo-sqlite có giới hạn thời gian cho mỗi lệnh đồng bộ, một giao dịch 12 nghìn dòng vượt giới hạn đó (IT6, chỉ web).
   let chunk = 1000;
+  let retries = 0;
   for (let i = 0; i < list.length; ) {
     const t1 = Date.now();
     try {
       insertMany(list.slice(i, i + chunk));
     } catch (e) {
       const detail = e && typeof e === 'object' ? JSON.stringify(e, Object.getOwnPropertyNames(e)) : String(e);
-      log(`LỖI GHI lô ${i}-${i + chunk}: ${detail.slice(0, 600)}`);
-      if (chunk > 25) {
-        chunk = Math.floor(chunk / 2);
-        continue;
-      }
-      throw new Error(`Ghi SQLite thất bại ở dòng ${i}: ${detail.slice(0, 300)}`);
+      log(`LỖI GHI lô ${i}-${i + chunk}: ${detail.slice(0, 300)}`);
+      // Hết giờ chờ: worker SQLite web vẫn đang chạy lệnh trước, gọi tiếp ngay cũng hết giờ. Chờ rồi thử lại
+      // (INSERT OR REPLACE nên ghi lại cùng lô không bị trùng).
+      if (++retries > 8) throw new Error(`Ghi SQLite thất bại ở dòng ${i}: ${detail.slice(0, 300)}`);
+      chunk = Math.max(200, Math.floor(chunk / 2));
+      await new Promise((r) => setTimeout(r, 3000));
+      continue;
     }
     i += chunk;
     if (i % 2000 < chunk)
