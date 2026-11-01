@@ -64,7 +64,7 @@ export default function Pray() {
   const set = useTT((s) => s.set);
   const logPray = useTT((s) => s.logPray);
 
-  const ref = useAnimatedRef();
+  const ref = useAnimatedRef<Animated.ScrollView>();
   const y = useSharedValue(0);
   const speed = useSharedValue(0);
   const [speedIdx, setSpeedIdx] = useState(0);
@@ -103,7 +103,7 @@ export default function Pray() {
   const { r, p, paras } = data;
   const lh = Math.round(prayFont * 1.6);
 
-  const speakFrom = (i: number) => {
+  const speakFrom = (i: number): void => {
     if (i >= paras.length || stopRef.current) {
       setSpeaking(null);
       return;
@@ -113,14 +113,19 @@ export default function Pray() {
     const text = plainText(paras[i]).replace(/\((\d+) lần\)$/, '');
     const times = paras[i].repeat ?? 1;
     let n = 0;
-    const once = () =>
+    const once = (): void => {
       Speech.speak(text, {
         language: 'vi-VN',
         rate: 0.9,
-        onDone: () => (++n < times ? once() : speakFrom(i + 1)),
+        onDone: (): void => {
+          n += 1;
+          if (n < times) once();
+          else speakFrom(i + 1);
+        },
         onStopped: () => setSpeaking(null),
         onError: () => setSpeaking(null),
       });
+    };
     once();
   };
   const toggleSpeak = () => {

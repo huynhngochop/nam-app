@@ -306,9 +306,12 @@ declare module 'expo-speech' {
 }
 declare module 'react-native-reanimated' {
   const Animated: any;
+  namespace Animated {
+    type ScrollView = any;
+  }
   export default Animated;
   export const useSharedValue: any;
-  export const useAnimatedRef: any;
+  export function useAnimatedRef<T = any>(): any;
   export const useFrameCallback: any;
   export const useAnimatedScrollHandler: any;
   export const scrollTo: any;

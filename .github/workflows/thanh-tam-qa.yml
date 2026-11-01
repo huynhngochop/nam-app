@@ -38,7 +38,7 @@ jobs:
       - run: npm install --no-audit --no-fund
       - name: Định dạng + sửa lint tự động
         run: |
-          npx prettier --write "apps/thanh-tam/**/*.{ts,tsx,js}" "tests/**/*.ts" "qa/**/*.{mjs,tsx}" >/dev/null
+          npx prettier --write "apps/thanh-tam/**/*.{ts,tsx,js}" "packages/**/*.{ts,tsx}" "tests/**/*.ts" "qa/**/*.{mjs,tsx}" >/dev/null
           npx eslint apps/thanh-tam qa tests --fix || true
       - id: push
         name: Đẩy thay đổi (nếu có)
