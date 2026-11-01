@@ -17,7 +17,8 @@
     "meo": "npm --workspace @nam/meo-nha run start",
     "nhip": "npm --workspace @nam/nhip run start",
     "hen": "npm --workspace @nam/hen-dep run start",
-    "vi": "npm --workspace @nam/vi-gon run start"
+    "vi": "npm --workspace @nam/vi-gon run start",
+    "tt": "npm --workspace @nam/thanh-tam run start"
   },
   "dependencies": {
     "expo-asset": "~12.0.14"
