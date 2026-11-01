@@ -4,7 +4,8 @@
 # Dùng: bash qa/native/ios.sh <App.app> <outDir>
 set -u
 APP="$1"
-OUT="$(cd "$(dirname "$2")" && pwd)/$(basename "$2")"
+mkdir -p "$2"
+OUT="$(cd "$2" && pwd)"
 BUNDLE=vn.namapp.thanhtam
 mkdir -p "$OUT/shots" "$OUT/flows"
 LOG="$OUT/run.log"

@@ -20,6 +20,11 @@ async function newPage({ w = 393, h = 852, tz = 'Asia/Ho_Chi_Minh', scheme = 'li
   const page = await ctx.newPage();
   page.errs = [];
   page.on('pageerror', (e) => page.errs.push(String(e?.message || e).slice(0, 300)));
+  page.cons = [];
+  page.on(
+    'console',
+    (m) => ['error', 'warning'].includes(m.type()) && page.cons.push(`${m.type()}: ${m.text().slice(0, 240)}`),
+  );
   return page;
 }
 const settle = async (page, ms = 600) => {
@@ -70,6 +75,9 @@ async function scenario(id, who, goal, fn, opts) {
     error = String(e.message || e)
       .split('\n')[0]
       .slice(0, 300);
+    // Ghi kèm lỗi JS/console để biết vì sao trượt (vd. trang trắng).
+    const extra = [...page.errs.map((x) => `pageerror: ${x}`), ...page.cons].slice(0, 4);
+    if (extra.length) error += ` · ${extra.join(' · ')}`;
   }
   const shot = `shots/${id}.jpg`;
   await page.screenshot({ path: path.join(outDir, shot), type: 'jpeg', quality: 65, fullPage: true }).catch(() => {});
@@ -99,6 +107,8 @@ await scenario(
     await expectText(p, /Lan/, 'tên "Lan" ở đầu Hôm nay');
     await expectText(p, /âm/, 'ngày âm');
     // Hành trình nối tiếp: lễ vật theo miền Nam, văn khấn có tên đã điền
+    // Chờ dữ liệu ghi xong xuống máy trước khi tải lại trang.
+    await p.waitForTimeout(2500);
     await go(p, '/ritual/mung-1-ram/offerings');
     await expectText(p, /Mãng cầu/, 'lễ vật miền Nam (mãng cầu)');
     await p.getByRole('checkbox').first().click();
