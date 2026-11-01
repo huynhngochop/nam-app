@@ -1,0 +1,55 @@
+appId: vn.namapp.thanhtam
+---
+- launchApp
+- openLink: thanhtam://qa-seed?small=1
+- tapOn: { text: 'Open', optional: true }
+- extendedWaitUntil: { visible: 'Chào buổi.*', timeout: 60000, optional: true }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-se-normal-00-after-seed
+- openLink: thanhtam://today
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-se-normal-today
+- openLink: thanhtam://rituals
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-se-normal-rituals
+- openLink: thanhtam://calendar
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-se-normal-calendar
+- openLink: thanhtam://ritual/mung-1-ram
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-se-normal-ritual
+- openLink: thanhtam://ritual/mung-1-ram/prayer
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-se-normal-prayer
+- openLink: thanhtam://ritual/mung-1-ram/pray
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-se-normal-pray
+- openLink: thanhtam://anniversaries
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-se-normal-anniversaries
+- openLink: thanhtam://anniversaries/edit
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-se-normal-anniversary-edit
+- openLink: thanhtam://age
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-se-normal-age
+- openLink: thanhtam://people/edit
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-se-normal-people-edit
+- openLink: thanhtam://face/step/0
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-se-normal-face-step
+- openLink: thanhtam://settings
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-se-normal-settings

@@ -1,0 +1,160 @@
+[
+ {
+  "id": "U01",
+  "who": "Người mới cài app (miền Nam, có ban Thần tài)",
+  "goal": "Đi hết onboarding, vào Hôm nay thấy ngày âm và tên mình",
+  "pass": true,
+  "steps": [
+   "chọn miền Nam + ban Thần tài",
+   "điền tên, địa chỉ, họ",
+   "lễ vật miền Nam, đánh dấu 1 món",
+   "văn khấn đã điền tên, địa chỉ"
+  ],
+  "ms": 6825,
+  "shot": "shots/U01.jpg",
+  "url": "/ritual/mung-1-ram/prayer"
+ },
+ {
+  "id": "U02",
+  "who": "Bà Lan, 60 tuổi, cúng rằm",
+  "goal": "Mở lễ, đọc văn khấn chữ to, khấn xong, đặt nhắc hạ lễ",
+  "pass": true,
+  "steps": [
+   "mở văn khấn",
+   "chữ khấn 24px → 26px",
+   "khấn xong → màn sau khi cúng"
+  ],
+  "ms": 6765,
+  "shot": "shots/U02.jpg",
+  "url": "/ritual/mung-1-ram/after"
+ },
+ {
+  "id": "U03",
+  "who": "Người lo việc giỗ",
+  "goal": "Thêm giỗ bà nội 30 tháng Chạp: app báo năm nay tháng Chạp thiếu, giỗ ngày 29",
+  "pass": true,
+  "steps": [
+   "xem trước: tháng thiếu → ngày 29",
+   "sổ giỗ hiện 5/2/2027"
+  ],
+  "ms": 6796,
+  "shot": "shots/U03.jpg",
+  "url": "/anniversaries"
+ },
+ {
+  "id": "U04",
+  "who": "Chủ nhà xem tuổi năm mới",
+  "goal": "Thêm người sinh 10/2/1975 (trước Tết Ất Mão) → tuổi Giáp Dần, mệnh Đại Khê Thủy; năm Bính Ngọ: sao Thái Âm, kim lâu lục súc",
+  "pass": true,
+  "steps": [
+   "quy đổi: Giáp Dần (năm âm 1974)",
+   "Tuổi & năm đúng vector kiểm thử"
+  ],
+  "ms": 6834,
+  "shot": "shots/U04.jpg",
+  "url": "/age?year=2026"
+ },
+ {
+  "id": "U05",
+  "who": "Người gõ không dấu",
+  "goal": "Tìm \"ong tao\" ra lễ ông Công ông Táo; tìm \"huong chay\" ra dấu hiệu hương cháy",
+  "pass": true,
+  "steps": [
+   "ong tao → ông Công ông Táo",
+   "huong chay → Hương cháy không đều"
+  ],
+  "ms": 4057,
+  "shot": "shots/U05.jpg",
+  "url": "/search"
+ },
+ {
+  "id": "U06",
+  "who": "Xem lịch âm",
+  "goal": "Chạm một ngày trên lịch → thấy ngày âm, can chi, giờ hoàng đạo",
+  "pass": true,
+  "steps": [
+   "chi tiết ngày hiện đủ"
+  ],
+  "ms": 4496,
+  "shot": "shots/U06.jpg",
+  "url": "/calendar"
+ },
+ {
+  "id": "U07",
+  "who": "Tự xem nhân tướng",
+  "goal": "Đi 8 bước, có kết quả 3 nét nổi bật, lưu được",
+  "pass": true,
+  "steps": [
+   "kết quả có 3 nét + lời nhắc",
+   "đã lưu"
+  ],
+  "ms": 11389,
+  "shot": "shots/U07.jpg",
+  "url": "/face"
+ },
+ {
+  "id": "U08",
+  "who": "Người ở Mỹ (UTC−5)",
+  "goal": "Hôm nay vẫn hiện ngày âm, ghi \"theo lịch Việt Nam\"",
+  "pass": true,
+  "steps": [
+   "có nhãn theo lịch Việt Nam"
+  ],
+  "ms": 3755,
+  "shot": "shots/U08.jpg",
+  "url": "/today"
+ },
+ {
+  "id": "U09",
+  "who": "Dùng iPad ngang",
+  "goal": "Bài cúng hiện danh sách + chi tiết cạnh nhau; chạm mục đổi chi tiết, không rời trang",
+  "pass": true,
+  "steps": [
+   "hai cột hoạt động",
+   "lịch: chi tiết ngày ở cột bên phải"
+  ],
+  "ms": 6081,
+  "shot": "shots/U09.jpg",
+  "url": "/calendar"
+ },
+ {
+  "id": "U10",
+  "who": "Máy gập mở (Galaxy Z Fold dọc)",
+  "goal": "Hôm nay chia 2 cột, không tràn ngang",
+  "pass": true,
+  "steps": [
+   "2 cột, không tràn"
+  ],
+  "ms": 3761,
+  "shot": "shots/U10.jpg",
+  "url": "/today"
+ },
+ {
+  "id": "U11",
+  "who": "Dữ liệu cực lớn (1.000 ngày giỗ, 60 người)",
+  "goal": "Các màn chính mở dưới 3 giây, không lỗi",
+  "pass": true,
+  "steps": [
+   "/today: 792 ms",
+   "/calendar: 796 ms",
+   "/anniversaries: 796 ms",
+   "/age: 793 ms",
+   "/me: 792 ms"
+  ],
+  "ms": 6916,
+  "shot": "shots/U11.jpg",
+  "url": "/me"
+ },
+ {
+  "id": "U12",
+  "who": "Người thích nền tối",
+  "goal": "Chế độ khấn và Hôm nay ở nền tối không lỗi",
+  "pass": true,
+  "steps": [
+   "nền tối ổn"
+  ],
+  "ms": 4556,
+  "shot": "shots/U12.jpg",
+  "url": "/ritual/mung-1-ram/pray"
+ }
+]

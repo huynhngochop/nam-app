@@ -1,0 +1,35 @@
+appId: vn.namapp.thanhtam
+---
+- launchApp
+- openLink: thanhtam://today
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/ipad-mini-bigtext-today
+- openLink: thanhtam://calendar
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/ipad-mini-bigtext-calendar
+- openLink: thanhtam://ritual/mung-1-ram
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/ipad-mini-bigtext-ritual
+- openLink: thanhtam://ritual/mung-1-ram/prayer
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/ipad-mini-bigtext-prayer
+- openLink: thanhtam://ritual/mung-1-ram/pray
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/ipad-mini-bigtext-pray
+- openLink: thanhtam://anniversaries/edit
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/ipad-mini-bigtext-anniversary-edit
+- openLink: thanhtam://age
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/ipad-mini-bigtext-age
+- openLink: thanhtam://settings
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/ipad-mini-bigtext-settings

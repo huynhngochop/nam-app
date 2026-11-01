@@ -1,0 +1,13 @@
+Running on qa-ipad-pro-13 - iOS 26.2 - A06D6A9C-ECF4-4F5C-9C0B-9491B3418BAF
+ > Flow ipad-pro-13-dark
+Launch app "vn.namapp.thanhtam"... COMPLETED
+Open thanhtam://today... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/ipad-pro-13-dark-today... FAILED
+
+Invalid path "/Users/runner/work/nam-app/nam-app/qa-out/ios/shots/ipad-pro-13-dark-today.png" for takeScreenshot: it resolves outside this run's takeScreenshot output folder. If the path comes from a variable, check what it expands to.
+
+==== Debug output (logs & screenshots) ====
+
+/Users/runner/.maestro/tests/2026-11-01_094350

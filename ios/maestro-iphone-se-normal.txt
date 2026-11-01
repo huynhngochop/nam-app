@@ -1,0 +1,15 @@
+Anonymous analytics enabled. To opt out, set MAESTRO_CLI_NO_ANALYTICS environment variable to any value before running Maestro.
+
+Running on qa-iphone-se - iOS 26.2 - 5641B13D-0A66-4BBF-A88A-65D1EB91CA68
+ > Flow iphone-se-normal
+Launch app "vn.namapp.thanhtam"... COMPLETED
+Open thanhtam://qa-seed?small=1... COMPLETED
+Tap on (Optional) "Open"... COMPLETED
+Assert that (Optional) "Chào buổi.*" is visible... COMPLETED
+Take screenshot /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-se-normal-00-after-seed... FAILED
+
+Invalid path "/Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-se-normal-00-after-seed.png" for takeScreenshot: it resolves outside this run's takeScreenshot output folder. If the path comes from a variable, check what it expands to.
+
+==== Debug output (logs & screenshots) ====
+
+/Users/runner/.maestro/tests/2026-11-01_091720

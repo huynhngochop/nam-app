@@ -1,0 +1,156 @@
+Performing Streamed Install
+Success
+KHỞI ĐỘNG LẠNH: TotalTime: 3199 WaitTime: 3207 
+SEED: 
+== phone (1080x2400 @420, xoay 0, chữ 1.0, tối no)
+  ok today
+  ok rituals
+  ok calendar
+  ok explore
+  ok search
+  ok ritual
+  ok offerings
+  ok prayer
+  ok pray
+  ok after
+  ok anniversaries
+  ok anniversary-edit
+  ok sign
+  ok tip
+  ok age
+  ok age-plan
+  ok age-term
+  ok people-edit
+  ok face
+  ok face-step
+  ok face-part
+  ok me
+  ok settings
+  ok sources
+  ok paywall
+  ok onboarding
+== phone-small (720x1280 @320, xoay 0, chữ 1.0, tối no)
+  ok today
+  ok rituals
+  ok calendar
+  ok ritual
+  ok prayer
+  ok pray
+  ok anniversaries
+  ok anniversary-edit
+  ok age
+  ok people-edit
+  ok face-step
+  ok settings
+== phone-font200 (1080x2400 @420, xoay 0, chữ 2.0, tối no)
+  ok today
+  ok rituals
+  ok calendar
+  ok ritual
+  ok prayer
+  ok pray
+  ok anniversaries
+  ok anniversary-edit
+  ok age
+  ok people-edit
+  ok face-step
+  ok settings
+== phone-land (1080x2400 @420, xoay 1, chữ 1.0, tối no)
+  ok today
+  ok rituals
+  ok calendar
+  ok ritual
+  ok prayer
+  ok pray
+  ok anniversaries
+  ok anniversary-edit
+  ok age
+  ok people-edit
+  ok face-step
+  ok settings
+== fold-cover (904x2316 @420, xoay 0, chữ 1.0, tối no)
+  ok today
+  ok rituals
+  ok calendar
+  ok ritual
+  ok prayer
+  ok pray
+  ok anniversaries
+  ok anniversary-edit
+  ok age
+  ok people-edit
+  ok face-step
+  ok settings
+== fold-open (1812x2176 @420, xoay 0, chữ 1.0, tối no)
+  ok today
+  ok rituals
+  ok calendar
+  ok ritual
+  ok prayer
+  ok pray
+  ok anniversaries
+  ok anniversary-edit
+  ok age
+  ok people-edit
+  ok face-step
+  ok settings
+== fold-open-land (1812x2176 @420, xoay 1, chữ 1.0, tối no)
+  ok today
+  ok rituals
+  ok calendar
+  ok ritual
+  ok prayer
+  ok pray
+  ok anniversaries
+  ok anniversary-edit
+  ok age
+  ok people-edit
+  ok face-step
+  ok settings
+== tablet (1600x2560 @320, xoay 0, chữ 1.0, tối no)
+  ok today
+  ok rituals
+  ok calendar
+  ok ritual
+  ok prayer
+  ok pray
+  ok anniversaries
+  ok anniversary-edit
+  ok age
+  ok people-edit
+  ok face-step
+  ok settings
+== tablet-land (1600x2560 @320, xoay 1, chữ 1.0, tối no)
+  ok today
+  ok rituals
+  ok calendar
+  ok ritual
+  ok prayer
+  ok pray
+  ok anniversaries
+  ok anniversary-edit
+  ok age
+  ok people-edit
+  ok face-step
+  ok settings
+== phone-dark (1080x2400 @420, xoay 0, chữ 1.0, tối yes)
+  ok today
+  ok rituals
+  ok calendar
+  ok ritual
+  ok prayer
+  ok pray
+  ok anniversaries
+  ok anniversary-edit
+  ok age
+  ok people-edit
+  ok face-step
+  ok settings
+GẬP/MỞ 5 LẦN: pid trước 3825, sau 3825 (giữ nguyên, không sập)
+DỮ LIỆU LỚN anniversaries: Total frames rendered: 111 Janky frames: 102 (91.89%) Janky frames (legacy): 111 (100.00%)  (đang chạy)
+DỮ LIỆU LỚN calendar: Total frames rendered: 117 Janky frames: 98 (83.76%) Janky frames (legacy): 109 (93.16%)  (đang chạy)
+DỮ LIỆU LỚN today: Total frames rendered: 86 Janky frames: 81 (94.19%) Janky frames (legacy): 85 (98.84%)  (đang chạy)
+DỮ LIỆU LỚN age: Total frames rendered: 96 Janky frames: 85 (88.54%) Janky frames (legacy): 96 (100.00%)  (đang chạy)
+BỘ NHỚ:            TOTAL PSS:   230803            TOTAL RSS:   325156       TOTAL SWAP PSS:    12222
+LỖI JS: 0
+SẬP NATIVE: 0

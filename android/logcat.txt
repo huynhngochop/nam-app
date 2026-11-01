@@ -1,0 +1,57 @@
+--------- beginning of main
+11-01 09:19:09.926  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:19:11.129  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:19:11.230  3825  3825 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{2c6c15d V.E...... ......ID 0,0-1080,2400 #b}
+11-01 09:19:27.149  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:19:27.323  3825  3825 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view com.facebook.react.runtime.ReactSurfaceView{2c6c15d V.E...... .......D 0,0-1080,2400 #b}
+11-01 09:19:27.366  3825  3825 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{67b721 V.E...... .......D 0,0-1080,2400 #15}
+11-01 09:24:08.396  3825  3825 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view com.facebook.react.runtime.ReactSurfaceView{67b721 V.E...... .......D 0,0-720,1280 #15}
+11-01 09:24:08.806  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:24:09.031  3825  3825 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{9ad2c3d V.E...... .......D 0,0-720,1280 #1f}
+11-01 09:24:45.870  3825  3825 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view com.facebook.react.runtime.ReactSurfaceView{9ad2c3d V.E...... .......D 0,0-1080,2400 #1f}
+11-01 09:24:46.811  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:24:46.820  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:24:47.098  3825  3825 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{e81be9c V.E...... .......D 0,0-1080,2400 #33}
+11-01 09:25:25.717  3825  3825 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view com.facebook.react.runtime.ReactSurfaceView{e81be9c V.E...... .......D 0,0-2400,1080 #33}
+11-01 09:25:26.477  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:25:27.002  3825  3825 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{a5dae5b V.E...... .......D 0,0-2400,1080 #3d}
+11-01 09:26:43.112  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:26:43.317  3825  3825 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view com.facebook.react.runtime.ReactSurfaceView{a5dae5b V.E...... .......D 0,0-904,2316 #3d}
+11-01 09:26:43.551  3825  3825 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{c1a5222 V.E...... .......D 0,0-1812,2176 #47}
+11-01 09:28:04.118  3825  3825 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view com.facebook.react.runtime.ReactSurfaceView{c1a5222 V.E...... .......D 0,0-2560,1600 #47}
+11-01 09:28:04.843  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:28:05.328  3825  3825 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{fe160 V.E...... .......D 0,0-1600,2560 #51}
+11-01 09:29:24.172  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:29:24.583  3825  3825 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view com.facebook.react.runtime.ReactSurfaceView{fe160 V.E...... .......D 0,0-2560,1600 #51}
+11-01 09:29:25.617  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:29:25.714  3825  3825 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{7ee4a3d V.E...... .......D 0,0-2400,1080 #65}
+11-01 09:30:06.603  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:30:06.818  3825  3825 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view com.facebook.react.runtime.ReactSurfaceView{7ee4a3d V.E...... .......D 0,0-1080,2400 #65}
+11-01 09:30:07.041  3825  3825 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{34e1643 V.E...... .......D 0,0-1812,2176 #6f}
+11-01 09:30:08.213  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:30:08.276  3825  3825 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view com.facebook.react.runtime.ReactSurfaceView{34e1643 V.E...... .......D 0,0-1812,2176 #6f}
+11-01 09:30:08.357  3825  3825 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{916eeae V.E...... .......D 0,0-904,2316 #79}
+11-01 09:30:09.491  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:30:09.599  3825  3825 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view com.facebook.react.runtime.ReactSurfaceView{916eeae V.E...... .......D 0,0-904,2316 #79}
+11-01 09:30:09.623  3825  3825 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{cd020f7 V.E...... .......D 0,0-1812,2176 #83}
+11-01 09:30:10.751  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:30:10.906  3825  3825 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view com.facebook.react.runtime.ReactSurfaceView{cd020f7 V.E...... .......D 0,0-1812,2176 #83}
+11-01 09:30:10.969  3825  3825 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{3285f68 V.E...... .......D 0,0-904,2316 #8d}
+11-01 09:30:12.123  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:30:12.301  3825  3825 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view com.facebook.react.runtime.ReactSurfaceView{3285f68 V.E...... .......D 0,0-904,2316 #8d}
+11-01 09:30:12.397  3825  3825 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{f751c8a V.E...... .......D 0,0-1812,2176 #97}
+11-01 09:30:13.624  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:30:13.708  3825  3825 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view com.facebook.react.runtime.ReactSurfaceView{f751c8a V.E...... .......D 0,0-1812,2176 #97}
+11-01 09:30:13.764  3825  3825 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{bd8d5b0 V.E...... .......D 0,0-904,2316 #a1}
+11-01 09:30:14.776  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:30:14.927  3825  3825 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view com.facebook.react.runtime.ReactSurfaceView{bd8d5b0 V.E...... .......D 0,0-904,2316 #a1}
+11-01 09:30:15.047  3825  3825 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{edd6ff4 V.E...... .......D 0,0-1812,2176 #ab}
+11-01 09:30:16.216  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:30:16.358  3825  3825 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view com.facebook.react.runtime.ReactSurfaceView{edd6ff4 V.E...... .......D 0,0-1812,2176 #ab}
+11-01 09:30:16.404  3825  3825 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{c49cca V.E...... .......D 0,0-904,2316 #b5}
+11-01 09:30:17.610  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:30:17.731  3825  3825 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view com.facebook.react.runtime.ReactSurfaceView{c49cca V.E...... .......D 0,0-904,2316 #b5}
+11-01 09:30:17.851  3825  3825 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{19ebd20 V.E...... .......D 0,0-1812,2176 #bf}
+11-01 09:30:19.023  3825  3895 I ReactNativeJS: Running "main"
+11-01 09:30:19.165  3825  3825 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view com.facebook.react.runtime.ReactSurfaceView{19ebd20 V.E...... .......D 0,0-1812,2176 #bf}
+11-01 09:30:19.219  3825  3825 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{c886718 V.E...... .......D 0,0-904,2316 #c9}

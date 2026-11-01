@@ -1,0 +1,111 @@
+appId: vn.namapp.thanhtam
+---
+- launchApp
+- openLink: thanhtam://qa-seed?small=1
+- tapOn: { text: 'Open', optional: true }
+- extendedWaitUntil: { visible: 'Chào buổi.*', timeout: 60000, optional: true }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-00-after-seed
+- openLink: thanhtam://today
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-today
+- openLink: thanhtam://rituals
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-rituals
+- openLink: thanhtam://calendar
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-calendar
+- openLink: thanhtam://explore
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-explore
+- openLink: thanhtam://search
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-search
+- openLink: thanhtam://ritual/mung-1-ram
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-ritual
+- openLink: thanhtam://ritual/ong-cong-ong-tao/offerings
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-offerings
+- openLink: thanhtam://ritual/mung-1-ram/prayer
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-prayer
+- openLink: thanhtam://ritual/mung-1-ram/pray
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-pray
+- openLink: thanhtam://ritual/giao-thua/after
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-after
+- openLink: thanhtam://anniversaries
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-anniversaries
+- openLink: thanhtam://anniversaries/edit
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-anniversary-edit
+- openLink: thanhtam://sign/huong-chay-khong-deu
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-sign
+- openLink: thanhtam://tip/so-nen-huong
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-tip
+- openLink: thanhtam://age
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-age
+- openLink: thanhtam://age/plan
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-age-plan
+- openLink: thanhtam://age/term/tam-tai
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-age-term
+- openLink: thanhtam://people/edit
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-people-edit
+- openLink: thanhtam://face
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-face
+- openLink: thanhtam://face/step/0
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-face-step
+- openLink: thanhtam://face/part/dang-mat/tron
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-face-part
+- openLink: thanhtam://me
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-me
+- openLink: thanhtam://settings
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-settings
+- openLink: thanhtam://about/sources
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-sources
+- openLink: thanhtam://paywall
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-paywall
+- openLink: thanhtam://onboarding/tradition
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: /Users/runner/work/nam-app/nam-app/qa-out/ios/shots/iphone-pro-max-normal-onboarding
