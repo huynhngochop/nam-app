@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
 import {
@@ -42,11 +42,23 @@ export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) 
   );
   const [note, setNote] = useState(tx?.note ?? '');
   const [confirmDel, setConfirmDel] = useState(false);
+  // Sửa số tiền / nơi chi khi nhập nhầm hay ngân hàng đọc sai (UAT V8: trước đây chỉ xóa rồi nhập lại được).
+  const [editAmt, setEditAmt] = useState<null | { amount: string; merchant: string }>(null);
   const [split, setSplit] = useState(false);
   const [parts, setParts] = useState<{ categoryId: string; amount: string }[]>([]);
   useEffect(() => {
     setNote(tx?.note ?? '');
   }, [tx?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Lưu ghi chú cả khi rời màn lúc ô ghi chú còn đang gõ (bấm Quay lại ngay, onBlur không kịp chạy) — UAT V8.
+  const latest = useRef({ note, tx });
+  latest.current = { note, tx };
+  useEffect(
+    () => () => {
+      const { note: n, tx: t } = latest.current;
+      if (t && n.trim() !== (t.note ?? '')) updateTx(t.id, { note: n.trim() });
+    },
+    [],
+  );
 
   if (!tx) return <EmptyState icon="file" title="Không tìm thấy giao dịch" body="Có thể đã bị xóa." />;
   const cat = catOf(tx.categoryId, s.categories);
@@ -125,6 +137,15 @@ export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) 
         <T v="body" muted>
           {tx.merchant || cat.name}
         </T>
+        {tx.kind !== 'transfer' ? (
+          <Button
+            title="Sửa số tiền"
+            icon="edit-2"
+            size="sm"
+            variant="text"
+            onPress={() => setEditAmt({ amount: tx.amount.toLocaleString('vi-VN'), merchant: tx.merchant })}
+          />
+        ) : null}
         {tx.status === 'pending' ? <Badge label="Chờ xác nhận" tone="warning" /> : null}
       </View>
       <Card>
@@ -239,6 +260,47 @@ export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) 
         onCancel={() => setConfirmDel(false)}
         onConfirm={remove}
       />
+      <Sheet
+        visible={!!editAmt}
+        onClose={() => setEditAmt(null)}
+        title="Sửa giao dịch"
+        footer={
+          <Button
+            title="Lưu"
+            disabled={!editAmt || !(Number(editAmt.amount.replace(/\D/g, '')) > 0)}
+            onPress={() => {
+              if (!editAmt) return;
+              updateTx(tx.id, {
+                amount: Number(editAmt.amount.replace(/\D/g, '')),
+                merchant: editAmt.merchant.trim(),
+              });
+              setEditAmt(null);
+              toast('Đã lưu', { tone: 'success' });
+            }}
+          />
+        }
+      >
+        {editAmt ? (
+          <View style={{ gap: 12 }}>
+            <TextField
+              label="Số tiền (đồng)"
+              value={editAmt.amount}
+              keyboardType="number-pad"
+              autoFocus
+              onChangeText={(v) => {
+                const n = Number(v.replace(/\D/g, ''));
+                setEditAmt({ ...editAmt, amount: n ? n.toLocaleString('vi-VN') : '' });
+              }}
+            />
+            <TextField
+              label={tx.kind === 'income' ? 'Nguồn' : 'Nơi chi'}
+              value={editAmt.merchant}
+              maxLength={60}
+              onChangeText={(v) => setEditAmt({ ...editAmt, merchant: v })}
+            />
+          </View>
+        ) : null}
+      </Sheet>
       <Sheet
         visible={split}
         onClose={() => setSplit(false)}

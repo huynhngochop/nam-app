@@ -353,6 +353,7 @@ export const Chip = memo(function Chip({
   icon,
   onRemove,
   disabled,
+  accessibilityLabel,
 }: {
   label: string;
   selected?: boolean;
@@ -360,6 +361,8 @@ export const Chip = memo(function Chip({
   icon?: IconName;
   onRemove?: () => void;
   disabled?: boolean;
+  /** Bắt buộc với chip chỉ có biểu tượng (label rỗng), để trình đọc màn hình có tên. */
+  accessibilityLabel?: string;
 }) {
   const { c } = useTheme();
   const fg = selected ? c.a : c.ink;
@@ -368,6 +371,7 @@ export const Chip = memo(function Chip({
       onPress={onRemove ?? onPress}
       disabled={disabled}
       accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel ?? (label || undefined)}
       accessibilityState={{ selected: !!selected }}
       style={({ pressed }) => ({
         minHeight: 34,
@@ -764,6 +768,8 @@ export const TextField = React.forwardRef<TextInput, FieldProps>(function TextFi
         ) : null}
         <TextInput
           ref={ref}
+          // Nhãn hiện phía trên không gắn với ô nhập: trình đọc màn hình chỉ đọc "ô nhập" (ST, vòng 3).
+          accessibilityLabel={rest.accessibilityLabel ?? label ?? rest.placeholder}
           placeholderTextColor={c.inkMuted}
           multiline={multiline}
           onFocus={(e) => {

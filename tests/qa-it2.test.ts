@@ -86,3 +86,35 @@ test('IT3: nhiều lần setItem liền nhau chỉ ghi một lần, giá trị m
   await new Promise((r) => setTimeout(r, 60));
   assert.equal(mem.has('hen'), false, 'xóa thì bỏ cả lần ghi đang chờ');
 });
+
+/* ---------------- Vòng 3 (UAT) · Hẹn Đẹp ---------------- */
+test('UAT H2: thêm lại cùng dịch vụ (quay lại bước thiết lập) không nhân đôi bảng giá', async () => {
+  const { useHen } = await import('../apps/hen-dep/src/store');
+  useHen.setState({ services: [] });
+  const svc = [
+    { name: 'Sơn gel', price: 200_000, durationMin: 60, group: 'Nail', staffIds: [], visible: true },
+    { name: 'Vẽ móng', price: 100_000, durationMin: 30, group: 'Nail', staffIds: [], visible: true },
+  ] as Parameters<ReturnType<typeof useHen.getState>['addServices']>[0];
+  useHen.getState().addServices(svc);
+  useHen.getState().addServices(svc);
+  useHen.getState().addServices([
+    { ...svc[0], name: ' sơn GEL ' },
+    { ...svc[1], price: 120_000 },
+  ]);
+  const names = useHen.getState().services.map((x) => `${x.name}|${x.price}`);
+  assert.deepEqual(names, ['Sơn gel|200000', 'Vẽ móng|100000', 'Vẽ móng|120000']);
+});
+
+test('UAT H3: ngày tiệm nghỉ không gợi ý lấp chỗ trống; không gợi ý quá giờ đóng cửa', async () => {
+  const { findGap } = await import('../apps/hen-dep/src/store');
+  const sunday = new Date(2026, 10, 1, 14, 40).getTime(); // CN 1/11/2026
+  const monday = new Date(2026, 10, 2, 17, 40).getTime();
+  const staff = [{ id: 's1', name: 'Tôi', shiftFrom: '08:00', shiftTo: '20:00', onlineToday: true }] as never[];
+  const hours = [0, 1, 2, 3, 4, 5, 6].map((day) => ({ day, open: day !== 0, from: '08:00', to: '19:00' }));
+  assert.equal(findGap(staff, [], sunday, hours), null, 'CN nghỉ');
+  const g = findGap(staff, [], monday, hours);
+  assert.ok(g, 'T2 có chỗ trống');
+  assert.equal(new Date(g!.to).getHours(), 19, 'kết thúc ở giờ đóng cửa 19:00, không phải hết ca 20:00');
+  // Không truyền giờ mở cửa: giữ cách cũ (theo ca thợ).
+  assert.equal(new Date(findGap(staff, [], monday)!.to).getHours(), 20);
+});

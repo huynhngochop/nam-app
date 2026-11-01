@@ -13,36 +13,46 @@ const int = (a: number, b: number) => a + Math.floor(rnd() * (b - a + 1));
 const pad = (n: number) => String(n).padStart(2, '0');
 const dot = (n: number) => n.toLocaleString('en-US').replace(/,/g, '.');
 
-const SPEND: [string, string, number, number][] = [
-  ['food', 'COM TAM BA GHIEN', 35, 75],
-  ['food', 'HIGHLANDS COFFEE', 35, 65],
-  ['food', 'PHUC LONG', 45, 70],
-  ['food', 'GRABFOOD', 60, 220],
-  ['food', 'SHOPEEFOOD', 50, 180],
-  ['food', 'BUN BO HUE O XUAN', 40, 60],
-  ['food', 'CIRCLE K', 15, 90],
-  ['move', 'GRAB', 25, 140],
-  ['move', 'XANH SM', 30, 160],
-  ['move', 'PETROLIMEX', 60, 120],
-  ['move', 'GUI XE', 5, 10],
-  ['shop', 'SHOPEE', 80, 1200],
-  ['shop', 'LAZADA', 90, 900],
-  ['shop', 'WINMART', 120, 650],
-  ['shop', 'UNIQLO', 300, 900],
-  ['home', 'EVN TIEN DIEN', 600, 1400],
-  ['home', 'TIEN NUOC', 80, 200],
-  ['home', 'FPT TELECOM INTERNET', 220, 220],
-  ['phone', 'VIETTEL NAP TIEN DT', 100, 200],
-  ['health', 'PHARMACITY', 50, 400],
-  ['health', 'NHA KHOA', 300, 2500],
-  ['study', 'FAHASA', 90, 450],
-  ['study', 'HOC PHI TIENG ANH', 2500, 4500],
-  ['fun', 'CGV', 90, 260],
-  ['fun', 'NETFLIX', 260, 260],
-  ['fun', 'SPOTIFY', 59, 59],
-  ['gift', 'MUNG DAM CUOI', 500, 2000],
-  ['family', 'GUI BO ME', 2000, 5000],
-  ['other', 'CHUYEN KHOAN', 50, 900],
+// Chi hằng ngày (nghìn đồng): người đi làm ở TP.HCM, lương ~19 tr. Hóa đơn cố định ghi theo tháng ở BILLS.
+const SPEND: [string, string, number, number, number][] = [
+  // [danh mục, nơi chi, thấp, cao, trọng số]
+  ['food', 'COM TAM BA GHIEN', 35, 65, 10],
+  ['food', 'HIGHLANDS COFFEE', 35, 65, 8],
+  ['food', 'PHUC LONG', 45, 70, 4],
+  ['food', 'GRABFOOD', 60, 180, 5],
+  ['food', 'SHOPEEFOOD', 50, 150, 4],
+  ['food', 'BUN BO HUE O XUAN', 40, 60, 5],
+  ['food', 'CIRCLE K', 15, 60, 6],
+  ['move', 'GRAB', 25, 110, 5],
+  ['move', 'XANH SM', 30, 120, 3],
+  ['move', 'PETROLIMEX', 60, 90, 2],
+  ['move', 'GUI XE', 5, 6, 6],
+  ['shop', 'SHOPEE', 80, 600, 2],
+  ['shop', 'LAZADA', 90, 500, 1],
+  ['shop', 'WINMART', 120, 450, 2],
+  ['health', 'PHARMACITY', 50, 250, 0.4],
+  ['study', 'FAHASA', 90, 300, 0.3],
+  ['fun', 'CGV', 90, 220, 0.6],
+  ['gift', 'MUNG DAM CUOI', 500, 1000, 0.08],
+  ['other', 'CHUYEN KHOAN', 50, 500, 0.6],
+];
+const WSUM = SPEND.reduce((a, x) => a + x[4], 0);
+const pickSpend = () => {
+  let r = rnd() * WSUM;
+  for (const x of SPEND) if ((r -= x[4]) <= 0) return x;
+  return SPEND[0];
+};
+// [ngày trong tháng, danh mục, nơi chi, thấp, cao]
+const BILLS: [number, string, string, number, number][] = [
+  [5, 'home', 'EVN TIEN DIEN', 450, 1100],
+  [6, 'home', 'TIEN NUOC', 80, 160],
+  [8, 'home', 'FPT TELECOM INTERNET', 220, 220],
+  [12, 'home', 'TIEN NHA', 5500, 5500],
+  [15, 'phone', 'VIETTEL NAP TIEN DT', 100, 100],
+  [18, 'fun', 'NETFLIX', 260, 260],
+  [18, 'fun', 'SPOTIFY', 59, 59],
+  [11, 'family', 'GUI BO ME', 2000, 3000],
+  [2, 'study', 'HOC PHI TIENG ANH', 2500, 2500],
 ];
 
 async function run(log: (s: string) => void) {
@@ -67,7 +77,7 @@ async function run(log: (s: string) => void) {
     createdAt: p.at,
     ...p,
   });
-  const days = 540;
+  const days = 1095; // 3 năm
   for (let d = days; d >= 0; d--) {
     const day = new Date(now - d * 86400000);
     if (day.getDate() === startDay) {
@@ -95,9 +105,10 @@ async function run(log: (s: string) => void) {
           merchant: pick(['Thuong du an', 'Ban do cu', 'Hoan tien']),
         }),
       );
-    const n = int(14, 30);
-    for (let i = 0; i < n; i++) {
-      const [cat, m, lo, hi] = pick(SPEND);
+    const bills = BILLS.filter((x) => x[0] === day.getDate()).map(([, cat, m, lo, hi]) => [cat, m, lo, hi] as const);
+    const n = int(4, 11);
+    const todays = [...bills, ...Array.from({ length: n }, () => pickSpend())];
+    for (const [cat, m, lo, hi] of todays) {
       const at = new Date(day);
       at.setHours(int(6, 23), int(0, 59), 0, 0);
       if (at.getTime() > now) continue;
@@ -169,18 +180,20 @@ async function run(log: (s: string) => void) {
   // Lô nhỏ: SQLite bản web (worker đồng bộ) lỗi với giao dịch lớn. Ghi lại chi tiết lỗi đầu tiên để báo cáo.
   // Lô 1.000 dòng: bản web của expo-sqlite có giới hạn thời gian cho mỗi lệnh đồng bộ, một giao dịch 12 nghìn dòng vượt giới hạn đó (IT6, chỉ web).
   let chunk = 1000;
+  let retries = 0;
   for (let i = 0; i < list.length; ) {
     const t1 = Date.now();
     try {
       insertMany(list.slice(i, i + chunk));
     } catch (e) {
       const detail = e && typeof e === 'object' ? JSON.stringify(e, Object.getOwnPropertyNames(e)) : String(e);
-      log(`LỖI GHI lô ${i}-${i + chunk}: ${detail.slice(0, 600)}`);
-      if (chunk > 25) {
-        chunk = Math.floor(chunk / 2);
-        continue;
-      }
-      throw new Error(`Ghi SQLite thất bại ở dòng ${i}: ${detail.slice(0, 300)}`);
+      log(`LỖI GHI lô ${i}-${i + chunk}: ${detail.slice(0, 300)}`);
+      // Hết giờ chờ: worker SQLite web vẫn đang chạy lệnh trước, gọi tiếp ngay cũng hết giờ. Chờ rồi thử lại
+      // (INSERT OR REPLACE nên ghi lại cùng lô không bị trùng).
+      if (++retries > 8) throw new Error(`Ghi SQLite thất bại ở dòng ${i}: ${detail.slice(0, 300)}`);
+      chunk = Math.max(200, Math.floor(chunk / 2));
+      await new Promise((r) => setTimeout(r, 3000));
+      continue;
     }
     i += chunk;
     if (i % 2000 < chunk)

@@ -1,12 +1,13 @@
 # Vòng kiểm thử tích hợp (IT) trên bản web với dữ liệu lớn như dùng thật.
 # Mỗi app: chép màn qa-seed (chỉ trong bản build này), export web, crawler tạo dữ liệu rồi bấm mọi màn, đo hiệu năng.
-# Kết quả (report.json, summary.md, ảnh chụp) được đẩy lên nhánh qa-results-it2.
+# Kết quả (report.json, summary.md, ảnh chụp) được đẩy lên nhánh qa-results-it3; bản web đã build lên nhánh qa-web-builds
+# (để chạy ST / UAT bằng Playwright ở nơi khác mà không cần build lại).
 name: IT round (web, dữ liệu lớn)
 
 on:
   workflow_dispatch:
   push:
-    branches: [qa/it-round-2, fix/it-round-2]
+    branches: [qa/round-3]
 
 permissions:
   contents: write
@@ -38,6 +39,8 @@ jobs:
       - name: Chuẩn bị bản build QA (chỉ trong CI)
         run: |
           cp qa/seeds/${{ matrix.app }}.tsx apps/${{ matrix.app }}/app/qa-seed.tsx
+          # Lỗi expo-sqlite bản web: kết quả đồng bộ > 255 byte bị cắt (xem qa/patch-sqlite-web.mjs).
+          $A "patch expo-sqlite web" node qa/patch-sqlite-web.mjs
           # Hẹn Đẹp: cho phép mở màn qa-seed khi chưa đăng nhập (màn seed tự đăng nhập chủ tiệm).
           sed -i "s/first !== 'auth'/first !== 'auth' \&\& first !== 'qa-seed'/" apps/hen-dep/src/access.ts
           cat > apps/${{ matrix.app }}/metro.config.js <<'EOF'
@@ -50,6 +53,9 @@ jobs:
           EOF
 
       - name: Export web
+        # Giống bản APK "preview" người thử nhận: bật đăng nhập thử (mã 123456) của Hẹn Đẹp.
+        env:
+          EXPO_PUBLIC_APP_VARIANT: preview
         run: $A "export ${{ matrix.app }}" "cd apps/${{ matrix.app }} && npx expo export -p web --clear --output-dir dist-web 2>&1 | tail -25"
 
       - name: Cài Playwright (ngoài monorepo)
@@ -64,6 +70,31 @@ jobs:
           node qa/serve.mjs apps/${{ matrix.app }}/dist-web 8080 &
           sleep 2
           QA_SEED=1 QA_BUDGET_MIN=110 QA_MAX_CLICKS=45 $A "crawl ${{ matrix.app }}" node /tmp/pw/crawl.mjs ${{ matrix.app }} http://localhost:8080 qa-out/${{ matrix.app }}
+
+      - name: ST (bền dữ liệu, ngoại tuyến, tương phản, trợ năng, màn nhỏ, CPU ×4)
+        if: always()
+        run: |
+          cp qa/st.mjs qa/uat.mjs /tmp/pw/
+          node qa/serve.mjs apps/${{ matrix.app }}/dist-web 8081 &
+          sleep 2
+          node qa/routes-from-report.mjs qa-out/${{ matrix.app }}/report.json /tmp/pw/routes.json
+          $A "st ${{ matrix.app }}" node /tmp/pw/st.mjs ${{ matrix.app }} http://localhost:8081 qa-out/${{ matrix.app }}/st /tmp/pw/routes.json
+
+      - name: UAT (kịch bản người dùng mới)
+        if: always()
+        env:
+          # Cùng múi giờ với trình duyệt thử (tin nhắn ngân hàng mẫu ghi giờ địa phương).
+          TZ: Asia/Ho_Chi_Minh
+        run: |
+          node qa/serve.mjs apps/${{ matrix.app }}/dist-web 8082 &
+          sleep 2
+          $A "uat ${{ matrix.app }}" node /tmp/pw/uat.mjs ${{ matrix.app }} http://localhost:8082 qa-out/${{ matrix.app }}/uat
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: web-${{ matrix.app }}
+          path: apps/${{ matrix.app }}/dist-web
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -92,5 +123,22 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -qm "qa: kết quả IT round 2 (run ${{ github.run_id }})"
-          git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" qa-results-it2
+          git commit -qm "qa: kết quả IT round 3 (run ${{ github.run_id }})"
+          git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:qa-results-it3
+      - uses: actions/download-artifact@v4
+        with:
+          path: web
+          pattern: web-*
+      - name: Đẩy bản web lên nhánh qa-web-builds
+        run: |
+          mkdir -p /tmp/web
+          for a in meo-nha nhip hen-dep vi-gon; do
+            if [ -d "web/web-$a" ]; then cp -r "web/web-$a" "/tmp/web/$a"; fi
+          done
+          cd /tmp/web
+          git init -q -b qa-web-builds
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -qm "qa: bản web QA (run ${{ github.run_id }}, ${{ github.sha }})"
+          git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:qa-web-builds

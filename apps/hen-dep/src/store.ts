@@ -4,7 +4,7 @@ import { bigKvStorage, createOutbox, uid } from '@nam/core';
 import type { ThemePref } from '@nam/ui';
 import { nextBookingCode } from './codes';
 import { DEFAULT_SHOP, SEED_CUSTOMERS, SEED_SERVICES, SEED_STAFF, seedBookings } from './seed';
-import { Booking, BookingStatus, Campaign, Customer, Plan, Service, Shop, Staff } from './types';
+import { Booking, BookingStatus, Campaign, Customer, Hours, Plan, Service, Shop, Staff } from './types';
 
 /** Hàng chờ thay đổi gửi máy chủ (HD-C15). Mọi thao tác ghi đều ghi vào đây; dữ liệu đã nằm trên máy nên dùng được khi ngoại tuyến. */
 export const useOutbox = createOutbox('hen-dep');
@@ -77,10 +77,17 @@ export const useHen = create<State>()(
         enqueue('service.upsert', { ...svc, id });
       },
       addServices: (list) => {
+        // Bỏ dịch vụ trùng (cùng tên, giá, thời lượng) với cái đã có: quay lại bước "Dịch vụ chính" khi thiết lập
+        // tiệm rồi bấm Tiếp tục, hay chụp lại cùng bảng giá, không làm nhân đôi bảng giá (UAT H2).
+        const key = (x: { name: string; price: number; durationMin: number }) =>
+          `${x.name.trim().toLowerCase()}|${x.price}|${x.durationMin}`;
+        const seen = new Set(get().services.map(key));
+        const fresh = list.filter((x) => (seen.has(key(x)) ? false : (seen.add(key(x)), true)));
+        if (!fresh.length) return;
         set((s) => ({
-          services: [...s.services, ...list.map((x, i) => ({ ...x, id: uid(), order: s.services.length + i }))],
+          services: [...s.services, ...fresh.map((x, i) => ({ ...x, id: uid(), order: s.services.length + i }))],
         }));
-        enqueue('service.bulk', list);
+        enqueue('service.bulk', fresh);
       },
       removeService: (id) => {
         set((s) => ({ services: s.services.filter((x) => x.id !== id) }));
@@ -176,17 +183,26 @@ export function findGap(
   staff: Staff[],
   bookings: Booking[],
   now = Date.now(),
+  hours?: Hours,
 ): { staffId: string; from: number; to: number } | null {
   const horizon = now + 4 * 3600000;
+  // Giờ mở cửa của tiệm hôm nay: ngày nghỉ thì không gợi ý; không gợi ý ngoài giờ mở cửa (UAT H3).
+  const today = hours?.find((h) => h.day === new Date(now).getDay());
+  if (today && !today.open) return null;
+  const at = (hhmm: string) => {
+    const [h, m] = hhmm.split(':').map(Number);
+    const d = new Date(now);
+    d.setHours(h, m, 0, 0);
+    return d.getTime();
+  };
   for (const st of staff.filter((s) => s.onlineToday)) {
-    const [eh, em] = st.shiftTo.split(':').map(Number);
-    const end = new Date(now);
-    end.setHours(eh, em, 0, 0);
+    const end = Math.min(at(st.shiftTo), today ? at(today.to) : Infinity);
+    const start = Math.max(at(st.shiftFrom), today ? at(today.from) : -Infinity);
     const busy = bookings
       .filter((b) => b.staffId === st.id && isActive(b) && b.endAt > now && b.startAt < horizon)
       .sort((a, b) => a.startAt - b.startAt);
-    let cursor = Math.ceil(now / 900000) * 900000;
-    for (const b of [...busy, { startAt: Math.min(horizon, end.getTime()), endAt: Infinity } as Booking]) {
+    let cursor = Math.max(Math.ceil(now / 900000) * 900000, start);
+    for (const b of [...busy, { startAt: Math.min(horizon, end), endAt: Infinity } as Booking]) {
       if (b.startAt - cursor >= 3600000) return { staffId: st.id, from: cursor, to: b.startAt };
       cursor = Math.max(cursor, b.endAt);
     }
