@@ -235,3 +235,22 @@ test('Biên bảng âm lịch: lưới tháng 1–2/1900 và 12/2100 không văn
   assert.ok(dec2100.filter((c) => c.inMonth).every((c) => c.lunar));
   assert.equal(nextByRule({ kind: 'yearly', day: 15, month: 1 }, new Date(2101, 11, 20)), null);
 });
+
+test('Selector zustand không trả mảng/đối tượng mới mỗi lần (gây vẽ lại vô hạn, lỗi React #185)', () => {
+  const { readdirSync, readFileSync, statSync } = require('node:fs') as typeof import('node:fs');
+  const { join } = require('node:path') as typeof import('node:path');
+  const walk = (d: string): string[] =>
+    readdirSync(d).flatMap((f) => {
+      const p = join(d, f);
+      return statSync(p).isDirectory() ? walk(p) : p.endsWith('.tsx') || p.endsWith('.ts') ? [p] : [];
+    });
+  const root = join(__dirname, '../apps/thanh-tam');
+  const bad: string[] = [];
+  // Mẫu nguy hiểm trong selector: ?? [] / ?? {} / .filter( / .map( / { ...  / [ ...
+  const RISKY = /use(TT|Session)\(\(\w+\) =>[^;]*?(\?\? ?\[\]|\?\? ?\{\}|\.filter\(|\.map\(|=> \(?\{ ?\.\.\.|=> \[\.\.\.)/;
+  for (const f of [...walk(join(root, 'app')), ...walk(join(root, 'src'))])
+    readFileSync(f, 'utf8')
+      .split('\n')
+      .forEach((l, i) => RISKY.test(l) && bad.push(`${f.replace(root, '')}:${i + 1}: ${l.trim()}`));
+  assert.deepEqual(bad, []);
+});
