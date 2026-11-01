@@ -83,7 +83,7 @@ export default function Plan() {
       </T>
       {rows.map((r) => (
         <Card key={r.year}>
-          <Row between>
+          <Row between wrap style={{ rowGap: 4 }}>
             <T v="headline">
               Năm {canChiYear(r.year)} ({r.year})
             </T>

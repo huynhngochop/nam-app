@@ -36,7 +36,7 @@ export const FactBlock = memo(function FactBlock({ label, value, brief, href, to
   const { c } = useTheme();
   return (
     <Card>
-      <Row between>
+      <Row between wrap style={{ rowGap: 4 }}>
         <T v="micro" muted>{label}</T>
         {tone === 'careful' ? <Badge label="Cần thận trọng" tone="warning" /> : tone === 'good' ? <Badge label="Được coi là tốt" tone="positive" /> : right ?? null}
       </Row>
@@ -135,7 +135,8 @@ export const CalendarGrid = memo(function CalendarGrid({ year, month, selected, 
   const cells = useMemo(() => monthCells(year, month), [year, month]);
   const today = new Date().toDateString();
   const L = useLayout();
-  const h = L.isCompact ? 52 : 64;
+  // Ô cao theo cỡ chữ (chữ trong ô phóng tối đa 1,3 lần) để chữ 200 % không chồng hàng.
+  const h = Math.round((L.isCompact ? 52 : 64) * Math.min(1.3, Math.max(1, L.fontScale)));
   return (
     <View>
       <View style={{ flexDirection: 'row' }}>

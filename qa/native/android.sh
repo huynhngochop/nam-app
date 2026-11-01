@@ -14,6 +14,9 @@ adb wait-for-device
 adb shell settings put global window_animation_scale 0
 adb shell settings put global transition_animation_scale 0
 adb shell settings put global animator_duration_scale 0
+# Máy ảo quá tải làm trình khởi chạy treo, hiện hộp "Pixel Launcher isn't responding" đè lên ảnh: tắt nó và ẩn hộp báo lỗi.
+adb shell settings put global hide_error_dialogs 1
+adb shell pm disable-user --user 0 com.google.android.apps.nexuslauncher >/dev/null 2>&1
 adb install -r "$APK" >>"$LOG" 2>&1 || { say "CÀI APK THẤT BẠI"; exit 1; }
 adb logcat -c
 
@@ -76,6 +79,7 @@ for P in "${PROFILES[@]}"; do
       sleep 5
       continue
     fi
+    adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null 2>&1
     adb exec-out screencap -p >"$OUT/shots/$NAME-$KEY.png"
     say "  ok $KEY"
   done 3<<<"$ROUTES"
