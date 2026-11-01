@@ -247,7 +247,8 @@ test('Selector zustand không trả mảng/đối tượng mới mỗi lần (g�
   const root = join(__dirname, '../apps/thanh-tam');
   const bad: string[] = [];
   // Mẫu nguy hiểm trong selector: ?? [] / ?? {} / .filter( / .map( / { ...  / [ ...
-  const RISKY = /use(TT|Session)\(\(\w+\) =>[^;]*?(\?\? ?\[\]|\?\? ?\{\}|\.filter\(|\.map\(|=> \(?\{ ?\.\.\.|=> \[\.\.\.)/;
+  const RISKY =
+    /use(TT|Session)\(\(\w+\) =>[^;]*?(\?\? ?\[\]|\?\? ?\{\}|\.filter\(|\.map\(|=> \(?\{ ?\.\.\.|=> \[\.\.\.)/;
   for (const f of [...walk(join(root, 'app')), ...walk(join(root, 'src'))])
     readFileSync(f, 'utf8')
       .split('\n')
