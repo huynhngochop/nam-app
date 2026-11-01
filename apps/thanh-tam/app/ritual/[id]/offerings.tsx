@@ -6,6 +6,8 @@ import { offeringsFor, ritualById } from '../../../src/data/rituals';
 import { useTT } from '../../../src/store';
 
 const REGION = { bac: 'miền Bắc', trung: 'miền Trung', nam: 'miền Nam' } as const;
+/** Mảng rỗng dùng chung: selector zustand trả mảng mới mỗi lần sẽ vẽ lại vô hạn (lỗi React #185, vòng UAT 3). */
+const NO_CHECKS: string[] = [];
 
 /** TT-08 · Chuẩn bị lễ vật: danh sách đánh dấu, lưu trên máy. */
 export default function Offerings() {
@@ -15,7 +17,7 @@ export default function Offerings() {
   const hh = useTT((s) => s.household);
   const level = useTT((s) => s.levelByRitual[id] ?? 'day-du');
   const levelBy = useTT((s) => s.levelByRitual);
-  const checks = useTT((s) => s.offeringChecks[id] ?? []);
+  const checks = useTT((s) => s.offeringChecks[id] ?? NO_CHECKS);
   const set = useTT((s) => s.set);
   const toggle = useTT((s) => s.toggleOffering);
   const reset = useTT((s) => s.resetOfferings);
