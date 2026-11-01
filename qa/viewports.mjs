@@ -133,7 +133,9 @@ for (const scheme of ['light', 'dark']) {
               y2 = Math.min(y2, q.bottom);
             }
           }
-          return x2 - x1 > 2 && y2 - y1 > 2 ? { left: x1, top: y1, right: x2, bottom: y2, width: x2 - x1, height: y2 - y1 } : null;
+          return x2 - x1 > 2 && y2 - y1 > 2
+            ? { left: x1, top: y1, right: x2, bottom: y2, width: x2 - x1, height: y2 - y1 }
+            : null;
         };
         const realText = (s) => s.replace(/[-\s]/g, '');
         const leaves = [...document.querySelectorAll('body *')]

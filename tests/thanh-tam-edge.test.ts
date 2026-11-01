@@ -92,7 +92,10 @@ test('Ca biên: mùng 1 và rằm tháng nhuận vẫn được nhắc, có ch�
   const next = nextByRule({ kind: 'monthly', days: [1, 15] }, from)!;
   assert.equal(ymd(next), ymd(leap1));
   const plan = planNotifications(new Date(from.getTime() - 3600000), REMIND, RITUALS, []);
-  assert.ok(plan.some((p) => /nhuận/.test(p.title)), 'có thông báo ghi "nhuận"');
+  assert.ok(
+    plan.some((p) => /nhuận/.test(p.title)),
+    'có thông báo ghi "nhuận"',
+  );
   // Lễ cố định theo tháng (rằm tháng Bảy) không tính ở tháng nhuận
   const vuLan = nextByRule({ kind: 'yearly', day: 15, month: 7 }, from)!;
   assert.equal(lunarOf(vuLan).leap, false);
@@ -142,7 +145,8 @@ test('Lưới lịch: 42 ô, bắt đầu thứ Hai, đúng số ngày trong th�
     assert.equal(cells.length, 42);
     assert.equal(cells[0].date.getDay(), 1, 'ô đầu là thứ Hai');
     assert.equal(cells.filter((c) => c.inMonth).length, days);
-    for (let i = 1; i < 42; i++) assert.equal(Math.round((cells[i].date.getTime() - cells[i - 1].date.getTime()) / 86400000), 1);
+    for (let i = 1; i < 42; i++)
+      assert.equal(Math.round((cells[i].date.getTime() - cells[i - 1].date.getTime()) / 86400000), 1);
   }
 });
 
@@ -178,11 +182,21 @@ test('Dữ liệu lớn: 1.000 ngày giỗ → lên lịch thông báo < 300 ms,
 
 test('Dữ liệu lớn: 200 người × 100 năm Tuổi & năm < 500 ms; 1.000 lượt tìm < 1 s', () => {
   const [, ms] = timed(() => {
-    for (let p = 0; p < 200; p++)
-      for (let y = 2000; y < 2100; y++) ageYear(1920 + (p % 100), p % 2 ? 'nam' : 'nu', y);
+    for (let p = 0; p < 200; p++) for (let y = 2000; y < 2100; y++) ageYear(1920 + (p % 100), p % 2 ? 'nam' : 'nu', y);
   });
   assert.ok(ms < 500, `ageYear ×20.000 ${ms.toFixed(0)} ms`);
-  const qs = ['ong tao', 'giỗ đầu', 'huong chay', 'Thần tài', 'vu lan', 'nhập trạch', 'hoa vang', 'xyz không có', 'r', 'mâm ngũ quả'];
+  const qs = [
+    'ong tao',
+    'giỗ đầu',
+    'huong chay',
+    'Thần tài',
+    'vu lan',
+    'nhập trạch',
+    'hoa vang',
+    'xyz không có',
+    'r',
+    'mâm ngũ quả',
+  ];
   const [, ms2] = timed(() => {
     for (let i = 0; i < 1000; i++) search(qs[i % qs.length]);
   });
@@ -196,8 +210,15 @@ test('Dữ liệu lớn: lưới lịch 2.412 tháng (1900–2100) < 3 s; dữ l
   });
   assert.ok(ms < 3000, `monthCells ${ms.toFixed(0)} ms`);
   const state = {
-    anniversaries: Array.from({ length: 1000 }, (_, i) => ({ ...gio(1, 1, false, `g${i}`), dishes: 'Xôi gấc, gà luộc, canh măng' })),
-    prayLogs: Array.from({ length: 500 }, (_, i) => ({ id: `l${i}-xxxxxxxx-xxxx`, ritualId: 'mung-1-ram', at: Date.now() })),
+    anniversaries: Array.from({ length: 1000 }, (_, i) => ({
+      ...gio(1, 1, false, `g${i}`),
+      dishes: 'Xôi gấc, gà luộc, canh măng',
+    })),
+    prayLogs: Array.from({ length: 500 }, (_, i) => ({
+      id: `l${i}-xxxxxxxx-xxxx`,
+      ritualId: 'mung-1-ram',
+      at: Date.now(),
+    })),
     people: Array.from({ length: 60 }, (_, i) => ({ id: `p${i}`, name: 'Nguyễn Văn An', birthLunarYear: 1970 })),
   };
   const bytes = Buffer.byteLength(JSON.stringify(state));

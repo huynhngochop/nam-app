@@ -73,7 +73,10 @@ const GioCard = memo(function GioCard({ row: { a, o, days } }: { row: RowData })
   const remove = useTT((s) => s.removeAnniversary);
   const upsert = useTT((s) => s.upsertAnniversary);
   return (
-    <Card onPress={() => router.push(`/anniversaries/edit?id=${a.id}`)} accessibilityLabel={`Giỗ ${a.relation} ${a.name}`}>
+    <Card
+      onPress={() => router.push(`/anniversaries/edit?id=${a.id}`)}
+      accessibilityLabel={`Giỗ ${a.relation} ${a.name}`}
+    >
       <Row between style={{ alignItems: 'flex-start' }}>
         <View style={{ flex: 1, gap: 2 }}>
           <T v="micro" muted>
@@ -89,8 +92,8 @@ const GioCard = memo(function GioCard({ row: { a, o, days } }: { row: RowData })
       {o ? <T v="body">Năm nay: {solarWithWeekday(o.date)}</T> : null}
       {o?.missing ? (
         <T v="caption" color={c.warning}>
-          Năm nay tháng {monthName(a.lunar.month)} chỉ có 29 ngày, nên giỗ vào ngày 29. Nhiều nhà làm vậy; theo nếp
-          nhà mình nếu khác.
+          Năm nay tháng {monthName(a.lunar.month)} chỉ có 29 ngày, nên giỗ vào ngày 29. Nhiều nhà làm vậy; theo nếp nhà
+          mình nếu khác.
         </T>
       ) : null}
       {o?.leapShifted ? (

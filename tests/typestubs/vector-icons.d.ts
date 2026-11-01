@@ -287,7 +287,13 @@ declare module '@expo/vector-icons' {
     | 'zap-off'
     | 'zoom-in'
     | 'zoom-out';
-  export function Feather(p: { name: FeatherGlyph; size?: number; color?: string; style?: any; [prop: string]: unknown }): any;
+  export function Feather(p: {
+    name: FeatherGlyph;
+    size?: number;
+    color?: string;
+    style?: any;
+    [prop: string]: unknown;
+  }): any;
   export namespace Feather {
     const glyphMap: Record<FeatherGlyph, number>;
   }

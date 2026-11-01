@@ -111,16 +111,14 @@ export default function Today() {
             icon: ritualById(u.id)!.icon,
             go: `/ritual/${u.id}`,
           })),
-          ...gios
-            .slice(0, 3)
-            .map((g) => ({
-              k: `g-${g.a.id}`,
-              title: `Giỗ ${g.a.relation.toLowerCase()} ${g.a.name}`,
-              date: g.date,
-              days: g.days,
-              icon: 'users' as const,
-              go: '/anniversaries',
-            })),
+          ...gios.slice(0, 3).map((g) => ({
+            k: `g-${g.a.id}`,
+            title: `Giỗ ${g.a.relation.toLowerCase()} ${g.a.name}`,
+            date: g.date,
+            days: g.days,
+            icon: 'users' as const,
+            go: '/anniversaries',
+          })),
         ]
           .sort((a, b) => a.days - b.days)
           .map((x, i, arr) => (
@@ -148,7 +146,7 @@ export default function Today() {
                   {solarWithWeekday(x.date)} · {lunarShort(lunarOf(x.date))}
                 </T>
               </View>
-              <T v="caption" accent weight="semibold" style={{ flexShrink: 0, maxWidth: "40%", textAlign: "right" }}>
+              <T v="caption" accent weight="semibold" style={{ flexShrink: 0, maxWidth: '40%', textAlign: 'right' }}>
                 {inDays(x.days)}
               </T>
             </Pressable>

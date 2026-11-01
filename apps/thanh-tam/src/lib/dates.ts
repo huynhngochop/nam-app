@@ -1,5 +1,14 @@
 /** Hàm thuần về ngày cho giao diện: quy đổi ô nhập ngày, dựng lưới lịch tháng. Có test. */
-import { canChiYear, leapOf, lunarMonthLength, lunarOf, lunarToSolar, monthName, RANGE, type LunarDate } from '../calendar/lunar';
+import {
+  canChiYear,
+  leapOf,
+  lunarMonthLength,
+  lunarOf,
+  lunarToSolar,
+  monthName,
+  RANGE,
+  type LunarDate,
+} from '../calendar/lunar';
 
 export type DateValue = { calendar: 'duong' | 'am'; day: string; month: string; year: string; leap?: boolean };
 export type Resolved = { solar: Date; lunar: LunarDate } | { error: string } | null;
@@ -20,7 +29,8 @@ export function resolveDate(v: DateValue): Resolved {
   }
   if (v.leap && leapOf(y) !== m) return { error: `Năm ${canChiYear(y)} không có tháng ${m} nhuận.` };
   const len = lunarMonthLength(y, m, !!v.leap);
-  if (d < 1 || d > len) return { error: `Tháng ${monthName(m, !!v.leap)} năm ${canChiYear(y)} chỉ có ${len} ngày (âm lịch).` };
+  if (d < 1 || d > len)
+    return { error: `Tháng ${monthName(m, !!v.leap)} năm ${canChiYear(y)} chỉ có ${len} ngày (âm lịch).` };
   const s = lunarToSolar(d, m, y, !!v.leap);
   return s ? { solar: s, lunar: lunarOf(s) } : { error: 'Ngày này không có trong lịch.' };
 }

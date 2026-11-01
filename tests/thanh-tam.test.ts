@@ -43,7 +43,7 @@ import {
 } from '../apps/thanh-tam/src/lib/schedule';
 import { buildPrayer, dateFields, fieldsUsed, skipEmpty, plainText } from '../apps/thanh-tam/src/lib/prayer';
 import { search } from '../apps/thanh-tam/src/lib/search';
-import { topTraits , FACE_PARTS } from '../apps/thanh-tam/src/face/data';
+import { topTraits, FACE_PARTS } from '../apps/thanh-tam/src/face/data';
 import { RITUALS } from '../apps/thanh-tam/src/data/rituals';
 import { PRAYERS, prayerById } from '../apps/thanh-tam/src/data/prayers';
 import { SIGNS, TIPS } from '../apps/thanh-tam/src/data/signs';
