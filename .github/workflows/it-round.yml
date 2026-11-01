@@ -71,6 +71,25 @@ jobs:
           sleep 2
           QA_SEED=1 QA_BUDGET_MIN=110 QA_MAX_CLICKS=45 $A "crawl ${{ matrix.app }}" node /tmp/pw/crawl.mjs ${{ matrix.app }} http://localhost:8080 qa-out/${{ matrix.app }}
 
+      - name: ST (bền dữ liệu, ngoại tuyến, tương phản, trợ năng, màn nhỏ, CPU ×4)
+        if: always()
+        run: |
+          cp qa/st.mjs qa/uat.mjs /tmp/pw/
+          node qa/serve.mjs apps/${{ matrix.app }}/dist-web 8081 &
+          sleep 2
+          node qa/routes-from-report.mjs qa-out/${{ matrix.app }}/report.json /tmp/pw/routes.json
+          $A "st ${{ matrix.app }}" node /tmp/pw/st.mjs ${{ matrix.app }} http://localhost:8081 qa-out/${{ matrix.app }}/st /tmp/pw/routes.json
+
+      - name: UAT (kịch bản người dùng mới)
+        if: always()
+        env:
+          # Cùng múi giờ với trình duyệt thử (tin nhắn ngân hàng mẫu ghi giờ địa phương).
+          TZ: Asia/Ho_Chi_Minh
+        run: |
+          node qa/serve.mjs apps/${{ matrix.app }}/dist-web 8082 &
+          sleep 2
+          $A "uat ${{ matrix.app }}" node /tmp/pw/uat.mjs ${{ matrix.app }} http://localhost:8082 qa-out/${{ matrix.app }}/uat
+
       - uses: actions/upload-artifact@v4
         with:
           name: web-${{ matrix.app }}

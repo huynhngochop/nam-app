@@ -190,6 +190,7 @@ export default function Campaign() {
         />
       </Row>
       <TextField
+        accessibilityLabel="Nội dung tin nhắn"
         value={msg}
         onChangeText={setMsg}
         multiline

@@ -20,7 +20,7 @@ import {
   useToast,
 } from '@nam/ui';
 import { addDays, dateKey, track, weekdayShort } from '@nam/core';
-import { useNhip } from '../src/store';
+import { habitTarget, useNhip } from '../src/store';
 
 const FREE_HABITS = 3;
 const SUGGEST = [
@@ -48,7 +48,7 @@ export default function Habits() {
     return h.auto ? sessionsOn(k) : (s.habitLogs[k]?.[hId] ?? 0);
   };
   const ratioOf = (k: string) => {
-    const r = s.habits.map((h) => Math.min(1, valueOf(h.id, k) / h.target));
+    const r = s.habits.map((h) => Math.min(1, valueOf(h.id, k) / habitTarget(h, s)));
     return r.reduce((a, b) => a + b, 0) / Math.max(1, r.length);
   };
   const tryAdd = (h: { name: string; target: number; unit: string; icon: string }) => {
@@ -106,7 +106,7 @@ export default function Habits() {
       </Row>
       {s.habits.map((h) => {
         const v = valueOf(h.id, day);
-        const full = v >= h.target;
+        const full = v >= habitTarget(h, s);
         return (
           <Card
             key={h.id}
@@ -124,9 +124,9 @@ export default function Habits() {
               <View style={{ flex: 1, gap: 6 }}>
                 <Row between>
                   <T v="headline">{h.name}</T>
-                  <T v="caption" muted>{`${v}/${h.target} ${h.unit}`}</T>
+                  <T v="caption" muted>{`${v}/${habitTarget(h, s)} ${h.unit}`}</T>
                 </Row>
-                <ProgressBar value={v / h.target} />
+                <ProgressBar value={v / habitTarget(h, s)} />
               </View>
               {!h.auto && day === dateKey(new Date()) ? (
                 <IconButton icon="minus" label="Bớt" onPress={() => s.logHabit(h.id, -1)} />

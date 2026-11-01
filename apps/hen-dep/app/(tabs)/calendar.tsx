@@ -36,7 +36,7 @@ export default function Calendar() {
   const hours = s.shop.hours.find((h) => h.day === day.getDay());
   const openFrom = Number((hours?.from ?? '08:00').slice(0, 2));
   const openTo = Number((hours?.to ?? '20:00').slice(0, 2)) + 1;
-  const gap = offset === 0 ? findGap(s.staff, s.bookings) : null;
+  const gap = offset === 0 ? findGap(s.staff, s.bookings, Date.now(), s.shop.hours) : null;
   const open = (b: Booking) => (L.twoPane ? setSel(b.id) : router.push(`/booking/${b.id}`));
   const selected = s.bookings.find((b) => b.id === sel);
 

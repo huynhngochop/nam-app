@@ -39,7 +39,7 @@ export default function NewBooking() {
   const [dayOff, setDayOff] = useState(
     Math.round((new Date(init).setHours(0, 0, 0, 0) - new Date().setHours(0, 0, 0, 0)) / 86400000),
   );
-  const [time, setTime] = useState(hhmm(init));
+  const [pickedTime, setTime] = useState(hhmm(init));
   const [notify, setNotify] = useState(true);
 
   const matches = useMemo(
@@ -54,17 +54,32 @@ export default function NewBooking() {
   const cust = s.customers.find((x) => x.id === customerId);
   const dur = durationOf(svcIds, s.services) || 30;
   const day = addDays(new Date(), dayOff);
+  // Ô giờ theo giờ mở cửa của ngày đã chọn, chỉ những giờ làm xong trước giờ đóng cửa (UAT H5).
+  const dayHours = s.shop.hours.find((h) => h.day === day.getDay());
+  const closed = !!dayHours && !dayHours.open;
+  const toMin = (t: string) => {
+    const [h, m] = t.split(':').map(Number);
+    return h * 60 + m;
+  };
+  const openMin = toMin(dayHours?.from ?? '08:00');
+  const closeMin = toMin(dayHours?.to ?? '21:00');
+  const times = closed
+    ? []
+    : Array.from({ length: Math.max(0, Math.floor((closeMin - dur - openMin) / 15) + 1) }, (_, i) => {
+        const m = openMin + i * 15;
+        return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+      });
+  // Giờ đã chọn không còn hợp lệ (đổi ngày / thêm dịch vụ dài hơn) → lấy ô gần nhất.
+  const time = times.includes(pickedTime)
+    ? pickedTime
+    : (times.find((t) => toMin(t) >= toMin(pickedTime)) ?? times[times.length - 1] ?? pickedTime);
   const [hh, mm] = time.split(':').map(Number);
   const start = new Date(day);
   start.setHours(hh, mm, 0, 0);
   const end = start.getTime() + dur * 60000;
   const clash = staffId ? overlaps(s.bookings, staffId, start.getTime(), end) : undefined;
   const clashName = clash ? s.customers.find((x) => x.id === clash.customerId)?.name : null;
-  const times = Array.from({ length: 4 * 13 }, (_, i) => {
-    const m = 8 * 60 + i * 15;
-    return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
-  });
-  const ok = (customerId || walkIn || newName.trim()) && svcIds.length && staffId;
+  const ok = (customerId || walkIn || newName.trim()) && svcIds.length && staffId && !closed && times.length > 0;
   const eligibleStaff = s.staff.filter((st) =>
     svcIds.every((id) => {
       const sv = s.services.find((x) => x.id === id);
@@ -165,12 +180,24 @@ export default function NewBooking() {
           />
         ))}
       </Chips>
-      <SectionHeader title={`Giờ · ${time} – ${hhmm(new Date(end))}`} />
-      <Chips scroll>
-        {times.map((t) => (
-          <Chip key={t} label={t} selected={time === t} onPress={() => setTime(t)} />
-        ))}
-      </Chips>
+      {closed ? (
+        <Card variant="tint">
+          <T v="body">Tiệm nghỉ ngày này. Chọn ngày khác hoặc đổi giờ mở cửa trong Cài đặt tiệm.</T>
+        </Card>
+      ) : times.length ? (
+        <>
+          <SectionHeader title={`Giờ · ${time} – ${hhmm(new Date(end))}`} />
+          <Chips scroll>
+            {times.map((t) => (
+              <Chip key={t} label={t} selected={time === t} onPress={() => setTime(t)} />
+            ))}
+          </Chips>
+        </>
+      ) : (
+        <Card variant="tint">
+          <T v="body">{`Dịch vụ dài ${dur} phút, không vừa giờ mở cửa ngày này.`}</T>
+        </Card>
+      )}
       {clash ? (
         <Card variant="danger">
           <T v="body">{`Trùng với lịch ${clashName ?? 'khách'} ${hhmm(new Date(clash.startAt))}. Vẫn tạo được nếu bạn chắc chắn.`}</T>

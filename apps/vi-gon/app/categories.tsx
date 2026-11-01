@@ -153,10 +153,11 @@ export default function Categories() {
               maxLength={30}
             />
             <Chips>
-              {ICONS.map((i) => (
+              {ICONS.map((i, k) => (
                 <Chip
                   key={i}
                   label=""
+                  accessibilityLabel={`Biểu tượng ${k + 1}`}
                   icon={i}
                   selected={edit.icon === i}
                   onPress={() => setEdit({ ...edit, icon: i })}

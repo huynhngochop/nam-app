@@ -59,6 +59,17 @@ export const DEFAULT_CATEGORIES: Category[] = [
   { id: 'in_other', name: 'Thu khác', icon: 'plus-circle', kind: 'income', builtin: true },
 ];
 
+/** Tên đọc cho trình đọc màn hình của từng biểu tượng quỹ. */
+export const FUND_ICON_NAMES: Record<string, string> = {
+  'map-pin': 'Du lịch',
+  shield: 'Dự phòng',
+  smartphone: 'Thiết bị',
+  heart: 'Sức khỏe',
+  home: 'Nhà cửa',
+  gift: 'Quà tặng',
+  'book-open': 'Học tập',
+  truck: 'Xe cộ',
+};
 export const FUND_ICONS: IconName[] = [
   'map-pin',
   'shield',

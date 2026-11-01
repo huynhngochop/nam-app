@@ -17,7 +17,7 @@ import {
   useTheme,
 } from '@nam/ui';
 import { addDays, dateKey, decimalVi, minutesLabel, weekdayShort } from '@nam/core';
-import { streakOf, useNhip } from '../../src/store';
+import { habitTarget, streakOf, useNhip } from '../../src/store';
 
 type Range = 'day' | 'week' | 'month';
 
@@ -90,7 +90,7 @@ export default function Stats() {
       <SectionHeader title="Thói quen hôm nay" action="Xem tất cả" onAction={() => router.push('/habits')} />
       {s.habits.slice(0, 2).map((h) => {
         const val = h.auto === 'focus_sessions' ? sessionsToday : (s.habitLogs[todayKey]?.[h.id] ?? 0);
-        const full = val >= h.target;
+        const full = val >= habitTarget(h, s);
         return (
           <ListItem
             key={h.id}
@@ -98,7 +98,7 @@ export default function Stats() {
               full ? <Thumb icon="check" bg={c.a} color={c.onAccent} size={36} /> : <Thumb icon="circle" size={36} />
             }
             title={h.name}
-            right={<T v="caption" muted>{`${val}/${h.target} ${h.unit}`}</T>}
+            right={<T v="caption" muted>{`${val}/${habitTarget(h, s)} ${h.unit}`}</T>}
             onPress={() => router.push('/habits')}
           />
         );

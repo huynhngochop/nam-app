@@ -182,6 +182,7 @@ async function audit(page) {
         .join(' ')
         .trim();
       if (!own || own.length < 2) continue;
+      if (el.closest('[aria-disabled="true"],[disabled]')) continue;
       const st = getComputedStyle(el);
       const fg = parse(st.color);
       if (!fg) continue;
@@ -200,7 +201,8 @@ async function audit(page) {
         const key = own.slice(0, 40);
         if (seen.has(key)) continue;
         seen.add(key);
-        lowContrast.push({ text: key, ratio: Math.round(ratio * 100) / 100, need, size });
+        el.setAttribute('data-st-c', String(lowContrast.length));
+        lowContrast.push({ i: lowContrast.length, text: key, ratio: Math.round(ratio * 100) / 100, need, size });
       }
     }
     // Trợ năng: phần tử bấm được / ô nhập.
@@ -238,6 +240,48 @@ async function audit(page) {
   });
 }
 
+/** Chạy trong trang: giải ảnh PNG, nền = màu nhiều nhất, chữ = màu (≥ 3% điểm ảnh) tương phản nhất với nền. */
+async function pixelContrast(b64) {
+  const img = new Image();
+  img.src = 'data:image/png;base64,' + b64;
+  await img.decode();
+  const cv = document.createElement('canvas');
+  cv.width = img.width;
+  cv.height = img.height;
+  const cx = cv.getContext('2d');
+  cx.drawImage(img, 0, 0);
+  const d = cx.getImageData(0, 0, cv.width, cv.height).data;
+  const count = new Map();
+  for (let i = 0; i < d.length; i += 4) {
+    const k = ((d[i] >> 3) << 10) | ((d[i + 1] >> 3) << 5) | (d[i + 2] >> 3);
+    count.set(k, (count.get(k) || 0) + 1);
+  }
+  const total = d.length / 4;
+  const rgb = (k) => ({ r: ((k >> 10) & 31) * 8 + 4, g: ((k >> 5) & 31) * 8 + 4, b: (k & 31) * 8 + 4 });
+  const lum = ({ r, g, b }) => {
+    const f = (v) => ((v /= 255) <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+    return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+  };
+  const sorted = [...count].sort((a, b) => b[1] - a[1]);
+  if (!sorted.length) return null;
+  const bg = rgb(sorted[0][0]);
+  const lb = lum(bg);
+  let best = 1;
+  let fg = bg;
+  for (const [k, n] of sorted) {
+    if (n / total < 0.03) break;
+    const c = rgb(k);
+    const lc = lum(c);
+    const ratio = (Math.max(lb, lc) + 0.05) / (Math.min(lb, lc) + 0.05);
+    if (ratio > best) {
+      best = ratio;
+      fg = c;
+    }
+  }
+  const hex = ({ r, g, b }) => '#' + [r, g, b].map((v) => Math.min(255, v).toString(16).padStart(2, '0')).join('');
+  return { ratio: Math.round(best * 100) / 100, fg: hex(fg), bg: hex(bg) };
+}
+
 for (const [label, opts] of [
   ['light', { colorScheme: 'light' }],
   ['dark', { colorScheme: 'dark' }],
@@ -250,6 +294,23 @@ for (const [label, opts] of [
     await page.goto(base + r, { waitUntil: 'domcontentloaded' });
     await settle(page, 6000);
     const a = await audit(page).catch((e) => ({ error: String(e) }));
+    if (a.lowContrast?.length) {
+      const confirmed = [];
+      for (const lc of a.lowContrast) {
+        const loc = page.locator(`[data-st-c="${lc.i}"]`).first();
+        try {
+          await loc.scrollIntoViewIfNeeded({ timeout: 1500 });
+          const b64 = (await loc.screenshot({ timeout: 2000 })).toString('base64');
+          const px = await page.evaluate(pixelContrast, b64);
+          // Tỉ lệ ~1: ảnh chỉ có một màu (phần tử bị lớp khác như nút nổi che) — không kết luận được.
+          if (px && px.ratio >= 1.1 && px.ratio < lc.need)
+            confirmed.push({ ...lc, pixelRatio: px.ratio, fg: px.fg, bg: px.bg });
+        } catch {}
+      }
+      a.lowContrastHeuristicN = a.lowContrastN;
+      a.lowContrast = confirmed;
+      a.lowContrastN = confirmed.length;
+    }
     if (label !== 'light') await page.screenshot({ path: path.join(outDir, 'shots', `${label}-${slug(r)}.png`) });
     rows.push({ route: r, ...a, errors: [...errors] });
   }

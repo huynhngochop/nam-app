@@ -297,3 +297,11 @@ export function streakOf(daily: Record<string, number>, goal: number, restDays: 
   }
   return n;
 }
+
+/**
+ * Chỉ tiêu của thói quen. Thói quen "Phiên tập trung" tự tính theo mục tiêu hằng ngày (mục tiêu 1 giờ, phiên 25 phút
+ * → 2 phiên), khớp với "x/2 phiên hôm nay" ở màn Hẹn giờ thay vì số cố định 4 (UAT N3).
+ */
+export function habitTarget(h: Habit, s: { goalMin: number; settings: { focusMin: number } }) {
+  return h.auto === 'focus_sessions' ? Math.max(1, Math.round(s.goalMin / s.settings.focusMin)) : h.target;
+}

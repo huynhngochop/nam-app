@@ -25,7 +25,7 @@ import { shortDate, track, uid, vnd } from '@nam/core';
 import { insertTx, totals, useQuery } from '../../src/db';
 import { monthlyNeed } from '../../src/funds';
 import { periodOf, useVi } from '../../src/store';
-import { FUND_ICONS } from '../../src/types';
+import { FUND_ICON_NAMES, FUND_ICONS } from '../../src/types';
 
 const digits = (s: string) => Number(s.replace(/\D/g, '')) || 0;
 const money = (n: number) => (n ? n.toLocaleString('vi-VN') : '');
@@ -119,7 +119,14 @@ export default function FundScreen() {
         />
         <Chips>
           {FUND_ICONS.map((i) => (
-            <Chip key={i} label="" icon={i} selected={icon === i} onPress={() => setIcon(i)} />
+            <Chip
+              key={i}
+              label=""
+              icon={i}
+              accessibilityLabel={`Biểu tượng ${FUND_ICON_NAMES[i] ?? i}`}
+              selected={icon === i}
+              onPress={() => setIcon(i)}
+            />
           ))}
         </Chips>
         <TextField
