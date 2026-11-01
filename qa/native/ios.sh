@@ -35,7 +35,8 @@ make_flow() {
     if [ "$SEED" = yes ]; then
       echo "- openLink: thanhtam://qa-seed?small=1"
       echo "- tapOn: { text: 'Open', optional: true }"
-      echo "- extendedWaitUntil: { visible: 'Chào buổi.*', timeout: 90000 }"
+      echo "- extendedWaitUntil: { visible: 'Chào buổi.*', timeout: 60000, optional: true }"
+      echo "- takeScreenshot: $OUT/shots/$PREFIX-00-after-seed"
     fi
     while read -r KEY ROUTE <&3; do
       [ -z "$KEY" ] && continue
@@ -77,7 +78,10 @@ for D in "${DEVICES[@]}"; do
     if maestro --device "$UDID" test "$FLOW" >"$OUT/maestro-$NAME-$PASS.txt" 2>&1; then R=ok; else R="LỖI (xem maestro-$NAME-$PASS.txt)"; fi
     N=$(ls "$OUT/shots" | grep -c "^$NAME-$PASS-")
     say "  $PASS: $R · $N ảnh · $(($(date +%s) - T0)) s"
-    if grep -qiE "app crashed|crash" "$OUT/maestro-$NAME-$PASS.txt"; then say "  SẬP trong lượt $PASS"; fi
+    # Ảnh + cây giao diện Maestro lưu khi một bước trượt: chép về để xem app đang ở màn nào.
+    D=$(grep -o '/Users/runner/.maestro/tests/[0-9_-]*' "$OUT/maestro-$NAME-$PASS.txt" | tail -1)
+    if [ -n "$D" ] && [ -d "$D" ]; then mkdir -p "$OUT/debug/$NAME-$PASS"; cp "$D"/*.png "$D"/*.json "$OUT/debug/$NAME-$PASS/" 2>/dev/null; fi
+    if grep -qiE "app crashed" "$OUT/maestro-$NAME-$PASS.txt"; then say "  SẬP trong lượt $PASS"; fi
   done
   xcrun simctl spawn "$UDID" log show --last 30m --predicate 'process CONTAINS "Thanh" OR subsystem CONTAINS "com.facebook.react"' --style compact >"$OUT/log-$NAME.txt" 2>/dev/null
   say "  dòng lỗi JS: $(grep -c -E 'TypeError|ReferenceError|Invariant Violation|Unhandled JS Exception' "$OUT/log-$NAME.txt")"
