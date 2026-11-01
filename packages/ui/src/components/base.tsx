@@ -84,7 +84,9 @@ export function Icon({
   style?: StyleProp<TextStyle>;
 }) {
   const { c } = useTheme();
-  return <Feather aria-hidden importantForAccessibility="no" name={name} size={size} color={color ?? c.ink} style={style} />;
+  return (
+    <Feather aria-hidden importantForAccessibility="no" name={name} size={size} color={color ?? c.ink} style={style} />
+  );
 }
 
 /* ------------------------------------------------------------------ Screen */
@@ -245,7 +247,9 @@ export const Button = memo(function Button({
         <ActivityIndicator color={fg} />
       ) : (
         <>
-          {icon ? <Feather aria-hidden importantForAccessibility="no" name={icon} size={size === 'sm' ? 16 : 20} color={fg} /> : null}
+          {icon ? (
+            <Feather aria-hidden importantForAccessibility="no" name={icon} size={size === 'sm' ? 16 : 20} color={fg} />
+          ) : null}
           <T v="headline" color={fg} numberOfLines={1} style={size === 'sm' ? { fontSize: 13 } : undefined}>
             {title}
           </T>
@@ -557,7 +561,9 @@ export const ListItem = memo(function ListItem({
         ) : null}
       </View>
       {right}
-      {chevron ? <Feather aria-hidden importantForAccessibility="no" name="chevron-right" size={18} color={c.inkMuted} /> : null}
+      {chevron ? (
+        <Feather aria-hidden importantForAccessibility="no" name="chevron-right" size={18} color={c.inkMuted} />
+      ) : null}
     </>
   );
   // Dòng không bấm được (thường chứa công tắc / nút +/−): dùng View. Pressable bị tắt đánh dấu cả dòng là
@@ -773,7 +779,14 @@ export const TextField = React.forwardRef<TextInput, FieldProps>(function TextFi
         }}
       >
         {icon ? (
-          <Feather aria-hidden importantForAccessibility="no" name={icon} size={18} color={c.inkMuted} style={multiline ? { marginTop: 12 } : undefined} />
+          <Feather
+            aria-hidden
+            importantForAccessibility="no"
+            name={icon}
+            size={18}
+            color={c.inkMuted}
+            style={multiline ? { marginTop: 12 } : undefined}
+          />
         ) : null}
         <TextInput
           ref={ref}

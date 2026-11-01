@@ -44,7 +44,15 @@ const accents: Record<AppId, Record<SchemeName, { a: string; a2: string; at: str
 };
 
 /** Chế độ khấn của Thành Tâm luôn tối ấm (TT-10). */
-export const ttNight = { bg: '#1a1410', ink: '#f3e6d3', inkMuted: '#bfa98c', field: '#e9c48c', gold: '#d9ab5a', soft: 'rgba(255,255,255,0.08)', now: 'rgba(217,171,90,0.16)' };
+export const ttNight = {
+  bg: '#1a1410',
+  ink: '#f3e6d3',
+  inkMuted: '#bfa98c',
+  field: '#e9c48c',
+  gold: '#d9ab5a',
+  soft: 'rgba(255,255,255,0.08)',
+  now: 'rgba(217,171,90,0.16)',
+};
 
 /** Màn tập trung của Nhịp luôn tối. */
 export const night = {
