@@ -91,6 +91,7 @@ jobs:
           $A "uat ${{ matrix.app }}" node /tmp/pw/uat.mjs ${{ matrix.app }} http://localhost:8082 qa-out/${{ matrix.app }}/uat
 
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: web-${{ matrix.app }}
           path: apps/${{ matrix.app }}/dist-web

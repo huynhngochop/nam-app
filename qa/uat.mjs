@@ -94,6 +94,18 @@ const S = {
     }
     throw new Error(`không thấy «${text}»`);
   },
+  /** Chữ nằm trong ô nhập (innerText của trang không chứa giá trị ô nhập). */
+  seeValue: async (text, timeout = 6000) => {
+    const t = Date.now();
+    while (Date.now() - t < timeout) {
+      const vals = await page
+        .evaluate(() => [...document.querySelectorAll('input, textarea')].map((e) => e.value))
+        .catch(() => []);
+      if (vals.some((v) => v.includes(text))) return;
+      await page.waitForTimeout(300);
+    }
+    throw new Error(`không có ô nhập chứa «${text}»`);
+  },
   notSee: async (text) => {
     await settle(2000);
     const re = text instanceof RegExp ? text : new RegExp(esc(text));
@@ -273,7 +285,7 @@ const SCENARIOS = {
         // Người dùng gõ xong bấm Quay lại ngay (bàn phím vẫn mở) — ghi chú phải được giữ.
         await S.tap('Quay lại');
         await S.tap('Cơm tấm');
-        await S.see('ăn với bạn');
+        await S.seeValue('ăn với bạn');
         await S.tap('Sửa số tiền');
         await S.type('Số tiền (đồng)', '95000');
         await S.tap('Lưu', { exact: true, last: true });
