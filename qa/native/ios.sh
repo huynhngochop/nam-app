@@ -36,7 +36,7 @@ make_flow() {
       echo "- openLink: thanhtam://qa-seed?small=1"
       echo "- tapOn: { text: 'Open', optional: true }"
       echo "- extendedWaitUntil: { visible: 'Chào buổi.*', timeout: 60000, optional: true }"
-      echo "- takeScreenshot: $OUT/shots/$PREFIX-00-after-seed"
+      echo "- takeScreenshot: $PREFIX-00-after-seed"
     fi
     while read -r KEY ROUTE <&3; do
       [ -z "$KEY" ] && continue
@@ -44,7 +44,7 @@ make_flow() {
       echo "- openLink: thanhtam:/${ROUTE}"
       echo "- tapOn: { text: 'Open', optional: true }"
       echo "- waitForAnimationToEnd: { timeout: 2500 }"
-      echo "- takeScreenshot: $OUT/shots/$PREFIX-$KEY"
+      echo "- takeScreenshot: $PREFIX-$KEY"
     done 3<<<"$ROUTES"
   } >"$F"
   echo "$F"
@@ -75,7 +75,12 @@ for D in "${DEVICES[@]}"; do
     esac
     FLOW=$(make_flow "$NAME-$PASS" "$NAME-$PASS" "$KEYS" "$SEED")
     T0=$(date +%s)
-    if maestro --device "$UDID" test "$FLOW" >"$OUT/maestro-$NAME-$PASS.txt" 2>&1; then R=ok; else R="LỖI (xem maestro-$NAME-$PASS.txt)"; fi
+    MO="$OUT/maestro-out/$NAME-$PASS"
+    mkdir -p "$MO"
+    if maestro --device "$UDID" test --test-output-dir "$MO" "$FLOW" >"$OUT/maestro-$NAME-$PASS.txt" 2>&1; then R=ok; else R="LỖI (xem maestro-$NAME-$PASS.txt)"; fi
+    # Maestro chỉ cho lưu ảnh trong thư mục kết quả của nó: chép ảnh theo tên ra shots/.
+    find "$MO" "$HOME/.maestro/tests" -name "$NAME-$PASS-*.png" -exec cp {} "$OUT/shots/" \; 2>/dev/null
+    mv "$PWD/$NAME-$PASS-"*.png "$OUT/shots/" 2>/dev/null
     N=$(ls "$OUT/shots" | grep -c "^$NAME-$PASS-")
     say "  $PASS: $R · $N ảnh · $(($(date +%s) - T0)) s"
     # Ảnh + cây giao diện Maestro lưu khi một bước trượt: chép về để xem app đang ở màn nào.
