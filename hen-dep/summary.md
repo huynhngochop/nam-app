@@ -1,0 +1,21 @@
+# hen-dep
+seed: {"app":"hen-dep","customers":2500,"bookings":10190,"services":40,"totalMs":4176,"kvBytes":2873618,"wallMs":4606,"lt":{"n":3,"total":251,"max":116},"errors":0}
+màn đã quét: 18 | chưa tới: - | route động chưa tới: -
+/calendar: 16 pt, chuyển 4, đổi 10, KHÔNG phản hồi 2, lỗi thao tác 0, pageerror 0, tải 440 ms, long task 0 (tổng 0 ms, lớn nhất 0 ms)
+/customers: 37 pt, chuyển 30, đổi 5, KHÔNG phản hồi 2, lỗi thao tác 0, pageerror 0, tải 856 ms, long task 1 (tổng 125 ms, lớn nhất 125 ms)
+/revenue: 14 pt, chuyển 3, đổi 9, KHÔNG phản hồi 2, lỗi thao tác 0, pageerror 0, tải 437 ms, long task 0 (tổng 0 ms, lớn nhất 0 ms)
+/shop: 10 pt, chuyển 9, đổi 0, KHÔNG phản hồi 1, lỗi thao tác 0, pageerror 0, tải 439 ms, long task 0 (tổng 0 ms, lớn nhất 0 ms)
+/billing: 6 pt, chuyển 0, đổi 3, KHÔNG phản hồi 2, lỗi thao tác 0, pageerror 0, tải 441 ms, long task 0 (tổng 0 ms, lớn nhất 0 ms)
+/booking/new: 55 pt, chuyển 0, đổi 45, KHÔNG phản hồi 0, lỗi thao tác 0, pageerror 0, tải 438 ms, long task 0 (tổng 0 ms, lớn nhất 0 ms)
+/campaign-ai: 11 pt, chuyển 0, đổi 8, KHÔNG phản hồi 3, lỗi thao tác 0, pageerror 0, tải 441 ms, long task 0 (tổng 0 ms, lớn nhất 0 ms)
+/campaign: 7 pt, chuyển 1, đổi 3, KHÔNG phản hồi 3, lỗi thao tác 0, pageerror 0, tải 441 ms, long task 0 (tổng 0 ms, lớn nhất 0 ms)
+/link: 7 pt, chuyển 1, đổi 4, KHÔNG phản hồi 2, lỗi thao tác 0, pageerror 0, tải 439 ms, long task 0 (tổng 0 ms, lớn nhất 0 ms)
+/scan: 5 pt, chuyển 0, đổi 2, KHÔNG phản hồi 3, lỗi thao tác 0, pageerror 0, tải 437 ms, long task 0 (tổng 0 ms, lớn nhất 0 ms)
+/services: 43 pt, chuyển 1, đổi 41, KHÔNG phản hồi 1, lỗi thao tác 0, pageerror 0, tải 436 ms, long task 1 (tổng 52 ms, lớn nhất 52 ms)
+/settings: 88 pt, chuyển 0, đổi 44, KHÔNG phản hồi 1, lỗi thao tác 0, pageerror 0, tải 471 ms, long task 1 (tổng 64 ms, lớn nhất 64 ms)
+/staff: 11 pt, chuyển 0, đổi 10, KHÔNG phản hồi 1, lỗi thao tác 0, pageerror 0, tải 442 ms, long task 0 (tổng 0 ms, lớn nhất 0 ms)
+/auth: 3 pt, chuyển 0, đổi 3, KHÔNG phản hồi 0, lỗi thao tác 0, pageerror 0, tải 443 ms, long task 0 (tổng 0 ms, lớn nhất 0 ms)
+/ (→/calendar): 55 pt, chuyển 32, đổi 10, KHÔNG phản hồi 1, lỗi thao tác 2, pageerror 0, tải 670 ms, long task 1 (tổng 221 ms, lớn nhất 221 ms)
+/setup: 9 pt, chuyển 0, đổi 9, KHÔNG phản hồi 0, lỗi thao tác 0, pageerror 0, tải 491 ms, long task 0 (tổng 0 ms, lớn nhất 0 ms)
+/customer/cu526: 17 pt, chuyển 12, đổi 1, KHÔNG phản hồi 3, lỗi thao tác 0, pageerror 0, tải 461 ms, long task 0 (tổng 0 ms, lớn nhất 0 ms)
+/booking/bk9919: 3 pt, chuyển 0, đổi 0, KHÔNG phản hồi 3, lỗi thao tác 0, pageerror 0, tải 442 ms, long task 0 (tổng 0 ms, lớn nhất 0 ms)

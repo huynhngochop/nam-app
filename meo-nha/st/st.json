@@ -1,0 +1,711 @@
+{
+ "app": "meo-nha",
+ "startedAt": "2026-11-01T08:30:48.782Z",
+ "checks": {
+  "persistence": {
+   "pass": true,
+   "route": "/saved",
+   "expect": "Dọn nhà Tết",
+   "errors": [],
+   "excerpt": "Đã lưu\n\nMẹo (20)\nCông thức (10)\nTất cả\nDọn nhà Tết\nMùa nồm\nDọn bếp cuối tuần\nCây ban công\n\nBộ mới\n\nTẩy dầu mỡ trên mặt bếp\nĐã làm · vừa xong\n\n\nHết mùi tủ lạnh bằng bã cà phê\nĐã làm · 3 ngày trước\n\n\nGiữ rau thơm tươi cả tuần\nĐã làm · 6 ngày trước\n\n\nLàm sạch máy hút mùi\nĐã làm · 23/10\n\n\nChố"
+  },
+  "offline": {
+   "rows": [
+    {
+     "route": "/explore",
+     "chars": 1515,
+     "errors": [],
+     "offlineMsg": true
+    },
+    {
+     "route": "/fridge",
+     "chars": 679,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/me",
+     "chars": 302,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/saved",
+     "chars": 1001,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/ask",
+     "chars": 292,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/paywall",
+     "chars": 266,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/report",
+     "chars": 91,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/scan",
+     "chars": 155,
+     "errors": [
+      "Failed to execute 'importScripts' on 'WorkerGlobalScope': The script at 'https://cdn.jsdelivr.net/npm/jsqr@1.2.0/dist/jsQR.min.js' failed to load."
+     ],
+     "offlineMsg": false
+    },
+    {
+     "route": "/search",
+     "chars": 164,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/settings",
+     "chars": 274,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/submit",
+     "chars": 151,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/category/kitchen",
+     "chars": 263,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/tip/t15",
+     "chars": 237,
+     "errors": [],
+     "offlineMsg": false
+    }
+   ],
+   "pass": false
+  },
+  "light": [
+   {
+    "route": "/explore",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/fridge",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/me",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/saved",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/ask",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/paywall",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/report",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/scan",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/search",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "button",
+      "name": "Xóa hết",
+      "w": 51,
+      "h": 18
+     }
+    ],
+    "smallTargetN": 1,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/settings",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "switch",
+      "name": "Mẹo mỗi sáng",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Nhắc theo mùa",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Quảng cáo cá nhân hóa",
+      "w": 40,
+      "h": 20
+     }
+    ],
+    "smallTargetN": 3,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/submit",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/category/kitchen",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/tip/t15",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   }
+  ],
+  "dark": [
+   {
+    "route": "/explore",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/fridge",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/me",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/saved",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/ask",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/paywall",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/report",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/scan",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/search",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "button",
+      "name": "Xóa hết",
+      "w": 51,
+      "h": 18
+     }
+    ],
+    "smallTargetN": 1,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/settings",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "switch",
+      "name": "Mẹo mỗi sáng",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Nhắc theo mùa",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Quảng cáo cá nhân hóa",
+      "w": 40,
+      "h": 20
+     }
+    ],
+    "smallTargetN": 3,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/submit",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/category/kitchen",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/tip/t15",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   }
+  ],
+  "small": [
+   {
+    "route": "/explore",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/fridge",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/me",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/saved",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/ask",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/paywall",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "lowContrastHeuristicN": 1,
+    "errors": []
+   },
+   {
+    "route": "/report",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/scan",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/search",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "button",
+      "name": "Xóa hết",
+      "w": 51,
+      "h": 18
+     }
+    ],
+    "smallTargetN": 1,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/settings",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "switch",
+      "name": "Mẹo mỗi sáng",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Nhắc theo mùa",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Quảng cáo cá nhân hóa",
+      "w": 40,
+      "h": 20
+     }
+    ],
+    "smallTargetN": 3,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/submit",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/category/kitchen",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/tip/t15",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   }
+  ],
+  "slowCpu": [
+   {
+    "route": "/explore",
+    "ms": 1501,
+    "ltMax": 366,
+    "ltTotal": 927,
+    "errors": []
+   },
+   {
+    "route": "/fridge",
+    "ms": 504,
+    "ltMax": 133,
+    "ltTotal": 260,
+    "errors": []
+   },
+   {
+    "route": "/me",
+    "ms": 452,
+    "ltMax": 91,
+    "ltTotal": 230,
+    "errors": []
+   },
+   {
+    "route": "/saved",
+    "ms": 526,
+    "ltMax": 149,
+    "ltTotal": 337,
+    "errors": []
+   },
+   {
+    "route": "/ask",
+    "ms": 442,
+    "ltMax": 71,
+    "ltTotal": 196,
+    "errors": []
+   },
+   {
+    "route": "/paywall",
+    "ms": 467,
+    "ltMax": 78,
+    "ltTotal": 221,
+    "errors": []
+   },
+   {
+    "route": "/report",
+    "ms": 453,
+    "ltMax": 73,
+    "ltTotal": 180,
+    "errors": []
+   },
+   {
+    "route": "/scan",
+    "ms": 466,
+    "ltMax": 83,
+    "ltTotal": 204,
+    "errors": []
+   },
+   {
+    "route": "/search",
+    "ms": 489,
+    "ltMax": 94,
+    "ltTotal": 246,
+    "errors": []
+   },
+   {
+    "route": "/settings",
+    "ms": 459,
+    "ltMax": 79,
+    "ltTotal": 205,
+    "errors": []
+   },
+   {
+    "route": "/submit",
+    "ms": 466,
+    "ltMax": 89,
+    "ltTotal": 218,
+    "errors": []
+   },
+   {
+    "route": "/category/kitchen",
+    "ms": 475,
+    "ltMax": 90,
+    "ltTotal": 232,
+    "errors": []
+   },
+   {
+    "route": "/tip/t15",
+    "ms": 475,
+    "ltMax": 90,
+    "ltTotal": 243,
+    "errors": []
+   }
+  ]
+ },
+ "seed": {
+  "ok": true,
+  "ms": 2851,
+  "tail": "Đang tạo dữ liệu…\nQA_SEED_DONE {\"app\":\"meo-nha\",\"savedTips\":20,\"collections\":4,\"totalMs\":2503,\"kvBytes\":3851}"
+ },
+ "finishedAt": "2026-11-01T08:31:42.751Z"
+}

@@ -1,0 +1,50 @@
+[
+ {
+  "id": "N1",
+  "name": "Người mới: chọn mục tiêu 1 giờ → Hẹn giờ",
+  "ac": "Màn Hẹn giờ hiện 0/2 phiên hôm nay, 25:00",
+  "pass": true,
+  "ms": 2945,
+  "jsErrors": []
+ },
+ {
+  "id": "N2",
+  "name": "Thêm việc \"Ôn thi Toán\" 3 phiên cho hôm nay và chọn làm việc đang làm",
+  "ac": "Việc mới có trong danh sách hôm nay (0/3 phiên) và hiện ở ô \"Việc đang làm\"",
+  "pass": true,
+  "ms": 4687,
+  "jsErrors": []
+ },
+ {
+  "id": "N3",
+  "name": "Tập trung đủ một phiên 25 phút (tua giờ)",
+  "ac": "Hết giờ → báo xong/nghỉ; Thống kê hôm nay có 25 phút; việc thành 1/3 phiên",
+  "pass": true,
+  "ms": 34060,
+  "jsErrors": []
+ },
+ {
+  "id": "N4",
+  "name": "Dừng phiên giữa chừng",
+  "ac": "Hỏi xác nhận; dừng xong không tính là phiên hoàn thành",
+  "pass": true,
+  "ms": 9783,
+  "jsErrors": []
+ },
+ {
+  "id": "N5",
+  "name": "Thói quen: đánh dấu uống nước hôm nay",
+  "ac": "Bấm + ở thói quen → số hôm nay tăng",
+  "pass": true,
+  "ms": 1149,
+  "jsErrors": []
+ },
+ {
+  "id": "N6",
+  "name": "Đóng app rồi mở lại",
+  "ac": "Việc, phiên đã xong còn nguyên; không hỏi tiếp tục phiên đã dừng",
+  "pass": true,
+  "ms": 2281,
+  "jsErrors": []
+ }
+]

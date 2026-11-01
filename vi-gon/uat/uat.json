@@ -1,0 +1,82 @@
+[
+ {
+  "id": "V1",
+  "name": "Người mới: giới thiệu → đặt ngân sách 15 tr, ngày lương 5, tên → Tổng quan",
+  "ac": "Tổng quan chào đúng tên, hiện ngân sách 15.000.000đ, chưa có giao dịch",
+  "pass": true,
+  "ms": 6187,
+  "jsErrors": []
+ },
+ {
+  "id": "V2",
+  "name": "Ghi tay một khoản chi 85.000đ ăn uống \"Cơm tấm\"",
+  "ac": "Tổng quan: Đã chi 85.000đ, khoản mới nằm trong \"Vừa ghi nhận\"; Giao dịch có dòng Cơm tấm",
+  "pass": true,
+  "ms": 3920,
+  "jsErrors": []
+ },
+ {
+  "id": "V3",
+  "name": "Ghi khoản thu lương 20.000.000đ",
+  "ac": "Thu kỳ này +20.000.000đ; Đã chi không đổi",
+  "pass": true,
+  "ms": 2898,
+  "jsErrors": []
+ },
+ {
+  "id": "V4",
+  "name": "Dán tin nhắn ngân hàng → Ví Gọn đọc → xác nhận",
+  "ac": "Đọc đúng −120.000đ, nơi chi Highlands; sau xác nhận không còn chờ, Đã chi 205.000đ",
+  "pass": true,
+  "ms": 3877,
+  "jsErrors": []
+ },
+ {
+  "id": "V5",
+  "name": "Dán lại đúng tin nhắn đó lần nữa",
+  "ac": "Không ghi trùng: báo trùng hoặc đưa vào nghi trùng; Đã chi vẫn 205.000đ",
+  "pass": true,
+  "ms": 2266,
+  "jsErrors": []
+ },
+ {
+  "id": "V6",
+  "name": "Tạo quỹ \"Du lịch\" 5 tr, góp 500.000đ",
+  "ac": "Quỹ hiện 500.000đ / 5.000.000đ (10%); khoản góp không tính vào Đã chi",
+  "pass": true,
+  "ms": 5232,
+  "jsErrors": []
+ },
+ {
+  "id": "V7",
+  "name": "Tìm giao dịch theo tên và theo số tiền",
+  "ac": "\"cơm\" ra Cơm tấm; \"120\" ra Highlands; chuỗi lạ ra danh sách trống",
+  "pass": true,
+  "ms": 3161,
+  "jsErrors": []
+ },
+ {
+  "id": "V8",
+  "name": "Sửa khoản Cơm tấm (danh mục, ghi chú, số tiền 95.000đ) rồi xóa",
+  "ac": "Danh mục, ghi chú giữ lại kể cả khi bấm Quay lại ngay; sửa số tiền → Đã chi 215.000đ; xóa → 120.000đ, Cơm tấm biến mất",
+  "pass": true,
+  "ms": 9152,
+  "jsErrors": []
+ },
+ {
+  "id": "V9",
+  "name": "Đặt ngân sách ăn uống 100.000đ khi đã chi 120.000đ",
+  "ac": "Màn ngân sách báo vượt ở Ăn uống",
+  "pass": true,
+  "ms": 2437,
+  "jsErrors": []
+ },
+ {
+  "id": "V10",
+  "name": "Đóng app rồi mở lại",
+  "ac": "Tên, ngân sách, giao dịch, quỹ còn nguyên",
+  "pass": true,
+  "ms": 1787,
+  "jsErrors": []
+ }
+]

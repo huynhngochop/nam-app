@@ -1,0 +1,943 @@
+{
+ "app": "hen-dep",
+ "startedAt": "2026-11-01T08:35:20.567Z",
+ "checks": {
+  "persistence": {
+   "pass": true,
+   "route": "/customers",
+   "expect": "2500 khách",
+   "errors": [],
+   "excerpt": "Khách hàng\n\nTất cả\nVIP\nLâu chưa đến\nKhách mới\nSinh nhật tháng này\n2500 khách\nTT\nVũ Thanh Trâm\n3 lần · 715.000đ · 1 giờ trước\nKP\nNguyễn Khánh Phúc\n5 lần · 1.838.000đ · 2 giờ trước\nVIP\nMH\nVõ Minh Hương\n2 lần · 875.000đ · 2 giờ trước\nBN\nVõ Bảo Nam\n13 lần · 4.700.000đ · 2 giờ trước\nVIP\nTT\nVũ Thanh Thảo"
+  },
+  "offline": {
+   "rows": [
+    {
+     "route": "/calendar",
+     "chars": 236,
+     "errors": [],
+     "offlineMsg": true
+    },
+    {
+     "route": "/customers",
+     "chars": 1470,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/revenue",
+     "chars": 1024,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/shop",
+     "chars": 322,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/billing",
+     "chars": 360,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/booking/new",
+     "chars": 1266,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/campaign-ai",
+     "chars": 172,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/campaign",
+     "chars": 734,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/link",
+     "chars": 416,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/scan",
+     "chars": 223,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/services",
+     "chars": 1653,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/settings",
+     "chars": 1106,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/staff",
+     "chars": 491,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/customer/cu526",
+     "chars": 529,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/booking/bk9919",
+     "chars": 202,
+     "errors": [],
+     "offlineMsg": false
+    }
+   ],
+   "pass": true
+  },
+  "light": [
+   {
+    "route": "/calendar",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/customers",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "lowContrastHeuristicN": 1,
+    "errors": []
+   },
+   {
+    "route": "/revenue",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/shop",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/billing",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/booking/new",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/campaign-ai",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/campaign",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "lowContrastHeuristicN": 1,
+    "errors": []
+   },
+   {
+    "route": "/link",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/scan",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/services",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/settings",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "switch",
+      "name": "Mở cửa CN",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Mở cửa T2",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Mở cửa T3",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Mở cửa T4",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Mở cửa T5",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Mở cửa T6",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Mở cửa T7",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Khách tự đặt",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Nhắc 24 giờ",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Nhắc 2 giờ",
+      "w": 40,
+      "h": 20
+     }
+    ],
+    "smallTargetN": 12,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/staff",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/customer/cu526",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/booking/bk9919",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   }
+  ],
+  "dark": [
+   {
+    "route": "/calendar",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/customers",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "lowContrastHeuristicN": 1,
+    "errors": []
+   },
+   {
+    "route": "/revenue",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/shop",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/billing",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/booking/new",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/campaign-ai",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/campaign",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "lowContrastHeuristicN": 1,
+    "errors": []
+   },
+   {
+    "route": "/link",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/scan",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/services",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/settings",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "switch",
+      "name": "Mở cửa CN",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Mở cửa T2",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Mở cửa T3",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Mở cửa T4",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Mở cửa T5",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Mở cửa T6",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Mở cửa T7",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Khách tự đặt",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Nhắc 24 giờ",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Nhắc 2 giờ",
+      "w": 40,
+      "h": 20
+     }
+    ],
+    "smallTargetN": 12,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/staff",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/customer/cu526",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/booking/bk9919",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   }
+  ],
+  "small": [
+   {
+    "route": "/calendar",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/customers",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "lowContrastHeuristicN": 1,
+    "errors": []
+   },
+   {
+    "route": "/revenue",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "div",
+      "name": "T2: 7.454.000đ",
+      "w": 31,
+      "h": 110
+     },
+     {
+      "tag": "div",
+      "name": "T3: 7.650.000đ",
+      "w": 31,
+      "h": 110
+     },
+     {
+      "tag": "div",
+      "name": "T4: 10.185.000đ",
+      "w": 31,
+      "h": 110
+     },
+     {
+      "tag": "div",
+      "name": "T5: 9.014.000đ",
+      "w": 31,
+      "h": 110
+     },
+     {
+      "tag": "div",
+      "name": "T6: 7.436.000đ",
+      "w": 31,
+      "h": 110
+     },
+     {
+      "tag": "div",
+      "name": "T7: 7.993.000đ",
+      "w": 31,
+      "h": 110
+     },
+     {
+      "tag": "div",
+      "name": "CN: 5.316.000đ",
+      "w": 31,
+      "h": 110
+     }
+    ],
+    "smallTargetN": 7,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/shop",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/billing",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "lowContrastHeuristicN": 2,
+    "errors": []
+   },
+   {
+    "route": "/booking/new",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/campaign-ai",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/campaign",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/link",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/scan",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/services",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "lowContrastHeuristicN": 1,
+    "errors": []
+   },
+   {
+    "route": "/settings",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "switch",
+      "name": "Mở cửa CN",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Mở cửa T2",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Mở cửa T3",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Mở cửa T4",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Mở cửa T5",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Mở cửa T6",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Mở cửa T7",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Khách tự đặt",
+      "w": 40,
+      "h": 20
+     }
+    ],
+    "smallTargetN": 8,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/staff",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/customer/cu526",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/booking/bk9919",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   }
+  ],
+  "slowCpu": [
+   {
+    "route": "/calendar",
+    "ms": 1751,
+    "ltMax": 517,
+    "ltTotal": 1156,
+    "errors": []
+   },
+   {
+    "route": "/customers",
+    "ms": 1184,
+    "ltMax": 314,
+    "ltTotal": 674,
+    "errors": []
+   },
+   {
+    "route": "/revenue",
+    "ms": 1039,
+    "ltMax": 239,
+    "ltTotal": 486,
+    "errors": []
+   },
+   {
+    "route": "/shop",
+    "ms": 944,
+    "ltMax": 155,
+    "ltTotal": 412,
+    "errors": []
+   },
+   {
+    "route": "/billing",
+    "ms": 609,
+    "ltMax": 140,
+    "ltTotal": 386,
+    "errors": []
+   },
+   {
+    "route": "/booking/new",
+    "ms": 1046,
+    "ltMax": 241,
+    "ltTotal": 501,
+    "errors": []
+   },
+   {
+    "route": "/campaign-ai",
+    "ms": 635,
+    "ltMax": 133,
+    "ltTotal": 392,
+    "errors": []
+   },
+   {
+    "route": "/campaign",
+    "ms": 629,
+    "ltMax": 166,
+    "ltTotal": 409,
+    "errors": []
+   },
+   {
+    "route": "/link",
+    "ms": 980,
+    "ltMax": 189,
+    "ltTotal": 440,
+    "errors": []
+   },
+   {
+    "route": "/scan",
+    "ms": 1093,
+    "ltMax": 143,
+    "ltTotal": 531,
+    "errors": []
+   },
+   {
+    "route": "/services",
+    "ms": 993,
+    "ltMax": 209,
+    "ltTotal": 456,
+    "errors": []
+   },
+   {
+    "route": "/settings",
+    "ms": 1120,
+    "ltMax": 280,
+    "ltTotal": 551,
+    "errors": []
+   },
+   {
+    "route": "/staff",
+    "ms": 949,
+    "ltMax": 148,
+    "ltTotal": 407,
+    "errors": []
+   },
+   {
+    "route": "/customer/cu526",
+    "ms": 958,
+    "ltMax": 167,
+    "ltTotal": 441,
+    "errors": []
+   },
+   {
+    "route": "/booking/bk9919",
+    "ms": 982,
+    "ltMax": 132,
+    "ltTotal": 402,
+    "errors": []
+   }
+  ]
+ },
+ "seed": {
+  "ok": true,
+  "ms": 4525,
+  "tail": "Đang tạo dữ liệu…\n8 thợ, 40 dịch vụ, 2500 khách\n10189 lịch hẹn\nQA_SEED_DONE {\"app\":\"hen-dep\",\"customers\":2500,\"bookings\":10189,\"services\":40,\"totalMs\":4077,\"kvBytes\":2873373}"
+ },
+ "finishedAt": "2026-11-01T08:36:32.769Z"
+}

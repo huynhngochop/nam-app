@@ -1,0 +1,721 @@
+{
+ "app": "nhip",
+ "startedAt": "2026-11-01T08:30:16.124Z",
+ "checks": {
+  "persistence": {
+   "pass": true,
+   "route": "/me",
+   "expect": "Quang",
+   "errors": [],
+   "excerpt": "Q\nQuang\nMục tiêu 2 giờ/ngày\nNhịp Pro\nĐANG DÙNG\nMọi gói âm thanh, không quảng cáo, thống kê theo việc.\n\nMục tiêu hằng ngày\n2 giờ · 5 phiên\n\n\nCài đặt hẹn giờ\n25 / 5 / 15\n\n\nViệc cần làm\n\n\nThói quen\n\n\nGiao diện\nHệ thống\n\n\nCửa hàng âm thanh\n\n\nXuất dữ liệu (CSV)\n\n\nKhôi phục giao dịch\n\n\n\n"
+  },
+  "offline": {
+   "rows": [
+    {
+     "route": "/me",
+     "chars": 341,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/sounds",
+     "chars": 224,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/stats",
+     "chars": 407,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/timer",
+     "chars": 399,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/done",
+     "chars": 118,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/habits",
+     "chars": 254,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/paywall",
+     "chars": 287,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/session",
+     "chars": 399,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/store",
+     "chars": 160,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/tasks",
+     "chars": 1024,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/timer-settings",
+     "chars": 243,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/pack/saigon",
+     "chars": 163,
+     "errors": [],
+     "offlineMsg": false
+    }
+   ],
+   "pass": true
+  },
+  "light": [
+   {
+    "route": "/me",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/sounds",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/stats",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "button",
+      "name": "Xem tất cả",
+      "w": 73,
+      "h": 18
+     }
+    ],
+    "smallTargetN": 1,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/timer",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/done",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/habits",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/paywall",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/session",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/store",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/tasks",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/timer-settings",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "switch",
+      "name": "Tự vào giờ nghỉ",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Tự vào phiên tiếp",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Chế độ nghiêm",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Rung khi hết giờ",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Giữ màn hình sáng",
+      "w": 40,
+      "h": 20
+     }
+    ],
+    "smallTargetN": 5,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/pack/saigon",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "switch",
+      "name": "Chỉ tải qua Wi-Fi",
+      "w": 40,
+      "h": 20
+     }
+    ],
+    "smallTargetN": 1,
+    "overflowX": 0,
+    "errors": []
+   }
+  ],
+  "dark": [
+   {
+    "route": "/me",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/sounds",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/stats",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "button",
+      "name": "Xem tất cả",
+      "w": 73,
+      "h": 18
+     }
+    ],
+    "smallTargetN": 1,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/timer",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "lowContrastHeuristicN": 2,
+    "errors": []
+   },
+   {
+    "route": "/done",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/habits",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/paywall",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/session",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "lowContrastHeuristicN": 2,
+    "errors": []
+   },
+   {
+    "route": "/store",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/tasks",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/timer-settings",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "switch",
+      "name": "Tự vào giờ nghỉ",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Tự vào phiên tiếp",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Chế độ nghiêm",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Rung khi hết giờ",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Giữ màn hình sáng",
+      "w": 40,
+      "h": 20
+     }
+    ],
+    "smallTargetN": 5,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/pack/saigon",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "switch",
+      "name": "Chỉ tải qua Wi-Fi",
+      "w": 40,
+      "h": 20
+     }
+    ],
+    "smallTargetN": 1,
+    "overflowX": 0,
+    "errors": []
+   }
+  ],
+  "small": [
+   {
+    "route": "/me",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/sounds",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/stats",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "button",
+      "name": "Xem tất cả",
+      "w": 73,
+      "h": 18
+     }
+    ],
+    "smallTargetN": 1,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/timer",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/done",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/habits",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/paywall",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/session",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/store",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/tasks",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/timer-settings",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "switch",
+      "name": "Tự vào giờ nghỉ",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Tự vào phiên tiếp",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Chế độ nghiêm",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Rung khi hết giờ",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Giữ màn hình sáng",
+      "w": 40,
+      "h": 20
+     }
+    ],
+    "smallTargetN": 5,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/pack/saigon",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "switch",
+      "name": "Chỉ tải qua Wi-Fi",
+      "w": 40,
+      "h": 20
+     }
+    ],
+    "smallTargetN": 1,
+    "overflowX": 0,
+    "errors": []
+   }
+  ],
+  "slowCpu": [
+   {
+    "route": "/me",
+    "ms": 1688,
+    "ltMax": 510,
+    "ltTotal": 1000,
+    "errors": []
+   },
+   {
+    "route": "/sounds",
+    "ms": 587,
+    "ltMax": 142,
+    "ltTotal": 307,
+    "errors": []
+   },
+   {
+    "route": "/stats",
+    "ms": 611,
+    "ltMax": 145,
+    "ltTotal": 323,
+    "errors": []
+   },
+   {
+    "route": "/timer",
+    "ms": 626,
+    "ltMax": 151,
+    "ltTotal": 324,
+    "errors": []
+   },
+   {
+    "route": "/done",
+    "ms": 488,
+    "ltMax": 96,
+    "ltTotal": 251,
+    "errors": []
+   },
+   {
+    "route": "/habits",
+    "ms": 544,
+    "ltMax": 125,
+    "ltTotal": 305,
+    "errors": []
+   },
+   {
+    "route": "/paywall",
+    "ms": 509,
+    "ltMax": 97,
+    "ltTotal": 258,
+    "errors": []
+   },
+   {
+    "route": "/session",
+    "ms": 912,
+    "ltMax": 142,
+    "ltTotal": 313,
+    "errors": []
+   },
+   {
+    "route": "/store",
+    "ms": 519,
+    "ltMax": 108,
+    "ltTotal": 255,
+    "errors": []
+   },
+   {
+    "route": "/tasks",
+    "ms": 772,
+    "ltMax": 220,
+    "ltTotal": 502,
+    "errors": []
+   },
+   {
+    "route": "/timer-settings",
+    "ms": 578,
+    "ltMax": 107,
+    "ltTotal": 285,
+    "errors": []
+   },
+   {
+    "route": "/pack/saigon",
+    "ms": 521,
+    "ltMax": 100,
+    "ltTotal": 256,
+    "errors": []
+   }
+  ]
+ },
+ "seed": {
+  "ok": true,
+  "ms": 2947,
+  "tail": "Đang tạo dữ liệu…\n1699 nhật ký (giữ 2000 mới nhất như app), 333 ngày\nQA_SEED_DONE {\"app\":\"nhip\",\"logs\":1699,\"days\":333,\"tasks\":80,\"totalMs\":2511,\"kvBytes\":188542}"
+ },
+ "finishedAt": "2026-11-01T08:31:10.170Z"
+}

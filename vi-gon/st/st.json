@@ -1,0 +1,1040 @@
+{
+ "app": "vi-gon",
+ "startedAt": "2026-11-01T08:34:42.855Z",
+ "checks": {
+  "persistence": {
+   "pass": true,
+   "route": "/funds",
+   "expect": "Du lịch Đà Nẵng",
+   "errors": [],
+   "excerpt": "Quỹ\n\nTổng trong các quỹ\n82.400.000đ\n\nDu lịch Đà Nẵng\nHạn T2, 1/3 · 1,15 tr/tháng\n62%\n7,4 tr / 12 tr\n\nQuỹ khẩn cấp\nKhông đặt hạn\n39%\n23,5 tr / 60 tr\n\nMua laptop mới\nĐã đủ mục tiêu\n100%\n32 tr / 32 tr\n\nHọc thạc sĩ\nHạn CN, 1/10 · 5,5 tr/tháng\n12%\n18 tr / 150 tr\n\nQuà Tết bố mẹ\nHạn T4, 20/1 · 2,17 t"
+  },
+  "offline": {
+   "rows": [
+    {
+     "route": "/analysis",
+     "chars": 514,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/funds",
+     "chars": 375,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/home",
+     "chars": 693,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/transactions",
+     "chars": 1224,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/add",
+     "chars": 279,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/ask",
+     "chars": 364,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/backup",
+     "chars": 290,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/budgets",
+     "chars": 327,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/categories",
+     "chars": 794,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/import",
+     "chars": 614,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/paywall",
+     "chars": 275,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/pending",
+     "chars": 396,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/restore",
+     "chars": 114,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/review",
+     "chars": 1616,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/settings",
+     "chars": 642,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/summary",
+     "chars": 386,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/fund/new",
+     "chars": 130,
+     "errors": [],
+     "offlineMsg": false
+    },
+    {
+     "route": "/tx/qa8655",
+     "chars": 359,
+     "errors": [],
+     "offlineMsg": false
+    }
+   ],
+   "pass": true
+  },
+  "light": [
+   {
+    "route": "/analysis",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/funds",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/home",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "button",
+      "name": "Tất cả",
+      "w": 43,
+      "h": 18
+     }
+    ],
+    "smallTargetN": 1,
+    "overflowX": 0,
+    "lowContrastHeuristicN": 1,
+    "errors": []
+   },
+   {
+    "route": "/transactions",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "button",
+      "name": "‹",
+      "w": 31,
+      "h": 34
+     }
+    ],
+    "smallTargetN": 1,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/add",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/ask",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/backup",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/budgets",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/categories",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "button",
+      "name": "+ Thêm",
+      "w": 48,
+      "h": 18
+     }
+    ],
+    "smallTargetN": 1,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/import",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/paywall",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/pending",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/restore",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/review",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/settings",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "switch",
+      "name": "Hỏi trước khi lưu",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Khóa ứng dụng",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Ẩn số tiền",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "AI nhận xét",
+      "w": 40,
+      "h": 20
+     }
+    ],
+    "smallTargetN": 4,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/summary",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/fund/new",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "switch",
+      "name": "Đặt hạn",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Nhắc ngày lương",
+      "w": 40,
+      "h": 20
+     }
+    ],
+    "smallTargetN": 2,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/tx/qa8655",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   }
+  ],
+  "dark": [
+   {
+    "route": "/analysis",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/funds",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/home",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "button",
+      "name": "Tất cả",
+      "w": 43,
+      "h": 18
+     }
+    ],
+    "smallTargetN": 1,
+    "overflowX": 0,
+    "lowContrastHeuristicN": 3,
+    "errors": []
+   },
+   {
+    "route": "/transactions",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "button",
+      "name": "‹",
+      "w": 31,
+      "h": 34
+     }
+    ],
+    "smallTargetN": 1,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/add",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/ask",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/backup",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/budgets",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/categories",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "button",
+      "name": "+ Thêm",
+      "w": 48,
+      "h": 18
+     }
+    ],
+    "smallTargetN": 1,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/import",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/paywall",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/pending",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/restore",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/review",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/settings",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "switch",
+      "name": "Hỏi trước khi lưu",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Khóa ứng dụng",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Ẩn số tiền",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "AI nhận xét",
+      "w": 40,
+      "h": 20
+     }
+    ],
+    "smallTargetN": 4,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/summary",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/fund/new",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "switch",
+      "name": "Đặt hạn",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Nhắc ngày lương",
+      "w": 40,
+      "h": 20
+     }
+    ],
+    "smallTargetN": 2,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/tx/qa8655",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   }
+  ],
+  "small": [
+   {
+    "route": "/analysis",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/funds",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/home",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "button",
+      "name": "Tất cả",
+      "w": 43,
+      "h": 18
+     }
+    ],
+    "smallTargetN": 1,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/transactions",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "button",
+      "name": "‹",
+      "w": 31,
+      "h": 34
+     }
+    ],
+    "smallTargetN": 1,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/add",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/ask",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/backup",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/budgets",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/categories",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "button",
+      "name": "+ Thêm",
+      "w": 48,
+      "h": 18
+     }
+    ],
+    "smallTargetN": 1,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/import",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/paywall",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/pending",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "lowContrastHeuristicN": 1,
+    "errors": []
+   },
+   {
+    "route": "/restore",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/review",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/settings",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "switch",
+      "name": "Hỏi trước khi lưu",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Khóa ứng dụng",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Ẩn số tiền",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "AI nhận xét",
+      "w": 40,
+      "h": 20
+     }
+    ],
+    "smallTargetN": 4,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/summary",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/fund/new",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [
+     {
+      "tag": "switch",
+      "name": "Đặt hạn",
+      "w": 40,
+      "h": 20
+     },
+     {
+      "tag": "switch",
+      "name": "Nhắc ngày lương",
+      "w": 40,
+      "h": 20
+     }
+    ],
+    "smallTargetN": 2,
+    "overflowX": 0,
+    "errors": []
+   },
+   {
+    "route": "/tx/qa8655",
+    "lowContrast": [],
+    "lowContrastN": 0,
+    "noName": [],
+    "noNameN": 0,
+    "smallTarget": [],
+    "smallTargetN": 0,
+    "overflowX": 0,
+    "errors": []
+   }
+  ],
+  "slowCpu": [
+   {
+    "route": "/analysis",
+    "ms": 1880,
+    "ltMax": 533,
+    "ltTotal": 1221,
+    "errors": []
+   },
+   {
+    "route": "/funds",
+    "ms": 550,
+    "ltMax": 122,
+    "ltTotal": 285,
+    "errors": []
+   },
+   {
+    "route": "/home",
+    "ms": 698,
+    "ltMax": 225,
+    "ltTotal": 395,
+    "errors": []
+   },
+   {
+    "route": "/transactions",
+    "ms": 787,
+    "ltMax": 281,
+    "ltTotal": 541,
+    "errors": []
+   },
+   {
+    "route": "/add",
+    "ms": 546,
+    "ltMax": 123,
+    "ltTotal": 285,
+    "errors": []
+   },
+   {
+    "route": "/ask",
+    "ms": 530,
+    "ltMax": 103,
+    "ltTotal": 288,
+    "errors": []
+   },
+   {
+    "route": "/backup",
+    "ms": 491,
+    "ltMax": 97,
+    "ltTotal": 249,
+    "errors": []
+   },
+   {
+    "route": "/budgets",
+    "ms": 575,
+    "ltMax": 170,
+    "ltTotal": 336,
+    "errors": []
+   },
+   {
+    "route": "/categories",
+    "ms": 577,
+    "ltMax": 132,
+    "ltTotal": 308,
+    "errors": []
+   },
+   {
+    "route": "/import",
+    "ms": 506,
+    "ltMax": 100,
+    "ltTotal": 261,
+    "errors": []
+   },
+   {
+    "route": "/paywall",
+    "ms": 489,
+    "ltMax": 97,
+    "ltTotal": 250,
+    "errors": []
+   },
+   {
+    "route": "/pending",
+    "ms": 644,
+    "ltMax": 155,
+    "ltTotal": 339,
+    "errors": []
+   },
+   {
+    "route": "/restore",
+    "ms": 487,
+    "ltMax": 89,
+    "ltTotal": 215,
+    "errors": []
+   },
+   {
+    "route": "/review",
+    "ms": 627,
+    "ltMax": 235,
+    "ltTotal": 385,
+    "errors": []
+   },
+   {
+    "route": "/settings",
+    "ms": 556,
+    "ltMax": 120,
+    "ltTotal": 290,
+    "errors": []
+   },
+   {
+    "route": "/summary",
+    "ms": 660,
+    "ltMax": 237,
+    "ltTotal": 393,
+    "errors": []
+   },
+   {
+    "route": "/fund/new",
+    "ms": 560,
+    "ltMax": 144,
+    "ltTotal": 302,
+    "errors": []
+   },
+   {
+    "route": "/tx/qa8655",
+    "ms": 558,
+    "ltMax": 148,
+    "ltTotal": 305,
+    "errors": []
+   }
+  ]
+ },
+ "seed": {
+  "ok": true,
+  "ms": 3562,
+  "tail": "Đang tạo dữ liệu…\nĐã ghi 2000/8671 giao dịch (lô 1000 dòng, 54 ms)\nĐã ghi 4000/8671 giao dịch (lô 1000 dòng, 64 ms)\nĐã ghi 6000/8671 giao dịch (lô 1000 dòng, 54 ms)\nĐã ghi 8000/8671 giao dịch (lô 1000 dòng, 53 ms)\nQA_SEED_DONE {\"app\":\"vi-gon\",\"tx\":8671,\"txWriteMs\":606,\"totalMs\":3109,\"kvBytes\":4638}"
+ },
+ "finishedAt": "2026-11-01T08:36:00.074Z"
+}

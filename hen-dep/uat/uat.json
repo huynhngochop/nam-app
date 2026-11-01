@@ -1,0 +1,58 @@
+[
+ {
+  "id": "H1",
+  "name": "Chủ tiệm mới đăng nhập bằng số điện thoại + mã",
+  "ac": "Nhập SĐT → nhận mã → nhập 123456 (bản thử) → vào màn thiết lập tiệm",
+  "pass": true,
+  "ms": 2392,
+  "jsErrors": []
+ },
+ {
+  "id": "H2",
+  "name": "Thiết lập tiệm: tên, loại Nail, giờ mặc định, 2 dịch vụ, quay lại bước dịch vụ rồi đi tiếp",
+  "ac": "Xong 4 bước có link đặt lịch; Dịch vụ có đúng 2 mục, không bị nhân đôi khi quay lại",
+  "pass": true,
+  "ms": 8176,
+  "jsErrors": []
+ },
+ {
+  "id": "H3",
+  "name": "Ngày tiệm nghỉ (Chủ nhật): lịch không gợi ý lấp chỗ trống",
+  "ac": "Ngày có chữ \"Tiệm nghỉ ngày này\" thì không có gợi ý \"Trống … Gửi ưu đãi\"",
+  "pass": true,
+  "ms": 1107,
+  "jsErrors": []
+ },
+ {
+  "id": "H4",
+  "name": "Tạo lịch hẹn từ màn Lịch: khách mới Chị Mai, Sơn gel, Thứ Hai tuần sau 10:00",
+  "ac": "Quay về Lịch; ngày đó có lịch của Chị Mai lúc 10:00; khách mới có trong danh sách Khách",
+  "pass": true,
+  "ms": 4416,
+  "jsErrors": []
+ },
+ {
+  "id": "H5",
+  "name": "Không cho giờ hẹn kết thúc sau giờ đóng cửa",
+  "ac": "Dịch vụ 60 phút, tiệm đóng 20:00: không có ô giờ sau 19:00",
+  "pass": true,
+  "ms": 1640,
+  "jsErrors": []
+ },
+ {
+  "id": "H6",
+  "name": "Phục vụ khách: đã đến → đang làm → hoàn thành, thu 200.000đ",
+  "ac": "Lịch hẹn ở trạng thái Hoàn thành; Doanh thu có 200.000đ; Chị Mai 1 lần · 200.000đ",
+  "pass": true,
+  "ms": 4677,
+  "jsErrors": []
+ },
+ {
+  "id": "H7",
+  "name": "Đóng app rồi mở lại",
+  "ac": "Vẫn đăng nhập, tiệm, khách và lịch hẹn còn nguyên",
+  "pass": true,
+  "ms": 1774,
+  "jsErrors": []
+ }
+]

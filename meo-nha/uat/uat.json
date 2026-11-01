@@ -1,0 +1,42 @@
+[
+ {
+  "id": "M1",
+  "name": "Người mới: chọn Bếp, Giặt ủi → Khám phá",
+  "ac": "Mẹo đầu danh sách thuộc Bếp / Giặt ủi",
+  "pass": true,
+  "ms": 2906,
+  "jsErrors": []
+ },
+ {
+  "id": "M2",
+  "name": "Mở một mẹo, lưu, xem trong Đã lưu",
+  "ac": "Mẹo lưu xong có trong tab Đã lưu; bỏ lưu thì mất",
+  "pass": true,
+  "ms": 2252,
+  "jsErrors": []
+ },
+ {
+  "id": "M3",
+  "name": "Tìm \"nồm\"",
+  "ac": "Có kết quả về nồm; tìm lại hiện trong tìm gần đây",
+  "pass": true,
+  "ms": 1606,
+  "jsErrors": []
+ },
+ {
+  "id": "M4",
+  "name": "Tủ lạnh: thêm Đậu phụ → món đậu sốt cà chua bớt thiếu",
+  "ac": "\"Đậu phụ sốt cà chua\" từ \"Thiếu: Đậu phụ, Nước mắm\" thành \"Thiếu: Nước mắm\"; Đậu phụ có trong tủ",
+  "pass": true,
+  "ms": 3484,
+  "jsErrors": []
+ },
+ {
+  "id": "M5",
+  "name": "Đóng app rồi mở lại",
+  "ac": "Mẹo đã lưu và đồ trong tủ lạnh còn nguyên",
+  "pass": true,
+  "ms": 2221,
+  "jsErrors": []
+ }
+]
