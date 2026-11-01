@@ -1,9 +1,9 @@
 // Seed QA (chỉ chép vào bản build QA thành app/qa-seed.tsx): một gia đình dùng Thành Tâm nhiều năm,
 // cộng thêm dữ liệu cực lớn để thử tải: 1.000 ngày giỗ, 60 người, 500 lần khấn, lưu mọi mục.
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Text } from 'react-native';
+import { Platform, ScrollView, Text } from 'react-native';
 import Storage from 'expo-sqlite/kv-store';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useTT } from '../src/store';
 import { RITUALS } from '../src/data/rituals';
 import { PRAYERS } from '../src/data/prayers';
@@ -22,9 +22,9 @@ const TEN = ['An', 'Bình', 'Cúc', 'Dũng', 'Hạnh', 'Khoa', 'Lan', 'Mai', 'Na
 const REL = ['Ông nội', 'Bà nội', 'Ông ngoại', 'Bà ngoại', 'Cụ', 'Bác', 'Chú', 'Cô', 'Dì', 'Cậu', 'Anh', 'Chị'];
 const name = () => `${pick(HO)} ${pick(DEM)} ${pick(TEN)}`;
 
-async function run() {
+async function run(small: boolean) {
   const t0 = Date.now();
-  const big = !/small/.test(typeof location !== 'undefined' ? location.search : '');
+  const big = !small;
   const N_GIO = big ? 1000 : 25;
   const N_PEOPLE = big ? 60 : 6;
   // Ngày giỗ: có cả ca biên (30 tháng thiếu, tháng nhuận, rằm, tháng Chạp).
@@ -102,12 +102,13 @@ async function run() {
 }
 
 export default function QaSeed() {
+  const { small } = useLocalSearchParams<{ small?: string }>();
   const [lines, setLines] = useState<string[]>(['Đang tạo dữ liệu…']);
   useEffect(() => {
-    run()
+    run(!!small)
       .then((r) => {
         setLines((l) => [...l, `QA_SEED_DONE ${JSON.stringify(r)}`]);
-        if (typeof location === 'undefined') setTimeout(() => router.replace('/today'), 500);
+        if (Platform.OS !== 'web') setTimeout(() => router.replace('/today'), 500);
       })
       .catch((e) => setLines((l) => [...l, `QA_SEED_FAIL ${String(e?.stack || e)}`]));
   }, []);

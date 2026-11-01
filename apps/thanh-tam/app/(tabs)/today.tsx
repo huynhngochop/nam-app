@@ -148,7 +148,7 @@ export default function Today() {
                   {solarWithWeekday(x.date)} · {lunarShort(lunarOf(x.date))}
                 </T>
               </View>
-              <T v="caption" accent weight="semibold">
+              <T v="caption" accent weight="semibold" style={{ flexShrink: 0, maxWidth: "40%", textAlign: "right" }}>
                 {inDays(x.days)}
               </T>
             </Pressable>

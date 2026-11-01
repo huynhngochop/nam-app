@@ -63,7 +63,7 @@ for P in "${PROFILES[@]}"; do
   if [ "$DARK" = yes ]; then adb shell cmd uimode night yes; else adb shell cmd uimode night no; fi
   sleep 3
   say "== $NAME ($SIZE @$DENS, xoay $ROT, chữ $FONT, tối $DARK)"
-  while read -r KEY ROUTE; do
+  while read -r KEY ROUTE <&3; do
     [ -z "$KEY" ] && continue
     # chỉ chụp đủ mọi màn ở cấu hình chính; các cấu hình khác chụp màn đại diện
     if [ "$NAME" != phone ] && ! echo " today rituals calendar ritual prayer pray anniversaries age face-step settings anniversary-edit people-edit " | grep -q " $KEY "; then continue; fi
@@ -78,7 +78,7 @@ for P in "${PROFILES[@]}"; do
     fi
     adb exec-out screencap -p >"$OUT/shots/$NAME-$KEY.png"
     say "  ok $KEY"
-  done <<<"$ROUTES"
+  done 3<<<"$ROUTES"
 done
 adb shell wm size reset
 adb shell wm density reset
@@ -99,7 +99,23 @@ PID1=$(adb shell pidof "$PKG")
 adb exec-out screencap -p >"$OUT/shots/zz-after-fold-cycles.png"
 say "GẬP/MỞ 5 LẦN: pid trước $PID0, sau $PID1 $([ "$PID0" = "$PID1" ] && echo '(giữ nguyên, không sập)' || echo '(KHÁC: app đã khởi động lại hoặc sập)')"
 
-# 4) Bộ nhớ và lỗi JS
+# 4) Dữ liệu cực lớn: 1.000 ngày giỗ, 60 người. Cuộn Sổ giỗ và Lịch, đo khung hình giật.
+open_url "thanhtam://qa-seed"
+sleep 12
+adb exec-out screencap -p >"$OUT/shots/big-01-seed.png"
+for KEY in anniversaries calendar today age; do
+  ROUTE=$(grep "^$KEY " <<<"$ROUTES" | cut -d' ' -f2)
+  adb shell dumpsys gfxinfo "$PKG" reset >/dev/null 2>&1
+  T0=$(date +%s%N)
+  open_url "thanhtam:/${ROUTE}"
+  sleep 3
+  for i in 1 2 3 4 5 6; do adb shell input swipe 540 1800 540 500 250; sleep 0.4; done
+  adb exec-out screencap -p >"$OUT/shots/big-$KEY.png"
+  J=$(adb shell dumpsys gfxinfo "$PKG" | grep -E "Total frames rendered|Janky frames" | tr -s ' ' | tr '\n' ' ')
+  say "DỮ LIỆU LỚN $KEY: $J $(alive && echo '(đang chạy)' || echo '(SẬP)')"
+done
+
+# 5) Bộ nhớ và lỗi JS
 say "BỘ NHỚ: $(adb shell dumpsys meminfo "$PKG" | grep -E 'TOTAL PSS|TOTAL:' | head -1)"
 adb logcat -d -s ReactNativeJS:V ReactNative:V AndroidRuntime:E >"$OUT/logcat.txt" 2>&1
 adb logcat -d -b crash >"$OUT/crash.txt" 2>&1

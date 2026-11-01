@@ -1,6 +1,7 @@
 import React, { memo, ReactNode } from 'react';
 import {
   ActivityIndicator,
+  Platform,
   Pressable,
   PressableProps,
   ScrollView,
@@ -13,6 +14,7 @@ import {
   TextInputProps,
   TextProps,
   TextStyle,
+  useWindowDimensions,
   View,
   ViewStyle,
 } from 'react-native';
@@ -49,17 +51,22 @@ export function T({ v = 'body', color, muted, accent, center, weight, style, ...
   // Trên nền màu nhấn: mọi biến thể (thường / muted / accent) dùng màu onAccent; muted giảm độ đậm.
   const col = color ?? onFill ?? (accent ? c.a : muted ? c.inkMuted : c.ink);
   const fade = onFill && !color && muted ? { opacity: 0.8 } : null;
+  const { fontScale } = useWindowDimensions();
+  const styles = [
+    typeScale[v] as TextStyle,
+    { color: col },
+    fade,
+    center && { textAlign: 'center' as const },
+    weight && { fontFamily: fonts[weight] },
+    style,
+  ];
+  // Android 14+ phóng chữ phi tuyến: cỡ chữ và lineHeight phóng theo hai tỉ lệ khác nhau, chữ lớn bị cắt dấu
+  // (lỗi thấy ở chữ 200 % trên emulator). Khi người dùng phóng chữ, bỏ lineHeight để dùng khoảng dòng tự nhiên.
+  const natural = Platform.OS === 'android' && fontScale > 1.15;
   return (
     <Text
       maxFontSizeMultiplier={v === 'numeral' || v === 'display' ? 1.3 : 2}
-      style={[
-        typeScale[v] as TextStyle,
-        { color: col },
-        fade,
-        center && { textAlign: 'center' },
-        weight && { fontFamily: fonts[weight] },
-        style,
-      ]}
+      style={natural ? { ...StyleSheet.flatten(styles), lineHeight: undefined } : styles}
       {...rest}
     />
   );
@@ -583,7 +590,12 @@ export function SectionHeader({ title, action, onAction }: { title: string; acti
         {title}
       </T>
       {action ? (
-        <Pressable onPress={onAction} hitSlop={8} accessibilityRole="button">
+        <Pressable
+          onPress={onAction}
+          hitSlop={4}
+          accessibilityRole="button"
+          style={{ minHeight: 44, minWidth: 44, paddingHorizontal: 8, marginRight: -8, justifyContent: 'center' }}
+        >
           <T v="caption" accent weight="semibold">
             {action}
           </T>
