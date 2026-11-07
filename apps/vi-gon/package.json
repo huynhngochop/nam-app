@@ -46,6 +46,7 @@
     "react-native-screens": "~4.16.0",
     "react-native-svg": "15.12.1",
     "react-native-web": "^0.21.0",
+    "vi-gon-notification-listener": "file:./modules/vi-gon-notification-listener",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
