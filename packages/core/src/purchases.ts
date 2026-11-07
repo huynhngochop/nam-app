@@ -11,13 +11,19 @@ export type PurchaseProvider = {
 };
 
 let provider: PurchaseProvider | null = null;
+
+/**
+ * Bản dev và bản thử (APK preview): chưa nối cửa hàng thì "mua" giả lập thành công, không trừ tiền, để người thử
+ * dùng được mọi tính năng trả phí. Bản production không giả lập.
+ */
+const SIMULATE = __DEV__ || ['development', 'preview'].includes(process.env.EXPO_PUBLIC_APP_VARIANT ?? '');
 export function setPurchaseProvider(p: PurchaseProvider) {
   provider = p;
 }
 
 export async function buy(productId: string): Promise<PurchaseResult> {
   if (provider) return provider.buy(productId);
-  if (__DEV__) return { status: 'success', code: 'DEV_SIMULATED' };
+  if (SIMULATE) return { status: 'success', code: 'TEST_SIMULATED' };
   return { status: 'unavailable', code: 'IAP_NOT_CONFIGURED' };
 }
 export async function restorePurchases(): Promise<string[]> {
@@ -28,7 +34,7 @@ export async function storePrice(productId: string): Promise<string | null> {
   return provider?.priceOf ? provider.priceOf(productId) : null;
 }
 export const PURCHASE_MESSAGES: Record<PurchaseResult['status'], string> = {
-  success: 'Cảm ơn bạn!',
+  success: SIMULATE && !provider ? 'Bản thử: đã mở khóa, không trừ tiền.' : 'Cảm ơn bạn!',
   cancelled: '',
   pending: 'Cửa hàng chưa xác nhận thanh toán. Bạn chưa bị trừ tiền.',
   failed: 'Thanh toán không thành công. Bạn chưa bị trừ tiền.',

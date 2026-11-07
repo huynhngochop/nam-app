@@ -1,0 +1,6 @@
+{
+  "name": "hen-dep-text-recognition",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Đọc chữ trên ảnh bảng giá ngay trên máy (ML Kit) cho Hẹn Đẹp — module Expo cục bộ."
+}
