@@ -40,12 +40,6 @@
         }
       ],
       [
-        "expo-camera",
-        {
-          "cameraPermission": "Mẹo Nhà dùng camera để nhận nguyên liệu. Ảnh chỉ xử lý trên máy, không lưu, không gửi đi."
-        }
-      ],
-      [
         "expo-notifications",
         {
           "color": "#a64a22"

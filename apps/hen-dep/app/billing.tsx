@@ -23,7 +23,7 @@ export default function Billing() {
       }
       benefits={[
         'Không giới hạn lịch hẹn và khách',
-        'Nhắc lịch tự động qua Zalo',
+        'Nhắc lịch trước 24 giờ / 2 giờ',
         `Gói Tiêu chuẩn: ${getLimit('AI_QUOTA_STANDARD', 60)} lượt AI/tháng (đọc bảng giá, soạn ưu đãi)`,
         'Gói Chuỗi: nhiều chi nhánh, báo cáo gộp',
       ]}

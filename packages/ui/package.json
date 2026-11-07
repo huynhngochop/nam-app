@@ -12,7 +12,6 @@
     "@expo-google-fonts/be-vietnam-pro": "*",
     "react-native-svg": "*",
     "expo-splash-screen": "*",
-    "expo-status-bar": "*",
-    "react-native-gesture-handler": "*"
+    "expo-status-bar": "*"
   }
 }

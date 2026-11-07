@@ -20,12 +20,14 @@ export default function Calendar() {
   const [staffFocus, setStaffFocus] = useState<string | null>(null);
   const [sel, setSel] = useState<string | null>(null);
   const day = addDays(new Date(), offset);
+  // Mốc đầu ngày (số) làm khóa memo: `day` là Date mới mỗi lần vẽ nên memo theo nó không bao giờ trúng.
+  const dayStart = new Date(day.getFullYear(), day.getMonth(), day.getDate()).getTime();
   const myStaffId = s.auth?.role === 'staff' ? s.auth.staffId : undefined;
 
-  const dayBookings = useMemo(
-    () => s.bookings.filter((b) => new Date(b.startAt).toDateString() === day.toDateString()),
-    [s.bookings, day],
-  );
+  const dayBookings = useMemo(() => {
+    const end = new Date(dayStart + 36 * 3600000).setHours(0, 0, 0, 0); // đầu ngày hôm sau (đúng cả ngày đổi giờ)
+    return s.bookings.filter((b) => b.startAt >= dayStart && b.startAt < end);
+  }, [s.bookings, dayStart]);
   const staff = useMemo(
     () =>
       s.staff.filter((x) =>
@@ -36,7 +38,10 @@ export default function Calendar() {
   const hours = s.shop.hours.find((h) => h.day === day.getDay());
   const openFrom = Number((hours?.from ?? '08:00').slice(0, 2));
   const openTo = Number((hours?.to ?? '20:00').slice(0, 2)) + 1;
-  const gap = offset === 0 ? findGap(s.staff, s.bookings, Date.now(), s.shop.hours) : null;
+  const gap = useMemo(
+    () => (offset === 0 ? findGap(s.staff, s.bookings, Date.now(), s.shop.hours) : null),
+    [offset, s.staff, s.bookings, s.shop.hours],
+  );
   const open = (b: Booking) => (L.twoPane ? setSel(b.id) : router.push(`/booking/${b.id}`));
   const selected = s.bookings.find((b) => b.id === sel);
 

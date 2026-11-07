@@ -9,6 +9,8 @@ import {
   IconButton,
   PricePlaceholder,
   Screen,
+  Ring,
+  Row,
   Segmented,
   T,
   useTheme,
@@ -16,6 +18,7 @@ import {
 } from '@nam/ui';
 import { getPrice, restorePurchases, track } from '@nam/core';
 import { PACKS } from '../src/data';
+import { RING_THEMES } from '../src/themes';
 import { useNhip } from '../src/store';
 
 /** NH-10 · Cửa hàng gói âm thanh. Giá chưa chốt → ô khóa giá. */
@@ -94,9 +97,28 @@ export default function Store() {
           </Grid>
         </>
       ) : (
-        <Card>
-          <T v="body">Giao diện vòng hẹn giờ sẽ có ở bản sau.</T>
-        </Card>
+        <Grid min={2} gap={10}>
+          {RING_THEMES.map((t) => {
+            const on = s.ringTheme === t.id;
+            return (
+              <Card
+                key={t.id}
+                onPress={() => {
+                  s.set({ ringTheme: t.id });
+                  track('ring_theme_set', { theme: t.id });
+                }}
+                accessibilityLabel={`Giao diện ${t.name}${on ? ', đang dùng' : ''}`}
+                style={on ? { borderWidth: 2, borderColor: c.a } : undefined}
+              >
+                <Ring size={96} stroke={8} progress={0.66} color={t.focus} label="25:00" />
+                <Row between>
+                  <T v="headline">{t.name}</T>
+                  {on ? <Badge label="Đang dùng" tone="accent" /> : null}
+                </Row>
+              </Card>
+            );
+          })}
+        </Grid>
       )}
     </Screen>
   );

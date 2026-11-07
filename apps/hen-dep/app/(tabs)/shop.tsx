@@ -3,6 +3,7 @@ import { router } from 'expo-router';
 import { Badge, Card, Grid, ListItem, Row, Screen, SectionHeader, T, Thumb, useTheme } from '@nam/ui';
 import { getLimit } from '@nam/core';
 import { useHen } from '../../src/store';
+import { hasServer } from '../../src/messages';
 
 const PLAN_LABEL = { trial: 'Dùng thử', basic: 'Cơ bản', standard: 'Tiêu chuẩn', chain: 'Chuỗi' } as const;
 
@@ -38,13 +39,15 @@ export default function ShopTab() {
       <Grid min={1} gap={12}>
         <Card>
           <SectionHeader title="Khách đặt lịch" />
-          <ListItem
-            left={<Thumb icon="link" color={c.a} bg={c.at} />}
-            title="Link & mã QR đặt lịch"
-            subtitle={`hendep.app/${s.shop.slug}`}
-            chevron
-            onPress={() => router.push('/link')}
-          />
+          {hasServer() ? (
+            <ListItem
+              left={<Thumb icon="link" color={c.a} bg={c.at} />}
+              title="Link & mã QR đặt lịch"
+              subtitle={`hendep.app/${s.shop.slug}`}
+              chevron
+              onPress={() => router.push('/link')}
+            />
+          ) : null}
           <ListItem
             left={<Thumb icon="send" color={c.a} bg={c.at} />}
             title="Gửi ưu đãi"

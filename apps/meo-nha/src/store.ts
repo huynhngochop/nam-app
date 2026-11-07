@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { DailyQuota, kvStorage, quotaUse, uid } from '@nam/core';
+import { dateKey, DailyQuota, kvStorage, quotaUse, uid } from '@nam/core';
 import type { ThemePref } from '@nam/ui';
-import type { CategoryId } from './data/tips';
+import { CategoryId, registerUserTips, Tip } from './data/tips';
 
 export type Collection = { id: string; name: string; tipIds: string[] };
 type AskTurn = { q: string; at: number };
@@ -28,6 +28,10 @@ type State = {
   askQuota?: DailyQuota;
   askHistory: AskTurn[];
   streak: { last: string; days: number };
+  /** Mẹo tự viết, lưu trên máy (gửi lên đội Mẹo Nhà khi có máy chủ). */
+  myTips: Tip[];
+  /** Mẹo đã báo sai / nguy hiểm: ẩn khỏi danh sách của người này. */
+  hiddenTips: string[];
   set: (p: Partial<State>) => void;
   toggleSaveTip: (id: string) => boolean;
   toggleSaveRecipe: (id: string) => void;
@@ -40,9 +44,12 @@ type State = {
   moveToCollection: (tipId: string, colId: string) => void;
   consumeAsk: (q: string) => void;
   touchStreak: () => void;
+  addMyTip: (t: Pick<Tip, 'title' | 'categoryId' | 'steps'>) => string;
+  hideTip: (id: string) => void;
 };
 
-const today = () => new Date().toISOString().slice(0, 10);
+// Ngày theo giờ máy (không phải UTC): chuỗi ngày không gãy khi mở app trước 7 giờ sáng.
+const today = () => dateKey(new Date());
 
 export const useMeo = create<State>()(
   persist(
@@ -65,10 +72,12 @@ export const useMeo = create<State>()(
         { id: 'tet', name: 'Dọn nhà Tết', tipIds: [] },
         { id: 'nom', name: 'Mùa nồm', tipIds: [] },
       ],
-      pantry: ['trung', 'ca-chua', 'hanh-la', 'com-nguoi'],
+      pantry: [],
       recentSearches: [],
       askHistory: [],
       streak: { last: '', days: 0 },
+      myTips: [],
+      hiddenTips: [],
       set: (p) => set(p),
       toggleSaveTip: (id) => {
         const on = !get().savedTips.includes(id);
@@ -107,15 +116,38 @@ export const useMeo = create<State>()(
         const t = today();
         const { last, days } = get().streak;
         if (last === t) return;
-        const y = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+        const y = dateKey(new Date(Date.now() - 86400000));
         set({ streak: { last: t, days: last === y ? days + 1 : 1 } });
       },
+      addMyTip: ({ title, categoryId, steps }) => {
+        const tip: Tip = {
+          id: `my-${uid()}`,
+          title: title.trim(),
+          summary: steps[0] ?? '',
+          categoryId,
+          minutes: 5,
+          difficulty: 'easy',
+          rating: 0,
+          ratingCount: 0,
+          steps,
+          keywords: '',
+        };
+        set((s) => ({ myTips: [tip, ...s.myTips], savedTips: [tip.id, ...s.savedTips] }));
+        return tip.id;
+      },
+      hideTip: (id) => set((s) => ({ hiddenTips: s.hiddenTips.includes(id) ? s.hiddenTips : [...s.hiddenTips, id] })),
     }),
     {
       name: 'meo-nha',
       storage: kvStorage,
       partialize: ({ hydrated, set: _s, ...rest }) => rest as never,
-      onRehydrateStorage: () => () => useMeo.setState({ hydrated: true }),
+      onRehydrateStorage: () => (st) => {
+        registerUserTips(st?.myTips ?? []);
+        useMeo.setState({ hydrated: true });
+      },
     },
   ),
 );
+useMeo.subscribe((s, p) => {
+  if (s.myTips !== p.myTips) registerUserTips(s.myTips);
+});

@@ -377,8 +377,14 @@ export const TIPS: Tip[] = [
   },
 ];
 
+/** Mẹo người dùng tự viết (Gửi mẹo của bạn) — store đăng ký khi mở app / khi thêm. */
+let userTips: Tip[] = [];
+export function registerUserTips(list: Tip[]) {
+  userTips = list;
+}
+const byId = new Map(TIPS.map((t) => [t.id, t]));
 export function tipById(id: string) {
-  return TIPS.find((t) => t.id === id);
+  return byId.get(id) ?? userTips.find((t) => t.id === id);
 }
 export function categoryOf(id: CategoryId) {
   return CATEGORIES.find((c) => c.id === id)!;

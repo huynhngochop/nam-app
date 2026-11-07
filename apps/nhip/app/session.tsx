@@ -8,6 +8,7 @@ import { Button, Card, Chip, Dialog, Icon, IconButton, night, Ring, Row, T, useL
 import { mmss, track } from '@nam/core';
 import { BREAK_TIPS, SOUNDS } from '../src/data';
 import { focusedSecOf, useNhip } from '../src/store';
+import { ringTheme } from '../src/themes';
 import { useNow } from '../src/clock';
 import { syncMix } from '../src/audio';
 import { cancelPhaseEnd, schedulePhaseEnd } from '../src/notify';
@@ -16,6 +17,7 @@ const GREEN = '#5cc48e';
 
 /** NH-04 Phiên đang chạy · NH-05 Nghỉ giải lao. Luôn nền tối, không quảng cáo. */
 export default function SessionScreen() {
+  const theme = ringTheme(useNhip((x) => x.ringTheme));
   const L = useLayout();
   const toast = useToast();
   const s = useNhip();
@@ -223,7 +225,7 @@ export default function SessionScreen() {
             size={ringSize}
             stroke={12}
             progress={sess.mode === 'countup' ? 1 : progress}
-            color={isFocus ? '#f07a68' : GREEN}
+            color={isFocus ? theme.focus : theme.rest}
             track="rgba(255,255,255,0.1)"
             label={mmss(remaining)}
             labelColor={night.ink}

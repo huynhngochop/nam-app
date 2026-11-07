@@ -1,0 +1,30 @@
+# TẠM (xóa trước khi gộp): cập nhật package-lock.json sau khi bỏ thư viện, vì máy làm việc không vào được npm.
+name: Lockfile sync (tạm)
+
+on:
+  push:
+    branches: [feat/complete-apps]
+    paths: ['**/package.json', '.github/workflows/lockfile-sync.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  lock:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: npm install --package-lock-only
+        run: node .github/scripts/annotate.mjs "lock" "npm install --package-lock-only --no-audit --no-fund 2>&1 | tail -5"
+      - name: Commit nếu đổi
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet package-lock.json; then echo "::notice title=lock::không đổi"; exit 0; fi
+          git add package-lock.json
+          git commit -m "chore: cập nhật package-lock.json sau khi bỏ thư viện không dùng"
+          git push
+          echo "::notice title=lock::đã cập nhật"

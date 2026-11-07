@@ -3,6 +3,22 @@ import { router, Stack, useSegments } from 'expo-router';
 import { AppShell } from '@nam/ui';
 import { useHen } from '../src/store';
 import { redirectFor } from '../src/access';
+import { onReminderTap, watchReminders } from '../src/reminders';
+
+/** Nhắc lịch trên máy: đặt lại khi lịch hẹn đổi; bấm thông báo mở lịch hẹn. Chỉ chạy khi đã đăng nhập. */
+function Reminders() {
+  const signedIn = useHen((s) => !!s.auth && s.hydrated);
+  useEffect(() => {
+    if (!signedIn) return;
+    const stop = watchReminders();
+    const off = onReminderTap((id) => router.push(`/booking/${id}` as never));
+    return () => {
+      stop();
+      off();
+    };
+  }, [signedIn]);
+  return null;
+}
 
 /** Chặn route theo vai trò: chưa đăng nhập → màn đăng nhập; nhân viên → không vào màn của chủ tiệm (W3). */
 function RouteGuard() {
@@ -28,6 +44,7 @@ export default function RootLayout() {
       </Stack>
       {/* Sau Stack: effect chạy khi navigator đã mount, tránh lỗi điều hướng trước khi root layout sẵn sàng. */}
       <RouteGuard />
+      <Reminders />
     </AppShell>
   );
 }
