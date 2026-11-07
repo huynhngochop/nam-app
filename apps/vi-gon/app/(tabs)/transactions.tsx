@@ -20,6 +20,12 @@ export default function Transactions() {
   const s = useVi();
   const p = useLocalSearchParams<{ from?: string; to?: string; categoryId?: string; kind?: 'expense' | 'income' }>();
   const [q, setQ] = useState('');
+  // Truy vấn SQLite chạy đồng bộ trên luồng JS: gõ liền nhiều phím chỉ truy vấn một lần (sau 200 ms).
+  const [dq, setDq] = useState('');
+  useEffect(() => {
+    const t = setTimeout(() => setDq(q.trim()), 200);
+    return () => clearTimeout(t);
+  }, [q]);
   const [offset, setOffset] = useState(0);
   const [kind, setKind] = useState<'all' | 'expense' | 'income'>(p.kind || 'all');
   const [onlyPending, setOnlyPending] = useState(false);
@@ -40,12 +46,12 @@ export default function Transactions() {
       listTx({
         from,
         to,
-        q: q.trim() || undefined,
+        q: dq || undefined,
         kind: kind === 'all' ? undefined : kind,
         status: onlyPending ? 'pending' : undefined,
         categoryId: cat,
       }),
-    [from, to, q, kind, onlyPending, cat],
+    [from, to, dq, kind, onlyPending, cat],
     [],
   );
   const pending = useQuery(() => countWhere("status = 'pending'"), [], 0);

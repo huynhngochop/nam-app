@@ -4,6 +4,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import { AppBar, Card, Chip, Chips, IconButton, Row, Screen, Segmented, T, Thumb, useLayout, useTheme } from '@nam/ui';
 import { CATEGORIES, CategoryId, TIPS } from '../../src/data/tips';
+import { useMeo } from '../../src/store';
 import { TipRow } from '../../src/components';
 
 type Sort = 'popular' | 'new' | 'easy';
@@ -15,9 +16,10 @@ export default function Category() {
   const L = useLayout();
   const cat = CATEGORIES.find((x) => x.id === id) ?? CATEGORIES[0];
   const [sub, setSub] = useState<string | null>(null);
+  const hidden = useMeo((s) => s.hiddenTips);
   const [sort, setSort] = useState<Sort>('popular');
   const list = useMemo(() => {
-    let l = TIPS.filter((t) => t.categoryId === cat.id && (!sub || t.sub === sub));
+    let l = TIPS.filter((t) => t.categoryId === cat.id && (!sub || t.sub === sub) && !hidden.includes(t.id));
     l = [...l].sort((a, b) =>
       sort === 'easy'
         ? a.minutes - b.minutes
@@ -26,7 +28,7 @@ export default function Category() {
           : b.ratingCount - a.ratingCount,
     );
     return l;
-  }, [cat.id, sub, sort]);
+  }, [cat.id, sub, sort, hidden]);
   return (
     <Screen padded={false}>
       <FlashList

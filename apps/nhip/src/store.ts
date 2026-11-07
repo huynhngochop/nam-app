@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import { dateKey, kvStorage, uid } from '@nam/core';
 import type { ThemePref } from '@nam/ui';
 import type { SoundId } from './data';
+import type { RingThemeId } from './themes';
 
 export type Phase = 'focus' | 'short' | 'long';
 export type TimerSettings = {
@@ -61,6 +62,7 @@ type State = {
   isPro: boolean;
   ownedPacks: string[];
   settings: TimerSettings;
+  ringTheme: RingThemeId;
   session: Session | null;
   currentTaskId?: string;
   tasks: Task[];
@@ -115,11 +117,10 @@ export const useNhip = create<State>()(
       isPro: false,
       ownedPacks: [],
       settings: DEFAULT_SETTINGS,
+      ringTheme: 'default',
       session: null,
-      tasks: [
-        { id: 't1', title: 'Viết báo cáo quý 3', est: 4, done: 0, due: dateKey(new Date()), finished: false, order: 0 },
-        { id: 't2', title: 'Ôn từ vựng IELTS', est: 2, done: 0, due: dateKey(new Date()), finished: false, order: 1 },
-      ],
+      // Người mới bắt đầu với danh sách trống (trước đây có 2 việc mẫu không ghi là mẫu).
+      tasks: [],
       habits: [
         { id: 'h-focus', name: 'Phiên tập trung', icon: 'clock', target: 4, unit: 'phiên', auto: 'focus_sessions' },
         { id: 'h-water', name: 'Uống nước', icon: 'droplet', target: 8, unit: 'ly' },

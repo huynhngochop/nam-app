@@ -1,0 +1,14 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <application>
+    <!-- Hệ thống gọi service này khi có thông báo mới; người dùng bật trong Cài đặt → Truy cập thông báo. -->
+    <service
+      android:name=".BankNotificationService"
+      android:label="Ví Gọn — đọc thông báo ngân hàng"
+      android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+      android:exported="true">
+      <intent-filter>
+        <action android:name="android.service.notification.NotificationListenerService" />
+      </intent-filter>
+    </service>
+  </application>
+</manifest>

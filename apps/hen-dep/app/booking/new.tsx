@@ -20,6 +20,7 @@ import {
 } from '@nam/ui';
 import { addDays, fold, hhmm, shortDate, track, vnd } from '@nam/core';
 import { durationOf, overlaps, useHen } from '../../src/store';
+import { confirmText, openSms } from '../../src/messages';
 
 /** HD-C07 · Tạo lịch hẹn (khách gọi điện / vãng lai). Chạm ô trống trên lịch điền sẵn thợ + giờ. */
 export default function NewBooking() {
@@ -63,10 +64,12 @@ export default function NewBooking() {
   };
   const openMin = toMin(dayHours?.from ?? '08:00');
   const closeMin = toMin(dayHours?.to ?? '21:00');
+  // Bước giờ theo cài đặt tiệm, mặc định 15 phút.
+  const step = s.shop.settings.slotStepMin || 15;
   const times = closed
     ? []
-    : Array.from({ length: Math.max(0, Math.floor((closeMin - dur - openMin) / 15) + 1) }, (_, i) => {
-        const m = openMin + i * 15;
+    : Array.from({ length: Math.max(0, Math.floor((closeMin - dur - openMin) / step) + 1) }, (_, i) => {
+        const m = openMin + i * step;
         return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
       });
   // Giờ đã chọn không còn hợp lệ (đổi ngày / thêm dịch vụ dài hơn) → lấy ô gần nhất.
@@ -77,7 +80,9 @@ export default function NewBooking() {
   const start = new Date(day);
   start.setHours(hh, mm, 0, 0);
   const end = start.getTime() + dur * 60000;
-  const clash = staffId ? overlaps(s.bookings, staffId, start.getTime(), end) : undefined;
+  // Tính cả thời gian nghỉ giữa 2 khách (Cài đặt → Lịch hẹn).
+  const gapMs = s.shop.settings.bufferMin * 60000;
+  const clash = staffId ? overlaps(s.bookings, staffId, start.getTime() - gapMs, end + gapMs) : undefined;
   const clashName = clash ? s.customers.find((x) => x.id === clash.customerId)?.name : null;
   const ok = (customerId || walkIn || newName.trim()) && svcIds.length && staffId && !closed && times.length > 0;
   const eligibleStaff = s.staff.filter((st) =>
@@ -87,15 +92,16 @@ export default function NewBooking() {
     }),
   );
 
+  const typedPhone = /^\d{9,11}$/.test(q.replace(/\s/g, '')) ? q.replace(/\s/g, '') : undefined;
   const create = () => {
     let cid = customerId;
     if (!cid)
       cid = s.upsertCustomer({
         name: walkIn ? 'Khách lẻ' : newName.trim(),
-        phone: /^\d{9,11}$/.test(q.replace(/\s/g, '')) ? q.replace(/\s/g, '') : undefined,
+        phone: typedPhone,
         marketingConsent: false,
       });
-    s.createBooking({
+    const b = s.createBooking({
       customerId: cid,
       staffId: staffId!,
       serviceIds: svcIds,
@@ -104,8 +110,13 @@ export default function NewBooking() {
       source: 'manual',
     });
     track('manual_booking_created', { walkIn });
-    toast(`Đã tạo lịch ${hhmm(start)}${notify && cust?.phone ? ' · đã gửi xác nhận' : ''}`, { tone: 'success' });
+    toast(`Đã tạo lịch ${hhmm(start)}`, { tone: 'success' });
     router.back();
+    // Xác nhận cho khách: mở app Tin nhắn soạn sẵn, chủ tiệm bấm gửi (chưa có máy chủ gửi Zalo tự động).
+    const st = useHen.getState();
+    const who = st.customers.find((x) => x.id === cid);
+    if (notify && who?.phone)
+      openSms(who.phone, confirmText(st.shop, who, b, st.services)).catch(() => toast('Không mở được Tin nhắn'));
   };
 
   return (
@@ -203,11 +214,15 @@ export default function NewBooking() {
           <T v="body">{`Trùng với lịch ${clashName ?? 'khách'} ${hhmm(new Date(clash.startAt))}. Vẫn tạo được nếu bạn chắc chắn.`}</T>
         </Card>
       ) : null}
-      {cust?.phone ? (
-        <Pressable onPress={() => setNotify((n) => !n)}>
+      {cust?.phone || typedPhone ? (
+        <Pressable
+          onPress={() => setNotify((n) => !n)}
+          accessibilityRole="checkbox"
+          accessibilityState={{ checked: notify }}
+        >
           <Row>
             <Check on={notify} />
-            <T v="body">Gửi xác nhận cho khách qua Zalo</T>
+            <T v="body">Soạn tin xác nhận cho khách sau khi tạo</T>
           </Row>
         </Pressable>
       ) : null}

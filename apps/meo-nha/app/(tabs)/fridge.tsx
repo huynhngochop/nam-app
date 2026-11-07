@@ -48,7 +48,7 @@ export default function Fridge() {
           <T v="headline" style={{ flex: 1 }}>
             Nguyên liệu của bạn
           </T>
-          <Button title="Chụp" icon="camera" variant="secondary" size="sm" onPress={() => router.push('/scan')} />
+          <Button title="Thêm" icon="plus" variant="secondary" size="sm" onPress={() => setAddOpen(true)} />
         </Row>
         <Chips>
           {pantry.map((id) => (
@@ -56,17 +56,14 @@ export default function Fridge() {
           ))}
           <Chip label="+ Thêm" onPress={() => setAddOpen(true)} />
         </Chips>
-        <T v="caption" muted>
-          Nhận diện ảnh chạy ngay trên máy, ảnh không gửi đi.
-        </T>
       </Card>
       {!pantry.length ? (
         <EmptyState
           icon="archive"
           title="Tủ lạnh của bạn có gì?"
-          body="Chụp hoặc chọn nguyên liệu để xem món nấu được ngay."
-          action="Chụp nguyên liệu"
-          onAction={() => router.push('/scan')}
+          body="Chọn nguyên liệu đang có để xem món nấu được ngay."
+          action="Chọn nguyên liệu"
+          onAction={() => setAddOpen(true)}
         />
       ) : (
         <>

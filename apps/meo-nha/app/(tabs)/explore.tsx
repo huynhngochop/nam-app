@@ -32,12 +32,12 @@ export default function Explore() {
   const online = useOnline();
   const interests = useMeo((s) => s.interests);
   const name = useMeo((s) => s.name);
-  const savedTips = useMeo((s) => s.savedTips);
+  const hidden = useMeo((s) => s.hiddenTips);
   const [selected, setSelected] = useState<string | null>(null);
 
-  const today = useMemo(() => dailyTip(interests), [interests]);
+  const today = useMemo(() => dailyTip(interests), [interests, hidden]);
   const rows = useMemo<FeedRow[]>(() => {
-    const src = online ? feedFor(interests) : savedTips.map((id) => tipById(id)!).filter(Boolean);
+    const src = feedFor(interests);
     const n = getConfig().adEveryN;
     const out: FeedRow[] = [];
     src.forEach((t, i) => {
@@ -45,7 +45,7 @@ export default function Explore() {
       if (online && (i + 1) % n === 0) out.push({ kind: 'ad', key: `ad${i}` });
     });
     return out;
-  }, [interests, online, savedTips]);
+  }, [interests, online, hidden]);
 
   const open = useCallback(
     (id: string) => {
@@ -91,7 +91,11 @@ export default function Explore() {
           {today.summary}
         </T>
       </Card>
-      {!online ? <T v="micro" muted>{`Đọc được khi không có mạng · ${savedTips.length} mẹo`}</T> : null}
+      {!online ? (
+        <T v="micro" muted>
+          Không có mạng · mọi mẹo vẫn có sẵn trong app
+        </T>
+      ) : null}
     </View>
   );
 

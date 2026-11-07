@@ -1,5 +1,12 @@
 import { fold } from '@nam/core';
 import { CategoryId, Tip, TIPS } from '../data/tips';
+import { useMeo } from '../store';
+
+/** Mẹo còn hiện với người này (bỏ mẹo đã báo). */
+const pool = () => {
+  const h = useMeo.getState().hiddenTips;
+  return h.length ? TIPS.filter((t) => !h.includes(t.id)) : TIPS;
+};
 
 /** Tìm kiếm trên máy, không phân biệt dấu. Máy chủ (GET /search) thay thế khi có mạng. */
 export function scoreTip(t: Tip, q: string): number {
@@ -19,7 +26,9 @@ export function scoreTip(t: Tip, q: string): number {
 
 export type SortKey = 'popular' | 'new' | 'rating' | 'easy';
 export function searchTips(q: string, opts: { category?: CategoryId | 'all'; sort?: SortKey } = {}) {
-  let list = TIPS.map((t) => ({ t, s: scoreTip(t, q) })).filter((x) => x.s > 0.3);
+  let list = pool()
+    .map((t) => ({ t, s: scoreTip(t, q) }))
+    .filter((x) => x.s > 0.3);
   if (opts.category && opts.category !== 'all') list = list.filter((x) => x.t.categoryId === opts.category);
   const sort = opts.sort ?? 'popular';
   list.sort((a, b) =>
@@ -37,7 +46,8 @@ export function searchTips(q: string, opts: { category?: CategoryId | 'all'; sor
 export function suggestions(q: string): string[] {
   const f = fold(q);
   if (f.length < 2) return [];
-  return TIPS.filter((t) => fold(t.title).includes(f) || t.keywords.includes(f))
+  return pool()
+    .filter((t) => fold(t.title).includes(f) || t.keywords.includes(f))
     .slice(0, 5)
     .map((t) => t.title);
 }
@@ -46,14 +56,16 @@ export const TRENDING = ['nồm ẩm', 'dọn nhà Tết', 'kiến trong bếp',
 
 export function feedFor(interests: CategoryId[]): Tip[] {
   const rank = (t: Tip) => (interests.includes(t.categoryId) ? 0 : 1);
-  return [...TIPS].sort((a, b) => rank(a) - rank(b) || b.ratingCount - a.ratingCount);
+  return [...pool()].sort((a, b) => rank(a) - rank(b) || b.ratingCount - a.ratingCount);
 }
 
 /** "Mẹo hôm nay" đổi theo ngày, ưu tiên danh mục quan tâm. */
 export function dailyTip(interests: CategoryId[], d = new Date()): Tip {
-  const pool = interests.length ? TIPS.filter((t) => interests.includes(t.categoryId)) : TIPS;
+  const all = pool();
+  const mine = interests.length ? all.filter((t) => interests.includes(t.categoryId)) : all;
+  const list = mine.length ? mine : all;
   const day = Math.floor(d.getTime() / 86400000);
-  return pool[day % pool.length];
+  return list[day % list.length];
 }
 
 export function looksLikeQuestion(q: string): boolean {

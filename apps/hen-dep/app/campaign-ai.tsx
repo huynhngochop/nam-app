@@ -3,6 +3,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { AppBar, Banner, Button, Card, Chip, Chips, Screen, SectionHeader, Stepper, Row, T, useToast } from '@nam/ui';
 import { AiQuotaError, getLimit, track } from '@nam/core';
 import { useHen } from '../src/store';
+import { bookingContact } from '../src/messages';
 import { generatePromo, GOAL_LABEL, PromoGoal, PromoTone, templateVariants, TONE_LABEL } from '../src/promo';
 
 /** HD-C19 · AI soạn tin ưu đãi. Hết lượt / không có mạng → mẫu soạn sẵn trên máy. */
@@ -24,7 +25,7 @@ export default function CampaignAi() {
   const used = s.aiUsed.month === month ? s.aiUsed.count : 0;
   const input = {
     shopName: s.shop.name,
-    link: `hendep.app/${s.shop.slug}`,
+    link: bookingContact(s.shop),
     goal,
     tone,
     offerPct: offer,

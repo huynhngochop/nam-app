@@ -2,7 +2,6 @@ import React, { ReactNode, useEffect } from 'react';
 import { View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemePref, ThemeProvider, useTheme } from './theme';
 import { AppId } from './tokens';
@@ -42,12 +41,10 @@ export function AppShell({
     if (ok) SplashScreen.hideAsync().catch(() => {});
   }, [ok]);
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider>
-        <ThemeProvider app={app} pref={pref}>
-          {ok ? <Inner>{children}</Inner> : null}
-        </ThemeProvider>
-      </SafeAreaProvider>
-    </GestureHandlerRootView>
+    <SafeAreaProvider>
+      <ThemeProvider app={app} pref={pref}>
+        {ok ? <Inner>{children}</Inner> : null}
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }

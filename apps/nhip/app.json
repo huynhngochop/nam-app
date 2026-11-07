@@ -55,7 +55,8 @@
         {
           "microphonePermission": false
         }
-      ]
+      ],
+      "../../packages/core/plugins/with-android-release"
     ],
     "experiments": {
       "typedRoutes": true

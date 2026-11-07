@@ -11,7 +11,6 @@ function Routes() {
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="ask" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
       <Stack.Screen name="paywall" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
-      <Stack.Screen name="scan" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />
       <Stack.Screen name="cook/[id]" options={{ gestureEnabled: false }} />
     </Stack>
   );

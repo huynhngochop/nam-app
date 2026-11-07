@@ -3,8 +3,9 @@ import { router } from 'expo-router';
 import { AppBar, Button, Chip, Chips, Screen, T, TextField, useToast } from '@nam/ui';
 import { track } from '@nam/core';
 import { CATEGORIES, CategoryId } from '../src/data/tips';
+import { useMeo } from '../src/store';
 
-/** Gửi mẹo của bạn (từ MN-14). Bản nháp giữ trong state; gửi lên POST /tips/submissions khi có máy chủ. */
+/** Gửi mẹo của bạn (từ MN-14). Lưu trên máy thành "Mẹo của tôi"; gửi đội Mẹo Nhà duyệt khi có máy chủ. */
 export default function Submit() {
   const toast = useToast();
   const [title, setTitle] = useState('');
@@ -19,9 +20,17 @@ export default function Submit() {
           title="Gửi"
           disabled={!ok}
           onPress={() => {
+            const id = useMeo.getState().addMyTip({
+              title,
+              categoryId: cat!,
+              steps: steps
+                .split('\n')
+                .map((x) => x.trim())
+                .filter(Boolean),
+            });
             track('tip_submitted', { category: cat });
-            toast('Cảm ơn! Đội Mẹo Nhà sẽ duyệt trong 3 ngày.', { tone: 'success' });
-            router.back();
+            toast('Đã lưu vào Đã lưu · Mẹo của tôi', { tone: 'success' });
+            router.replace(`/tip/${id}`);
           }}
         />
       }
@@ -51,7 +60,8 @@ export default function Submit() {
         placeholder="Mỗi bước một dòng"
       />
       <T v="caption" muted>
-        Mẹo được biên tập và kiểm chứng trước khi xuất bản.
+        Mẹo lưu trên máy bạn. Khi Mẹo Nhà có máy chủ, mẹo được gửi để biên tập và kiểm chứng trước khi chia sẻ cho mọi
+        người.
       </T>
     </Screen>
   );

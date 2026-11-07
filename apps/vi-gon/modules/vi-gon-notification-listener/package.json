@@ -1,0 +1,6 @@
+{
+  "name": "vi-gon-notification-listener",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Đọc thông báo ngân hàng trên Android cho Ví Gọn (module Expo cục bộ)."
+}

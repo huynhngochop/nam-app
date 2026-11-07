@@ -19,6 +19,7 @@ import {
 import { hhmm, shortDate, track, vnd } from '@nam/core';
 import { Booking, SOURCE_LABEL, STATUS_LABEL } from './types';
 import { customerStats, priceOf, svcOf, useHen } from './store';
+import { openSms, reminderText, thanksText } from './messages';
 
 const NEXT: Partial<Record<Booking['status'], { label: string; to: Booking['status'] }>> = {
   confirmed: { label: 'Khách đã đến', to: 'checked_in' },
@@ -146,8 +147,26 @@ export function BookingDetail({ booking, onClose }: { booking: Booking; onClose?
         />
       ) : null}
       {next ? <Button title={next.label} onPress={() => setStatus(next.to)} /> : null}
+      {booking.status === 'confirmed' && !late && cust?.phone ? (
+        <Button
+          title="Gửi tin nhắc khách"
+          icon="message-circle"
+          variant="secondary"
+          onPress={() =>
+            openSms(cust.phone!, reminderText(s.shop, cust, booking)).catch(() => toast('Không mở được Tin nhắn'))
+          }
+        />
+      ) : null}
       {booking.status === 'in_service' ? (
         <Button title="Hoàn thành & thu tiền" icon="check" onPress={() => setPay(true)} />
+      ) : null}
+      {booking.status === 'completed' && s.shop.settings.askReview && cust?.phone ? (
+        <Button
+          title="Gửi tin cảm ơn & xin góp ý"
+          icon="heart"
+          variant="secondary"
+          onPress={() => openSms(cust.phone!, thanksText(s.shop, cust)).catch(() => toast('Không mở được Tin nhắn'))}
+        />
       ) : null}
       {booking.payment ? (
         <T

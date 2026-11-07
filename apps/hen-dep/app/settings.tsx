@@ -21,6 +21,7 @@ import {
 } from '@nam/ui';
 import { shortMoney } from '@nam/core';
 import { useHen, useOutbox } from '../src/store';
+import { hasServer } from '../src/messages';
 
 const DAYS = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
 const FROM = ['07:00', '08:00', '09:00', '10:00'];
@@ -28,6 +29,7 @@ const TO = ['18:00', '19:00', '20:00', '21:00', '22:00'];
 
 /** HD-C13 · Cài đặt tiệm: thông tin, giờ mở cửa, quy tắc đặt lịch, nhắc lịch, chống bỏ hẹn, giao diện, dữ liệu. */
 export default function Settings() {
+  const server = hasServer();
   const toast = useToast();
   const s = useHen();
   const pending = useOutbox((o) => o.items.length);
@@ -101,35 +103,48 @@ export default function Settings() {
       ))}
 
       <SectionHeader title="Khách tự đặt lịch" />
-      <ListItem
-        title="Cho khách tự đặt qua link"
-        right={<Toggle label="Khách tự đặt" value={st.selfBooking} onChange={(v) => setSt({ selfBooking: v })} />}
-      />
-      <Row between>
-        <T v="body" style={{ flex: 1 }}>
-          Đặt trước ít nhất
-        </T>
-        <Stepper
-          value={st.minLeadMin}
-          min={0}
-          max={1440}
-          step={30}
-          onChange={(n) => setSt({ minLeadMin: n })}
-          format={(n) => (n >= 60 ? `${n / 60} giờ` : `${n} phút`)}
-        />
-      </Row>
-      <Row between>
-        <T v="body" style={{ flex: 1 }}>
-          Hủy trước
-        </T>
-        <Stepper
-          value={st.cancelBeforeH}
-          min={0}
-          max={48}
-          onChange={(n) => setSt({ cancelBeforeH: n })}
-          format={(n) => `${n} giờ`}
-        />
-      </Row>
+      {server ? (
+        <>
+          <ListItem
+            title="Cho khách tự đặt qua link"
+            right={<Toggle label="Khách tự đặt" value={st.selfBooking} onChange={(v) => setSt({ selfBooking: v })} />}
+          />
+          <Row between>
+            <T v="body" style={{ flex: 1 }}>
+              Đặt trước ít nhất
+            </T>
+            <Stepper
+              value={st.minLeadMin}
+              min={0}
+              max={1440}
+              step={30}
+              onChange={(n) => setSt({ minLeadMin: n })}
+              format={(n) => (n >= 60 ? `${n / 60} giờ` : `${n} phút`)}
+            />
+          </Row>
+          <Row between>
+            <T v="body" style={{ flex: 1 }}>
+              Hủy trước
+            </T>
+            <Stepper
+              value={st.cancelBeforeH}
+              min={0}
+              max={48}
+              onChange={(n) => setSt({ cancelBeforeH: n })}
+              format={(n) => `${n} giờ`}
+            />
+          </Row>
+        </>
+      ) : (
+        <Card variant="tint">
+          <T v="body">
+            Trang đặt lịch cho khách, cọc chống bỏ hẹn và gửi Zalo tự động cần máy chủ Hẹn Đẹp — sẽ bật khi máy chủ sẵn
+            sàng. Hiện tại bạn tạo lịch trong app và gửi xác nhận, nhắc lịch bằng tin nhắn.
+          </T>
+        </Card>
+      )}
+
+      <SectionHeader title="Lịch hẹn" />
       <Row between>
         <T v="body" style={{ flex: 1 }}>
           Nghỉ giữa 2 khách
@@ -160,6 +175,7 @@ export default function Settings() {
       <SectionHeader title="Nhắc lịch & đánh giá" />
       <ListItem
         title="Nhắc khách trước 24 giờ"
+        subtitle="Máy báo bạn đúng giờ, bấm vào để gửi tin nhắc"
         right={<Toggle label="Nhắc 24 giờ" value={st.remind24h} onChange={(v) => setSt({ remind24h: v })} />}
       />
       <ListItem
@@ -168,19 +184,22 @@ export default function Settings() {
       />
       <ListItem
         title="Xin đánh giá sau khi xong"
+        subtitle="Hiện nút gửi tin cảm ơn ở lịch hẹn đã hoàn thành"
         right={<Toggle label="Xin đánh giá" value={st.askReview} onChange={(v) => setSt({ askReview: v })} />}
       />
-      <ListItem
-        title="Yêu cầu cọc với khách từng bỏ hẹn"
-        subtitle="Khách bỏ hẹn ≥ 2 lần phải cọc khi đặt qua link"
-        right={
-          <Toggle
-            label="Cọc chống bỏ hẹn"
-            value={st.depositForNoShow}
-            onChange={(v) => setSt({ depositForNoShow: v })}
-          />
-        }
-      />
+      {server ? (
+        <ListItem
+          title="Yêu cầu cọc với khách từng bỏ hẹn"
+          subtitle="Khách bỏ hẹn ≥ 2 lần phải cọc khi đặt qua link"
+          right={
+            <Toggle
+              label="Cọc chống bỏ hẹn"
+              value={st.depositForNoShow}
+              onChange={(v) => setSt({ depositForNoShow: v })}
+            />
+          }
+        />
+      ) : null}
 
       <SectionHeader title="Khách VIP" />
       <Row between>

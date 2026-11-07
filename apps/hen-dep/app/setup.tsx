@@ -21,6 +21,7 @@ import {
 } from '@nam/ui';
 import { fold, track, vnd } from '@nam/core';
 import { useHen } from '../src/store';
+import { hasServer } from '../src/messages';
 import { Hours } from '../src/types';
 
 const TYPES = ['Salon tóc', 'Nail', 'Spa', 'Barber', 'Studio', 'Khác'];
@@ -104,18 +105,20 @@ export default function Setup() {
         edges={['top', 'bottom']}
         footer={
           <>
-            <Button
-              title="Chia sẻ link đặt lịch"
-              icon="share-2"
-              onPress={() => {
-                s.set({ setupDone: true });
-                track('setup_finished');
-                router.replace('/link');
-              }}
-            />
+            {hasServer() ? (
+              <Button
+                title="Chia sẻ link đặt lịch"
+                icon="share-2"
+                onPress={() => {
+                  s.set({ setupDone: true });
+                  track('setup_finished');
+                  router.replace('/link');
+                }}
+              />
+            ) : null}
             <Button
               title="Vào lịch"
-              variant="secondary"
+              variant={hasServer() ? 'secondary' : 'primary'}
               onPress={() => {
                 s.set({ setupDone: true });
                 router.replace('/(tabs)/calendar');
@@ -127,7 +130,11 @@ export default function Setup() {
         <EmptyState
           icon="check-circle"
           title="Tiệm đã sẵn sàng"
-          body={`Khách đặt lịch tại hendep.app/${useHen.getState().shop.slug}`}
+          body={
+            hasServer()
+              ? `Khách đặt lịch tại hendep.app/${useHen.getState().shop.slug}`
+              : 'Tạo lịch hẹn cho khách ngay trong app. Máy sẽ nhắc bạn gửi tin nhắc trước giờ hẹn.'
+          }
         />
         <Card variant="tint">
           <T v="body">Muốn xem thử với dữ liệu mẫu (thợ, khách, lịch hẹn)?</T>
@@ -187,7 +194,7 @@ export default function Setup() {
             placeholder="Số nhà, đường, quận"
             icon="map-pin"
           />
-          {name ? <T v="caption" muted>{`Link đặt lịch: hendep.app/${slug(name)}`}</T> : null}
+          {name && hasServer() ? <T v="caption" muted>{`Link đặt lịch: hendep.app/${slug(name)}`}</T> : null}
         </>
       ) : step === 1 ? (
         <>

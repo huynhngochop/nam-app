@@ -21,6 +21,7 @@ import {
 } from '@nam/ui';
 import { fold, getConfig, relativeTime, track, useOnline } from '@nam/core';
 import { customerIndex, useHen } from '../src/store';
+import { bookingContact, hasServer } from '../src/messages';
 import { templateVariants } from '../src/promo';
 
 /** Danh sách tự chọn chỉ vẽ chừng này dòng; tìm tên/SĐT để thấy khách khác (IT2). */
@@ -35,7 +36,7 @@ export default function Campaign() {
   const online = useOnline();
   const p = useLocalSearchParams<{ window?: string; message?: string }>();
   const s = useHen();
-  const link = `hendep.app/${s.shop.slug}`;
+  const link = bookingContact(s.shop);
   const [aud, setAud] = useState<Aud>('lapsed');
   const [picked, setPicked] = useState<string[]>([]);
   const [q, setQ] = useState('');
@@ -89,7 +90,7 @@ export default function Campaign() {
     );
   }, [aud, people, q, pickedSet]);
   const noConsent = s.customers.filter((x) => !x.marketingConsent).length;
-  const missingLink = !msg.includes(link);
+  const missingLink = !!link && !msg.includes(link);
 
   // H5: chưa có máy chủ thì không có gì gửi đi được — không báo "đang gửi", chỉ cho chia sẻ để tự gửi.
   const canSend = !!getConfig().apiBaseUrl;
@@ -196,7 +197,13 @@ export default function Campaign() {
         multiline
         maxLength={300}
         style={{ minHeight: 110 }}
-        error={missingLink ? 'Nên có link đặt lịch để khách đặt ngay' : undefined}
+        error={
+          missingLink
+            ? hasServer()
+              ? 'Nên có link đặt lịch để khách đặt ngay'
+              : 'Nên có số điện thoại để khách gọi đặt lịch'
+            : undefined
+        }
       />
       <T v="caption" muted>{`${msg.length}/300 ký tự`}</T>
       {s.campaigns.length ? (

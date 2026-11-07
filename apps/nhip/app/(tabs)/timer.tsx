@@ -23,6 +23,7 @@ import {
 } from '@nam/ui';
 import { dateKey, mmss, track, weekdayLong } from '@nam/core';
 import { focusedSecOf, useNhip } from '../../src/store';
+import { ringTheme } from '../../src/themes';
 import { notifyStatus, requestNotify, schedulePhaseEnd } from '../../src/notify';
 import { useNow } from '../../src/clock';
 import { classifySession } from '../../src/recovery';
@@ -137,6 +138,7 @@ export default function Timer() {
           <Ring
             size={size}
             progress={0}
+            color={s.ringTheme === 'default' ? undefined : ringTheme(s.ringTheme).focus}
             label={mode === 'countup' ? '00:00' : `${s.settings.focusMin}:00`}
             sub={mode === 'countup' ? 'Đếm lên' : `Pomodoro · ${s.settings.longEvery} phiên`}
           />
