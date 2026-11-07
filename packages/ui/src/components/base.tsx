@@ -1,6 +1,7 @@
 import React, { memo, ReactNode } from 'react';
 import {
   ActivityIndicator,
+  Platform,
   Pressable,
   PressableProps,
   ScrollView,
@@ -13,6 +14,7 @@ import {
   TextInputProps,
   TextProps,
   TextStyle,
+  useWindowDimensions,
   View,
   ViewStyle,
 } from 'react-native';
@@ -49,17 +51,22 @@ export function T({ v = 'body', color, muted, accent, center, weight, style, ...
   // Trên nền màu nhấn: mọi biến thể (thường / muted / accent) dùng màu onAccent; muted giảm độ đậm.
   const col = color ?? onFill ?? (accent ? c.a : muted ? c.inkMuted : c.ink);
   const fade = onFill && !color && muted ? { opacity: 0.8 } : null;
+  const { fontScale } = useWindowDimensions();
+  const styles = [
+    typeScale[v] as TextStyle,
+    { color: col },
+    fade,
+    center && { textAlign: 'center' as const },
+    weight && { fontFamily: fonts[weight] },
+    style,
+  ];
+  // Android 14+ phóng chữ phi tuyến: cỡ chữ và lineHeight phóng theo hai tỉ lệ khác nhau, chữ lớn bị cắt dấu
+  // (lỗi thấy ở chữ 200 % trên emulator). Khi người dùng phóng chữ, bỏ lineHeight để dùng khoảng dòng tự nhiên.
+  const natural = Platform.OS === 'android' && fontScale > 1.15;
   return (
     <Text
       maxFontSizeMultiplier={v === 'numeral' || v === 'display' ? 1.3 : 2}
-      style={[
-        typeScale[v] as TextStyle,
-        { color: col },
-        fade,
-        center && { textAlign: 'center' },
-        weight && { fontFamily: fonts[weight] },
-        style,
-      ]}
+      style={natural ? { ...StyleSheet.flatten(styles), lineHeight: undefined } : styles}
       {...rest}
     />
   );
@@ -77,7 +84,9 @@ export function Icon({
   style?: StyleProp<TextStyle>;
 }) {
   const { c } = useTheme();
-  return <Feather name={name} size={size} color={color ?? c.ink} style={style} />;
+  return (
+    <Feather aria-hidden importantForAccessibility="no" name={name} size={size} color={color ?? c.ink} style={style} />
+  );
 }
 
 /* ------------------------------------------------------------------ Screen */
@@ -212,6 +221,7 @@ export const Button = memo(function Button({
   return (
     <Pressable
       accessibilityRole="button"
+      accessibilityLabel={title}
       accessibilityState={{ disabled: !!disabled || !!loading, busy: !!loading }}
       disabled={disabled || loading}
       style={({ pressed }) => [
@@ -237,7 +247,9 @@ export const Button = memo(function Button({
         <ActivityIndicator color={fg} />
       ) : (
         <>
-          {icon ? <Feather name={icon} size={size === 'sm' ? 16 : 20} color={fg} /> : null}
+          {icon ? (
+            <Feather aria-hidden importantForAccessibility="no" name={icon} size={size === 'sm' ? 16 : 20} color={fg} />
+          ) : null}
           <T v="headline" color={fg} numberOfLines={1} style={size === 'sm' ? { fontSize: 13 } : undefined}>
             {title}
           </T>
@@ -275,7 +287,7 @@ export function IconButton({
   };
   const inner = (
     <>
-      <Feather name={icon} size={20} color={color ?? c.ink} />
+      <Feather aria-hidden importantForAccessibility="no" name={icon} size={20} color={color ?? c.ink} />
       {badge ? (
         <View
           style={{
@@ -340,7 +352,7 @@ export function FAB({ icon = 'plus', onPress, label }: { icon?: IconName; onPres
         styles.shadow,
       ]}
     >
-      <Feather name={icon} size={24} color={c.onAccent} />
+      <Feather aria-hidden importantForAccessibility="no" name={icon} size={24} color={c.onAccent} />
     </Pressable>
   );
 }
@@ -386,11 +398,11 @@ export const Chip = memo(function Chip({
         opacity: disabled ? 0.4 : pressed ? 0.8 : 1,
       })}
     >
-      {icon ? <Feather name={icon} size={15} color={fg} /> : null}
+      {icon ? <Feather aria-hidden importantForAccessibility="no" name={icon} size={15} color={fg} /> : null}
       <T v="caption" color={fg} weight={selected ? 'semibold' : 'medium'}>
         {label}
       </T>
-      {onRemove ? <Feather name="x" size={14} color={fg} /> : null}
+      {onRemove ? <Feather aria-hidden importantForAccessibility="no" name="x" size={14} color={fg} /> : null}
     </Pressable>
   );
 });
@@ -501,7 +513,7 @@ export function Thumb({ icon, color, bg, size = 40 }: { icon: IconName; color?: 
         justifyContent: 'center',
       }}
     >
-      <Feather name={icon} size={size * 0.48} color={color ?? c.a} />
+      <Feather aria-hidden importantForAccessibility="no" name={icon} size={size * 0.48} color={color ?? c.a} />
     </View>
   );
 }
@@ -553,7 +565,9 @@ export const ListItem = memo(function ListItem({
         ) : null}
       </View>
       {right}
-      {chevron ? <Feather name="chevron-right" size={18} color={c.inkMuted} /> : null}
+      {chevron ? (
+        <Feather aria-hidden importantForAccessibility="no" name="chevron-right" size={18} color={c.inkMuted} />
+      ) : null}
     </>
   );
   // Dòng không bấm được (thường chứa công tắc / nút +/−): dùng View. Pressable bị tắt đánh dấu cả dòng là
@@ -586,7 +600,12 @@ export function SectionHeader({ title, action, onAction }: { title: string; acti
         {title}
       </T>
       {action ? (
-        <Pressable onPress={onAction} hitSlop={8} accessibilityRole="button">
+        <Pressable
+          onPress={onAction}
+          hitSlop={4}
+          accessibilityRole="button"
+          style={{ minHeight: 44, minWidth: 44, paddingHorizontal: 8, marginRight: -8, justifyContent: 'center' }}
+        >
           <T v="caption" accent weight="semibold">
             {action}
           </T>
@@ -764,7 +783,14 @@ export const TextField = React.forwardRef<TextInput, FieldProps>(function TextFi
         }}
       >
         {icon ? (
-          <Feather name={icon} size={18} color={c.inkMuted} style={multiline ? { marginTop: 12 } : undefined} />
+          <Feather
+            aria-hidden
+            importantForAccessibility="no"
+            name={icon}
+            size={18}
+            color={c.inkMuted}
+            style={multiline ? { marginTop: 12 } : undefined}
+          />
         ) : null}
         <TextInput
           ref={ref}
@@ -783,6 +809,7 @@ export const TextField = React.forwardRef<TextInput, FieldProps>(function TextFi
           style={[
             {
               flex: 1,
+              minWidth: 0,
               color: c.ink,
               fontFamily: fonts.regular,
               fontSize: 15,
@@ -837,7 +864,7 @@ export function SearchField({
           paddingHorizontal: 12,
         }}
       >
-        <Feather name="search" size={18} color={c.inkMuted} />
+        <Feather aria-hidden importantForAccessibility="no" name="search" size={18} color={c.inkMuted} />
         <T v="body" muted numberOfLines={1} style={{ flex: 1 }}>
           {placeholder}
         </T>
@@ -858,7 +885,7 @@ export function SearchField({
       right={
         value ? (
           <Pressable hitSlop={8} accessibilityLabel="Xóa" onPress={() => onChangeText?.('')}>
-            <Feather name="x" size={18} color={c.inkMuted} />
+            <Feather aria-hidden importantForAccessibility="no" name="x" size={18} color={c.inkMuted} />
           </Pressable>
         ) : (
           right
@@ -900,7 +927,7 @@ export function Stepper({
         opacity: value + delta < min || value + delta > max ? 0.3 : pressed ? 0.7 : 1,
       })}
     >
-      <Feather name={icon} size={18} color={c.ink} />
+      <Feather aria-hidden importantForAccessibility="no" name={icon} size={18} color={c.ink} />
     </Pressable>
   );
   return (
@@ -937,7 +964,7 @@ export function Keypad({ onKey }: { onKey: (k: string) => void }) {
           })}
         >
           {k === '⌫' ? (
-            <Feather name="delete" size={22} color={c.ink} />
+            <Feather aria-hidden importantForAccessibility="no" name="delete" size={22} color={c.ink} />
           ) : (
             <T v="title" weight="semibold">
               {k}
@@ -1016,7 +1043,7 @@ export function EmptyState({
           justifyContent: 'center',
         }}
       >
-        <Feather name={icon} size={40} color={c.a} />
+        <Feather aria-hidden importantForAccessibility="no" name={icon} size={40} color={c.a} />
       </View>
       <T v="title" center>
         {title}
@@ -1150,7 +1177,7 @@ export function Check({ on }: { on: boolean }) {
         justifyContent: 'center',
       }}
     >
-      {on ? <Feather name="check" size={15} color={c.onAccent} /> : null}
+      {on ? <Feather aria-hidden importantForAccessibility="no" name="check" size={15} color={c.onAccent} /> : null}
     </View>
   );
 }

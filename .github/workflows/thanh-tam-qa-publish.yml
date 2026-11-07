@@ -1,0 +1,46 @@
+# Gom lại kết quả của một lượt "Thành Tâm QA" đã chạy (khi bước gom của lượt đó trượt), không phải chạy lại kiểm thử.
+# Đẩy nhánh qa/publish-tt có tệp qa/publish-run-id.txt chứa mã lượt chạy.
+name: Thành Tâm QA · gom lại kết quả
+
+on:
+  push:
+    branches: [qa/publish-tt]
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - id: run
+        run: echo "id=$(tr -dc 0-9 < qa/publish-run-id.txt)" >> "$GITHUB_OUTPUT"
+      - uses: actions/download-artifact@v4
+        with:
+          path: results
+          pattern: tt-*
+          merge-multiple: true
+          run-id: ${{ steps.run.outputs.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Thu nhỏ ảnh, bỏ nhật ký quá lớn
+        run: |
+          sudo apt-get install -y -qq imagemagick >/dev/null 2>&1 || true
+          find results -name "*.png" -size +200k -print0 | xargs -0 -r -P 4 -n 20 mogrify -resize "1200x1200>" -quality 70 -format jpg
+          find results -name "*.png" -size +200k | while read -r f; do [ -f "${f%.png}.jpg" ] && rm "$f"; done
+          rm -rf results/ios/maestro-out
+          find results -type f -size +20M -print -delete
+          du -sh results
+      - name: Đẩy lên nhánh qa-results-tt
+        run: |
+          git config --global http.postBuffer 524288000
+          cd results
+          echo "# Thành Tâm QA · run ${{ steps.run.outputs.id }} (gom lại)" > RUN.md
+          git init -q -b qa-results-tt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -qm "qa: Thành Tâm (run ${{ steps.run.outputs.id }}, gom lại)"
+          git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" qa-results-tt

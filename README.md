@@ -1,10 +1,11 @@
-# Năm App: 4 ứng dụng di động (React Native + Expo)
+# Năm App: 5 ứng dụng di động (React Native + Expo)
 
 | App | Thư mục | Tóm tắt |
 |---|---|---|
 | **Mẹo Nhà** | `apps/meo-nha` | Mẹo nhà cửa, công thức từ tủ lạnh, hỏi đáp (AI qua cổng máy chủ, có phương án không AI) |
 | **Nhịp** | `apps/nhip` | Hẹn giờ tập trung, âm thanh nền, thống kê, thói quen. Không dùng AI. |
 | **Hẹn Đẹp** | `apps/hen-dep` | Lịch hẹn cho salon / spa / nail: lịch theo thợ, khách, doanh thu, link đặt lịch, đọc bảng giá, soạn tin ưu đãi |
+| **Thành Tâm** | `apps/thanh-tam` | Sổ tay cúng lễ tại gia: văn khấn tự điền tên, lễ vật theo miền, chế độ khấn chữ to, lịch âm, sổ giỗ, dấu hiệu & mẹo, Tuổi & năm, nhân tướng tự chọn. Mọi thứ chạy trên máy. |
 | **Ví Gọn** | `apps/vi-gon` | Sổ chi tiêu trên máy: đọc tin ngân hàng, ngân sách, quỹ, hỏi đáp tính trên máy, sao lưu mã hóa |
 
 Thư viện dùng chung:
@@ -18,12 +19,12 @@ Cần Node 20 trở lên, Xcode (iOS) hoặc Android Studio (Android).
 ```bash
 npm install
 # Đồng bộ phiên bản thư viện với Expo SDK 54 (bắt buộc ở lần đầu):
-for a in meo-nha nhip hen-dep vi-gon; do (cd apps/$a && npx expo install --fix); done
+for a in meo-nha nhip hen-dep vi-gon thanh-tam; do (cd apps/$a && npx expo install --fix); done
 
 # Chạy một app (dev build, vì app có module native: SQLite, thông báo, âm thanh, sinh trắc học):
 cd apps/vi-gon
 npx expo run:android      # hoặc: npx expo run:ios
-# Các lần sau chỉ cần: npm run vi   (ở thư mục gốc: meo | nhip | hen | vi)
+# Các lần sau chỉ cần: npm run vi   (ở thư mục gốc: meo | nhip | hen | vi | tt)
 ```
 
 Build cài đặt: `npx eas build -p android --profile preview` (cấu hình nằm trong `eas.json` của từng app).
