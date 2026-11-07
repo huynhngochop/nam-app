@@ -56,7 +56,20 @@ jobs:
           # Module native cục bộ (apps/<app>/modules) có được autolink và vào manifest cuối không.
           svc=$(grep -rl BankNotificationService apps/${{ matrix.app }}/android/app/build/intermediates --include=AndroidManifest.xml | head -3 | tr '\n' ' ')
           echo "::notice title=APK ${{ matrix.app }}::${size} KB (arm64, release) · NotificationListener: ${svc:-không có}"
-          echo "APK=$apk" >> "$GITHUB_ENV"
+          # Chẩn đoán autolink module cục bộ: có trong node_modules, settings.gradle, kết quả resolve không.
+          {
+            ls -la node_modules/ | grep -i notification-listener || echo "node_modules: không có link"
+            grep -n -i notification apps/${{ matrix.app }}/android/settings.gradle || echo "settings.gradle: không có"
+            (cd apps/${{ matrix.app }} && npx expo-modules-autolinking resolve -p android --json 2>/dev/null | grep -o '"packageName":"[^"]*listener[^"]*"' || echo "resolve: không có")
+          } > /tmp/al.txt 2>&1
+          echo "::notice title=autolink ${{ matrix.app }}::$(tr '\n' ' ' < /tmp/al.txt | cut -c1-900)"
+
+      # Máy ảo x86_64 không nạp được thư viện arm64 của React Native: build thêm bản x86_64 chỉ để mở thử.
+      - name: Gradle assembleRelease (x86_64, để mở thử)
+        run: $A "gradle x86 ${{ matrix.app }}" "cd apps/${{ matrix.app }}/android && ./gradlew :app:assembleRelease -PreactNativeArchitectures=x86_64 --no-daemon -q 2>&1 | grep -v '^w:' | tail -20"
+      - name: Đường dẫn APK x86_64
+        run: |
+          echo "APK=$(ls apps/${{ matrix.app }}/android/app/build/outputs/apk/release/*.apk | head -1)" >> "$GITHUB_ENV"
           echo "PKG=$(node -p "require('./apps/${{ matrix.app }}/app.json').expo.android.package")" >> "$GITHUB_ENV"
 
       # Mở thử trên máy ảo (x86_64 chạy APK arm64 qua lớp dịch ARM của Android 11+).
