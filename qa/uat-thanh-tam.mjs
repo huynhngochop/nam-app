@@ -49,7 +49,7 @@ const expectText = async (page, re, what) => {
     .catch(() => false);
   if (!ok) throw new Error(`không thấy ${what ?? re}`);
 };
-const btn = (page, name) => page.getByRole('button', { name }).first();
+const btn = (page, name) => page.getByRole('button', { name, exact: typeof name === 'string' }).first();
 const click = async (page, name) => {
   await btn(page, name).click({ timeout: 6000 });
   await settle(page);
@@ -338,6 +338,53 @@ await scenario(
     s('nền tối ổn');
   },
   { scheme: 'dark' },
+);
+
+await scenario(
+  'U13',
+  'Con cháu tụng kinh ngày giỗ',
+  'Từ lễ giỗ mở nghi thức cầu siêu, tụng theo mõ, chuyển bài, tụng xong',
+  async (p, s) => {
+    await seed(p);
+    await go(p, '/ritual/gio-thuong');
+    await expectText(p, /Nghi thức cầu siêu/, 'mục tụng kinh trong lễ giỗ');
+    await click(p, /Nghi thức cầu siêu/);
+    await expectText(p, /Vãng Sanh/, 'thứ tự tụng có Chú Vãng Sanh');
+    await click(p, 'Bắt đầu tụng');
+    await expectText(p, /Bài 1\/7/, 'màn tụng bài 1');
+    await click(p, 'Tụng');
+    await p.waitForTimeout(2500);
+    await click(p, 'Tạm dừng');
+    s('tụng theo mõ, tạm dừng được');
+    await click(p, 'Bài sau');
+    await expectText(p, /Bài 2\/7/, 'chuyển sang bài 2');
+    await expectText(p, /Vô thượng thậm thâm/, 'chữ Khai Kinh Kệ');
+    s('chuyển bài được');
+    for (let i = 0; i < 6; i++) await click(p, 'Bài sau');
+    await expectText(p, /Bài 7\/7/, 'bài cuối');
+    s('tới bài cuối');
+  },
+);
+
+await scenario(
+  'U14',
+  'Người mới, không thuộc kinh',
+  'Thư viện kinh: mở bài Bát Nhã, bật nghĩa, chỉnh nhịp mõ, có đường nghe chư Tăng tụng',
+  async (p, s) => {
+    await seed(p);
+    await go(p, '/explore');
+    await click(p, 'Tụng kinh');
+    await expectText(p, /Nghi thức cầu an/);
+    await click(p, /Khai Kinh Kệ/);
+    await expectText(p, /Nghe chư Tăng tụng/, 'đường nghe tụng mẫu');
+    await p.getByRole('switch', { name: 'Hiện nghĩa tiếng Việt' }).first().click({ timeout: 6000 });
+    await settle(p);
+    await click(p, 'Tăng');
+    await expectText(p, /130/, 'nhịp mõ tăng lên 130');
+    await click(p, 'Bắt đầu tụng');
+    await expectText(p, /Pháp Phật cao sâu/, 'nghĩa tiếng Việt hiện dưới kệ');
+    s('bài lẻ, có nghĩa, đổi nhịp được');
+  },
 );
 
 await browser.close();

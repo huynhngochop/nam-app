@@ -46,13 +46,13 @@ make_flow() {
       echo "- waitForAnimationToEnd: { timeout: 2500 }"
       echo "- takeScreenshot: $PREFIX-$KEY"
       # Màn khấn mở toàn màn hình: đóng lại để màn sau không chồng lên trên nó.
-      if [ "$KEY" = pray ]; then echo "- tapOn: { text: 'Đóng', optional: true }"; fi
+      if [ "$KEY" = pray ] || [ "$KEY" = chant-play ] || [ "$KEY" = chant-kinh ]; then echo "- tapOn: { text: 'Đóng', optional: true }"; fi
     done 3<<<"$ROUTES"
   } >"$F"
   echo "$F"
 }
 
-FEW="today rituals calendar ritual prayer pray anniversaries age face-step settings people-edit anniversary-edit"
+FEW="today rituals calendar ritual prayer pray chant-setup chant-play anniversaries age face-step settings people-edit anniversary-edit"
 DEVICES=(
   "iphone-se|^iPhone SE"
   "iphone-pro-max|^iPhone 1[5-7] Pro Max$"
@@ -72,8 +72,8 @@ for D in "${DEVICES[@]}"; do
   for PASS in normal bigtext dark; do
     case $PASS in
       normal) xcrun simctl ui "$UDID" appearance light; xcrun simctl ui "$UDID" content_size large; KEYS=$([ "$NAME" = iphone-pro-max ] && echo "" || echo "$FEW"); SEED=yes ;;
-      bigtext) xcrun simctl ui "$UDID" content_size accessibility-extra-extra-extra-large; KEYS="today ritual prayer pray calendar age anniversary-edit settings"; SEED=no ;;
-      dark) xcrun simctl ui "$UDID" content_size large; xcrun simctl ui "$UDID" appearance dark; KEYS="today ritual prayer pray calendar age anniversary-edit settings"; SEED=no ;;
+      bigtext) xcrun simctl ui "$UDID" content_size accessibility-extra-extra-extra-large; KEYS="today ritual prayer pray chant-play calendar age anniversary-edit settings"; SEED=no ;;
+      dark) xcrun simctl ui "$UDID" content_size large; xcrun simctl ui "$UDID" appearance dark; KEYS="today ritual prayer pray chant-play calendar age anniversary-edit settings"; SEED=no ;;
     esac
     FLOW=$(make_flow "$NAME-$PASS" "$NAME-$PASS" "$KEYS" "$SEED")
     T0=$(date +%s)

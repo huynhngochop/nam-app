@@ -69,7 +69,7 @@ for P in "${PROFILES[@]}"; do
   while read -r KEY ROUTE <&3; do
     [ -z "$KEY" ] && continue
     # chỉ chụp đủ mọi màn ở cấu hình chính; các cấu hình khác chụp màn đại diện
-    if [ "$NAME" != phone ] && ! echo " today rituals calendar ritual prayer pray anniversaries age face-step settings anniversary-edit people-edit " | grep -q " $KEY "; then continue; fi
+    if [ "$NAME" != phone ] && ! echo " today rituals calendar ritual prayer pray chant-setup chant-play anniversaries age face-step settings anniversary-edit people-edit " | grep -q " $KEY "; then continue; fi
     open_url "thanhtam:/${ROUTE}"
     sleep 2.5
     if ! alive; then

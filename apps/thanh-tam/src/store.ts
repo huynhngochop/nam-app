@@ -28,6 +28,17 @@ export type Person = {
   isHouseOwner?: boolean;
 };
 export type PrayLog = { id: string; ritualId: string; at: number };
+/** Cài đặt màn tụng kinh. */
+export type ChantPrefs = {
+  bpm: number;
+  mo: boolean;
+  chuong: boolean;
+  voice: boolean;
+  nghia: boolean;
+  full: boolean;
+};
+/** Bản ghi tụng kinh người dùng tự thêm (của chùa, của thầy, hay tự thu), theo nghi thức hoặc bài kinh. */
+export type MyRecording = { uri: string; name: string; addedAt: number };
 
 type State = {
   hydrated: boolean;
@@ -51,9 +62,12 @@ type State = {
   fireAck: string[];
   face?: { answers: FaceAnswers; savedAt: number };
   firstTimeDismissed: boolean;
+  chant: ChantPrefs;
+  recordings: Record<string, MyRecording>;
   set: (p: Partial<State>) => void;
   setHousehold: (p: Partial<Household>) => void;
   setRemind: (p: Partial<RemindSettings>) => void;
+  setChant: (p: Partial<ChantPrefs>) => void;
   toggleSave: (key: string) => boolean;
   toggleOffering: (ritualId: string, name: string) => void;
   resetOfferings: (ritualId: string) => void;
@@ -92,6 +106,8 @@ const DEFAULTS = {
   recentSearches: [] as string[],
   fireAck: [] as string[],
   firstTimeDismissed: false,
+  chant: { bpm: 120, mo: true, chuong: true, voice: false, nghia: false, full: false } as ChantPrefs,
+  recordings: {} as Record<string, MyRecording>,
 };
 
 export const useTT = create<State>()(
@@ -102,6 +118,7 @@ export const useTT = create<State>()(
       set: (p) => set(p),
       setHousehold: (p) => set((s) => ({ household: { ...s.household, ...p } })),
       setRemind: (p) => set((s) => ({ remind: { ...s.remind, ...p } })),
+      setChant: (p) => set((s) => ({ chant: { ...s.chant, ...p } })),
       toggleSave: (key) => {
         const on = !get().saves.includes(key);
         set((s) => ({ saves: on ? [key, ...s.saves] : s.saves.filter((x) => x !== key) }));

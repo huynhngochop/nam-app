@@ -1,6 +1,6 @@
 # Kiểm thử Thành Tâm đủ các tầng: UT, IT (typecheck thật, bundle iOS/Android, crawler web dữ liệu lớn),
 # ST (20 cỡ màn web; Android emulator: điện thoại, máy gập, tablet, xoay, chữ 200 %, nền tối; iOS Simulator: iPhone, iPad),
-# UAT (12 hành trình người dùng). Kết quả đẩy lên nhánh qa-results-tt.
+# UAT (14 hành trình người dùng). Job apk đăng bản cài Android lên Releases (thanh-tam-latest). Kết quả đẩy lên nhánh qa-results-tt.
 name: Thành Tâm QA
 
 on:
@@ -239,6 +239,55 @@ jobs:
           name: tt-ios
           path: qa-out
           if-no-files-found: ignore
+
+  apk:
+    name: Bản cài Android (APK) cho người dùng
+    needs: [prep, check]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prep.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - run: npm ci --no-audit --no-fund
+      - name: Số phiên bản theo lượt chạy (để cài đè bản cũ được)
+        run: node .github/scripts/tt-version.mjs "${{ github.run_number }}"
+      - name: Prebuild (không kèm màn nạp dữ liệu kiểm thử)
+        run: |
+          rm -f apps/thanh-tam/app/qa-seed.tsx
+          $A "prebuild android" "cd apps/thanh-tam && npx expo prebuild -p android --clean --no-install 2>&1 | tail -20"
+      - name: Build APK release (điện thoại thật arm64, arm32 và x86_64)
+        run: $A "gradle" "cd apps/thanh-tam/android && ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a,armeabi-v7a,x86_64 --no-daemon -q 2>&1 | tail -60"
+      - name: Đăng lên GitHub Releases (thanh-tam-latest)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SHA: ${{ needs.prep.outputs.sha }}
+          RUN: ${{ github.run_number }}
+        run: |
+          cp apps/thanh-tam/android/app/build/outputs/apk/release/app-release.apk ThanhTam.apk
+          ls -la ThanhTam.apk
+          sha256sum ThanhTam.apk | tee ThanhTam.apk.sha256
+          {
+            echo "Bản cài Android mới nhất của Thành Tâm (lượt $RUN, commit $SHA)."
+            echo ""
+            echo "Cài: mở link tải ThanhTam.apk trên điện thoại Android, mở tệp vừa tải, cho phép cài từ nguồn này nếu máy hỏi."
+            echo "Bản thử nghiệm, chưa lên Google Play. Bản sau cài đè lên bản trước, giữ nguyên dữ liệu."
+          } > notes.md
+          gh release delete thanh-tam-latest --cleanup-tag -y || true
+          gh release create thanh-tam-latest ThanhTam.apk ThanhTam.apk.sha256 --target "$SHA" --prerelease --title "Thành Tâm cho Android (bản thử)" --notes-file notes.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk-thanh-tam
+          path: ThanhTam.apk
+          retention-days: 14
 
   publish:
     name: Gom kết quả

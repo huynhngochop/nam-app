@@ -46,6 +46,12 @@
         {
           "color": "#6e3b1f"
         }
+      ],
+      [
+        "expo-audio",
+        {
+          "microphonePermission": false
+        }
       ]
     ],
     "experiments": {

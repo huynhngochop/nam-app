@@ -24,6 +24,11 @@ export const SRC = {
     url: 'https://thanhtra.com.vn/an-sinh-AFA9C5670/thuong-toa-thich-duc-thien-phat-giao-khong-co-thang-nao-goi-la-thang-co-hon-7B9BB1CB.html',
   },
   giacNgo: { kind: 'bao-chi', title: 'Báo Giác Ngộ' },
+  kinhNhatTung: {
+    kind: 'nghien-cuu',
+    title: 'Kinh nhật tụng, âm Hán Việt và dịch nghĩa (phạm vi công cộng, Unlicense)',
+    url: 'https://github.com/phineas-pta/kinh_nhat_tung',
+  },
 } satisfies Record<string, SourceRef>;
 
 /** Danh sách nguồn chính cho TT-24. */
@@ -33,6 +38,7 @@ export const MAIN_SOURCES: SourceRef[] = [
   SRC.tb204,
   SRC.cv033,
   { kind: 'bao-chi', title: 'Báo Giác Ngộ, Báo Văn Hóa, Báo Thanh Tra' },
+  SRC.kinhNhatTung,
 ];
 export const SOURCE_KIND_LABEL = {
   'sach-co': 'Sách cổ',

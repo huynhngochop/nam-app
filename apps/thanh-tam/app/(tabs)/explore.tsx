@@ -7,7 +7,7 @@ import { useTT } from '../../src/store';
 import { defaultAgeYear } from '../../src/hooks';
 import { canChiYear } from '../../src/calendar/lunar';
 
-/** TT-17 · Tra cứu: Tuổi & năm, Nhân tướng, dấu hiệu & điềm báo, mẹo khi cúng. */
+/** TT-17 · Tra cứu: Tụng kinh, Tuổi & năm, Nhân tướng, dấu hiệu & điềm báo, mẹo khi cúng. */
 export default function Explore() {
   const { c } = useTheme();
   const [area, setArea] = useState<string>('all');
@@ -21,6 +21,19 @@ export default function Explore() {
       </T>
       <SearchField placeholder="Điềm báo, mẹo, sao, hạn…" onPress={() => router.push('/search')} />
       <Grid min={1} gap={12}>
+        <Card variant="tint" onPress={() => router.push('/chant')} accessibilityLabel="Tụng kinh">
+          <Row gap={10}>
+            <Icon name="book-open" color={c.a} />
+            <T v="headline" style={{ flex: 1 }}>
+              Tụng kinh
+            </T>
+            <Icon name="chevron-right" color={c.inkMuted} />
+          </Row>
+          <T v="caption" muted numberOfLines={3}>
+            Nghi thức cầu an, cầu siêu, Vu Lan và từng bài kinh: chữ Hán Việt, mõ giữ nhịp, chuông chuyển bài, giọng
+            máy đọc cùng.
+          </T>
+        </Card>
         <Card variant="tint" onPress={() => router.push('/age')} accessibilityLabel="Tuổi và năm">
           <Row gap={10}>
             <Icon name="star" color={c.a} />

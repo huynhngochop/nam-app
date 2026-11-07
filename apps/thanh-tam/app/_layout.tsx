@@ -17,6 +17,10 @@ function Routes() {
         name="ritual/[id]/pray"
         options={{ presentation: 'fullScreenModal', animation: 'fade', gestureEnabled: false }}
       />
+      <Stack.Screen
+        name="chant/[id]/play"
+        options={{ presentation: 'fullScreenModal', animation: 'fade', gestureEnabled: false }}
+      />
       <Stack.Screen name="face/step/[n]" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />
     </Stack>
   );

@@ -19,6 +19,7 @@ import {
 import { track } from '@nam/core';
 import { GROUPS, offeringsFor, ritualById } from '../data/rituals';
 import { prayerById } from '../data/prayers';
+import { NO_CHANT_NOTE, RITUAL_CHANT, chantMinutes, nghiThucById } from '../data/kinh';
 import { tipById } from '../data/signs';
 import { useTT } from '../store';
 import { NavRow, SafetyCard, Sources, inDays, solarWithWeekday } from '../components';
@@ -39,6 +40,8 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
   const toggleSave = useTT((s) => s.toggleSave);
   const today = useToday();
   const [tab, setTab] = useState<'cach' | 'y'>('cach');
+  const bpm = useTT((s) => s.chant.bpm);
+  const chantRite = RITUAL_CHANT[id] ? nghiThucById(RITUAL_CHANT[id]) : undefined;
   if (!r) {
     return (
       <Screen>
@@ -241,6 +244,25 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
           ) : null;
         })}
       </Card>
+
+      <SectionHeader title="Tụng kinh" />
+      {chantRite ? (
+        <Card style={{ paddingVertical: 4 }}>
+          <NavRow
+            icon="disc"
+            title={chantRite.title}
+            subtitle={`Gọn khoảng ${chantMinutes(chantRite.short, bpm)} phút · có mõ, chuông, giọng máy`}
+            href={`/chant/${chantRite.id}?ritual=${r.id}`}
+          />
+        </Card>
+      ) : (
+        <Card style={{ paddingVertical: 4 }}>
+          <T v="caption" muted style={{ paddingVertical: 8 }}>
+            {NO_CHANT_NOTE}
+          </T>
+          <NavRow icon="book-open" title="Thư viện kinh" href="/chant" />
+        </Card>
+      )}
 
       {r.tips?.length ? (
         <>

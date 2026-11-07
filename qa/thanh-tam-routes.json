@@ -25,5 +25,9 @@
   "settings": "/settings",
   "sources": "/about/sources",
   "paywall": "/paywall",
-  "onboarding": "/onboarding/tradition"
+  "onboarding": "/onboarding/tradition",
+  "chant": "/chant",
+  "chant-setup": "/chant/cau-sieu?ritual=gio-thuong",
+  "chant-play": "/chant/cau-an/play",
+  "chant-kinh": "/chant/bat-nha/play"
 }

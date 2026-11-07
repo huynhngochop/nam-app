@@ -85,3 +85,6 @@ export type Tip = {
   sources: SourceRef[];
   keywords: string;
 };
+
+/** Một đoạn kinh: `l` là các dòng để tụng (âm Hán Việt, hoặc phiên âm nếu là chú); `vi` là nghĩa tiếng Việt nếu có. */
+export type KinhPara = { l: string[]; vi?: string[]; m?: 1 };
