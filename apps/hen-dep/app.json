@@ -51,7 +51,8 @@
         {
           "color": "#9b2c55"
         }
-      ]
+      ],
+      "../../packages/core/plugins/with-android-release"
     ],
     "experiments": {
       "typedRoutes": true

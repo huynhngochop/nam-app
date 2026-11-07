@@ -56,5 +56,27 @@ jobs:
           # Module native cục bộ (apps/<app>/modules) có được autolink và vào manifest cuối không.
           svc=$(grep -rl BankNotificationService apps/${{ matrix.app }}/android/app/build/intermediates --include=AndroidManifest.xml | head -3 | tr '\n' ' ')
           echo "::notice title=APK ${{ matrix.app }}::${size} KB (arm64, release) · NotificationListener: ${svc:-không có}"
-          (cd apps/${{ matrix.app }} && npx expo-modules-autolinking resolve -p android 2>&1 | grep -i -E 'vi-gon|notification-listener|local' | head -5) > /tmp/al.txt || true
-          echo "::notice title=autolink ${{ matrix.app }}::$(tr '\n' ' ' < /tmp/al.txt | cut -c1-900)"
+          echo "APK=$apk" >> "$GITHUB_ENV"
+          echo "PKG=$(node -p "require('./apps/${{ matrix.app }}/app.json').expo.android.package")" >> "$GITHUB_ENV"
+
+      # Mở thử trên máy ảo (x86_64 chạy APK arm64 qua lớp dịch ARM của Android 11+).
+      - name: Bật KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Mở thử APK trên máy ảo
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot
+          script: bash .github/scripts/smoke-apk.sh "${{ env.APK }}" "${{ env.PKG }}"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smoke-${{ matrix.app }}
+          path: smoke-*.png
+          if-no-files-found: ignore
