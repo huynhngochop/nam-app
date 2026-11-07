@@ -19,6 +19,28 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # TẠM: chẩn đoán vì sao module cục bộ của Ví Gọn không được autolink (nhanh, không build Gradle).
+  autolink-debug:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Chẩn đoán
+        run: |
+          cd apps/vi-gon
+          {
+            echo "== search"; npx expo-modules-autolinking search 2>&1 | grep -i -B2 -A8 listener | head -40
+            echo "== resolve"; npx expo-modules-autolinking resolve -p android 2>&1 | grep -i -B2 -A8 listener | head -40
+            echo "== verify"; npx expo-modules-autolinking verify -v 2>&1 | tail -15
+            echo "== config"; node -e "console.log(JSON.stringify(require('expo/config').getConfig('.').exp.autolinking||null))" 2>&1 | tail -3
+            echo "== pkg"; cat node_modules/vi-gon-notification-listener/package.json 2>&1 | head -5; ls -la ../../node_modules/vi-gon-notification-listener/
+          } > /tmp/dbg.txt 2>&1
+          node ../../.github/scripts/annotate.mjs "debug" "cat /tmp/dbg.txt"
+
   apk:
     name: APK ${{ matrix.app }}
     runs-on: ubuntu-24.04
