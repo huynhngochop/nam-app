@@ -53,6 +53,8 @@ jobs:
         run: |
           apk=$(ls apps/${{ matrix.app }}/android/app/build/outputs/apk/release/*.apk | head -1)
           size=$(du -k "$apk" | cut -f1)
-          manifest=$(find apps/${{ matrix.app }}/android/app/build/intermediates -name AndroidManifest.xml -path '*merged_manifest*release*' | head -1)
-          svc=$(grep -c BankNotificationService "$manifest" || true)
-          echo "::notice title=APK ${{ matrix.app }}::${size} KB (arm64, release) · NotificationListener trong manifest: ${svc}"
+          # Module native cục bộ (apps/<app>/modules) có được autolink và vào manifest cuối không.
+          svc=$(grep -rl BankNotificationService apps/${{ matrix.app }}/android/app/build/intermediates --include=AndroidManifest.xml | head -3 | tr '\n' ' ')
+          echo "::notice title=APK ${{ matrix.app }}::${size} KB (arm64, release) · NotificationListener: ${svc:-không có}"
+          (cd apps/${{ matrix.app }} && npx expo-modules-autolinking resolve -p android 2>&1 | grep -i -E 'vi-gon|notification-listener|local' | head -5) > /tmp/al.txt || true
+          echo "::notice title=autolink ${{ matrix.app }}::$(tr '\n' ' ' < /tmp/al.txt | cut -c1-900)"
