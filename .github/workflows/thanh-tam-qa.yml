@@ -248,8 +248,15 @@ jobs:
           path: results
           pattern: tt-*
           merge-multiple: true
+      - name: Thu nhỏ ảnh (PNG máy ảo nặng, đẩy lên bị quá thời gian HTTP 408 ở vòng 5)
+        run: |
+          sudo apt-get install -y -qq imagemagick >/dev/null 2>&1 || true
+          find results -name "*.png" -size +200k -print0 | xargs -0 -r -P 4 -n 20 mogrify -resize "1200x1200>" -quality 70 -format jpg
+          find results -name "*.png" -size +200k | while read -r f; do [ -f "${f%.png}.jpg" ] && rm "$f"; done
+          du -sh results
       - name: Đẩy lên nhánh qa-results-tt
         run: |
+          git config --global http.postBuffer 524288000
           cd results
           {
             echo "# Thành Tâm QA · run ${{ github.run_id }} · ${{ needs.prep.outputs.sha }}"
