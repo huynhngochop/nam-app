@@ -1,0 +1,79 @@
+# Build 4 file APK cài thử (release, biến thể preview, ký bằng khóa debug) — không cần EXPO_TOKEN.
+# Chạy mỗi lần main đổi mã app; APK được đẩy lên nhánh apk-builds (tải trực tiếp từ GitHub).
+# Bản lên Google Play vẫn build bằng EAS (eas-build.yml, cần EXPO_TOKEN và khóa ký thật).
+name: APK cài thử
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['apps/**', 'packages/**', 'package-lock.json', '.github/workflows/apk-build.yml']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apk-build
+  cancel-in-progress: true
+
+jobs:
+  apk:
+    name: Build ${{ matrix.app }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [vi-gon, hen-dep, nhip, meo-nha]
+    env:
+      A: node .github/scripts/annotate.mjs
+      EXPO_PUBLIC_APP_VARIANT: preview
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - run: npm ci --no-audit --no-fund
+      - name: Prebuild
+        run: $A "prebuild ${{ matrix.app }}" "cd apps/${{ matrix.app }} && npx expo prebuild -p android --no-install --clean 2>&1 | tail -20"
+      # Kiến trúc theo packages/core/plugins/with-android-release.js: armeabi-v7a + arm64-v8a (mọi điện thoại Android thật).
+      - name: Gradle assembleRelease
+        run: $A "gradle ${{ matrix.app }}" "cd apps/${{ matrix.app }}/android && ./gradlew :app:assembleRelease --no-daemon -q 2>&1 | grep -v '^w:' | tail -40"
+      - name: Đặt tên APK
+        run: |
+          v=$(node -p "require('./apps/${{ matrix.app }}/app.json').expo.version")
+          mkdir -p out
+          cp apps/${{ matrix.app }}/android/app/build/outputs/apk/release/*.apk "out/${{ matrix.app }}-$v-preview.apk"
+          echo "::notice title=${{ matrix.app }}::$(du -k out/*.apk | cut -f1) KB · v$v"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk-${{ matrix.app }}
+          path: out/*.apk
+
+  publish:
+    needs: apk
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: apks
+          pattern: apk-*
+          merge-multiple: true
+      - name: Đẩy lên nhánh apk-builds
+        run: |
+          cd apks
+          ls -la
+          printf '# APK cài thử\n\nBản preview (mã thử Hẹn Đẹp: 123456, mua trong app giả lập), ký bằng khóa debug — chỉ để cài thử, không đưa lên cửa hàng.\n\nBuild từ commit %s.\n' "${{ github.sha }}" > README.md
+          git init -q -b apk-builds
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -qm "APK cài thử (run ${{ github.run_id }}, ${{ github.sha }})"
+          git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:apk-builds

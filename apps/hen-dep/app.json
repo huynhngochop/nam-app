@@ -52,6 +52,7 @@
           "color": "#9b2c55"
         }
       ],
+      "./plugins/with-mlkit-ocr",
       "../../packages/core/plugins/with-android-release"
     ],
     "experiments": {

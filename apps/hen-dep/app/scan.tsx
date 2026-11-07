@@ -22,13 +22,15 @@ import {
 import { AiQuotaError, getLimit, track, vnd } from '@nam/core';
 import { useHen } from '../src/store';
 import { ParsedService, parseLocally, parsePrice, parsePriceBoard } from '../src/priceBoard';
+import { ocrAvailable, recognizeText } from '../src/ocr';
 
 const SAMPLE =
   'BẢNG GIÁ\nCắt + gội + sấy ........ 180K\nCắt nam 120.000\nNhuộm thời trang 650k\nUốn lạnh 800K 150 phút\nGội dưỡng sinh 150k';
 
 /**
  * HD-C17 Chụp bảng giá → HD-C18 Kiểm tra kết quả.
- * Bản này: chọn ảnh để đối chiếu + dán chữ trên bảng giá (OCR trên máy sẽ nối vào sau: ML Kit / Vision).
+ * Android: chụp / chọn ảnh → đọc chữ ngay trên máy (ML Kit, src/ocr.ts) điền vào ô chữ để sửa nếu cần.
+ * iOS / bản không có module: dán chữ trên bảng giá.
  * Có cổng AI → AI tách; không có → bộ tách trên máy. Luôn cho kiểm tra trước khi lưu.
  */
 export default function Scan() {
@@ -38,6 +40,7 @@ export default function Scan() {
   const [uri, setUri] = useState<string | null>(null);
   const [text, setText] = useState('');
   const [busy, setBusy] = useState(false);
+  const [reading, setReading] = useState(false);
   const [rows, setRows] = useState<(ParsedService & { keep: boolean })[] | null>(null);
   const [viaAi, setViaAi] = useState(false);
   const [editing, setEditing] = useState<number | null>(null);
@@ -55,7 +58,24 @@ export default function Scan() {
       const r = camera
         ? await ImagePicker.launchCameraAsync({ mediaTypes: ['images'], quality: 0.6 })
         : await ImagePicker.launchImageLibraryAsync({ mediaTypes: ['images'], quality: 0.6 });
-      if (!r.canceled && r.assets[0]) setUri(r.assets[0].uri);
+      if (r.canceled || !r.assets[0]) return;
+      const picked = r.assets[0].uri;
+      setUri(picked);
+      if (!ocrAvailable) return;
+      setReading(true);
+      try {
+        const t = await recognizeText(picked);
+        if (t.length < 5) toast('Không thấy chữ trên ảnh. Chụp gần, đủ sáng hơn hoặc dán chữ vào ô.');
+        else {
+          setText(t);
+          track('price_board_ocr', { chars: t.length });
+          toast('Đã đọc chữ trên ảnh. Sửa nếu sai rồi bấm Đọc bảng giá.', { tone: 'success' });
+        }
+      } catch {
+        toast('Chưa đọc được chữ (lần đầu máy cần tải bộ đọc chữ). Thử lại sau ít phút hoặc dán chữ.');
+      } finally {
+        setReading(false);
+      }
     } catch {
       toast('Không mở được máy ảnh');
     }
@@ -211,11 +231,27 @@ export default function Scan() {
     >
       <AppBar title="Chụp bảng giá" onBack={() => router.back()} />
       <T v="body">
-        Chụp hoặc chọn ảnh bảng giá để đối chiếu, rồi dán chữ trên bảng giá vào ô bên dưới (mỗi dịch vụ một dòng).
+        {ocrAvailable
+          ? 'Chụp hoặc chọn ảnh bảng giá — app đọc chữ ngay trên máy (ảnh không gửi đi). Có thể sửa hoặc dán chữ vào ô bên dưới.'
+          : 'Chụp hoặc chọn ảnh bảng giá để đối chiếu, rồi dán chữ trên bảng giá vào ô bên dưới (mỗi dịch vụ một dòng).'}
       </T>
       <Row>
-        <Button title="Chụp ảnh" icon="camera" size="md" variant="secondary" onPress={() => pick(true)} />
-        <Button title="Chọn ảnh" icon="image" size="md" variant="secondary" onPress={() => pick(false)} />
+        <Button
+          title="Chụp ảnh"
+          icon="camera"
+          size="md"
+          variant="secondary"
+          loading={reading}
+          onPress={() => pick(true)}
+        />
+        <Button
+          title="Chọn ảnh"
+          icon="image"
+          size="md"
+          variant="secondary"
+          disabled={reading}
+          onPress={() => pick(false)}
+        />
       </Row>
       {uri ? (
         <Card>
