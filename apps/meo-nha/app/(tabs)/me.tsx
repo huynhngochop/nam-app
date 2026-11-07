@@ -21,7 +21,7 @@ export default function Me() {
         <View style={{ flex: 1 }}>
           <T v="title">{s.name || 'Khách'}</T>
           <T v="caption" muted>
-            'Dữ liệu lưu trên máy này'
+            Dữ liệu lưu trên máy này
           </T>
         </View>
       </Row>

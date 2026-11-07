@@ -1,6 +1,2 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-  <application>
-    <!-- Cài app xong thì Play services tải sẵn mô hình đọc chữ (khỏi chờ ở lần chụp đầu). -->
-    <meta-data android:name="com.google.mlkit.vision.DEPENDENCIES" android:value="ocr" />
-  </application>
-</manifest>
+<!-- Meta-data tải sẵn mô hình đọc chữ được đặt ở manifest của app (plugins/with-mlkit-ocr.js) để gộp với barcode_ui của expo-dev-launcher. -->
+<manifest />
