@@ -603,18 +603,18 @@ const SCENARIOS = {
     },
     {
       id: 'M4',
-      name: 'Tủ lạnh: thêm Đậu phụ → món đậu sốt cà chua bớt thiếu',
-      ac: '"Đậu phụ sốt cà chua" từ "Thiếu: Đậu phụ, Nước mắm" thành "Thiếu: Nước mắm"; Đậu phụ có trong tủ',
+      name: 'Tủ lạnh trống → chọn Đậu phụ, Cà chua → gợi ý món',
+      ac: 'Người mới: tủ lạnh trống, có nút chọn nguyên liệu; chọn xong có "Đậu phụ sốt cà chua"',
       steps: async () => {
         await S.go('/fridge');
-        await S.see('Thiếu: Đậu phụ, Nước mắm');
-        await S.tap('+ Thêm', { exact: true });
+        await S.see('Tủ lạnh của bạn có gì?');
+        await S.tap('Chọn nguyên liệu');
         await S.see('Thêm nguyên liệu');
         await S.tap('Đậu phụ', { exact: true, last: true });
+        await S.tap('Cà chua', { exact: true, last: true });
         await S.press('Escape');
         await S.go('/fridge');
-        await S.notSee('Thiếu: Đậu phụ, Nước mắm');
-        await S.see(/Đậu phụ sốt cà chua\n[^\n]*Thiếu: Nước mắm/);
+        await S.see('Đậu phụ sốt cà chua');
       },
     },
     {
@@ -627,7 +627,7 @@ const SCENARIOS = {
         await S.go('/saved');
         await S.see('Tẩy dầu mỡ trên mặt bếp');
         await S.go('/fridge');
-        await S.notSee('Thiếu: Đậu phụ, Nước mắm');
+        await S.see('Đậu phụ sốt cà chua');
       },
     },
   ],
