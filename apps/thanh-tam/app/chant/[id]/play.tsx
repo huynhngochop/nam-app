@@ -338,7 +338,14 @@ export default function ChantPlay() {
       rows.push(
         <View
           key={`h-${l.step}`}
-          style={{ paddingTop: i ? 28 : 4, paddingBottom: 6, paddingHorizontal: 10, flexDirection: 'row', gap: 8, alignItems: 'baseline' }}
+          style={{
+            paddingTop: i ? 28 : 4,
+            paddingBottom: 6,
+            paddingHorizontal: 10,
+            flexDirection: 'row',
+            gap: 8,
+            alignItems: 'baseline',
+          }}
         >
           <T v="headline" color={ttNight.gold} accessibilityRole="header" style={{ flex: 1 }}>
             {k.title}
@@ -376,7 +383,12 @@ export default function ChantPlay() {
           key={`v-${i}`}
           v="body"
           color={ttNight.inkMuted}
-          style={{ fontSize: Math.round(font * 0.72), lineHeight: Math.round(font * 1.1), paddingHorizontal: 10, paddingBottom: 6 }}
+          style={{
+            fontSize: Math.round(font * 0.72),
+            lineHeight: Math.round(font * 1.1),
+            paddingHorizontal: 10,
+            paddingBottom: 6,
+          }}
         >
           {para.vi.join('\n')}
         </T>,
@@ -459,7 +471,12 @@ export default function ChantPlay() {
           ) : null}
           <Ctl icon={playing ? 'pause' : 'play'} label={playing ? 'Tạm dừng' : 'Tụng'} onPress={togglePlay} big />
           {!rec ? (
-            <Ctl icon="skip-forward" label="Bài sau" onPress={() => goStep(step + 1)} disabled={step >= stepCount - 1} />
+            <Ctl
+              icon="skip-forward"
+              label="Bài sau"
+              onPress={() => goStep(step + 1)}
+              disabled={step >= stepCount - 1}
+            />
           ) : null}
         </View>
         {!rec ? (
@@ -486,7 +503,12 @@ export default function ChantPlay() {
             />
             <Ctl icon="disc" label="Mõ" on={chant.mo} onPress={() => setChant({ mo: !chant.mo })} />
             {!noVoice ? (
-              <Ctl icon="volume-2" label="Giọng máy" on={chant.voice} onPress={() => setChant({ voice: !chant.voice })} />
+              <Ctl
+                icon="volume-2"
+                label="Giọng máy"
+                on={chant.voice}
+                onPress={() => setChant({ voice: !chant.voice })}
+              />
             ) : null}
             <Ctl
               icon="type"

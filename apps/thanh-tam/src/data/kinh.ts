@@ -42,7 +42,10 @@ const ABOUT: Record<KinhId, string> = {
 };
 
 /** Bài không có trong kho nguồn: Vãng sanh (đối chiếu niemphat.vn) và các câu niệm danh hiệu. */
-const EXTRA: Record<'vang-sanh' | 'niem-a-di-da' | 'niem-quan-am', { title: string; kind: Kinh['kind']; paras: KinhPara[] }> = {
+const EXTRA: Record<
+  'vang-sanh' | 'niem-a-di-da' | 'niem-quan-am',
+  { title: string; kind: Kinh['kind']; paras: KinhPara[] }
+> = {
   'vang-sanh': {
     title: 'Chú Vãng Sanh',
     kind: 'chu',
@@ -239,6 +242,11 @@ export function chantPlan(id: string, full: boolean): { title: string; steps: Ch
   const n = nghiThucById(id);
   if (n) return { title: n.title, steps: full ? n.full : n.short, single: false };
   const k = kinhById(id);
-  if (k) return { title: k.title, steps: [{ kinh: k.id, times: k.kind === 'niem' ? 108 : k.id === 'vang-sanh' ? 3 : 1 }], single: true };
+  if (k)
+    return {
+      title: k.title,
+      steps: [{ kinh: k.id, times: k.kind === 'niem' ? 108 : k.id === 'vang-sanh' ? 3 : 1 }],
+      single: true,
+    };
   return null;
 }

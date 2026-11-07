@@ -24,7 +24,17 @@ import { NavRow, Sources } from '../../../src/components';
 import { useTT } from '../../../src/store';
 import { forgetRecording, pickRecording } from '../../../src/recordings';
 
-function SettingRow({ label, sub, value, onChange }: { label: string; sub?: string; value: boolean; onChange: (v: boolean) => void }) {
+function SettingRow({
+  label,
+  sub,
+  value,
+  onChange,
+}: {
+  label: string;
+  sub?: string;
+  value: boolean;
+  onChange: (v: boolean) => void;
+}) {
   return (
     <Row between gap={12} style={{ minHeight: 52, paddingVertical: 6 }}>
       <View style={{ flex: 1 }}>
@@ -167,9 +177,24 @@ export default function ChantSetup() {
           />
         </Row>
         <SettingRow label="Tiếng mõ" value={chant.mo} onChange={(mo) => setChant({ mo })} />
-        <SettingRow label="Chuông chuyển bài" sub="Thỉnh chuông lúc bắt đầu, giữa các bài và khi xong." value={chant.chuong} onChange={(chuong) => setChant({ chuong })} />
-        <SettingRow label="Giọng máy đọc cùng" sub="Máy đọc từng câu; cần giọng tiếng Việt trên máy." value={chant.voice} onChange={(voice) => setChant({ voice })} />
-        <SettingRow label="Hiện nghĩa tiếng Việt" sub="Với bài có bản dịch." value={chant.nghia} onChange={(nghia) => setChant({ nghia })} />
+        <SettingRow
+          label="Chuông chuyển bài"
+          sub="Thỉnh chuông lúc bắt đầu, giữa các bài và khi xong."
+          value={chant.chuong}
+          onChange={(chuong) => setChant({ chuong })}
+        />
+        <SettingRow
+          label="Giọng máy đọc cùng"
+          sub="Máy đọc từng câu; cần giọng tiếng Việt trên máy."
+          value={chant.voice}
+          onChange={(voice) => setChant({ voice })}
+        />
+        <SettingRow
+          label="Hiện nghĩa tiếng Việt"
+          sub="Với bài có bản dịch."
+          value={chant.nghia}
+          onChange={(nghia) => setChant({ nghia })}
+        />
       </Card>
 
       <SectionHeader title="Nghe tụng mẫu" />
@@ -197,9 +222,7 @@ export default function ChantSetup() {
           subtitle="Tệp âm thanh trên máy: tự thu, hoặc bản chùa mình cho phép dùng. Chỉ lưu trên máy này."
           onPress={add}
         />
-        {rec ? (
-          <Button title="Bỏ bản ghi" variant="text" size="md" onPress={remove} />
-        ) : null}
+        {rec ? <Button title="Bỏ bản ghi" variant="text" size="md" onPress={remove} /> : null}
       </Card>
       <Sources sources={[SRC.kinhNhatTung]} />
       <T v="caption" muted style={{ color: c.inkMuted }}>

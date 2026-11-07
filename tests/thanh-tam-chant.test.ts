@@ -24,7 +24,11 @@ test('mỗi lễ có nghi thức tụng phù hợp, hoặc được ghi rõ là 
     if (NO_CHANT.includes(r.id)) assert.equal(RITUAL_CHANT[r.id], undefined, r.id);
     else assert.ok(nghiThucById(RITUAL_CHANT[r.id]), `lễ ${r.id} chưa có nghi thức tụng`);
   }
-  for (const id of Object.keys(RITUAL_CHANT)) assert.ok(RITUALS.some((r) => r.id === id), `RITUAL_CHANT có lễ lạ ${id}`);
+  for (const id of Object.keys(RITUAL_CHANT))
+    assert.ok(
+      RITUALS.some((r) => r.id === id),
+      `RITUAL_CHANT có lễ lạ ${id}`,
+    );
   // Giỗ, Thanh minh: cầu siêu; Vu Lan có kinh Vu Lan; Rằm, mùng 1: cầu an.
   assert.equal(RITUAL_CHANT['gio-thuong'], 'cau-sieu');
   assert.equal(RITUAL_CHANT['thanh-minh'], 'cau-sieu');
@@ -35,7 +39,10 @@ test('mỗi lễ có nghi thức tụng phù hợp, hoặc được ghi rõ là 
 });
 
 test('nghi thức khác nhau tụng bộ kinh khác nhau', () => {
-  const sig = (id: string) => nghiThucById(id)!.full.map((s) => s.kinh).join(',');
+  const sig = (id: string) =>
+    nghiThucById(id)!
+      .full.map((s) => s.kinh)
+      .join(',');
   assert.notEqual(sig('cau-an'), sig('cau-sieu'));
   assert.notEqual(sig('cau-sieu'), sig('vu-lan'));
   assert.ok(!nghiThucById('cau-an')!.full.some((s) => s.kinh === 'vang-sanh'), 'cầu an không tụng Vãng sanh');

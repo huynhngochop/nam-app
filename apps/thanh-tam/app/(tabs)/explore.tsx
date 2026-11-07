@@ -30,8 +30,8 @@ export default function Explore() {
             <Icon name="chevron-right" color={c.inkMuted} />
           </Row>
           <T v="caption" muted numberOfLines={3}>
-            Nghi thức cầu an, cầu siêu, Vu Lan và từng bài kinh: chữ Hán Việt, mõ giữ nhịp, chuông chuyển bài, giọng
-            máy đọc cùng.
+            Nghi thức cầu an, cầu siêu, Vu Lan và từng bài kinh: chữ Hán Việt, mõ giữ nhịp, chuông chuyển bài, giọng máy
+            đọc cùng.
           </T>
         </Card>
         <Card variant="tint" onPress={() => router.push('/age')} accessibilityLabel="Tuổi và năm">

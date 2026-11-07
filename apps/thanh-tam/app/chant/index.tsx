@@ -32,7 +32,13 @@ export default function ChantLibrary() {
       <SectionHeader title="Từng bài" />
       <Card style={{ paddingVertical: 4 }}>
         {KINH.map((k) => (
-          <NavRow key={k.id} icon="bookmark" title={k.title} subtitle={`${KIND_LABEL[k.kind]} · ${k.about}`} href={`/chant/${k.id}`} />
+          <NavRow
+            key={k.id}
+            icon="bookmark"
+            title={k.title}
+            subtitle={`${KIND_LABEL[k.kind]} · ${k.about}`}
+            href={`/chant/${k.id}`}
+          />
         ))}
       </Card>
       <Sources sources={[SRC.kinhNhatTung]} />
