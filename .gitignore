@@ -2,8 +2,9 @@ node_modules/
 .expo/
 dist/
 web-build/
-ios/
-android/
+# Thư mục native sinh ra khi prebuild (chỉ ở gốc từng app; mã native tự viết trong modules/ vẫn được theo dõi).
+/apps/*/ios/
+/apps/*/android/
 *.log
 .env
 .env.*
