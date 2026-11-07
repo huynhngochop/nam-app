@@ -253,6 +253,9 @@ jobs:
           sudo apt-get install -y -qq imagemagick >/dev/null 2>&1 || true
           find results -name "*.png" -size +200k -print0 | xargs -0 -r -P 4 -n 20 mogrify -resize "1200x1200>" -quality 70 -format jpg
           find results -name "*.png" -size +200k | while read -r f; do [ -f "${f%.png}.jpg" ] && rm "$f"; done
+          # Nhật ký Simulator của Maestro tới 150 MB/tệp (vòng 6): GitHub chặn tệp > 100 MB. Ảnh đã chép ra shots/.
+          rm -rf results/ios/maestro-out
+          find results -type f -size +20M -print -delete
           du -sh results
       - name: Đẩy lên nhánh qa-results-tt
         run: |
