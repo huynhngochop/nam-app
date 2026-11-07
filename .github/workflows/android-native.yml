@@ -19,28 +19,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # TẠM: chẩn đoán vì sao module cục bộ của Ví Gọn không được autolink (nhanh, không build Gradle).
-  autolink-debug:
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm ci --no-audit --no-fund
-      - name: Chẩn đoán
-        run: |
-          cd apps/vi-gon
-          {
-            echo "== search"; npx expo-modules-autolinking search 2>&1 | grep -i -B2 -A8 listener | head -40
-            echo "== resolve"; npx expo-modules-autolinking resolve -p android 2>&1 | grep -i -B2 -A8 listener | head -40
-            echo "== verify"; npx expo-modules-autolinking verify -v 2>&1 | tail -15
-            echo "== config"; node -e "console.log(JSON.stringify(require('expo/config').getConfig('.').exp.autolinking||null))" 2>&1 | tail -3
-            echo "== pkg"; cat node_modules/vi-gon-notification-listener/package.json 2>&1 | head -5; ls -la ../../node_modules/vi-gon-notification-listener/
-          } > /tmp/dbg.txt 2>&1
-          node ../../.github/scripts/annotate.mjs "debug" "cat /tmp/dbg.txt"
-
   apk:
     name: APK ${{ matrix.app }}
     runs-on: ubuntu-24.04
@@ -78,13 +56,6 @@ jobs:
           # Module native cục bộ (apps/<app>/modules) có được autolink và vào manifest cuối không.
           svc=$(grep -rl BankNotificationService apps/${{ matrix.app }}/android/app/build/intermediates --include=AndroidManifest.xml | head -3 | tr '\n' ' ')
           echo "::notice title=APK ${{ matrix.app }}::${size} KB (arm64, release) · NotificationListener: ${svc:-không có}"
-          # Chẩn đoán autolink module cục bộ: có trong node_modules, settings.gradle, kết quả resolve không.
-          {
-            ls -la node_modules/ | grep -i notification-listener || echo "node_modules: không có link"
-            grep -n -i notification apps/${{ matrix.app }}/android/settings.gradle || echo "settings.gradle: không có"
-            (cd apps/${{ matrix.app }} && npx expo-modules-autolinking resolve -p android --json 2>/dev/null | grep -o '"packageName":"[^"]*listener[^"]*"' || echo "resolve: không có")
-          } > /tmp/al.txt 2>&1
-          echo "::notice title=autolink ${{ matrix.app }}::$(tr '\n' ' ' < /tmp/al.txt | cut -c1-900)"
 
       # Máy ảo x86_64 không nạp được thư viện arm64 của React Native: build thêm bản x86_64 chỉ để mở thử.
       - name: Gradle assembleRelease (x86_64, để mở thử)
@@ -94,7 +65,7 @@ jobs:
           echo "APK=$(ls apps/${{ matrix.app }}/android/app/build/outputs/apk/release/*.apk | head -1)" >> "$GITHUB_ENV"
           echo "PKG=$(node -p "require('./apps/${{ matrix.app }}/app.json').expo.android.package")" >> "$GITHUB_ENV"
 
-      # Mở thử trên máy ảo (x86_64 chạy APK arm64 qua lớp dịch ARM của Android 11+).
+      # Mở thử trên máy ảo.
       - name: Bật KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
