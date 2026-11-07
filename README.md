@@ -29,7 +29,7 @@ npx expo run:android      # hoặc: npx expo run:ios
 Build cài đặt: `npx eas build -p android --profile preview` (cấu hình nằm trong `eas.json` của từng app).
 
 Kiểm tra:
-- `npm test`: 22 bài kiểm tra logic chạy bằng tsx, gồm bộ đọc tin ngân hàng, hiểu câu hỏi, đọc bảng giá, mẫu tin ưu đãi, chặn câu nguy hiểm và cỡ cửa sổ.
+- `npm test`: các bài kiểm tra logic chạy bằng tsx, gồm bộ đọc tin ngân hàng, hiểu câu hỏi, đọc bảng giá, mẫu tin ưu đãi, chặn câu nguy hiểm và cỡ cửa sổ.
 - `npm run typecheck`: kiểm tra kiểu bằng TypeScript đầy đủ, sau khi đã `npm install`.
 
 ## Màn hình gập, tablet, nhiều độ phân giải
@@ -66,17 +66,30 @@ Hiệu năng:
 
 Mọi giá đều là ô `PRICE_*`, đọc qua `getPrice()` trong `packages/core/src/config.ts` (lấy từ remote config hoặc giá của App Store / Google Play). Giá sẽ được cập nhật sau cùng.
 
-## Những phần đã để sẵn chỗ nối, chưa có thật
+## Chạy trên máy và phần chờ máy chủ
+
+Mọi tính năng dưới đây chạy trên máy, không cần máy chủ:
+
+| App | Tính năng | Cách chạy |
+|---|---|---|
+| Ví Gọn | Đọc thông báo ngân hàng (Android) | Module native `modules/vi-gon-notification-listener` (NotificationListenerService). Chỉ giữ thông báo có số tiền; app tắt thì xếp hàng trên máy, mở app thì xử lý. Người dùng bật trong Cài đặt → Truy cập thông báo. |
+| Ví Gọn | iPhone | Phím tắt → Tự động hóa → mở `vigon://import?text=…` (Apple không cho đọc thông báo app khác) |
+| Hẹn Đẹp | Xác nhận, nhắc lịch, cảm ơn | Soạn sẵn tin trong app Tin nhắn; nhắc 24h / 2h bằng thông báo trên máy cho chủ tiệm |
+| Mẹo Nhà | Báo mẹo, gửi mẹo | Báo → ẩn mẹo với người báo; gửi → lưu thành "Mẹo của tôi" |
+| Nhịp | Giao diện vòng hẹn giờ | 5 giao diện, miễn phí |
+
+Cần máy chủ / tài khoản cửa hàng (đang ẩn hoặc báo rõ trong app):
 
 | Phần | Hiện tại | Cần làm thêm |
 |---|---|---|
-| Mua trong app | `buy()` giả lập thành công khi chạy dev | Nối RevenueCat hoặc react-native-iap qua `setPurchaseProvider()` |
-| Ví Gọn: đọc thông báo Android | `src/listener.ts` tự nhận module native tên `ViGonNotificationListener` nếu có. Khi chưa có: dán tin ngân hàng, hoặc nhập nhanh. | Viết module native (Expo Modules API) |
-| Ví Gọn: iPhone | Phím tắt → Tự động hóa → mở `vigon://import?text=…` | Chạy được ngay |
-| Hẹn Đẹp: đọc chữ trên ảnh bảng giá | Chọn hoặc chụp ảnh để đối chiếu, dán chữ, rồi bộ tách chạy trên máy (hoặc AI nếu có cổng) | OCR trên máy (ML Kit / Vision) |
-| Hẹn Đẹp: máy chủ, gửi Zalo, trang đặt lịch web | Mọi thay đổi ghi vào hàng chờ outbox, xử lý được xung đột | Viết API |
-| Mẹo Nhà: nhận diện nguyên liệu bằng camera | Gợi ý chọn nhanh | Mô hình nhận diện |
-| Nhịp: tải gói âm thanh | Báo lỗi rõ ràng, 4 âm cơ bản có sẵn trong app | Máy chủ nội dung |
+| Mua trong app | Bản preview báo "chưa sẵn sàng"; bản dev giả lập | Nối RevenueCat hoặc react-native-iap qua `setPurchaseProvider()`, chốt giá `PRICE_*` |
+| Hẹn Đẹp: OTP, đồng bộ, Zalo tự động, trang đặt lịch, cọc | Chưa có `EXPO_PUBLIC_API_BASE_URL` thì ẩn link đặt lịch, khách tự đặt, cọc; hàng chờ outbox không xếp | Viết API |
+| Hẹn Đẹp: đọc chữ trên ảnh bảng giá | Dán chữ, bộ tách chạy trên máy (hoặc AI nếu có cổng) | OCR trên máy (ML Kit / Vision) |
+| Mẹo Nhà: nhận diện nguyên liệu bằng camera | Đã bỏ màn chụp; chọn nhanh ở tủ lạnh | Mô hình nhận diện |
+| Mẹo Nhà, Hẹn Đẹp: AI | Không có `EXPO_PUBLIC_AI_GATEWAY_URL` thì dùng phương án không AI | Cổng AI phía máy chủ |
+| Nhịp: tải gói âm thanh | 4 âm cơ bản có sẵn; gói mua thêm báo lỗi rõ | Máy chủ nội dung + mua trong app |
+
+Build Android thật (prebuild + Gradle, không cần EAS): workflow `android-native.yml` chạy cho mỗi pull request đổi thư viện / module native và báo dung lượng APK.
 
 ## Bảo mật và riêng tư
 
