@@ -7,7 +7,7 @@ import { useVi } from '../src/store';
 import { useTxVersion } from '../src/db';
 import { LockGate } from '../src/ui';
 import { checkBudgets, syncFundReminder } from '../src/alerts';
-import { refreshListenerState, startListening } from '../src/listener';
+import { drainPending, refreshListenerState, startListening } from '../src/listener';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -23,7 +23,10 @@ function Effects() {
     const stop = startListening();
     refreshListenerState();
     const app = AppState.addEventListener('change', (s) => {
-      if (s === 'active') refreshListenerState();
+      if (s === 'active') {
+        refreshListenerState();
+        drainPending();
+      }
     });
     // Kiểm tra ngân sách sau mỗi lần dữ liệu đổi (gộp lại 1,5 giây).
     let t: ReturnType<typeof setTimeout> | null = null;

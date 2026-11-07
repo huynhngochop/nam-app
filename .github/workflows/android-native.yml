@@ -1,0 +1,58 @@
+# Build Android thật (prebuild + Gradle, bản release, chỉ arm64) cho 4 app — không cần EXPO_TOKEN.
+# Mục đích: biên dịch module native (vd. bộ đọc thông báo Ví Gọn) và đo dung lượng APK sau mỗi thay đổi thư viện.
+name: Android native build
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'apps/*/modules/**'
+      - 'apps/*/package.json'
+      - 'apps/*/app.json'
+      - 'apps/*/app.config.js'
+      - 'packages/*/package.json'
+      - 'package-lock.json'
+      - '.github/workflows/android-native.yml'
+
+concurrency:
+  group: android-native-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  apk:
+    name: APK ${{ matrix.app }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [vi-gon, hen-dep, nhip, meo-nha]
+    env:
+      A: node .github/scripts/annotate.mjs
+      EXPO_PUBLIC_APP_VARIANT: preview
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - run: npm ci --no-audit --no-fund
+
+      - name: Prebuild
+        run: $A "prebuild ${{ matrix.app }}" "cd apps/${{ matrix.app }} && npx expo prebuild -p android --no-install --clean 2>&1 | tail -20"
+
+      - name: Gradle assembleRelease (arm64)
+        run: $A "gradle ${{ matrix.app }}" "cd apps/${{ matrix.app }}/android && ./gradlew :app:assembleRelease -PreactNativeArchitectures=arm64-v8a --no-daemon -q 2>&1 | grep -v '^w:' | tail -40"
+
+      - name: Dung lượng APK + kiểm tra manifest
+        run: |
+          apk=$(ls apps/${{ matrix.app }}/android/app/build/outputs/apk/release/*.apk | head -1)
+          size=$(du -k "$apk" | cut -f1)
+          manifest=$(find apps/${{ matrix.app }}/android/app/build/intermediates -name AndroidManifest.xml -path '*merged_manifest*release*' | head -1)
+          svc=$(grep -c BankNotificationService "$manifest" || true)
+          echo "::notice title=APK ${{ matrix.app }}::${size} KB (arm64, release) · NotificationListener trong manifest: ${svc}"

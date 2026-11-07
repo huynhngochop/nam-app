@@ -1,0 +1,6 @@
+{
+  "platforms": ["android"],
+  "android": {
+    "modules": ["vn.namapp.vigon.listener.ViGonNotificationListenerModule"]
+  }
+}
