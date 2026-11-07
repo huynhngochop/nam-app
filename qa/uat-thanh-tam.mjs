@@ -360,7 +360,7 @@ await scenario(
     await expectText(p, /Bài 2\/7/, 'chuyển sang bài 2');
     await expectText(p, /Vô thượng thậm thâm/, 'chữ Khai Kinh Kệ');
     s('chuyển bài được');
-    for (let i = 0; i < 6; i++) await click(p, 'Bài sau');
+    for (let i = 0; i < 5; i++) await click(p, 'Bài sau');
     await expectText(p, /Bài 7\/7/, 'bài cuối');
     s('tới bài cuối');
   },

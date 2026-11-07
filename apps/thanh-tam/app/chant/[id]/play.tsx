@@ -55,6 +55,7 @@ function Ctl({
         color={big ? ttNight.bg : on ? ttNight.gold : ttNight.inkMuted}
         style={{ fontSize: 11 }}
         numberOfLines={1}
+        maxFontSizeMultiplier={1.3}
       >
         {label}
       </T>
@@ -275,11 +276,12 @@ export default function ChantPlay() {
   const scroll = useRef<ScrollView>(null);
   const lineY = useRef<number[]>([]);
   const viewH = useRef(600);
+  // Cuộn khi đang tụng, và khi người dùng chuyển bài lúc đang dừng.
   useEffect(() => {
-    if (!playing) return;
+    if (!playing && !jump) return;
     const y = lineY.current[pos.idx];
     if (y != null) scroll.current?.scrollTo({ y: Math.max(0, y - viewH.current * 0.3), animated: true });
-  }, [pos.idx, playing]);
+  }, [pos.idx, playing, jump]);
 
   const onLine = useCallback(
     (i: number) => {
@@ -425,10 +427,16 @@ export default function ChantPlay() {
           <Icon name="x" color={ttNight.ink} />
         </Pressable>
         <View style={{ flex: 1, alignItems: 'center' }}>
-          <T v="headline" color={ttNight.ink} numberOfLines={1}>
+          <T v="headline" color={ttNight.ink} numberOfLines={1} maxFontSizeMultiplier={1.4}>
             {rec ? rec.name : (curKinh?.title ?? plan.title)}
           </T>
-          <T v="caption" color={ttNight.inkMuted} numberOfLines={1} accessibilityLiveRegion="polite">
+          <T
+            v="caption"
+            color={ttNight.inkMuted}
+            numberOfLines={1}
+            accessibilityLiveRegion="polite"
+            maxFontSizeMultiplier={1.4}
+          >
             {status}
           </T>
         </View>
@@ -488,10 +496,10 @@ export default function ChantPlay() {
               disabled={chant.bpm <= BPM_MIN}
             />
             <View style={{ minWidth: 56, minHeight: 54, alignItems: 'center', justifyContent: 'center' }}>
-              <T v="headline" color={ttNight.ink}>
+              <T v="headline" color={ttNight.ink} maxFontSizeMultiplier={1.3}>
                 {chant.bpm}
               </T>
-              <T v="caption" color={ttNight.inkMuted} style={{ fontSize: 11 }}>
+              <T v="caption" color={ttNight.inkMuted} style={{ fontSize: 11 }} maxFontSizeMultiplier={1.3}>
                 nhịp/phút
               </T>
             </View>
