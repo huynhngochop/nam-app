@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Pressable, StatusBar, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { initialWindowMetrics, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, {
   scrollTo,
   useAnimatedRef,
@@ -48,6 +48,16 @@ function Ctl({ icon, label, onPress, on }: { icon: IconName; label: string; onPr
 
 /** TT-10 · Chế độ khấn: nền tối ấm, chữ to, giữ màn sáng, tự cuộn chạy trên luồng giao diện, đọc to theo đoạn. */
 export default function Pray() {
+  // Màn toàn màn hình (fullScreenModal) trên iOS báo vùng an toàn trên = 0 (QA iOS vòng 6: tiêu đề đè
+  // lên đồng hồ). Lấy giá trị lớn hơn giữa vùng an toàn hiện tại và vùng an toàn lúc mở app.
+  const insets = useSafeAreaInsets();
+  const first = initialWindowMetrics?.insets;
+  const safe = {
+    top: Math.max(insets.top, first?.top ?? 0),
+    bottom: Math.max(insets.bottom, first?.bottom ?? 0),
+    left: insets.left,
+    right: insets.right,
+  };
   // Giữ màn sáng chỉ trong màn này. Trình duyệt có thể từ chối (Wake Lock) → bỏ qua, không văng lỗi.
   useEffect(() => {
     activateKeepAwakeAsync('pray').catch(() => {});
@@ -156,7 +166,16 @@ export default function Pray() {
   };
 
   return (
-    <SafeAreaView edges={['top', 'bottom', 'left', 'right']} style={{ flex: 1, backgroundColor: ttNight.bg }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: ttNight.bg,
+        paddingTop: safe.top,
+        paddingBottom: safe.bottom,
+        paddingLeft: safe.left,
+        paddingRight: safe.right,
+      }}
+    >
       <StatusBar barStyle="light-content" />
       <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, minHeight: 52, gap: 8 }}>
         <Pressable
@@ -281,6 +300,6 @@ export default function Pray() {
         ) : null}
         <Ctl icon="check" label="Khấn xong" onPress={finish} />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }

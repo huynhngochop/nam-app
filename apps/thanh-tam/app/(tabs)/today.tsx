@@ -139,7 +139,7 @@ export default function Today() {
             >
               <Thumb icon={x.icon} size={36} />
               <View style={{ flex: 1 }}>
-                <T v="headline" numberOfLines={1}>
+                <T v="headline" numberOfLines={2}>
                   {x.title}
                 </T>
                 <T v="caption" muted>

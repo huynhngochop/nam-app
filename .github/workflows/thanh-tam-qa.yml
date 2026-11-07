@@ -226,6 +226,9 @@ jobs:
           curl -fsSL "https://get.maestro.mobile.dev" | bash
           echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
       - name: Chạy trên Simulator
+        env:
+          # Máy ảo đầu tiên khởi động chậm: trình điều khiển Maestro quá giờ chờ mặc định (vòng 6, iPhone SE).
+          MAESTRO_DRIVER_STARTUP_TIMEOUT: 240000
         run: |
           APP=$(find apps/thanh-tam/ios/build/Build/Products -maxdepth 2 -name "*.app" | head -1)
           echo "app: $APP"

@@ -45,6 +45,8 @@ make_flow() {
       echo "- tapOn: { text: 'Open', optional: true }"
       echo "- waitForAnimationToEnd: { timeout: 2500 }"
       echo "- takeScreenshot: $PREFIX-$KEY"
+      # Màn khấn mở toàn màn hình: đóng lại để màn sau không chồng lên trên nó.
+      if [ "$KEY" = pray ]; then echo "- tapOn: { text: 'Đóng', optional: true }"; fi
     done 3<<<"$ROUTES"
   } >"$F"
   echo "$F"
