@@ -141,7 +141,9 @@ export function removeVoice(id: string) {
 }
 
 export const formatMB = (bytes: number) =>
-  bytes < 1024 * 1024 ? `${Math.max(1, Math.round(bytes / 1024))} KB` : `${(bytes / 1048576).toFixed(1).replace('.', ',')} MB`;
+  bytes < 1024 * 1024
+    ? `${Math.max(1, Math.round(bytes / 1024))} KB`
+    : `${(bytes / 1048576).toFixed(1).replace('.', ',')} MB`;
 
 export type VoicePlayback = { pause: () => void; resume: () => void; stop: () => void; playing: () => boolean };
 

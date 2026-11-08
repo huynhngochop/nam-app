@@ -88,7 +88,8 @@ export default function Voices() {
     <Screen scroll>
       <AppBar title="Giọng đọc mẫu" onBack={goBack} />
       <T v="body" muted>
-        Giọng đọc văn khấn và kinh để nghe, đọc theo. Không cần máy có giọng tiếng Việt. Tải một lần, nghe không cần mạng.
+        Giọng đọc văn khấn và kinh để nghe, đọc theo. Không cần máy có giọng tiếng Việt. Tải một lần, nghe không cần
+        mạng.
       </T>
       {err && !m ? (
         <Card variant="tint">
@@ -116,8 +117,7 @@ export default function Voices() {
       <SectionHeader title="Văn khấn" />
       <Card style={{ paddingVertical: 4 }}>{items.filter((x) => x.kind === 'khan').map(row)}</Card>
       <T v="caption" muted>
-        {VOICE_CREDIT} Giọng máy đọc nên có chỗ chưa tròn tiếng; nếu có bản thu của chùa nhà mình, thêm ở màn tụng
-        kinh.
+        {VOICE_CREDIT} Giọng máy đọc nên có chỗ chưa tròn tiếng; nếu có bản thu của chùa nhà mình, thêm ở màn tụng kinh.
       </T>
     </Screen>
   );

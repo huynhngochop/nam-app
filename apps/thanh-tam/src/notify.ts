@@ -58,7 +58,10 @@ export async function sendTestNotification(): Promise<boolean> {
   await ensureChannel();
   await Notifications.scheduleNotificationAsync({
     identifier: 'thu',
-    content: { title: 'Thành Tâm nhắc thử', body: 'Thông báo đã hoạt động. Ngày rằm, mùng 1, ngày giỗ sẽ được nhắc như thế này.' },
+    content: {
+      title: 'Thành Tâm nhắc thử',
+      body: 'Thông báo đã hoạt động. Ngày rằm, mùng 1, ngày giỗ sẽ được nhắc như thế này.',
+    },
     trigger: { type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL, seconds: 5, channelId: 'lich' },
   });
   return true;

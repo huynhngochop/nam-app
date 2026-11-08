@@ -228,7 +228,11 @@ export default function Pray() {
     try {
       const m = await getManifest(true);
       const size = bytesToDownload(m, [vid]);
-      setDl(size ? { open: true, size } : { open: true, note: 'Giọng mẫu bài này đang được cập nhật, thử lại sau ít phút.' });
+      setDl(
+        size
+          ? { open: true, size }
+          : { open: true, note: 'Giọng mẫu bài này đang được cập nhật, thử lại sau ít phút.' },
+      );
     } catch {
       setDl({ open: true, note: 'Cần mạng để tải giọng đọc mẫu lần đầu. Sau đó nghe không cần mạng.' });
     }

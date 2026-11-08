@@ -46,7 +46,13 @@ export function khanCues(prayerId: string): Cue[] {
 
 export function voiceItems(): VoiceItem[] {
   return [
-    ...KINH.map((k) => ({ id: kinhVoiceId(k.id), title: k.title, kind: 'kinh' as const, cues: kinhCues(k.id), pace: KINH_PACE })),
+    ...KINH.map((k) => ({
+      id: kinhVoiceId(k.id),
+      title: k.title,
+      kind: 'kinh' as const,
+      cues: kinhCues(k.id),
+      pace: KINH_PACE,
+    })),
     ...PRAYERS.map((p) => ({
       id: khanVoiceId(p.id),
       title: p.title,

@@ -32,7 +32,9 @@ export default function DataScreen() {
   const [restore, setRestore] = useState<BackupFile | null>(null);
   const [busy, setBusy] = useState(false);
   const [confirmReplace, setConfirmReplace] = useState(false);
-  const icon = (n: 'upload' | 'download' | 'send' | 'inbox') => <Thumb icon={n} bg={c.surface2} color={c.ink} size={32} />;
+  const icon = (n: 'upload' | 'download' | 'send' | 'inbox') => (
+    <Thumb icon={n} bg={c.surface2} color={c.ink} size={32} />
+  );
 
   const backup = async () => {
     setBusy(true);

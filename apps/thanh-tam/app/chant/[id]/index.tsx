@@ -20,7 +20,14 @@ import { track } from '@nam/core';
 import { BPM_MAX, BPM_MIN, chantMinutes, chantPlan, kinhById, nghiThucById } from '../../../src/data/kinh';
 import { videosFor } from '../../../src/data/videos';
 import { kinhVoiceId } from '../../../src/lib/voiceCues';
-import { bytesToDownload, downloadVoices, formatMB, getManifest, voiceState, VOICE_CREDIT } from '../../../src/sampleVoice';
+import {
+  bytesToDownload,
+  downloadVoices,
+  formatMB,
+  getManifest,
+  voiceState,
+  VOICE_CREDIT,
+} from '../../../src/sampleVoice';
 import { NO_VOICE_HELP, openTtsSettings, ttsStatus } from '../../../src/voice';
 import { ritualById } from '../../../src/data/rituals';
 import { SRC } from '../../../src/data/sources';
@@ -249,12 +256,7 @@ export default function ChantSetup() {
             {tts === false ? (
               <>
                 <T v="caption">{NO_VOICE_HELP}</T>
-                <Button
-                  title="Mở cài đặt giọng nói"
-                  variant="secondary"
-                  size="md"
-                  onPress={() => openTtsSettings()}
-                />
+                <Button title="Mở cài đặt giọng nói" variant="secondary" size="md" onPress={() => openTtsSettings()} />
               </>
             ) : null}
           </>

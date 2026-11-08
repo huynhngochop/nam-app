@@ -5,6 +5,8 @@ export type V = { identifier: string; language?: string; quality?: string; name?
 export function pickViVoice(voices: V[]): V | undefined {
   const vi = voices.filter((v) => (v.language ?? '').toLowerCase().replace('_', '-').startsWith('vi'));
   const score = (v: V) =>
-    (/network/i.test(v.identifier) ? 0 : 2) + (v.quality === 'Enhanced' ? 1 : 0) + (/vi-?vn/i.test(v.language ?? '') ? 1 : 0);
+    (/network/i.test(v.identifier) ? 0 : 2) +
+    (v.quality === 'Enhanced' ? 1 : 0) +
+    (/vi-?vn/i.test(v.language ?? '') ? 1 : 0);
   return vi.sort((a, b) => score(b) - score(a))[0];
 }

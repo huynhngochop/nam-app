@@ -1,13 +1,12 @@
 // Thành Tâm: giọng đọc mẫu (câu khớp chữ trên màn), chọn giọng máy tiếng Việt, đường dẫn video YouTube.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { KINH, chantLines } from '../apps/thanh-tam/src/data/kinh';
+import { KINH, chantLines , NGHI_THUC, kinhById, nghiThucById } from '../apps/thanh-tam/src/data/kinh';
 import { PRAYERS } from '../apps/thanh-tam/src/data/prayers';
 import { buildPrayer } from '../apps/thanh-tam/src/lib/prayer';
 import { cueAt, hashCues, khanCues, kinhCues, voiceItems } from '../apps/thanh-tam/src/lib/voiceCues';
 import { pickViVoice } from '../apps/thanh-tam/src/lib/voicePick';
 import { VIDEOS, youtubeId } from '../apps/thanh-tam/src/data/videos';
-import { NGHI_THUC, kinhById, nghiThucById } from '../apps/thanh-tam/src/data/kinh';
 
 test('giọng mẫu kinh: mỗi câu ứng đúng một dòng trên màn tụng, cùng thứ tự', () => {
   for (const k of KINH) {
@@ -32,7 +31,11 @@ test('giọng mẫu văn khấn: câu thuộc đúng đoạn, chỗ tên/địa 
       if (c.text) assert.match(c.text, /\p{L}/u);
     }
     // mọi đoạn đều được đọc
-    assert.deepEqual([...new Set(cues.map((c) => c.p))].sort((a, b) => a - b), paras.map((_, i) => i), p.id);
+    assert.deepEqual(
+      [...new Set(cues.map((c) => c.p))].sort((a, b) => a - b),
+      paras.map((_, i) => i),
+      p.id,
+    );
     paras.forEach((para, i) => {
       if (para.repeat) {
         const n = cues.filter((c) => c.p === i).length;
@@ -76,7 +79,10 @@ test('chọn giọng máy tiếng Việt: ưu tiên giọng trên máy, nhận c
     { identifier: 'en', language: 'en-US' },
   ]);
   assert.equal(v?.identifier, 'vi-vn-x-gft-local');
-  assert.equal(pickViVoice([{ identifier: 'com.apple.voice.compact.vi-VN.Linh', language: 'vi-VN' }])?.identifier, 'com.apple.voice.compact.vi-VN.Linh');
+  assert.equal(
+    pickViVoice([{ identifier: 'com.apple.voice.compact.vi-VN.Linh', language: 'vi-VN' }])?.identifier,
+    'com.apple.voice.compact.vi-VN.Linh',
+  );
 });
 
 test('video: đọc đúng mã từ mọi kiểu đường dẫn YouTube; khóa video là nghi thức hoặc bài có thật', () => {

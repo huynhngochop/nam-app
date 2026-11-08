@@ -1,6 +1,8 @@
 import { Linking, Platform } from 'react-native';
 import * as Speech from 'expo-speech';
 
+import { pickViVoice, type V } from './lib/voicePick';
+
 /**
  * Giọng máy (đọc bằng bộ chuyển chữ thành giọng nói có sẵn trên máy).
  *
@@ -13,18 +15,16 @@ import * as Speech from 'expo-speech';
 export type TtsStatus = { ok: boolean; voice?: string };
 let cache: Promise<TtsStatus> | null = null;
 
-import { pickViVoice, type V } from './lib/voicePick';
-
 export { pickViVoice };
 
 export function ttsStatus(refresh = false): Promise<TtsStatus> {
   if (!cache || refresh) {
-    cache = (Speech.getAvailableVoicesAsync()
+    cache = Speech.getAvailableVoicesAsync()
       .then((v: V[]) => {
         const best = pickViVoice(v);
         return { ok: !!best, voice: best?.identifier };
       })
-      .catch(() => ({ ok: false }))) as Promise<TtsStatus>;
+      .catch(() => ({ ok: false })) as Promise<TtsStatus>;
   }
   return cache as Promise<TtsStatus>;
 }

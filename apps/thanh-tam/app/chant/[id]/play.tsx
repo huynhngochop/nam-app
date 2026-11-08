@@ -169,10 +169,7 @@ export default function ChantPlay() {
   const voicesStore = useTT((s) => s.voices);
   const reader = chant.reader ?? (chant.voice ? 'may' : 'mo');
   // Các bài cần giọng mẫu, và đã tải đủ chưa (đổi khi tải xong).
-  const sampleIds = useMemo(
-    () => (plan ? [...new Set(plan.steps.map((s) => kinhVoiceId(s.kinh)))] : []),
-    [plan],
-  );
+  const sampleIds = useMemo(() => (plan ? [...new Set(plan.steps.map((s) => kinhVoiceId(s.kinh)))] : []), [plan]);
   const sampleReady = useMemo(
     () => sampleIds.length > 0 && sampleIds.every((x) => voiceState(x) === 'san-sang'),
     // eslint-disable-next-line react-hooks/exhaustive-deps

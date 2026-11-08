@@ -54,7 +54,12 @@ export default function ImportGio() {
     const r = applyImport(current, plan, d, uid);
     set({ anniversaries: r.list });
     setSession({ importDraft: null });
-    track('so_gio_imported', { added: r.added, overwritten: r.overwritten, identical: plan.identical, source: draft.source });
+    track('so_gio_imported', {
+      added: r.added,
+      overwritten: r.overwritten,
+      identical: plan.identical,
+      source: draft.source,
+    });
     toast(`Đã thêm ${r.added} ngày giỗ${r.overwritten ? `, cập nhật ${r.overwritten}` : ''}`);
     // Xong thì mở Sổ giỗ để thấy ngay ngày vừa thêm (không quay về màn chọn tệp).
     router.replace('/anniversaries');
@@ -116,9 +121,7 @@ export default function ImportGio() {
       footer={
         <Button
           title={
-            nothing
-              ? 'Không có gì mới để thêm'
-              : `Thêm ${plan.add.length}${overwrite ? `, ghi đè ${overwrite}` : ''}`
+            nothing ? 'Không có gì mới để thêm' : `Thêm ${plan.add.length}${overwrite ? `, ghi đè ${overwrite}` : ''}`
           }
           disabled={nothing}
           onPress={apply}

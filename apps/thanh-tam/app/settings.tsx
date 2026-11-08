@@ -45,7 +45,9 @@ export default function Settings() {
   const [ns, setNs] = useState<NotifyStatus | null>(null);
   const [tts, setTts] = useState<boolean | null>(null);
   const refresh = useCallback(() => {
-    notifyStatus().then(setNs).catch(() => setNs(null));
+    notifyStatus()
+      .then(setNs)
+      .catch(() => setNs(null));
     ttsStatus(true)
       .then((t) => setTts(t.ok))
       .catch(() => setTts(false));
@@ -64,7 +66,19 @@ export default function Settings() {
         ? `Đã hẹn ${ns.scheduled} lời nhắc${ns.next ? `, lần tới ${ns.next.toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'numeric' })}` : ''}`
         : 'Đang bật, chưa có lời nhắc nào sắp tới';
   const icon = (
-    name: 'bell' | 'moon' | 'gift' | 'dollar-sign' | 'home' | 'type' | 'trash-2' | 'refresh-cw' | 'smile' | 'upload' | 'volume-2' | 'send',
+    name:
+      | 'bell'
+      | 'moon'
+      | 'gift'
+      | 'dollar-sign'
+      | 'home'
+      | 'type'
+      | 'trash-2'
+      | 'refresh-cw'
+      | 'smile'
+      | 'upload'
+      | 'volume-2'
+      | 'send',
     danger = false,
   ) => <Thumb icon={name} bg={c.surface2} color={danger ? c.negative : c.ink} size={32} />;
   const remindToggle = (key: 'mung1Ram' | 'eveBefore' | 'mung10' | 'festivals') => async (v: boolean) => {
@@ -152,7 +166,13 @@ export default function Settings() {
       <ListItem
         left={icon('volume-2')}
         title="Giọng máy tiếng Việt"
-        subtitle={tts === null ? 'Đang kiểm tra…' : tts ? 'Máy đã có giọng tiếng Việt' : 'Máy chưa có. Bấm để mở cài đặt giọng nói.'}
+        subtitle={
+          tts === null
+            ? 'Đang kiểm tra…'
+            : tts
+              ? 'Máy đã có giọng tiếng Việt'
+              : 'Máy chưa có. Bấm để mở cài đặt giọng nói.'
+        }
         chevron={tts === false}
         onPress={tts === false ? () => openTtsSettings() : undefined}
       />
@@ -186,7 +206,11 @@ export default function Settings() {
       <ListItem
         left={icon('upload')}
         title="Sao lưu và chia sẻ"
-        subtitle={s.lastBackupAt ? `Sao lưu lần cuối ${new Date(s.lastBackupAt).toLocaleDateString('vi-VN')}` : 'Chưa sao lưu lần nào'}
+        subtitle={
+          s.lastBackupAt
+            ? `Sao lưu lần cuối ${new Date(s.lastBackupAt).toLocaleDateString('vi-VN')}`
+            : 'Chưa sao lưu lần nào'
+        }
         chevron
         onPress={() => router.push('/data')}
       />

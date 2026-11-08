@@ -32,11 +32,7 @@ export default function ShareGio() {
 
   const send = async () => {
     try {
-      const ok = await shareJson(
-        transferFileName('so-gio'),
-        buildSoGio(chosen, from),
-        'Gửi sổ giỗ Thành Tâm',
-      );
+      const ok = await shareJson(transferFileName('so-gio'), buildSoGio(chosen, from), 'Gửi sổ giỗ Thành Tâm');
       if (ok) {
         track('so_gio_shared', { count: chosen.length });
         goBack('/anniversaries');

@@ -43,7 +43,12 @@ let DOCS: { f: Faq; toks: Set<string>; phrases: string[] }[] | null = null;
 function faqIndex() {
   if (DOCS && IDF) return { docs: DOCS, idf: IDF };
   DOCS = FAQ.map((f) => {
-    const phrases = [f.q, ...f.alt].map((x) => fold(x).replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim());
+    const phrases = [f.q, ...f.alt].map((x) =>
+      fold(x)
+        .replace(/[^a-z0-9\s]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim(),
+    );
     const toks = new Set([...words(`${f.q} ${f.alt.join(' ')}`), ...f.kw.split(/\s+/)]);
     return { f, toks, phrases };
   });
@@ -59,7 +64,10 @@ export function matchFaq(q: string): { f: Faq; score: number }[] {
   const qs = expand(q).join(' ');
   const qw = [...new Set(words(qs))];
   if (!qw.length) return [];
-  const fq = fold(q).replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+  const fq = fold(q)
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
   // Từ không có trong bộ câu hỏi (ví dụ "giá", "phở") tính nặng: câu có nhiều từ lạ thì không ép vào câu trả lời sẵn có.
   const unknown = Math.log(1 + FAQ.length);
   const max = qw.reduce((a, w) => a + (idf.get(w) ?? unknown), 0) || 1;
@@ -92,7 +100,9 @@ function lichAnswer(q: string, today: Date): Answer | null {
     return {
       kind: 'lich',
       title: `Hôm nay là ngày ${l.day} tháng ${monthName(l.month, l.leap)} năm ${canChiYear(l.year)}`,
-      text: [`${dmy(today)}. ${l.day === 1 ? 'Hôm nay là mùng 1.' : l.day === 15 ? 'Hôm nay là ngày rằm.' : ''}`.trim()],
+      text: [
+        `${dmy(today)}. ${l.day === 1 ? 'Hôm nay là mùng 1.' : l.day === 15 ? 'Hôm nay là ngày rằm.' : ''}`.trim(),
+      ],
       links: [{ title: 'Xem lịch', href: '/calendar' }],
       related: [],
     };
@@ -129,7 +139,11 @@ function gioAnswer(q: string, today: Date, list: Anniversary[]): Answer | null {
   const f = fold(q);
   if (!/\bgio\b/.test(f) || !list.length) return null;
   // Tên so có dấu ("Ba" khác "bà"); quan hệ so bỏ dấu ("ong noi" = "ông nội").
-  const low = ` ${q.toLowerCase().normalize('NFC').replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ')} `;
+  const low = ` ${q
+    .toLowerCase()
+    .normalize('NFC')
+    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+    .replace(/\s+/g, ' ')} `;
   const hits = list.filter((a) => {
     const name = a.name.toLowerCase().normalize('NFC').trim();
     const last = name.split(/\s+/).pop() ?? '';
@@ -159,7 +173,8 @@ function gioAnswer(q: string, today: Date, list: Anniversary[]): Answer | null {
 function kinhLinks(q: string): AskLink[] {
   const f = fold(q);
   const out: AskLink[] = [];
-  for (const n of NGHI_THUC) if (f.includes(fold(n.title).replace('nghi thuc ', ''))) out.push({ title: n.title, href: `/chant/${n.id}` });
+  for (const n of NGHI_THUC)
+    if (f.includes(fold(n.title).replace('nghi thuc ', ''))) out.push({ title: n.title, href: `/chant/${n.id}` });
   for (const k of KINH) {
     const t = fold(k.title).replace(/^(kinh|chu|niem|tan) /, '');
     if (t.length > 3 && f.includes(t)) out.push({ title: k.title, href: `/chant/${k.id}`, sub: k.about });
@@ -174,7 +189,9 @@ export const ASK_THRESHOLD = 0.5;
 export function ask(q: string, ctx: { today: Date; anniversaries: Anniversary[] }): Answer {
   const related = [...kinhLinks(q), ...search(q, 6).map(toLink)];
   const dedupe = (links: AskLink[], used: AskLink[]) =>
-    links.filter((x, i) => !used.some((u) => u.href === x.href) && links.findIndex((y) => y.href === x.href) === i).slice(0, 6);
+    links
+      .filter((x, i) => !used.some((u) => u.href === x.href) && links.findIndex((y) => y.href === x.href) === i)
+      .slice(0, 6);
 
   const direct = gioAnswer(q, ctx.today, ctx.anniversaries) ?? lichAnswer(q, ctx.today);
   if (direct) return { ...direct, related: dedupe(related, direct.links) };

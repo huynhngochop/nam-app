@@ -52,7 +52,12 @@ test('tệp lạ, hỏng, rỗng, bản mới hơn: báo lỗi rõ, không làm 
   assert.equal(code('{"app":"vi-gon","kind":"so-gio","v":1}'), 'KHONG_PHAI_TEP_THANH_TAM');
   assert.equal(code('{"app":"thanh-tam","kind":"so-gio","v":2,"anniversaries":[]}'), 'PHIEN_BAN_MOI');
   assert.equal(code('{"app":"thanh-tam","kind":"so-gio","v":1,"anniversaries":[]}'), 'RONG');
-  const big = { app: 'thanh-tam', kind: 'so-gio', v: 1, anniversaries: Array(MAX_IMPORT + 1).fill(gio('x', 'A', 1, 1)) };
+  const big = {
+    app: 'thanh-tam',
+    kind: 'so-gio',
+    v: 1,
+    anniversaries: Array(MAX_IMPORT + 1).fill(gio('x', 'A', 1, 1)),
+  };
   assert.equal(code(JSON.stringify(big)), 'QUA_LON');
 });
 
@@ -61,7 +66,11 @@ test('bản ghi sai trong tệp bị bỏ, phần đúng vẫn nhập; chữ qu�
   assert.equal(cleanAnniversary({ name: 'A', lunar: { day: 31, month: 1 } }), null);
   assert.equal(cleanAnniversary({ name: 'A', lunar: { day: 1, month: 13 } }), null);
   assert.equal(cleanAnniversary('chuỗi'), null);
-  const a = cleanAnniversary({ name: 'x'.repeat(500), lunar: { day: 30, month: 12, leap: 'có' }, remindDays: [1, 99, 3, 3, 'a'] })!;
+  const a = cleanAnniversary({
+    name: 'x'.repeat(500),
+    lunar: { day: 30, month: 12, leap: 'có' },
+    remindDays: [1, 99, 3, 3, 'a'],
+  })!;
   assert.equal(a.name.length, 80);
   assert.equal(a.lunar.leap, false);
   assert.deepEqual(a.remindDays, [3, 1]);
@@ -89,7 +98,11 @@ test('nhập: mới thì thêm, giống hệt thì bỏ qua, khác nội dung th
 
 test('trùng: chọn giữ thì bản trên máy không đổi; chọn ghi đè thì thay nội dung, giữ mã; không mất bản ghi nào', () => {
   const mine = [gio('m1', 'An', 12, 3), gio('m2', 'Bình', 5, 7), gio('m3', 'Không liên quan', 9, 9)];
-  const theirs = [gio('m1', 'An', 12, 3, { relation: 'Cụ' }), gio('x', 'Bình', 5, 7, { dishes: 'Chè' }), gio('y', 'Mới', 2, 2)];
+  const theirs = [
+    gio('m1', 'An', 12, 3, { relation: 'Cụ' }),
+    gio('x', 'Bình', 5, 7, { dishes: 'Chè' }),
+    gio('y', 'Mới', 2, 2),
+  ];
   const plan = planImport(mine, theirs);
   assert.equal(plan.conflicts.length, 2);
   assert.equal(plan.conflicts[0].why, 'cung-ma');
@@ -102,8 +115,14 @@ test('trùng: chọn giữ thì bản trên máy không đổi; chọn ghi đè 
   assert.equal(over.overwritten, 2);
   assert.equal(over.list.find((a) => a.id === 'm1')!.relation, 'Cụ');
   assert.equal(over.list.find((a) => a.id === 'm2')!.dishes, 'Chè');
-  assert.ok(over.list.some((a) => a.id === 'm3'), 'bản ghi không liên quan vẫn còn');
-  assert.ok(over.list.some((a) => a.id === 'y'), 'bản mới giữ mã từ tệp');
+  assert.ok(
+    over.list.some((a) => a.id === 'm3'),
+    'bản ghi không liên quan vẫn còn',
+  );
+  assert.ok(
+    over.list.some((a) => a.id === 'y'),
+    'bản mới giữ mã từ tệp',
+  );
 });
 
 test('mã trong tệp trùng mã một người khác trên máy: cấp mã mới, không đè nhầm', () => {
@@ -150,7 +169,12 @@ test('dữ liệu lớn: so trùng 5.000 ngày giỗ với 5.000 trên máy dư�
   );
   const t0 = performance.now();
   const plan = planImport(mine, theirs);
-  const r = applyImport(mine, plan, plan.conflicts.map(() => 'giu'), newId);
+  const r = applyImport(
+    mine,
+    plan,
+    plan.conflicts.map(() => 'giu'),
+    newId,
+  );
   const ms = performance.now() - t0;
   assert.equal(plan.identical, 2500, 'nửa sau trùng hệt nửa trên máy');
   assert.equal(plan.conflicts.length, 0);

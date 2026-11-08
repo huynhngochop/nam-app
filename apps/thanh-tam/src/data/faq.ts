@@ -22,7 +22,10 @@ export const FAQ: Faq[] = [
     q: 'Thắp mấy nén hương?',
     alt: ['thắp bao nhiêu nén nhang', 'mấy cây nhang', 'số nén hương'],
     kw: 'thap may nen huong bao nhieu nhang so le cay nhang',
-    a: ['Thường thắp số lẻ: 1, 3 hoặc 5 nén. Ngày thường 1 hoặc 3 nén là đủ, lễ lớn có thể 5 nén.', 'Nhà có nhiều bát hương thì thắp bát giữa trước rồi đến hai bên.'],
+    a: [
+      'Thường thắp số lẻ: 1, 3 hoặc 5 nén. Ngày thường 1 hoặc 3 nén là đủ, lễ lớn có thể 5 nén.',
+      'Nhà có nhiều bát hương thì thắp bát giữa trước rồi đến hai bên.',
+    ],
     links: [{ title: 'Thắp bao nhiêu nén hương?', href: '/tip/so-nen-huong' }],
     sources: [SRC.phongTuc],
   },
@@ -66,7 +69,9 @@ export const FAQ: Faq[] = [
     q: 'Người mất vào tháng nhuận thì giỗ tháng nào?',
     alt: ['giỗ tháng nhuận', 'mất tháng nhuận', 'năm nhuận cúng giỗ'],
     kw: 'thang nhuan gio thang nao mat thang nhuan nam nhuan',
-    a: ['Thường giỗ vào tháng thường cùng tên. Ví dụ mất tháng 6 nhuận thì giỗ tháng 6 hằng năm. Thành Tâm tính theo cách này.'],
+    a: [
+      'Thường giỗ vào tháng thường cùng tên. Ví dụ mất tháng 6 nhuận thì giỗ tháng 6 hằng năm. Thành Tâm tính theo cách này.',
+    ],
     links: [{ title: 'Sổ giỗ', href: '/anniversaries' }],
   },
   {
@@ -100,7 +105,9 @@ export const FAQ: Faq[] = [
     q: 'Hương cháy không đều, cháy lệch có sao không?',
     alt: ['nhang cháy lệch', 'hương cháy so le', 'hương cháy nhanh chậm'],
     kw: 'huong chay khong deu lech so le nhang chay nhanh cham',
-    a: ['Dân gian hay đoán điềm, nhưng thường do hương ẩm, gió, chân hương khác nhau. Giữ hương khô, tránh gió, tỉa chân hương là được.'],
+    a: [
+      'Dân gian hay đoán điềm, nhưng thường do hương ẩm, gió, chân hương khác nhau. Giữ hương khô, tránh gió, tỉa chân hương là được.',
+    ],
     links: [{ title: 'Hương cháy không đều', href: '/sign/huong-chay-khong-deu' }],
   },
   {
@@ -108,7 +115,9 @@ export const FAQ: Faq[] = [
     q: 'Tàn hương cuộn lại là điềm gì?',
     alt: ['tàn nhang cong', 'tàn hương uốn cong', 'hoa hương'],
     kw: 'tan huong cuon cong uon hoa huong dieu gi',
-    a: ['Tàn cuộn là do lõi tre và bột hương cháy không đều, thường gặp khi trời lặng gió. Dân gian coi là điềm tốt; không cần lo lắng.'],
+    a: [
+      'Tàn cuộn là do lõi tre và bột hương cháy không đều, thường gặp khi trời lặng gió. Dân gian coi là điềm tốt; không cần lo lắng.',
+    ],
     links: [{ title: 'Tàn hương cuộn', href: '/sign/tan-huong-cuon' }],
   },
   {
@@ -116,7 +125,9 @@ export const FAQ: Faq[] = [
     q: 'Bát hương bốc cháy phải làm sao?',
     alt: ['chân hương cháy', 'bát nhang bị cháy', 'cháy bát hương'],
     kw: 'bat huong boc chay chan huong chay bat nhang chay lua',
-    a: ['Việc đầu tiên là dập lửa an toàn: úp nắp hoặc rắc tro, không đổ nước vào đồ điện. Sau đó tỉa bớt chân hương để không cháy lại.'],
+    a: [
+      'Việc đầu tiên là dập lửa an toàn: úp nắp hoặc rắc tro, không đổ nước vào đồ điện. Sau đó tỉa bớt chân hương để không cháy lại.',
+    ],
     links: [{ title: 'Chân hương bốc cháy', href: '/sign/chan-huong-chay' }],
   },
   {
@@ -124,7 +135,9 @@ export const FAQ: Faq[] = [
     q: 'Khi nào lau dọn bàn thờ, tỉa chân hương?',
     alt: ['bao sái bàn thờ', 'lau bàn thờ ngày nào', 'rút chân nhang'],
     kw: 'bao sai lau don ban tho tia rut chan huong nhang khi nao ngay nao',
-    a: ['Nhiều nhà lau dọn bàn thờ vào ngày 23 tháng Chạp. Dùng khăn sạch với nước ấm hoặc nước gừng, tỉa chân hương giữ lại số lẻ.'],
+    a: [
+      'Nhiều nhà lau dọn bàn thờ vào ngày 23 tháng Chạp. Dùng khăn sạch với nước ấm hoặc nước gừng, tỉa chân hương giữ lại số lẻ.',
+    ],
     links: [{ title: 'Lau dọn bàn thờ cuối năm', href: '/tip/bao-sai' }],
     sources: [SRC.phongTuc],
   },
@@ -156,7 +169,9 @@ export const FAQ: Faq[] = [
     q: 'Cúng ông Công ông Táo ngày nào, giờ nào?',
     alt: ['tiễn táo quân', 'cúng 23 tháng chạp', 'cúng ông táo trước mấy giờ'],
     kw: 'ong cong ong tao tao quan 23 thang chap gio nao truoc 12 gio trua',
-    a: ['Ngày 23 tháng Chạp. Nhiều nơi cúng trước 12 giờ trưa; bận có thể cúng từ tối 22. Sau lễ thả cá chép ở nơi nước sạch.'],
+    a: [
+      'Ngày 23 tháng Chạp. Nhiều nơi cúng trước 12 giờ trưa; bận có thể cúng từ tối 22. Sau lễ thả cá chép ở nơi nước sạch.',
+    ],
     links: [
       { title: 'Lễ ông Công ông Táo', href: '/ritual/ong-cong-ong-tao' },
       { title: 'Thả cá chép', href: '/tip/tha-ca-chep' },
@@ -168,7 +183,9 @@ export const FAQ: Faq[] = [
     q: 'Cúng Thần Tài hằng ngày thế nào?',
     alt: ['ban thần tài', 'cúng thần tài thổ địa', 'mùng 10 thần tài'],
     kw: 'than tai tho dia hang ngay mung 10 via than tai cung',
-    a: ['Hằng ngày thắp hương, thay nước sạch. Mùng 10 âm mỗi tháng và mùng 10 tháng Giêng (vía Thần Tài) cúng đầy đủ hơn.'],
+    a: [
+      'Hằng ngày thắp hương, thay nước sạch. Mùng 10 âm mỗi tháng và mùng 10 tháng Giêng (vía Thần Tài) cúng đầy đủ hơn.',
+    ],
     links: [
       { title: 'Cúng Thần Tài hằng ngày', href: '/ritual/than-tai-hang-ngay' },
       { title: 'Mùng 10 Thần Tài', href: '/ritual/mung-10-than-tai' },
@@ -190,7 +207,9 @@ export const FAQ: Faq[] = [
     q: 'Tảo mộ Thanh minh vào ngày nào?',
     alt: ['tiết thanh minh', 'đi tảo mộ', 'sửa mộ'],
     kw: 'tao mo thanh minh tiet thanh minh ngay nao di tao mo',
-    a: ['Tiết Thanh minh bắt đầu khoảng ngày 4 hoặc 5 tháng 4 dương lịch. Nhiều nhà đi tảo mộ trong những ngày của tiết này.'],
+    a: [
+      'Tiết Thanh minh bắt đầu khoảng ngày 4 hoặc 5 tháng 4 dương lịch. Nhiều nhà đi tảo mộ trong những ngày của tiết này.',
+    ],
     links: [{ title: 'Lễ Thanh minh', href: '/ritual/thanh-minh' }],
   },
   {
@@ -213,7 +232,9 @@ export const FAQ: Faq[] = [
     q: 'Ngày giỗ tụng kinh gì?',
     alt: ['cầu siêu tụng kinh gì', 'tụng kinh cho người mất', 'kinh cầu siêu'],
     kw: 'gio tung kinh gi cau sieu nguoi mat kinh cau sieu a di da vang sanh',
-    a: ['Thường tụng nghi thức cầu siêu: kinh A Di Đà, chú Vãng Sanh, Bát Nhã Tâm Kinh, niệm Phật A Di Đà, hồi hướng. Bản gọn khoảng 8 phút.'],
+    a: [
+      'Thường tụng nghi thức cầu siêu: kinh A Di Đà, chú Vãng Sanh, Bát Nhã Tâm Kinh, niệm Phật A Di Đà, hồi hướng. Bản gọn khoảng 8 phút.',
+    ],
     links: [{ title: 'Nghi thức cầu siêu', href: '/chant/cau-sieu' }],
   },
   {
@@ -251,7 +272,9 @@ export const FAQ: Faq[] = [
     q: 'Về nhà mới cần cúng gì?',
     alt: ['chuyển nhà', 'nhập trạch', 'dọn về nhà mới'],
     kw: 've nha moi chuyen nha nhap trach don nha cung gi',
-    a: ['Làm lễ nhập trạch: báo với thần linh, gia tiên rằng gia đình về ở. Lễ vật đơn giản: hương, hoa, quả, trầu cau, bếp lửa đầu tiên.'],
+    a: [
+      'Làm lễ nhập trạch: báo với thần linh, gia tiên rằng gia đình về ở. Lễ vật đơn giản: hương, hoa, quả, trầu cau, bếp lửa đầu tiên.',
+    ],
     links: [{ title: 'Lễ nhập trạch', href: '/ritual/nhap-trach' }],
   },
   {
@@ -259,7 +282,9 @@ export const FAQ: Faq[] = [
     q: 'Cúng đầy tháng cho bé thế nào?',
     alt: ['đầy tháng', 'cúng mụ', 'cúng thôi nôi'],
     kw: 'day thang be cung mu ba mu thoi noi tre so sinh',
-    a: ['Lễ đầy tháng cúng mười hai Bà Mụ và Đức Ông, cảm ơn và cầu cho bé khỏe. Thành Tâm có văn khấn điền sẵn tên bé.'],
+    a: [
+      'Lễ đầy tháng cúng mười hai Bà Mụ và Đức Ông, cảm ơn và cầu cho bé khỏe. Thành Tâm có văn khấn điền sẵn tên bé.',
+    ],
     links: [{ title: 'Lễ đầy tháng', href: '/ritual/day-thang' }],
   },
   {
@@ -287,7 +312,9 @@ export const FAQ: Faq[] = [
     q: 'Mơ thấy người đã mất có sao không?',
     alt: ['nằm mơ thấy ông bà', 'mơ người chết', 'mộng thấy người thân đã khuất'],
     kw: 'mo thay nguoi da mat chet ong ba mong nguoi than da khuat',
-    a: ['Thường là do nhớ thương. Có thể thắp hương, khấn thăm hỏi, làm việc tốt hồi hướng. Nếu mơ nhiều kèm mất ngủ kéo dài, nên nói với người thân hoặc bác sĩ.'],
+    a: [
+      'Thường là do nhớ thương. Có thể thắp hương, khấn thăm hỏi, làm việc tốt hồi hướng. Nếu mơ nhiều kèm mất ngủ kéo dài, nên nói với người thân hoặc bác sĩ.',
+    ],
     links: [{ title: 'Mơ thấy người đã mất', href: '/sign/mo-nguoi-mat' }],
   },
   {
@@ -295,7 +322,9 @@ export const FAQ: Faq[] = [
     q: 'Đổi điện thoại có mất sổ giỗ không?',
     alt: ['sao lưu dữ liệu', 'chuyển sang máy mới', 'khôi phục dữ liệu'],
     kw: 'doi dien thoai may moi mat so gio sao luu du lieu khoi phuc chuyen may',
-    a: ['Dữ liệu nằm trên máy. Vào Sao lưu và chia sẻ, tạo bản sao lưu rồi lưu vào Drive, mail hoặc Zalo. Máy mới mở tệp đó để khôi phục.'],
+    a: [
+      'Dữ liệu nằm trên máy. Vào Sao lưu và chia sẻ, tạo bản sao lưu rồi lưu vào Drive, mail hoặc Zalo. Máy mới mở tệp đó để khôi phục.',
+    ],
     links: [{ title: 'Sao lưu và chia sẻ', href: '/data' }],
   },
   {

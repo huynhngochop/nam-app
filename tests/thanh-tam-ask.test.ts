@@ -100,7 +100,11 @@ test('mọi đường dẫn trong câu trả lời mở được màn có thật
     return file.some((f) => fs.existsSync(f) && fs.statSync(f).isFile()) || fs.existsSync(tab);
   };
   for (const f of FAQ) for (const l of f.links) assert.ok(exists(l.href), `${f.id}: ${l.href}`);
-  for (const id of FAQ_SUGGEST) assert.ok(FAQ.some((f) => f.id === id), id);
+  for (const id of FAQ_SUGGEST)
+    assert.ok(
+      FAQ.some((f) => f.id === id),
+      id,
+    );
   assert.equal(new Set(FAQ.map((f) => f.id)).size, FAQ.length, 'mã câu hỏi trùng');
 });
 

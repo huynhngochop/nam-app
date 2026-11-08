@@ -118,7 +118,8 @@ export default function VideoScreen() {
       )}
       <Sheet visible={adding} onClose={() => setAdding(false)} title="Thêm video YouTube">
         <T v="body" muted>
-          Mở video trên YouTube, bấm Chia sẻ, Sao chép đường liên kết, rồi dán vào đây. Ví dụ bản tụng của chùa nhà mình.
+          Mở video trên YouTube, bấm Chia sẻ, Sao chép đường liên kết, rồi dán vào đây. Ví dụ bản tụng của chùa nhà
+          mình.
         </T>
         <TextField label="Đường dẫn video" value={link} onChangeText={setLink} placeholder="https://youtu.be/…" />
         <Button title="Lưu" onPress={save} />

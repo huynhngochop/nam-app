@@ -435,18 +435,26 @@ await scenario(
     const file2 = path.join(OUT, 'sogio-nhan.json');
     fs.writeFileSync(file2, JSON.stringify(j));
     await go(p, '/data');
-    const [fc] = await Promise.all([p.waitForEvent('filechooser', { timeout: 15000 }), click(p, /Nhận sổ giỗ từ người khác/)]);
+    const [fc] = await Promise.all([
+      p.waitForEvent('filechooser', { timeout: 15000 }),
+      click(p, /Nhận sổ giỗ từ người khác/),
+    ]);
     await fc.setFiles(file2);
     await expectText(p, /Ngày giỗ mới sẽ thêm/, 'màn xem trước khi nhập');
     await expectText(p, /Ngày trùng: chọn giữ hay ghi đè/, 'hỏi trước khi ghi đè');
-    await p.getByRole('tab', { name: 'Lấy bản mới' }).first().click({ timeout: 6000 }).catch(async () => {
-      await p.getByText('Lấy bản mới', { exact: true }).first().click({ timeout: 6000 });
-    });
+    await p
+      .getByRole('tab', { name: 'Lấy bản mới' })
+      .first()
+      .click({ timeout: 6000 })
+      .catch(async () => {
+        await p.getByText('Lấy bản mới', { exact: true }).first().click({ timeout: 6000 });
+      });
     await settle(p);
     await click(p, /^Thêm 1, ghi đè 1$/);
     await expectText(p, /Người Mới QA/, 'ngày mới có trong sổ');
     const after = (await body(p)).match(/(\d+) ngày giỗ ·/);
-    if (before && after && Number(after[1]) !== Number(before[1]) + 1) throw new Error(`số ngày giỗ ${before[1]} → ${after[1]}`);
+    if (before && after && Number(after[1]) !== Number(before[1]) + 1)
+      throw new Error(`số ngày giỗ ${before[1]} → ${after[1]}`);
     s('thêm 1 ngày mới, ghi đè 1 ngày trùng theo lựa chọn, không mất ngày nào');
   },
 );

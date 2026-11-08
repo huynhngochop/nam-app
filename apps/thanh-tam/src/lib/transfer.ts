@@ -119,7 +119,14 @@ export function parseTransfer(text: string): ParsedTransfer {
     if (!list.length) throw new TransferError('RONG');
     return {
       kind: 'so-gio',
-      file: { app: TRANSFER_APP, kind: 'so-gio', v: 1, createdAt, from: str(o.from, 80) || undefined, anniversaries: list },
+      file: {
+        app: TRANSFER_APP,
+        kind: 'so-gio',
+        v: 1,
+        createdAt,
+        from: str(o.from, 80) || undefined,
+        anniversaries: list,
+      },
     };
   }
   const data = (o.data && typeof o.data === 'object' ? o.data : {}) as Record<string, unknown>;

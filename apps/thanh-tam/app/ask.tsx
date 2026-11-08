@@ -101,7 +101,12 @@ export default function Ask() {
             {t.a.links.length ? (
               <View>
                 {t.a.links.map((l) => (
-                  <NavRow key={l.href} icon="arrow-right" title={l.title} onPress={() => router.push(l.href as never)} />
+                  <NavRow
+                    key={l.href}
+                    icon="arrow-right"
+                    title={l.title}
+                    onPress={() => router.push(l.href as never)}
+                  />
                 ))}
               </View>
             ) : null}
