@@ -6,7 +6,8 @@ name: Thành Tâm · giọng đọc mẫu
 
 on:
   push:
-    branches: [feat/thanh-tam]
+    # wip/thanh-tam-edge: tạo lại giọng mà không hủy lượt QA đang chạy trên feat/thanh-tam
+    branches: [feat/thanh-tam, wip/thanh-tam-edge]
     paths:
       - apps/thanh-tam/src/data/kinh.ts
       - apps/thanh-tam/src/data/kinhText.ts
@@ -44,13 +45,14 @@ jobs:
           python-version: '3.12'
       - name: Cài Piper và mô hình giọng tiếng Việt
         run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg >/dev/null
           pip install --quiet "piper-tts>=1.2,<2"
           BASE=https://huggingface.co/rhasspy/piper-voices/resolve/main/vi/vi_VN/vais1000/medium
           curl -sSfL -o vi.onnx "$BASE/vi_VN-vais1000-medium.onnx"
           curl -sSfL -o vi.onnx.json "$BASE/vi_VN-vais1000-medium.onnx.json"
           curl -sSfL -o MODEL_CARD.txt "$BASE/MODEL_CARD"
           cat MODEL_CARD.txt
-          ffmpeg -version | head -1
+          ffmpeg -hide_banner -version | head -1
       - name: Tạo âm thanh
         run: python apps/thanh-tam/scripts/gen_voice.py voice-text.json vi.onnx voice-out
       - name: Kiểm tra đủ bài, mã băm khớp
