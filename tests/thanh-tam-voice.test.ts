@@ -1,7 +1,7 @@
 // Thành Tâm: giọng đọc mẫu (câu khớp chữ trên màn), chọn giọng máy tiếng Việt, đường dẫn video YouTube.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { KINH, chantLines , NGHI_THUC, kinhById, nghiThucById } from '../apps/thanh-tam/src/data/kinh';
+import { KINH, NGHI_THUC, chantLines, kinhById, nghiThucById } from '../apps/thanh-tam/src/data/kinh';
 import { PRAYERS } from '../apps/thanh-tam/src/data/prayers';
 import { buildPrayer } from '../apps/thanh-tam/src/lib/prayer';
 import { cueAt, hashCues, khanCues, kinhCues, voiceItems } from '../apps/thanh-tam/src/lib/voiceCues';
@@ -87,7 +87,7 @@ test('chọn giọng máy tiếng Việt: ưu tiên giọng trên máy, nhận c
 
 test('video: đọc đúng mã từ mọi kiểu đường dẫn YouTube; khóa video là nghi thức hoặc bài có thật', () => {
   const id = 'dfovLYA4jhI';
-  for (const u of [
+  const urls = [
     id,
     `https://www.youtube.com/watch?v=${id}`,
     `https://youtube.com/watch?index=17&list=RD&v=${id}`,
@@ -95,8 +95,10 @@ test('video: đọc đúng mã từ mọi kiểu đường dẫn YouTube; khóa 
     `https://www.youtube.com/shorts/${id}`,
     `https://www.youtube.com/embed/${id}`,
     `https://m.youtube.com/watch?v=${id}&t=30s`,
-  ])
+  ];
+  for (const u of urls) {
     assert.equal(youtubeId(u), id, u);
+  }
   assert.equal(youtubeId('https://example.com/video'), null);
   assert.equal(youtubeId('xin chào'), null);
   for (const [k, list] of Object.entries(VIDEOS)) {
