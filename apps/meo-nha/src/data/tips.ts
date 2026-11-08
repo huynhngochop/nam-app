@@ -15,15 +15,7 @@ import safety from './tipdata/safety';
 import pets from './tipdata/pets';
 
 export type CategoryId =
-  | 'kitchen'
-  | 'home'
-  | 'laundry'
-  | 'plants'
-  | 'saving'
-  | 'repair'
-  | 'devices'
-  | 'safety'
-  | 'pets';
+  'kitchen' | 'home' | 'laundry' | 'plants' | 'saving' | 'repair' | 'devices' | 'safety' | 'pets';
 export type Tip = {
   id: string;
   title: string;
