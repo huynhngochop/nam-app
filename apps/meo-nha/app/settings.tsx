@@ -4,6 +4,7 @@ import {
   AppBar,
   Chip,
   Dialog,
+  ExitAppItem,
   ListItem,
   Row,
   Screen,
@@ -104,6 +105,7 @@ export default function Settings() {
         center
         style={{ marginTop: 12 }}
       >{`Phiên bản ${Constants.expoConfig?.version ?? ''} · Điều khoản · Quyền riêng tư`}</T>
+      <ExitAppItem />
       <Sheet visible={pick} onClose={() => setPick(false)} title="Giờ nhận mẹo">
         <Row wrap>
           {TIMES.map((t) => (

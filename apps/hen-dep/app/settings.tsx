@@ -8,6 +8,7 @@ import {
   Chip,
   Chips,
   Dialog,
+  ExitAppItem,
   ListItem,
   Row,
   Screen,
@@ -244,6 +245,7 @@ export default function Settings() {
         Hẹn Đẹp 0.1.0
       </T>
 
+      <ExitAppItem />
       <Dialog
         visible={ask === 'demo'}
         title="Nạp dữ liệu mẫu?"

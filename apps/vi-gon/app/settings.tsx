@@ -9,6 +9,7 @@ import {
   Badge,
   Button,
   Dialog,
+  ExitAppItem,
   ListItem,
   Screen,
   SectionHeader,
@@ -211,6 +212,7 @@ export default function Settings() {
         Ví Gọn 0.1.0 · dữ liệu chỉ nằm trên máy này
       </T>
 
+      <ExitAppItem />
       <Dialog
         visible={wipe}
         title="Xóa toàn bộ dữ liệu?"
