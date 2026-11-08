@@ -33,7 +33,13 @@ export function createDebouncedStorage<S>(backing: () => Backing, delayMs = 400)
       const p = pending.get(name);
       if (p) return p;
       const raw = await backing().getItem(name);
-      return raw == null ? null : (JSON.parse(raw) as PersistValue<S>);
+      if (raw == null) return null;
+      // Dữ liệu hỏng (ví dụ máy tắt giữa lúc ghi) thì bắt đầu lại từ mặc định thay vì kẹt ở màn chờ.
+      try {
+        return JSON.parse(raw) as PersistValue<S>;
+      } catch {
+        return null;
+      }
     },
     setItem: (name: string, value: PersistValue<S>) => {
       pending.set(name, value);
