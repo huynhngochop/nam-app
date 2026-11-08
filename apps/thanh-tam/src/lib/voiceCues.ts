@@ -16,9 +16,9 @@ export type VoiceItem = { id: string; title: string; kind: 'kinh' | 'khan'; cues
 export const kinhVoiceId = (kinhId: string) => `kinh-${kinhId}`;
 export const khanVoiceId = (prayerId: string) => `khan-${prayerId}`;
 
-/** Giọng mẫu đọc chậm hơn khi tụng kinh (độ dài âm 1,15 lần) cho dễ đọc theo. */
-const KINH_PACE = 1.15;
-const KHAN_PACE = 1.05;
+/** Giọng mẫu đọc chậm cho dễ đọc theo: kinh khoảng 3 chữ mỗi giây (độ dài âm 1,35 lần), văn khấn 1,12 lần. */
+const KINH_PACE = 1.35;
+const KHAN_PACE = 1.12;
 
 export function kinhCues(kinhId: string): Cue[] {
   const k = KINH.find((x) => x.id === kinhId);
