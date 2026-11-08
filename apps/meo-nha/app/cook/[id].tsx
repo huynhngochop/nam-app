@@ -4,17 +4,32 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useKeepAwake } from 'expo-keep-awake';
 import * as Haptics from 'expo-haptics';
 import * as Notifications from 'expo-notifications';
-import { Button, Card, Dialog, IconButton, Row, Screen, StepBar, T, useLayout, useToast } from '@nam/ui';
+import { Button, Card, Dialog, EmptyState, IconButton, Row, Screen, StepBar, T, useLayout, useToast } from '@nam/ui';
 import { mmss, track } from '@nam/core';
-import { RECIPES } from '../../src/data/recipes';
+import { Recipe, RECIPES } from '../../src/data/recipes';
 
 /** MN-12 · Chế độ nấu: màn luôn sáng, chữ to, hẹn giờ từng bước (đếm theo thời điểm kết thúc, đúng cả khi app chạy nền). */
 export default function Cook() {
-  useKeepAwake();
   const { id } = useLocalSearchParams<{ id: string }>();
+  const r = RECIPES.find((x) => x.id === id);
+  if (!r || !r.steps.length)
+    return (
+      <Screen>
+        <EmptyState
+          icon="alert-circle"
+          title="Không tìm thấy công thức"
+          action="Quay lại"
+          onAction={() => router.back()}
+        />
+      </Screen>
+    );
+  return <CookSteps r={r} />;
+}
+
+function CookSteps({ r }: { r: Recipe }) {
+  useKeepAwake();
   const L = useLayout();
   const toast = useToast();
-  const r = RECIPES.find((x) => x.id === id)!;
   const [i, setI] = useState(0);
   const [endAt, setEndAt] = useState<number | null>(null);
   const [now, setNow] = useState(Date.now());
