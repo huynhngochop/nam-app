@@ -165,6 +165,7 @@ jobs:
         run: |
           cp qa/seeds/thanh-tam.tsx apps/thanh-tam/app/qa-seed.tsx
           $A "prebuild android" "cd apps/thanh-tam && npx expo prebuild -p android --clean --no-install 2>&1 | tail -20"
+          bash .github/scripts/gradle-dist.sh apps/thanh-tam/android
       - name: Build APK release (x86_64)
         run: $A "gradle" "bash .github/scripts/gradle-retry.sh apps/thanh-tam/android assembleRelease -PreactNativeArchitectures=x86_64 --no-daemon -q"
       - name: Bật KVM
@@ -264,6 +265,7 @@ jobs:
         run: |
           rm -f apps/thanh-tam/app/qa-seed.tsx
           $A "prebuild android" "cd apps/thanh-tam && npx expo prebuild -p android --clean --no-install 2>&1 | tail -20"
+          bash .github/scripts/gradle-dist.sh apps/thanh-tam/android
       # Mỗi bản chỉ chứa thư viện của một kiểu chip: arm64 cho gần như mọi máy từ 2017, arm32 cho máy rất cũ.
       # Bỏ x86_64 (chỉ máy ảo dùng). Gộp 3 kiểu chip vào một tệp từng làm bản cài nặng 97 MB.
       - name: Build APK arm64 (gần như mọi điện thoại)
