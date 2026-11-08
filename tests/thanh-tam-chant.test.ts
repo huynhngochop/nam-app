@@ -17,7 +17,22 @@ import {
 import { BELL_GAP, gotoLine, gotoStep, nextLine, startPos, tick } from '../apps/thanh-tam/src/lib/chant';
 import { RITUALS } from '../apps/thanh-tam/src/data/rituals';
 
-const NO_CHANT = ['than-tai-hang-ngay', 'mung-10-than-tai', 'ong-cong-ong-tao'];
+// Lễ dân gian chỉ thắp hương, khấn (không tụng kinh).
+const NO_CHANT = [
+  'than-tai-hang-ngay',
+  'mung-10-than-tai',
+  'ong-cong-ong-tao',
+  'bao-sai',
+  'tat-nien',
+  'hoa-vang',
+  'han-thuc',
+  'doan-ngo',
+  'cung-chung-sinh',
+  'trung-thu',
+  'dong-tho',
+  'ta-dat',
+  'xe-moi',
+];
 
 test('mỗi lễ có nghi thức tụng phù hợp, hoặc được ghi rõ là không tụng', () => {
   for (const r of RITUALS) {

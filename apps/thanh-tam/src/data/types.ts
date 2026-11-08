@@ -12,7 +12,8 @@ export type LunarRule =
   | { kind: 'solar-term'; term: 'thanh-minh' };
 
 export type Offering = { name: string; note?: string; optional?: boolean; avoid?: boolean };
-export type Step = { title: string; text: string; fire?: boolean };
+/** `guide`: id hướng dẫn chi tiết có hình (src/data/guides.ts) để mở từ bước này. */
+export type Step = { title: string; text: string; fire?: boolean; guide?: string };
 export type SourceRef = { kind: 'sach-co' | 'giao-hoi' | 'bao-chi' | 'nghien-cuu'; title: string; url?: string };
 
 export type Ritual = {
@@ -44,6 +45,8 @@ export type Ritual = {
   keywords: string;
   /** Lễ cần điền thêm thông tin riêng (tên người mất, tên cửa hàng, tên bé). */
   needs?: ('tenNguoiMat' | 'tenCuaHang' | 'tenEmBe')[];
+  /** Hướng dẫn chi tiết có hình (bày bàn thờ, mâm cỗ, vái lạy, trà rượu). */
+  guides: string[];
 };
 
 export type PrayerField =
@@ -88,3 +91,31 @@ export type Tip = {
 
 /** Một đoạn kinh: `l` là các dòng để tụng (âm Hán Việt, hoặc phiên âm nếu là chú); `vi` là nghĩa tiếng Việt nếu có. */
 export type KinhPara = { l: string[]; vi?: string[]; m?: 1 };
+
+/** Hình minh họa vẽ bằng mã (src/figures.tsx), không dùng ảnh: nhẹ, nét ở mọi cỡ màn, đổi màu theo nền tối. */
+export type FigureId =
+  | 'ban-tho'
+  | 'mam-bac'
+  | 'mam-nam'
+  | 'mam-chay'
+  | 'vai'
+  | 'lay'
+  | 'ba-tuan'
+  | 'cham-tra'
+  | 'thap-huong'
+  | 'nhieu-ban-tho';
+
+/**
+ * Hướng dẫn chi tiết. Mỗi phần có thể kèm một hình; `legend` là chú thích theo số trên hình
+ * (chữ nằm ngoài hình để phóng theo cỡ chữ hệ thống).
+ */
+export type GuideSection = { h: string; p: string[]; fig?: FigureId; legend?: string[]; figLabel?: string };
+export type Guide = {
+  id: string;
+  title: string;
+  summary: string;
+  icon: IconName;
+  sections: GuideSection[];
+  sources: SourceRef[];
+  keywords: string;
+};

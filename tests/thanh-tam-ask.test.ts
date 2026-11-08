@@ -7,6 +7,7 @@ import { ask, matchFaq, ASK_THRESHOLD } from '../apps/thanh-tam/src/lib/ask';
 import { FAQ, FAQ_SUGGEST } from '../apps/thanh-tam/src/data/faq';
 import { RITUALS } from '../apps/thanh-tam/src/data/rituals';
 import { SIGNS, TIPS } from '../apps/thanh-tam/src/data/signs';
+import { guideById } from '../apps/thanh-tam/src/data/guides';
 import { kinhById, nghiThucById } from '../apps/thanh-tam/src/data/kinh';
 import { lunarOf } from '../apps/thanh-tam/src/calendar/lunar';
 import type { Anniversary } from '../apps/thanh-tam/src/lib/schedule';
@@ -94,6 +95,7 @@ test('mọi đường dẫn trong câu trả lời mở được màn có thật
     if (a === 'ritual') return !!RITUALS.find((r) => r.id === b);
     if (a === 'sign') return !!SIGNS.find((s) => s.id === b);
     if (a === 'tip') return !!TIPS.find((t) => t.id === b);
+    if (a === 'guide') return !!guideById(b);
     if (a === 'chant' && b) return !!(nghiThucById(b) || kinhById(b));
     const file = ['', '.tsx', '/index.tsx'].map((x) => path.join(APP, p + x));
     const tab = path.join(APP, '(tabs)', `${a}.tsx`);

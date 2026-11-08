@@ -180,6 +180,11 @@ export const RITUAL_CHANT: Record<string, NghiThucId> = {
   'gio-thuong': 'cau-sieu',
   'thanh-minh': 'cau-sieu',
   'vu-lan': 'vu-lan-bao-hieu',
+  'mung-1-tet': 'cau-an',
+  'thoi-noi': 'cau-an',
+  'phat-dan': 'cau-an',
+  'le-chua': 'cau-an',
+  'tuan-49-100': 'cau-sieu',
 };
 export const NO_CHANT_NOTE =
   'Lễ này theo tín ngưỡng dân gian, thường chỉ thắp hương và đọc văn khấn, không cần tụng kinh. Nếu muốn, có thể tụng Bát Nhã Tâm Kinh trong Thư viện kinh.';

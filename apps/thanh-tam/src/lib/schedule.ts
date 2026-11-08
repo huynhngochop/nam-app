@@ -172,10 +172,12 @@ export function planNotifications(
       });
   }
   if (s.festivals) {
+    // Hai lễ cùng ngày (giao thừa và tất niên, Vu Lan và cúng chúng sinh): chỉ nhắc một lần.
+    const seen = new Set<string>();
     for (const r of rituals) {
       if (r.group !== 'tet-le' || !r.when.rule) continue;
       const d = nextByRule(r.when.rule, start, days + 3);
-      if (d)
+      if (d && !seen.has(d.toDateString()) && seen.add(d.toDateString()))
         out.push({
           id: `f-${r.id}-${d.toDateString()}`,
           at: at(addDays(d, -3), 8, 0),

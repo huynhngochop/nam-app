@@ -365,6 +365,66 @@ export const FAQ: Faq[] = [
     ],
     links: [{ title: 'Cài đặt', href: '/settings' }],
   },
+  {
+    id: 'may-lay',
+    q: 'Cúng gia tiên lạy mấy lạy?',
+    alt: ['lạy mấy lạy', 'vái mấy vái', 'số lạy', 'lạy Phật mấy lạy', 'cách lạy'],
+    kw: 'lay may lay vai may vai so lay cach lay 4 lay 3 vai lay phat',
+    a: [
+      'Gia tiên, người đã khuất: 4 lạy rồi 3 vái; đứng thì vái 4 vái. Ban Phật: 3 lạy. Thần linh: thường vái 3 vái. Người còn sống: 2 lạy.',
+      'Người già, đau gối đứng vái là đủ lễ. Mỗi vùng tính hơi khác, nhà có nếp riêng thì theo nếp nhà.',
+    ],
+    links: [{ title: 'Cách vái, cách lạy, số lạy', href: '/guide/vai-lay' }],
+    sources: [SRC.phongTuc],
+  },
+  {
+    id: 'ba-tuan-ruou',
+    q: 'Rót rượu cúng giỗ thế nào?',
+    alt: ['ba tuần rượu là gì', 'khi nào rót rượu', 'châm trà khi nào', 'rót mấy lần rượu'],
+    kw: 'rot ruou cung gio ba tuan ruou cham tra khi nao rot may lan',
+    a: [
+      'Trà, rượu rót trước khi thắp hương. Ngày giỗ, Tết rót ba tuần: tuần 1 lúc khấn, tuần 2 khi hương cháy một nửa, tuần 3 khi hương sắp tàn; mỗi tuần vái 3 vái.',
+      'Mỗi lần chỉ rót thêm một chút, không để tràn. Mùng 1, rằm rót một lần là đủ.',
+    ],
+    links: [{ title: 'Châm trà, rót rượu, ba tuần rượu', href: '/guide/tra-ruou' }],
+    sources: [SRC.phongTuc],
+  },
+  {
+    id: 'mam-co',
+    q: 'Mâm cỗ cúng gồm những món gì?',
+    alt: ['bốn bát sáu đĩa là gì', 'mâm cơm cúng giỗ', 'mâm cỗ tết miền nam', 'mâm cúng tất niên'],
+    kw: 'mam co cung gom mon gi bon bat sau dia mam com cung gio tet mien bac mien nam tat nien',
+    a: [
+      'Miền Bắc thường "bốn bát sáu đĩa": bát măng, miến, bóng, mọc; đĩa gà luộc, giò, nem, xôi, bánh chưng, dưa hành.',
+      'Miền Nam: thịt kho hột vịt, canh khổ qua, bánh tét, dưa món, củ kiệu, chả giò. Ngày thường, giỗ nhỏ bớt món là được.',
+    ],
+    links: [{ title: 'Mâm cỗ cúng theo miền', href: '/guide/mam-co' }],
+    sources: [SRC.phongTuc],
+  },
+  {
+    id: 'bay-ban-tho',
+    q: 'Bày bàn thờ thế nào cho đúng?',
+    alt: ['đông bình tây quả là gì', 'đặt lọ hoa bên nào', 'bát hương đặt ở đâu', 'cách bày bàn thờ'],
+    kw: 'bay ban tho the nao dong binh tay qua lo hoa ben nao bat huong dat o dau dia qua',
+    a: [
+      'Bát hương ở giữa, đèn nến hai bên, ba chén nước, trà, rượu phía trước. Nhìn từ ngoài vào: lọ hoa bên phải, đĩa quả bên trái ("đông bình tây quả").',
+      'Nhiều nhà bày khác; nhà đã có nếp riêng thì giữ nếp nhà.',
+    ],
+    links: [{ title: 'Bày bàn thờ gia tiên', href: '/guide/bay-ban-tho' }],
+    sources: [SRC.phongTuc],
+  },
+  {
+    id: 'cung-49-ngay',
+    q: 'Cúng 49 ngày, 100 ngày làm thế nào?',
+    alt: ['cúng tuần 49 ngày', 'cúng 100 ngày', 'chung thất', 'tốt khốc'],
+    kw: 'cung 49 ngay 100 ngay chung that tot khoc le tuan cau sieu',
+    a: [
+      'Làm mâm cơm hoặc mâm chay trước ảnh người mất, thắp hương, đọc văn khấn lễ tuần, lạy 4 lạy. Có thể tụng nghi thức Cầu siêu hoặc thỉnh chùa.',
+      'Ngày 49 và 100 tính từ ngày mất; Sổ giỗ tự tính khi nhập ngày mất.',
+    ],
+    links: [{ title: 'Cúng 49 ngày, 100 ngày', href: '/ritual/tuan-49-100' }],
+    sources: [SRC.phongTuc],
+  },
 ];
 
 /** Gợi ý câu hỏi khi chưa gõ gì. */

@@ -26,6 +26,16 @@ Khung hình giật trên emulator dùng đồ họa phần mềm nên chưa kế
 - `src/data/kinhText.ts`: sinh từ `scripts/gen_kinh_ts.py` (nguồn Unlicense). Đừng sửa tay.
 - `assets/sounds/`: mõ, chuông tự tổng hợp (`scripts/gen_sounds.py`). Không đưa bản ghi tụng kinh của người khác vào app.
 - `src/nav.ts`: `goBack()`; mọi nút quay lại dùng hàm này.
+- `src/data/guides.ts` + `src/figures.tsx`: hướng dẫn có hình (bày bàn thờ, mâm cỗ theo miền, vái lạy, trà rượu, thắp hương).
+  Hình vẽ bằng `react-native-svg` (không ảnh, vài KB), chỉ có số trên hình; chú thích là chữ bên ngoài để phóng 200 % và đọc được bằng TalkBack.
+  Thêm hình: thêm `FigureId`, nhánh vẽ, ô `VB`, và số chú thích trong `tests/thanh-tam-guides.test.ts`.
+
+## Nội dung (vòng 17)
+
+- 29 lễ (đủ 7 nhóm, kể cả Lễ chùa), 24 văn khấn, 13 bài kinh. Lễ mới: tất niên, mùng 1 Tết, hóa vàng, Hàn thực, Phật Đản, Đoan Ngọ,
+  cúng chúng sinh, Trung thu, bao sái, tạ đất, động thổ, 49/100 ngày, thôi nôi, xe mới, đi lễ chùa.
+- Mỗi lễ có bước ghi rõ số lạy, vái; giỗ và tất niên có ba tuần rượu; mỗi bước có nút "Xem hình" tới hướng dẫn.
+- Văn khấn mới tự có giọng mẫu: workflow `thanh-tam-voice` chạy lại khi `prayers.ts` đổi (37 bài).
 
 ## Thư viện thêm ở vòng 11 (giá dung lượng)
 

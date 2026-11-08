@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Share, View } from 'react-native';
+import { Pressable, Share, View } from 'react-native';
 import { router } from 'expo-router';
 import {
   AppBar,
@@ -21,6 +21,7 @@ import { GROUPS, offeringsFor, ritualById } from '../data/rituals';
 import { prayerById } from '../data/prayers';
 import { NO_CHANT_NOTE, RITUAL_CHANT, chantMinutes, nghiThucById } from '../data/kinh';
 import { tipById } from '../data/signs';
+import { guideById } from '../data/guides';
 import { useTT } from '../store';
 import { NavRow, SafetyCard, Sources, inDays, solarWithWeekday } from '../components';
 import { nextByRule, daysBetween } from '../lib/schedule';
@@ -209,6 +210,18 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
                 <T v="body" muted>
                   {s.text}
                 </T>
+                {s.guide && guideById(s.guide) ? (
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityLabel={`Xem hình: ${guideById(s.guide)!.title}`}
+                    onPress={() => router.push(`/guide/${s.guide}`)}
+                    style={({ pressed }) => ({ minHeight: 44, justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}
+                  >
+                    <T v="caption" accent weight="semibold">
+                      Xem hình: {guideById(s.guide)!.title}
+                    </T>
+                  </Pressable>
+                ) : null}
               </View>
             </Row>
           ))}
@@ -218,6 +231,19 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
           <T v="body">{r.meaning}</T>
         </Card>
       )}
+      {r.guides.length ? (
+        <>
+          <SectionHeader title="Hướng dẫn có hình" />
+          <Card style={{ paddingVertical: 4 }}>
+            {r.guides.map((gid) => {
+              const g = guideById(gid);
+              return g ? (
+                <NavRow key={gid} icon={g.icon} title={g.title} subtitle={g.summary} href={`/guide/${gid}`} />
+              ) : null;
+            })}
+          </Card>
+        </>
+      ) : null}
       {hasFire ? <SafetyCard /> : null}
       {r.cautions?.length ? (
         <Card>

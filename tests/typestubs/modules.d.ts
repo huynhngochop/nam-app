@@ -155,6 +155,8 @@ declare module 'react-native-svg' {
   export type Line = any;
   export const Polyline: any;
   export type Polyline = any;
+  export const Ellipse: any;
+  export type Ellipse = any;
   export const G: any;
   export type G = any;
   export const Defs: any;

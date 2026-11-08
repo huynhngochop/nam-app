@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { router } from 'expo-router';
 import { Card, Chip, Chips, Grid, Icon, Row, Screen, SearchField, SectionHeader, T, useTheme } from '@nam/ui';
 import { SIGNS, SIGN_AREAS, TIPS } from '../../src/data/signs';
+import { GUIDES } from '../../src/data/guides';
 import { NavRow } from '../../src/components';
 import { useTT } from '../../src/store';
 import { defaultAgeYear } from '../../src/hooks';
@@ -107,6 +108,13 @@ export default function Explore() {
       <T v="caption" muted>
         Mỗi dấu hiệu có ba phần: dân gian quan niệm, nhìn thực tế, nên làm. Không có điềm “dữ” nào cần lo sợ.
       </T>
+
+      <SectionHeader title="Hướng dẫn có hình" />
+      <Card style={{ paddingVertical: 4 }}>
+        {GUIDES.map((g) => (
+          <NavRow key={g.id} icon={g.icon} title={g.title} subtitle={g.summary} href={`/guide/${g.id}`} />
+        ))}
+      </Card>
 
       <SectionHeader title="Mẹo khi cúng" />
       <Card style={{ paddingVertical: 4 }}>

@@ -35,5 +35,9 @@
   "import-gio": "/anniversaries/import",
   "ask": "/ask",
   "video": "/video?key=bat-nha",
-  "voices": "/voices"
+  "voices": "/voices",
+  "guide": "/guide/vai-lay",
+  "guide-mam": "/guide/mam-co",
+  "guide-ban-tho": "/guide/bay-ban-tho",
+  "ritual-tat-nien": "/ritual/tat-nien"
 }

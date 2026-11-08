@@ -493,6 +493,31 @@ await scenario(
   },
 );
 
+await scenario(
+  'U19',
+  'Con cháu lần đầu làm giỗ',
+  'Xem các bước có số lạy, ba tuần rượu; mở hình bày mâm cỗ và cách lạy; quay lại được',
+  async (p, s) => {
+    await seed(p);
+    await go(p, '/ritual/gio-thuong');
+    await expectText(p, /Tuần rượu thứ hai/, 'ba tuần rượu trong các bước');
+    await expectText(p, /lạy 4 lạy rồi vái 3 vái/, 'số lạy gia tiên');
+    await click(p, /Xem hình: Mâm cỗ cúng theo miền/);
+    await expectText(p, /Miền Bắc: bốn bát, sáu đĩa/, 'hướng dẫn mâm cỗ');
+    await p.waitForSelector('[aria-label^="Mâm cỗ miền Bắc"]', { timeout: 8000 });
+    s('mở hình mâm cỗ miền Bắc từ bước bày mâm');
+    await click(p, /Cách vái, cách lạy, số lạy/);
+    await expectText(p, /Gia tiên, người đã khuất: 4 lạy/, 'bảng số lạy');
+    await click(p, 'Quay lại');
+    await expectText(p, /Cúng giỗ/, 'quay lại màn lễ');
+    s('sang hướng dẫn vái lạy rồi quay lại màn lễ');
+    await go(p, '/rituals');
+    await expectText(p, /Cúng tất niên/, 'lễ tất niên trong danh sách');
+    await expectText(p, /Đi lễ chùa/, 'nhóm lễ chùa có lễ');
+    s('danh sách có lễ mới (tất niên, lễ chùa)');
+  },
+);
+
 await browser.close();
 const pass = results.filter((r) => r.pass).length;
 const md = [

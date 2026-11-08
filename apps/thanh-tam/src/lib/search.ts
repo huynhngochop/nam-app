@@ -3,24 +3,34 @@ import { fold } from '@nam/core';
 import { RITUALS } from '../data/rituals';
 import { PRAYERS } from '../data/prayers';
 import { SIGNS, TIPS } from '../data/signs';
+import { GUIDES } from '../data/guides';
 
 const SYNONYMS: [string, string][] = [
   ['ong tao', 'ong cong ong tao 23 thang chap tao quan'],
   ['nhang', 'huong'],
   ['ve nha moi', 'nhap trach'],
   ['chuyen nha', 'nhap trach'],
-  ['co hon', 'cung chung sinh vu lan'],
   ['gio dau', 'gio tieu tuong'],
   ['than tai', 'than tai tho dia'],
   ['ram', 'ram mung 1'],
   ['mung 1', 'mung 1 ram'],
   ['tao mo', 'thanh minh'],
-  ['tat nien', 'giao thua'],
-  ['30 tet', 'giao thua'],
+  ['30 tet', 'tat nien giao thua'],
+  ['ruoc ong ba', 'tat nien'],
+  ['tien ong ba', 'hoa vang'],
+  ['co hon', 'cung chung sinh vu lan'],
+  ['49 ngay', 'tuan 49 100'],
+  ['100 ngay', 'tuan 49 100'],
+  ['may lay', 'cach lay so lay'],
+  ['lay may lay', 'cach lay so lay'],
+  ['rot ruou', 'ba tuan ruou cham tra'],
+  ['mam co', 'mam co mam com cung'],
+  ['bay ban tho', 'bay ban tho dong binh tay qua'],
+  ['di chua', 'le chua'],
   ['dot vang', 'hoa vang'],
 ];
 export type SearchResult = {
-  type: 'Lễ' | 'Văn khấn' | 'Dấu hiệu' | 'Mẹo';
+  type: 'Lễ' | 'Văn khấn' | 'Dấu hiệu' | 'Mẹo' | 'Hướng dẫn';
   id: string;
   title: string;
   sub: string;
@@ -75,6 +85,16 @@ function index(): Doc[] {
       href: `/tip/${t.id}`,
       t: fold(t.title),
       body: fold(t.keywords),
+    });
+  for (const g of GUIDES)
+    docs.push({
+      type: 'Hướng dẫn',
+      id: g.id,
+      title: g.title,
+      sub: g.summary,
+      href: `/guide/${g.id}`,
+      t: fold(g.title),
+      body: fold(g.keywords),
     });
   INDEX = docs;
   return docs;
