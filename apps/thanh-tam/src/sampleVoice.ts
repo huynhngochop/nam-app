@@ -52,17 +52,15 @@ export async function getManifest(fresh = false): Promise<Manifest> {
     if (!r.ok) throw new Error(String(r.status));
     const j = (await r.json()) as Manifest;
     manifest = j;
-    if (Platform.OS !== 'web') {
-      try {
-        const d = dir();
-        if (!d.exists) d.create();
-        const f = localManifestFile();
-        if (f.exists) f.delete();
-        f.create();
-        f.write(JSON.stringify(j));
-      } catch {
-        // không lưu được thì lần sau tải lại
-      }
+    try {
+      const d = dir();
+      if (!d.exists) d.create();
+      const f = localManifestFile();
+      if (f.exists) f.delete();
+      f.create();
+      f.write(JSON.stringify(j));
+    } catch {
+      // không lưu được thì lần sau tải lại
     }
     return j;
   } catch {
