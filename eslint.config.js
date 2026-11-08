@@ -38,10 +38,14 @@ module.exports = defineConfig([
           paths: [
             {
               name: '@expo/vector-icons',
-              message: "Kéo mọi bộ icon (vài MB) vào APK — nhập đúng một bộ: import Feather from '@expo/vector-icons/Feather'.",
+              message:
+                "Kéo mọi bộ icon (vài MB) vào APK — nhập đúng một bộ: import Feather from '@expo/vector-icons/Feather'.",
             },
             { name: 'lodash', message: 'Dùng hàm JS sẵn có hoặc lodash/<hàm> (docs/lean-app.md).' },
-            { name: 'moment', message: 'Nặng ~300 KB — dùng Date/Intl hoặc dateKey() trong @nam/core (docs/lean-app.md).' },
+            {
+              name: 'moment',
+              message: 'Nặng ~300 KB — dùng Date/Intl hoặc dateKey() trong @nam/core (docs/lean-app.md).',
+            },
           ],
           patterns: [
             {
