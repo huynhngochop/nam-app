@@ -7,8 +7,8 @@ Quy tắc chung ở `/CLAUDE.md`. Tệp này giữ con số cụ thể của app
 
 | Chỉ số | Ngân sách | Đo gần nhất | Đo ở đâu |
 | --- | --- | --- | --- |
-| APK arm64 | ≤ 40 MB (mục tiêu 30) | 29,6 MB (vòng 16; vòng 9 là 97 MB gộp 3 chip) | job `apk`, `tt-apk-size.mjs` (chặn CI) |
-| APK arm32 | ≤ 35 MB | 23,4 MB (vòng 10) | job `apk` |
+| APK arm64 | ≤ 40 MB (mục tiêu 30) | 29,6 MB (vòng 17, thêm 15 lễ và 10 hình vẫn không tăng; vòng 9 là 97 MB gộp 3 chip) | job `apk`, `tt-apk-size.mjs` (chặn CI) |
+| APK arm32 | ≤ 35 MB | 23,7 MB (vòng 17) | job `apk` |
 | Mã JS (Hermes) | ≤ 4 MB | 3,1 MB (vòng 10) | bảng dung lượng trong job `apk` |
 | Khởi động lạnh | ≤ 1,5 s trên emulator | 0,62–0,82 s khi đã có dữ liệu (vòng 16) | `qa/native/android.sh` mục 6 |
 | Bộ nhớ khi chạy | ≤ 200 MB PSS | 104 MB ngay sau khởi động (vòng 16); 380 MB sau khi mở mọi màn kể cả video (WebView nạp Chromium) | `android.sh` mục 5–6 |
@@ -35,7 +35,8 @@ Khung hình giật trên emulator dùng đồ họa phần mềm nên chưa kế
 - 29 lễ (đủ 7 nhóm, kể cả Lễ chùa), 24 văn khấn, 13 bài kinh. Lễ mới: tất niên, mùng 1 Tết, hóa vàng, Hàn thực, Phật Đản, Đoan Ngọ,
   cúng chúng sinh, Trung thu, bao sái, tạ đất, động thổ, 49/100 ngày, thôi nôi, xe mới, đi lễ chùa.
 - Mỗi lễ có bước ghi rõ số lạy, vái; giỗ và tất niên có ba tuần rượu; mỗi bước có nút "Xem hình" tới hướng dẫn.
-- Văn khấn mới tự có giọng mẫu: workflow `thanh-tam-voice` chạy lại khi `prayers.ts` đổi (37 bài).
+- Văn khấn mới tự có giọng mẫu: workflow `thanh-tam-voice` chạy lại khi `prayers.ts` đổi; vòng 17 đã tạo đủ 37 bài.
+- QA vòng 17: UAT 19/19, 920 lượt chụp 0 vấn đề, crawler 37 màn 0 lỗi JS, Android và iOS đạt.
 
 ## Thư viện thêm ở vòng 11 (giá dung lượng)
 
@@ -59,5 +60,5 @@ Khung hình giật trên emulator dùng đồ họa phần mềm nên chưa kế
 | Đo sự kiện (`track`) | Chưa có nơi nhận ở bản phát hành | Chọn dịch vụ đo, nối `sink` |
 | Bản iPhone | Để sau (người dùng chọn) | Tài khoản Apple Developer, khóa API App Store Connect |
 | Lên Google Play | APK ký bằng khóa thử (debug) | Khóa ký thật, AAB, trang cửa hàng |
-| Thử tay trên máy thật | Chưa | Tiếng mõ, chuông, giọng mẫu, giọng máy; thông báo gửi thử; video YouTube trong app (ảnh emulator vòng 16 chỉ thấy khung đen lúc mới mở, chưa xác nhận phát); gửi, nhận sổ giỗ qua Gmail, Zalo; TalkBack, VoiceOver |
+| Thử tay trên máy thật | Chưa | Tiếng mõ, chuông, giọng mẫu (cả 14 bài khấn mới), giọng máy; hình hướng dẫn ở chữ 200 %; thông báo gửi thử; video YouTube trong app (ảnh emulator vòng 16 chỉ thấy khung đen lúc mới mở, chưa xác nhận phát); gửi, nhận sổ giỗ qua Gmail, Zalo; TalkBack, VoiceOver |
 | Công tắc cao 20 px | Đã nới vùng chạm `Toggle` lên 44×52 (vòng 10), chờ QA xác nhận | |
