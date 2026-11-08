@@ -44,14 +44,18 @@ jobs:
       - name: Prebuild
         run: $A "prebuild ${{ matrix.app }}" "cd apps/${{ matrix.app }} && npx expo prebuild -p android --no-install --clean 2>&1 | tail -20"
       # Kiến trúc theo packages/core/plugins/with-android-release.js: armeabi-v7a + arm64-v8a (mọi điện thoại Android thật).
+      # Mỗi loại chip một APK (nam.abiSplits trong packages/core/plugins/with-android-release.js).
       - name: Gradle assembleRelease
-        run: $A "gradle ${{ matrix.app }}" "cd apps/${{ matrix.app }}/android && ./gradlew :app:assembleRelease --no-daemon -q 2>&1 | grep -v '^w:' | tail -40"
+        run: $A "gradle ${{ matrix.app }}" "cd apps/${{ matrix.app }}/android && ./gradlew :app:assembleRelease -Pnam.abiSplits=true --no-daemon -q 2>&1 | grep -v '^w:' | tail -40"
       - name: Đặt tên APK
         run: |
           v=$(node -p "require('./apps/${{ matrix.app }}/app.json').expo.version")
+          d=apps/${{ matrix.app }}/android/app/build/outputs/apk/release
           mkdir -p out
-          cp apps/${{ matrix.app }}/android/app/build/outputs/apk/release/*.apk "out/${{ matrix.app }}-$v-preview.apk"
-          echo "::notice title=${{ matrix.app }}::$(du -k out/*.apk | cut -f1) KB · v$v"
+          # arm64-v8a: gần như mọi điện thoại từ 2017; armeabi-v7a: máy 32-bit đời cũ.
+          cp "$d/app-arm64-v8a-release.apk" "out/${{ matrix.app }}-$v-preview.apk"
+          cp "$d/app-armeabi-v7a-release.apk" "out/${{ matrix.app }}-$v-preview-armv7.apk"
+          echo "::notice title=${{ matrix.app }}::v$v · arm64 $(du -k out/${{ matrix.app }}-$v-preview.apk | cut -f1) KB · armv7 $(du -k out/${{ matrix.app }}-$v-preview-armv7.apk | cut -f1) KB"
       - uses: actions/upload-artifact@v4
         with:
           name: apk-${{ matrix.app }}
@@ -91,7 +95,7 @@ jobs:
         run: |
           cd apks
           ls -la
-          printf '# APK cài thử\n\nBản preview (mã thử Hẹn Đẹp: 123456, mua trong app giả lập), ký bằng khóa debug — chỉ để cài thử, không đưa lên cửa hàng.\n\nBuild từ commit %s.\n' "${{ github.sha }}" > README.md
+          printf '# APK cài thử\n\nBản preview (mã thử Hẹn Đẹp: 123456, mua trong app giả lập), ký bằng khóa debug — chỉ để cài thử, không đưa lên cửa hàng.\n\n- `<app>-<phiên bản>-preview.apk`: điện thoại 64-bit (gần như mọi máy từ 2017).\n- `…-preview-armv7.apk`: máy 32-bit đời cũ, nếu bản trên báo không cài được.\n\nBuild từ commit %s.\n' "${{ github.sha }}" > README.md
           git init -q -b apk-builds
           git config user.name "github-actions[bot]"
           git config user.email "41898299+github-actions[bot]@users.noreply.github.com"

@@ -16,7 +16,8 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+// Chỉ nhập bộ Feather: nhập từ '@expo/vector-icons' kéo mọi bộ icon (vài MB phông + bảng mã) vào APK.
+import Feather from '@expo/vector-icons/Feather';
 import { SafeAreaView, Edge } from 'react-native-safe-area-context';
 import { useTheme } from '../theme';
 import { fonts, proAmber, radius, type as typeScale, TypeVariant } from '../tokens';

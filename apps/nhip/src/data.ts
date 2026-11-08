@@ -10,10 +10,10 @@ export type Sound = {
 };
 
 export const SOUNDS: Sound[] = [
-  { id: 'rain', name: 'Mưa rào', icon: 'cloud-rain', file: require('../assets/sounds/rain.wav') },
-  { id: 'white', name: 'Ồn trắng', icon: 'radio', file: require('../assets/sounds/white.wav') },
-  { id: 'pink', name: 'Ồn hồng', icon: 'wind', file: require('../assets/sounds/pink.wav') },
-  { id: 'brown', name: 'Ồn nâu', icon: 'wind', file: require('../assets/sounds/brown.wav') },
+  { id: 'rain', name: 'Mưa rào', icon: 'cloud-rain', file: require('../assets/sounds/rain.m4a') },
+  { id: 'white', name: 'Ồn trắng', icon: 'radio', file: require('../assets/sounds/white.m4a') },
+  { id: 'pink', name: 'Ồn hồng', icon: 'wind', file: require('../assets/sounds/pink.m4a') },
+  { id: 'brown', name: 'Ồn nâu', icon: 'wind', file: require('../assets/sounds/brown.m4a') },
   { id: 'cafe', name: 'Quán cà phê', icon: 'coffee', packId: 'saigon' },
   { id: 'forest', name: 'Rừng thông', icon: 'feather', packId: 'dalat' },
   { id: 'thunder', name: 'Sấm xa', icon: 'cloud-lightning', packId: 'saigon' },
