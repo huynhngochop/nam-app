@@ -6,6 +6,7 @@ import {
   Badge,
   Card,
   Chip,
+  ExitAppItem,
   ListItem,
   Row,
   Screen,
@@ -113,6 +114,7 @@ export default function Me() {
           }}
         />
       </View>
+      <ExitAppItem />
       <Sheet visible={goalOpen} onClose={() => setGoalOpen(false)} title="Mục tiêu hằng ngày">
         <Row wrap>
           {[60, 90, 120, 180, 240].map((m) => (

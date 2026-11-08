@@ -48,3 +48,5 @@ export default function RootLayout() {
     </AppShell>
   );
 }
+
+export { ErrorBoundary } from '@nam/ui';

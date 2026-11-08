@@ -8,6 +8,7 @@ import {
   Chip,
   Chips,
   Dialog,
+  ExitAppItem,
   ListItem,
   Row,
   Screen,
@@ -22,6 +23,7 @@ import {
 import { shortMoney } from '@nam/core';
 import { useHen, useOutbox } from '../src/store';
 import { hasServer } from '../src/messages';
+import Constants from 'expo-constants';
 
 const DAYS = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
 const FROM = ['07:00', '08:00', '09:00', '10:00'];
@@ -241,9 +243,10 @@ export default function Settings() {
         <Button title="Đăng xuất" variant="text" size="md" onPress={() => setAsk('logout')} />
       </View>
       <T v="caption" muted center>
-        Hẹn Đẹp 0.1.0
+        Hẹn Đẹp {Constants.expoConfig?.version}
       </T>
 
+      <ExitAppItem />
       <Dialog
         visible={ask === 'demo'}
         title="Nạp dữ liệu mẫu?"

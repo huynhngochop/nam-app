@@ -1,9 +1,10 @@
 import React from 'react';
-import { Tabs } from 'expo-router';
-import { Icon, useAdaptiveTabOptions } from '@nam/ui';
+import { router, Tabs } from 'expo-router';
+import { Icon, useAdaptiveTabOptions, useExitOnBack } from '@nam/ui';
 
 export default function TabsLayout() {
   const opts = useAdaptiveTabOptions();
+  useExitOnBack(router.canGoBack);
   return (
     <Tabs screenOptions={opts}>
       <Tabs.Screen

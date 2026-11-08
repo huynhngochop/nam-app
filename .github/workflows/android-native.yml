@@ -79,7 +79,7 @@ jobs:
           target: google_apis
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot
-          script: bash .github/scripts/smoke-apk.sh "${{ env.APK }}" "${{ env.PKG }}"
+          script: bash .github/scripts/smoke-apk.sh "${{ env.APK }}" "${{ env.PKG }}" "apps/${{ matrix.app }}"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
