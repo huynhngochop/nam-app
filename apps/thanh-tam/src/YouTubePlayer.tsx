@@ -9,8 +9,10 @@ import { WebView } from 'react-native-webview';
  */
 const ORIGIN = 'https://huynhngochop.github.io';
 
-export const embedUrl = (id: string) =>
-  `https://www.youtube-nocookie.com/embed/${id}?playsinline=1&rel=0&modestbranding=1&origin=${encodeURIComponent(ORIGIN)}`;
+/** `origin` phải đúng trang đang nhúng: điện thoại là ORIGIN (baseUrl của WebView), web là địa chỉ trang hiện tại. */
+export const embedUrl = (id: string, origin = ORIGIN) =>
+  `https://www.youtube-nocookie.com/embed/${id}?playsinline=1&rel=0&modestbranding=1&origin=${encodeURIComponent(origin)}`;
+const pageOrigin = () => (globalThis as { location?: { origin?: string } }).location?.origin ?? ORIGIN;
 
 const html = (id: string) => `<!doctype html><html><head>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
@@ -30,7 +32,7 @@ export function YouTubePlayer({ id, title }: { id: string; title: string }) {
       {Platform.OS === 'web' ? (
         createElement('iframe', {
           key: id,
-          src: embedUrl(id),
+          src: embedUrl(id, pageOrigin()),
           title,
           allow: 'autoplay; encrypted-media; picture-in-picture; fullscreen',
           allowFullScreen: true,

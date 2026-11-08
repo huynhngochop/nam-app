@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { AppState, Linking } from 'react-native';
+import { AppState, Linking, Platform } from 'react-native';
 import { router } from 'expo-router';
 import {
   AppBar,
@@ -110,6 +110,7 @@ export default function Settings() {
           ns && !ns.granted
             ? async () => {
                 if (ns.canAsk && (await requestNotify())) refresh();
+                else if (Platform.OS === 'web') toast('Bật thông báo trong cài đặt của trình duyệt');
                 else Linking.openSettings().catch(() => {});
               }
             : undefined

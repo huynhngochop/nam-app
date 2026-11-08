@@ -13,8 +13,7 @@ import {
   removeVoice,
   voiceCatalog,
   voiceState,
-  type Manifest,
-} from '../src/sampleVoice';
+  type Manifest, VOICE_UNAVAILABLE } from '../src/sampleVoice';
 
 /** TT-37 · Giọng đọc mẫu: xem bài nào đã tải, tải tất cả hoặc từng bài, xóa để lấy lại chỗ trống. */
 export default function Voices() {
@@ -93,7 +92,7 @@ export default function Voices() {
       </T>
       {err && !m ? (
         <Card variant="tint">
-          <T v="body">Chưa kết nối được. Bật mạng rồi mở lại màn này để tải.</T>
+          <T v="body">{VOICE_UNAVAILABLE}</T>
         </Card>
       ) : null}
       <Card>

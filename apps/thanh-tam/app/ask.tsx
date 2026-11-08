@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { router } from 'expo-router';
-import { AppBar, Button, Card, Chip, Chips, Icon, Row, Screen, T, TextField, useTheme } from '@nam/ui';
+import { AppBar, Button, Card, Icon, Row, Screen, T, TextField, useTheme } from '@nam/ui';
 import { track } from '@nam/core';
 import { goBack } from '../src/nav';
 import { useTT } from '../src/store';
@@ -64,12 +64,12 @@ export default function Ask() {
           <T v="caption" muted>
             Câu hay hỏi
           </T>
-          <Chips>
+          <Card style={{ paddingVertical: 4 }}>
             {FAQ_SUGGEST.map((id) => {
               const f = FAQ.find((x) => x.id === id)!;
-              return <Chip key={id} label={f.q} onPress={() => send(f.q)} />;
+              return <NavRow key={id} icon="message-circle" title={f.q} onPress={() => send(f.q)} />;
             })}
-          </Chips>
+          </Card>
         </>
       ) : null}
       {turns.map((t, i) => (

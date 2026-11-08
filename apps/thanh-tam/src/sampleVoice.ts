@@ -12,6 +12,12 @@ export const VOICE_BASE = 'https://github.com/huynhngochop/nam-app/releases/down
 export const VOICE_CREDIT =
   'Giọng đọc mẫu tạo bằng phần mềm Piper (mã nguồn mở) với giọng tiếng Việt vais1000, dữ liệu VAIS-1000 (giấy phép CC BY 4.0).';
 
+/** Câu báo khi chưa lấy được danh mục giọng mẫu: bản web không tải được, điện thoại thì cần mạng lần đầu. */
+export const VOICE_UNAVAILABLE =
+  Platform.OS === 'web'
+    ? 'Giọng đọc mẫu dùng trong app trên điện thoại.'
+    : 'Cần mạng để tải giọng đọc mẫu lần đầu. Sau đó nghe không cần mạng.';
+
 export type ManifestItem = { file: string; bytes: number; ms: number; hash: string; cues: [number, number][] };
 export type Manifest = { v: number; voice: string; credit: string; items: Record<string, ManifestItem> };
 
@@ -38,6 +44,8 @@ function readLocalManifest(): Manifest | null {
 
 /** Danh mục giọng mẫu. Có mạng thì lấy bản mới và lưu lại; mất mạng thì dùng bản đã lưu. */
 export async function getManifest(fresh = false): Promise<Manifest> {
+  // Bản web (chỉ để xem thử, kiểm thử): GitHub Releases không cho trình duyệt tải chéo nguồn (CORS). Giọng mẫu dùng trên điện thoại.
+  if (Platform.OS === 'web') throw new Error('CHI_TREN_DIEN_THOAI');
   if (manifest && !fresh) return manifest;
   try {
     const r = await fetch(`${VOICE_BASE}manifest.json?t=${Date.now()}`);

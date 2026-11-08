@@ -19,8 +19,7 @@ import {
   playVoice,
   voiceState,
   voiceTimings,
-  type VoicePlayback,
-} from '../../../src/sampleVoice';
+  type VoicePlayback, VOICE_UNAVAILABLE } from '../../../src/sampleVoice';
 import { kinhVoiceId } from '../../../src/lib/voiceCues';
 import { goBack } from '../../../src/nav';
 
@@ -190,7 +189,7 @@ export default function ChantPlay() {
       const m = await getManifest(true);
       setDl({ open: true, size: bytesToDownload(m, sampleIds) });
     } catch {
-      setDl({ open: true, note: 'Cần mạng để tải giọng đọc mẫu lần đầu. Sau đó nghe không cần mạng.' });
+      setDl({ open: true, note: VOICE_UNAVAILABLE });
     }
   };
   const doDownload = async () => {

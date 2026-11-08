@@ -62,7 +62,7 @@ export async function openTtsSettings() {
       // máy không có màn này: mở cài đặt của app
     }
   }
-  await Linking.openSettings().catch(() => {});
+  if (Platform.OS !== 'web') await Linking.openSettings().catch(() => {});
 }
 
 export const NO_VOICE_HELP =

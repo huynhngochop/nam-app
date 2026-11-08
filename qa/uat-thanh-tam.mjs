@@ -451,7 +451,8 @@ await scenario(
       });
     await settle(p);
     await click(p, /^Thêm 1, ghi đè 1$/);
-    await expectText(p, /Người Mới QA/, 'ngày mới có trong sổ');
+    await expectText(p, /Đã thêm 1 ngày giỗ, cập nhật 1/, 'báo đã thêm và cập nhật');
+    await expectText(p, /\d+ ngày giỗ ·/, 'về Sổ giỗ');
     const after = (await body(p)).match(/(\d+) ngày giỗ ·/);
     if (before && after && Number(after[1]) !== Number(before[1]) + 1)
       throw new Error(`số ngày giỗ ${before[1]} → ${after[1]}`);

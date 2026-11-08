@@ -698,15 +698,16 @@ export function Toggle({ value, onChange, label }: { value: boolean; onChange: (
       hitSlop={4}
       style={{ minHeight: 44, minWidth: 52, alignItems: 'center', justifyContent: 'center' }}
     >
-      <Switch
-        accessible={false}
-        importantForAccessibility="no-hide-descendants"
-        value={value}
-        onValueChange={onChange}
-        trackColor={{ true: c.a, false: c.line }}
-        thumbColor="#ffffff"
-        ios_backgroundColor={c.line}
-      />
+      {/* Công tắc chỉ để nhìn: chạm do vùng bọc xử lý (một lần, không bật/tắt hai lần). */}
+      <View pointerEvents="none" importantForAccessibility="no-hide-descendants" accessibilityElementsHidden>
+        <Switch
+          accessible={false}
+          value={value}
+          trackColor={{ true: c.a, false: c.line }}
+          thumbColor="#ffffff"
+          ios_backgroundColor={c.line}
+        />
+      </View>
     </Pressable>
   );
 }

@@ -132,6 +132,9 @@ for i in 1 2 3; do
   say "KHỞI ĐỘNG LẠNH $i: $T"
   sleep 4
 done
+# Bộ nhớ ngay sau khởi động (chưa mở video): mục 5 đo sau khi đã mở mọi màn, gồm trình phát YouTube (WebView nạp
+# cả bộ máy Chromium vào tiến trình), nên cao hơn nhiều so với lúc dùng bình thường.
+say "BỘ NHỚ SAU KHỞI ĐỘNG: $(adb shell dumpsys meminfo "$PKG" | grep -E 'TOTAL PSS|TOTAL:' | head -1)"
 adb logcat -d -s ReactNativeJS:V ReactNative:V AndroidRuntime:E >"$OUT/logcat.txt" 2>&1
 adb logcat -d -b crash >"$OUT/crash.txt" 2>&1
 say "LỖI JS: $(grep -c -E 'ReactNativeJS.*(Error|TypeError|Invariant)' "$OUT/logcat.txt")"
