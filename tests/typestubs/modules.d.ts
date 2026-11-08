@@ -333,3 +333,7 @@ declare module '@expo-google-fonts/be-vietnam-pro/700Bold' {
 declare module 'expo-font' {
   export function useFonts(map: Record<string, unknown>): [boolean, Error | null];
 }
+declare module 'react-native-webview' {
+  export const WebView: any;
+  export type WebView = any;
+}

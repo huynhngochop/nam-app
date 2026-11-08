@@ -29,5 +29,11 @@
   "chant": "/chant",
   "chant-setup": "/chant/cau-sieu?ritual=gio-thuong",
   "chant-play": "/chant/cau-an/play",
-  "chant-kinh": "/chant/bat-nha/play"
+  "chant-kinh": "/chant/bat-nha/play",
+  "data": "/data",
+  "share-gio": "/anniversaries/share",
+  "import-gio": "/anniversaries/import",
+  "ask": "/ask",
+  "video": "/video?key=bat-nha",
+  "voices": "/voices"
 }

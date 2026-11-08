@@ -398,6 +398,12 @@ test('Màn hình: không lộ chữ kỹ thuật cho người dùng; tuyến nà
     'chant/index',
     'chant/[id]/index',
     'chant/[id]/play',
+    'data',
+    'anniversaries/share',
+    'anniversaries/import',
+    'ask',
+    'video',
+    'voices',
   ];
   for (const r of routes) assert.ok(files.includes(join(root, 'app', `${r}.tsx`)), `thiếu màn ${r}`);
 });

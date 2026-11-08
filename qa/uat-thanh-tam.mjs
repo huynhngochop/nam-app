@@ -6,6 +6,7 @@ import path from 'node:path';
 
 const [base, outDir] = process.argv.slice(2);
 fs.mkdirSync(path.join(outDir, 'shots'), { recursive: true });
+const OUT = path.resolve(outDir);
 const browser = await chromium.launch();
 const results = [];
 
@@ -16,6 +17,7 @@ async function newPage({ w = 393, h = 852, tz = 'Asia/Ho_Chi_Minh', scheme = 'li
     timezoneId: tz,
     colorScheme: scheme,
     hasTouch: true,
+    acceptDownloads: true,
   });
   const page = await ctx.newPage();
   page.errs = [];
@@ -401,6 +403,84 @@ await scenario(
     await click(p, 'Đóng');
     await expectText(p, /Chào buổi/, 'về Hôm nay sau khi bấm Đóng');
     s('màn tụng mở thẳng: Đóng về Hôm nay');
+  },
+);
+
+await scenario(
+  'U16',
+  'Con cháu gửi sổ giỗ cho nhau',
+  'Gửi sổ giỗ ra tệp, người nhận nhập: thêm ngày mới, ngày trùng hỏi trước khi ghi đè, không mất ngày nào',
+  async (p, s) => {
+    await seed(p);
+    await go(p, '/anniversaries');
+    const before = (await body(p)).match(/(\d+) ngày giỗ ·/);
+    await click(p, 'Gửi cho cả nhà');
+    await expectText(p, /Đã chọn \d+\/\d+/, 'màn chọn ngày giỗ để gửi');
+    const [dl] = await Promise.all([p.waitForEvent('download', { timeout: 15000 }), click(p, /^Gửi \d+ ngày giỗ$/)]);
+    const file = path.join(OUT, 'sogio.json');
+    await dl.saveAs(file);
+    const j = JSON.parse(fs.readFileSync(file, 'utf8'));
+    if (j.app !== 'thanh-tam' || j.kind !== 'so-gio' || !j.anniversaries.length) throw new Error('tệp gửi đi sai');
+    s(`tệp gửi đi có ${j.anniversaries.length} ngày giỗ`);
+    // Người nhận: một ngày sửa món cúng (trùng), một ngày mới
+    j.anniversaries[0] = { ...j.anniversaries[0], dishes: 'Xôi gấc, gà luộc (QA)' };
+    j.anniversaries.push({
+      id: 'qa-moi',
+      name: 'Người Mới QA',
+      relation: 'Cụ',
+      lunar: { day: 9, month: 9, leap: false },
+      missingDayRule: 'ngay-cuoi-thang',
+      remindDays: [7, 3, 1],
+    });
+    const file2 = path.join(OUT, 'sogio-nhan.json');
+    fs.writeFileSync(file2, JSON.stringify(j));
+    await go(p, '/data');
+    const [fc] = await Promise.all([p.waitForEvent('filechooser', { timeout: 15000 }), click(p, /Nhận sổ giỗ từ người khác/)]);
+    await fc.setFiles(file2);
+    await expectText(p, /Ngày giỗ mới sẽ thêm/, 'màn xem trước khi nhập');
+    await expectText(p, /Ngày trùng: chọn giữ hay ghi đè/, 'hỏi trước khi ghi đè');
+    await p.getByRole('tab', { name: 'Lấy bản mới' }).first().click({ timeout: 6000 }).catch(async () => {
+      await p.getByText('Lấy bản mới', { exact: true }).first().click({ timeout: 6000 });
+    });
+    await settle(p);
+    await click(p, /^Thêm 1, ghi đè 1$/);
+    await expectText(p, /Người Mới QA/, 'ngày mới có trong sổ');
+    const after = (await body(p)).match(/(\d+) ngày giỗ ·/);
+    if (before && after && Number(after[1]) !== Number(before[1]) + 1) throw new Error(`số ngày giỗ ${before[1]} → ${after[1]}`);
+    s('thêm 1 ngày mới, ghi đè 1 ngày trùng theo lựa chọn, không mất ngày nào');
+  },
+);
+
+await scenario(
+  'U17',
+  'Người mới hỏi Thành Tâm',
+  'Hỏi bằng câu thường ngày, không dấu; có câu trả lời và mục liên quan; câu ngoài phạm vi nói rõ là chưa có',
+  async (p, s) => {
+    await seed(p);
+    await go(p, '/ask');
+    await p.getByPlaceholder('Ví dụ: giỗ tháng nhuận cúng ngày nào?').fill('mat thang nhuan gio the nao');
+    await click(p, 'Hỏi');
+    await expectText(p, /tháng thường cùng tên/, 'trả lời giỗ tháng nhuận');
+    s('hỏi không dấu ra đúng câu trả lời');
+    await p.getByPlaceholder('Ví dụ: giỗ tháng nhuận cúng ngày nào?').fill('cách nấu phở bò');
+    await click(p, 'Hỏi');
+    await expectText(p, /chưa có câu trả lời chắc chắn/, 'không trả lời bừa');
+    s('câu ngoài phạm vi: nói rõ chưa có');
+  },
+);
+
+await scenario(
+  'U18',
+  'Nghe chư Tăng tụng ngay trong app',
+  'Video YouTube phát trong app (không chuyển sang YouTube), chữ kinh ở dưới để đọc theo',
+  async (p, s) => {
+    await seed(p);
+    await go(p, '/chant/bat-nha');
+    await click(p, /Nghe chư Tăng tụng, đọc theo/);
+    await p.waitForSelector('iframe[src*="youtube-nocookie.com/embed/"]', { timeout: 15000 });
+    await expectText(p, /Quán Tự Tại Bồ tát/, 'chữ kinh để đọc theo');
+    if (!p.url().includes('/video')) throw new Error('không ở trong app');
+    s('trình phát nhúng, chữ kinh bên dưới');
   },
 );
 

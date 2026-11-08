@@ -7,11 +7,11 @@ Quy tắc chung ở `/CLAUDE.md`. Tệp này giữ con số cụ thể của app
 
 | Chỉ số | Ngân sách | Đo gần nhất | Đo ở đâu |
 | --- | --- | --- | --- |
-| APK arm64 | ≤ 40 MB (mục tiêu 30) | 97 MB gộp 3 chip, vòng 9 (trước khi tối ưu) | job `apk`, `tt-apk-size.mjs` (chặn CI) |
-| APK arm32 | ≤ 35 MB | chưa đo | job `apk` |
-| Mã JS (Hermes) | ≤ 4 MB | 3,5 MB | bảng dung lượng trong job `apk` |
-| Khởi động lạnh | ≤ 1,5 s trên emulator | chưa đo đủ | `qa/native/android.sh` mục 6 |
-| Bộ nhớ khi chạy | ≤ 200 MB PSS | 245 MB (emulator, 1.000 ngày giỗ) | `android.sh` mục 5, `meminfo.txt` |
+| APK arm64 | ≤ 40 MB (mục tiêu 30) | 29,3 MB (vòng 10; trước đó 97 MB gộp 3 chip) | job `apk`, `tt-apk-size.mjs` (chặn CI) |
+| APK arm32 | ≤ 35 MB | 23,4 MB (vòng 10) | job `apk` |
+| Mã JS (Hermes) | ≤ 4 MB | 3,1 MB (vòng 10) | bảng dung lượng trong job `apk` |
+| Khởi động lạnh | ≤ 1,5 s trên emulator | 0,55–0,68 s khi đã có dữ liệu (vòng 10) | `qa/native/android.sh` mục 6 |
+| Bộ nhớ khi chạy | ≤ 200 MB PSS | 222 MB (vòng 10, emulator, 1.000 ngày giỗ; native heap 95 MB) | `android.sh` mục 5, `meminfo.txt` |
 | Mở màn chính, dữ liệu lớn | ≤ 1 s | ≈ 800 ms (web) | UAT U11 |
 | Tác vụ dài khi bấm | ≤ 100 ms | lớn nhất 151 ms ở /age | crawler `web-crawl/summary.md` |
 | Dữ liệu lưu | ≤ 1 MB | 210 KB với 1.000 ngày giỗ, 60 người | seed QA |
@@ -27,6 +27,11 @@ Khung hình giật trên emulator dùng đồ họa phần mềm nên chưa kế
 - `assets/sounds/`: mõ, chuông tự tổng hợp (`scripts/gen_sounds.py`). Không đưa bản ghi tụng kinh của người khác vào app.
 - `src/nav.ts`: `goBack()`; mọi nút quay lại dùng hàm này.
 
+## Thư viện thêm ở vòng 11 (giá dung lượng)
+
+- `react-native-webview` (trình phát YouTube nhúng), `expo-sharing` (gửi tệp): mã Java, không thêm thư viện máy.
+- Giọng đọc mẫu không nằm trong bản cài (≈ 7–10 MB cho cả 23 bài), tải theo bài khi người dùng chọn.
+
 ## Đã tối ưu (vòng 10)
 
 - Bỏ `expo-dev-client` khỏi app: nó kéo máy quét QR ML Kit (`libbarhopper` ≈5 MB mỗi chip) vào bản phát hành.
@@ -38,9 +43,11 @@ Khung hình giật trên emulator dùng đồ họa phần mềm nên chưa kế
 | Hạng mục | Trạng thái | Cần gì |
 | --- | --- | --- |
 | Mua gói Tâm An | Ẩn (`TAM_AN_READY=false`), chưa nối cửa hàng | Tài khoản Google Play, App Store; nối `provider` trong `@nam/core/purchases` |
-| Quyền lợi Tâm An: giọng đọc mẫu, sổ giỗ chung cả nhà, hỏi Thành Tâm | Chưa làm | Bản ghi có giấy phép; máy chủ đồng bộ; quyết định có dùng AI |
+| Giọng đọc mẫu | Có (vòng 11): tạo trên CI bằng Piper, tải theo bài từ Releases `thanh-tam-voice` | Thử tay nghe thật; giọng người thật khi có bản thu được phép |
+| Sổ giỗ chung cả nhà | Có (vòng 11) dạng gửi tệp, nhập gộp, hỏi khi trùng; không tự đồng bộ | Máy chủ đồng bộ (Supabase/Firebase) nếu cần tự đồng bộ |
+| Hỏi Thành Tâm | Có (vòng 11) trên máy: câu hỏi thường gặp, lịch, sổ giỗ | AI qua máy chủ nếu cần trả lời tự do |
 | Đo sự kiện (`track`) | Chưa có nơi nhận ở bản phát hành | Chọn dịch vụ đo, nối `sink` |
-| Bản iPhone | Chưa phát hành | Tài khoản Apple Developer |
+| Bản iPhone | Để sau (người dùng chọn) | Tài khoản Apple Developer, khóa API App Store Connect |
 | Lên Google Play | APK ký bằng khóa thử (debug) | Khóa ký thật, AAB, trang cửa hàng |
 | Thử tay trên máy thật | Chưa | Tiếng mõ, chuông, giọng máy; thông báo nhắc lễ; thêm bản ghi; TalkBack, VoiceOver |
 | Công tắc cao 20 px | Đã nới vùng chạm `Toggle` lên 44×52 (vòng 10), chờ QA xác nhận | |

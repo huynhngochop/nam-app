@@ -27,17 +27,49 @@ export async function notifyDenied(): Promise<boolean> {
 }
 
 const PREFIX = 'tt-';
+
+async function ensureChannel() {
+  if (Platform.OS !== 'android') return;
+  await Notifications.setNotificationChannelAsync('lich', {
+    name: 'Nhắc lịch cúng',
+    importance: Notifications.AndroidImportance.HIGH,
+  });
+}
+
+export type NotifyStatus = { granted: boolean; canAsk: boolean; scheduled: number; next?: Date };
+/** Trạng thái để màn Cài đặt nói rõ: thông báo bật chưa, đã hẹn bao nhiêu lời nhắc, lần tới khi nào. */
+export async function notifyStatus(): Promise<NotifyStatus> {
+  const p = await Notifications.getPermissionsAsync();
+  if (!p.granted) return { granted: false, canAsk: p.canAskAgain !== false, scheduled: 0 };
+  const list = await Notifications.getAllScheduledNotificationsAsync();
+  const ours = list.filter((n: { identifier: string }) => n.identifier.startsWith(PREFIX));
+  let next: Date | undefined;
+  for (const n of ours as { trigger?: { value?: number; date?: number | string } }[]) {
+    const t = n.trigger?.value ?? n.trigger?.date;
+    const d = t !== undefined ? new Date(t) : undefined;
+    if (d && !isNaN(+d) && (!next || d < next)) next = d;
+  }
+  return { granted: true, canAsk: false, scheduled: ours.length, next };
+}
+
+/** Gửi thử một thông báo sau 5 giây, để người dùng biết máy có hiện thông báo không. */
+export async function sendTestNotification(): Promise<boolean> {
+  if (!(await requestNotify())) return false;
+  await ensureChannel();
+  await Notifications.scheduleNotificationAsync({
+    identifier: 'thu',
+    content: { title: 'Thành Tâm nhắc thử', body: 'Thông báo đã hoạt động. Ngày rằm, mùng 1, ngày giỗ sẽ được nhắc như thế này.' },
+    trigger: { type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL, seconds: 5, channelId: 'lich' },
+  });
+  return true;
+}
+
 /** Lên lịch lại toàn bộ nhắc lịch (tối đa 50, iOS chỉ giữ 64). Gọi khi mở app, đổi cài đặt, sửa giỗ, đổi múi giờ. */
 export async function rescheduleAll() {
   const s = useTT.getState();
   const perm = await Notifications.getPermissionsAsync();
   if (!perm.granted) return;
-  if (Platform.OS === 'android') {
-    await Notifications.setNotificationChannelAsync('lich', {
-      name: 'Nhắc lịch cúng',
-      importance: Notifications.AndroidImportance.DEFAULT,
-    });
-  }
+  await ensureChannel();
   const existing = await Notifications.getAllScheduledNotificationsAsync();
   await Promise.all(
     existing
@@ -62,6 +94,7 @@ export async function rescheduleAll() {
 /** Nhắc hạ lễ sau n phút (TT-12). Không tính vào trần 50 của nhắc lịch. */
 export async function remindTakedown(minutes: number) {
   if (!(await requestNotify())) return false;
+  await ensureChannel();
   await Notifications.scheduleNotificationAsync({
     identifier: 'takedown',
     content: { title: 'Hương đã cháy gần hết', body: 'Có thể vái xin hạ lễ.' },

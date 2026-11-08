@@ -79,7 +79,7 @@ export const kinhById = (id: string): Kinh | undefined => BY_ID.get(id as KinhId
 /** Một bước trong nghi thức: tụng bài `kinh`, lặp `times` lần (mặc định 1). */
 export type ChantStep = { kinh: KinhId; times?: number };
 
-export type NghiThucId = 'cau-an' | 'cau-sieu' | 'vu-lan';
+export type NghiThucId = 'cau-an' | 'cau-sieu' | 'vu-lan-bao-hieu';
 export type NghiThuc = {
   id: NghiThucId;
   title: string;
@@ -140,7 +140,7 @@ export const NGHI_THUC: NghiThuc[] = [
     ],
   },
   {
-    id: 'vu-lan',
+    id: 'vu-lan-bao-hieu',
     title: 'Nghi thức Vu Lan',
     about: 'Tụng dịp Rằm tháng Bảy: báo hiếu cha mẹ hiện tiền và hồi hướng cho tổ tiên.',
     short: [
@@ -179,7 +179,7 @@ export const RITUAL_CHANT: Record<string, NghiThucId> = {
   'day-thang': 'cau-an',
   'gio-thuong': 'cau-sieu',
   'thanh-minh': 'cau-sieu',
-  'vu-lan': 'vu-lan',
+  'vu-lan': 'vu-lan-bao-hieu',
 };
 export const NO_CHANT_NOTE =
   'Lễ này theo tín ngưỡng dân gian, thường chỉ thắp hương và đọc văn khấn, không cần tụng kinh. Nếu muốn, có thể tụng Bát Nhã Tâm Kinh trong Thư viện kinh.';

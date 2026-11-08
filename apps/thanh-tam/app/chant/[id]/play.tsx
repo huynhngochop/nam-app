@@ -3,14 +3,25 @@ import { Pressable, ScrollView, StatusBar, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { initialWindowMetrics, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
-import * as Speech from 'expo-speech';
 import { Icon, IconName, T, ttNight, useLayout } from '@nam/ui';
 import { track } from '@nam/core';
 import { BPM_MAX, BPM_MIN, chantLines, chantPlan, kinhById } from '../../../src/data/kinh';
 import type { ChantLine } from '../../../src/data/kinh';
-import { ChantPos, gotoLine, gotoStep, nextLine, startPos, tick } from '../../../src/lib/chant';
+import { ChantPos, gotoLine, gotoStep, nextLine, startPos, stepStart, tick } from '../../../src/lib/chant';
 import { bell, closeChantAudio, knock, openChantAudio, openRecording, setMoVolume } from '../../../src/chantAudio';
 import { useTT } from '../../../src/store';
+import { speakVi, stopSpeaking, ttsStatus } from '../../../src/voice';
+import {
+  bytesToDownload,
+  downloadVoices,
+  formatMB,
+  getManifest,
+  playVoice,
+  voiceState,
+  voiceTimings,
+  type VoicePlayback,
+} from '../../../src/sampleVoice';
+import { kinhVoiceId } from '../../../src/lib/voiceCues';
 import { goBack } from '../../../src/nav';
 
 const FONTS = [22, 24, 26, 28, 30];
@@ -155,14 +166,57 @@ export default function ChantPlay() {
   const [noVoice, setNoVoice] = useState(false);
   const prefs = useRef(chant);
   prefs.current = chant;
-  const voice = chant.voice && !noVoice && !rec;
+  const voicesStore = useTT((s) => s.voices);
+  const reader = chant.reader ?? (chant.voice ? 'may' : 'mo');
+  // Các bài cần giọng mẫu, và đã tải đủ chưa (đổi khi tải xong).
+  const sampleIds = useMemo(
+    () => (plan ? [...new Set(plan.steps.map((s) => kinhVoiceId(s.kinh)))] : []),
+    [plan],
+  );
+  const sampleReady = useMemo(
+    () => sampleIds.length > 0 && sampleIds.every((x) => voiceState(x) === 'san-sang'),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [sampleIds, voicesStore],
+  );
+  const mode: 'rec' | 'may' | 'mau' | 'mo' = rec
+    ? 'rec'
+    : reader === 'may' && !noVoice
+      ? 'may'
+      : reader === 'mau' && sampleReady
+        ? 'mau'
+        : 'mo';
+  const voice = mode === 'may';
+  const [dl, setDl] = useState<{ open: boolean; size?: number; busy?: boolean; note?: string }>({ open: false });
+  const askDownload = async () => {
+    setDl({ open: true, busy: true, note: 'Đang kiểm tra…' });
+    try {
+      const m = await getManifest(true);
+      setDl({ open: true, size: bytesToDownload(m, sampleIds) });
+    } catch {
+      setDl({ open: true, note: 'Cần mạng để tải giọng đọc mẫu lần đầu. Sau đó nghe không cần mạng.' });
+    }
+  };
+  const doDownload = async () => {
+    setDl((d) => ({ ...d, busy: true, note: 'Đang tải…' }));
+    try {
+      const r = await downloadVoices(sampleIds, (a, b) => setDl((d) => ({ ...d, note: `Đang tải ${a}/${b} bài…` })));
+      track('voice_downloaded', { id, count: r.done, missing: r.missing });
+      if (r.missing) setDl({ open: true, note: 'Có bài đang được cập nhật giọng mẫu, thử lại sau ít phút.' });
+      else {
+        setChant({ reader: 'mau' });
+        setDl({ open: false });
+      }
+    } catch {
+      setDl({ open: true, note: 'Tải chưa được. Kiểm tra mạng rồi thử lại.' });
+    }
+  };
 
   // Giữ màn sáng, mở âm thanh; dọn khi rời màn.
   useEffect(() => {
     activateKeepAwakeAsync('chant').catch(() => {});
     openChantAudio();
     return () => {
-      Speech.stop();
+      stopSpeaking();
       closeChantAudio();
       Promise.resolve()
         .then(() => deactivateKeepAwake('chant'))
@@ -170,11 +224,11 @@ export default function ChantPlay() {
     };
   }, []);
   useEffect(() => {
-    Speech.getAvailableVoicesAsync()
-      .then((v: { language: string }[]) => setNoVoice(!v.some((x) => x.language?.toLowerCase().startsWith('vi'))))
-      .catch(() => {});
+    ttsStatus()
+      .then((t) => setNoVoice(!t.ok))
+      .catch(() => setNoVoice(true));
   }, []);
-  useEffect(() => setMoVolume(voice ? 0.45 : 1), [voice]);
+  useEffect(() => setMoVolume(mode === 'mo' ? 1 : 0.45), [mode]);
 
   // Đổi gọn/đầy đủ thì tụng lại từ đầu.
   useEffect(() => {
@@ -184,7 +238,7 @@ export default function ChantPlay() {
 
   // Chế độ theo mõ: mỗi nhịp một chữ. Hẹn giờ bù trễ để nhịp đều.
   useEffect(() => {
-    if (!playing || voice || rec || !lines.length) return;
+    if (!playing || mode !== 'mo' || !lines.length) return;
     const ms = 60000 / chant.bpm;
     let next = Date.now() + ms;
     let t: ReturnType<typeof setTimeout>;
@@ -202,7 +256,7 @@ export default function ChantPlay() {
     };
     t = setTimeout(loop, ms);
     return () => clearTimeout(t);
-  }, [playing, voice, rec, lines, chant.bpm, setPos, jump]);
+  }, [playing, mode, lines, chant.bpm, setPos, jump]);
 
   // Chế độ giọng máy: đọc từng câu, xong câu sang câu kế; mõ gõ nhẹ theo nhịp ở nền.
   useEffect(() => {
@@ -217,8 +271,7 @@ export default function ChantPlay() {
         setPlaying(false);
         return;
       }
-      Speech.speak(lines[p.idx].text, {
-        language: 'vi-VN',
+      speakVi(lines[p.idx].text, {
         rate,
         onDone: () => {
           if (cancelled) return;
@@ -246,9 +299,72 @@ export default function ChantPlay() {
       cancelled = true;
       if (t) clearTimeout(t);
       clearInterval(mo);
-      Speech.stop();
+      stopSpeaking();
     };
   }, [playing, voice, lines, chant.bpm, setPos, jump]);
+
+  // Chế độ giọng mẫu: phát tệp tải sẵn của từng bài, tô sáng câu theo mốc thời gian; lặp bài đủ số lần,
+  // thỉnh chuông khi sang bài. Mõ gõ nhẹ ở đầu mỗi câu.
+  useEffect(() => {
+    if (!playing || mode !== 'mau' || !lines.length) return;
+    let cancelled = false;
+    let t: ReturnType<typeof setTimeout> | undefined;
+    let ctl: VoicePlayback | null = null;
+    const playStep = () => {
+      if (cancelled) return;
+      const p = posRef.current;
+      if (p.done) {
+        setPlaying(false);
+        return;
+      }
+      const line = lines[p.idx];
+      const vid = kinhVoiceId(line.kinh);
+      const v = useTT.getState().voices[vid];
+      const tm = voiceTimings(vid);
+      if (!v || !tm) {
+        setPlaying(false);
+        return;
+      }
+      const base = stepStart(lines, line.step);
+      let end = base;
+      while (end < lines.length && lines[end].step === line.step) end++;
+      ctl = playVoice(v.uri, tm, {
+        startCue: p.idx - base,
+        onCue: (i) => {
+          if (cancelled) return;
+          if (prefs.current.mo && i > 0) knock();
+          setPos({ ...posRef.current, idx: Math.min(end - 1, base + i), beat: 0, gap: 0 });
+        },
+        onEnd: () => {
+          if (cancelled) return;
+          const cur = posRef.current;
+          if (cur.rep < line.times) {
+            setPos({ ...cur, idx: base, rep: cur.rep + 1, beat: 0, gap: 0 });
+            t = setTimeout(playStep, 500);
+            return;
+          }
+          if (prefs.current.chuong) bell();
+          if (end >= lines.length) {
+            setPos({ ...cur, done: true });
+            setPlaying(false);
+            return;
+          }
+          setPos({ idx: end, rep: 1, beat: 0, gap: 0, done: false });
+          t = setTimeout(playStep, 2600);
+        },
+      });
+      if (!ctl) setPlaying(false);
+    };
+    if (posRef.current.gap > 0) {
+      setPos({ ...posRef.current, gap: 0 });
+      t = setTimeout(playStep, 2600);
+    } else playStep();
+    return () => {
+      cancelled = true;
+      if (t) clearTimeout(t);
+      ctl?.stop();
+    };
+  }, [playing, mode, lines, setPos, jump]);
 
   // Bản ghi riêng: phát tệp, chữ để người tụng tự cuộn theo.
   const recPlayer = useMemo(() => (rec ? openRecording(rec.uri) : null), [rec]);
@@ -314,12 +430,12 @@ export default function ChantPlay() {
     }
     if (playing) {
       setPlaying(false);
-      Speech.stop();
+      stopSpeaking();
       return;
     }
     if (posRef.current.done) setPos(startPos());
     if (posRef.current.gap > 0 && chant.chuong) bell();
-    track('chant_play', { id, voice });
+    track('chant_play', { id, mode });
     setPlaying(true);
   };
   const goStep = (s: number) => {
@@ -473,6 +589,28 @@ export default function ChantPlay() {
           ) : null}
         </View>
       </ScrollView>
+      {dl.open ? (
+        <View
+          style={{
+            marginHorizontal: 12,
+            padding: 14,
+            borderRadius: 14,
+            backgroundColor: ttNight.soft,
+            gap: 10,
+          }}
+        >
+          <T v="body" color={ttNight.ink}>
+            {dl.note ??
+              (dl.size
+                ? `Tải giọng đọc mẫu cho các bài trong buổi tụng này (${formatMB(dl.size)}). Tải một lần, sau đó nghe không cần mạng.`
+                : 'Giọng mẫu đã có sẵn.')}
+          </T>
+          <View style={{ flexDirection: 'row', gap: 10, justifyContent: 'flex-end' }}>
+            <Ctl icon="x" label="Để sau" onPress={() => setDl({ open: false })} />
+            {!dl.busy && dl.size ? <Ctl icon="download" label="Tải" onPress={doDownload} on /> : null}
+          </View>
+        </View>
+      ) : null}
       <View style={{ paddingHorizontal: 12, paddingVertical: 10, gap: 8 }}>
         <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 10 }}>
           {!rec ? (
@@ -511,12 +649,26 @@ export default function ChantPlay() {
               disabled={chant.bpm >= BPM_MAX}
             />
             <Ctl icon="disc" label="Mõ" on={chant.mo} onPress={() => setChant({ mo: !chant.mo })} />
+            <Ctl
+              icon="headphones"
+              label="Giọng mẫu"
+              on={mode === 'mau'}
+              onPress={() => {
+                setPlaying(false);
+                if (mode === 'mau') setChant({ reader: 'mo' });
+                else if (sampleReady) setChant({ reader: 'mau' });
+                else askDownload();
+              }}
+            />
             {!noVoice ? (
               <Ctl
                 icon="volume-2"
                 label="Giọng máy"
-                on={chant.voice}
-                onPress={() => setChant({ voice: !chant.voice })}
+                on={mode === 'may'}
+                onPress={() => {
+                  setPlaying(false);
+                  setChant({ reader: mode === 'may' ? 'mo' : 'may' });
+                }}
               />
             ) : null}
             <Ctl

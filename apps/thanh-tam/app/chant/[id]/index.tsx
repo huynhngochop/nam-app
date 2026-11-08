@@ -1,5 +1,5 @@
-import React from 'react';
-import { Linking, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import {
   AppBar,
@@ -17,7 +17,11 @@ import {
   useToast,
 } from '@nam/ui';
 import { track } from '@nam/core';
-import { BPM_MAX, BPM_MIN, chantMinutes, chantPlan, kinhById, listenUrl, nghiThucById } from '../../../src/data/kinh';
+import { BPM_MAX, BPM_MIN, chantMinutes, chantPlan, kinhById, nghiThucById } from '../../../src/data/kinh';
+import { videosFor } from '../../../src/data/videos';
+import { kinhVoiceId } from '../../../src/lib/voiceCues';
+import { bytesToDownload, downloadVoices, formatMB, getManifest, voiceState, VOICE_CREDIT } from '../../../src/sampleVoice';
+import { NO_VOICE_HELP, openTtsSettings, ttsStatus } from '../../../src/voice';
 import { ritualById } from '../../../src/data/rituals';
 import { SRC } from '../../../src/data/sources';
 import { NavRow, Sources } from '../../../src/components';
@@ -51,7 +55,7 @@ function SettingRow({
   );
 }
 
-/** TT-31 · Chuẩn bị tụng: chọn bản gọn hay đầy đủ, nhịp mõ, giọng máy, bản ghi riêng. */
+/** TT-31 · Chuẩn bị tụng: bản gọn hay đầy đủ, cách đọc (tự tụng, giọng mẫu, giọng máy), nhịp mõ, video, bản ghi riêng. */
 export default function ChantSetup() {
   const { c } = useTheme();
   const toast = useToast();
@@ -61,8 +65,30 @@ export default function ChantSetup() {
   const rec = useTT((s) => s.recordings[id]);
   const recordings = useTT((s) => s.recordings);
   const set = useTT((s) => s.set);
+  const voices = useTT((s) => s.voices);
   const n = nghiThucById(id);
   const plan = chantPlan(id, chant.full);
+  const [tts, setTts] = useState<boolean | null>(null);
+  const [vs, setVs] = useState<{ size?: number; busy?: boolean; note?: string }>({});
+  const ids = plan ? [...new Set(plan.steps.map((x) => kinhVoiceId(x.kinh)))] : [];
+  const ready = ids.length > 0 && ids.every((x) => voiceState(x) === 'san-sang');
+  const reader = chant.reader ?? (chant.voice ? 'may' : 'mo');
+  useEffect(() => {
+    ttsStatus()
+      .then((t) => setTts(t.ok))
+      .catch(() => setTts(false));
+  }, []);
+  useEffect(() => {
+    if (reader !== 'mau' || ready) return;
+    let on = true;
+    getManifest()
+      .then((m) => on && setVs({ size: bytesToDownload(m, ids) }))
+      .catch(() => on && setVs({ note: 'Cần mạng để tải giọng đọc mẫu lần đầu.' }));
+    return () => {
+      on = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reader, ready, chant.full, voices]);
   if (!plan) {
     return (
       <Screen>
@@ -85,6 +111,16 @@ export default function ChantSetup() {
       toast('Đã thêm bản ghi');
     } catch {
       toast('Không mở được tệp âm thanh này');
+    }
+  };
+  const download = async () => {
+    setVs((v) => ({ ...v, busy: true, note: 'Đang tải…' }));
+    try {
+      const r = await downloadVoices(ids, (a, b) => setVs((v) => ({ ...v, note: `Đang tải ${a}/${b} bài…` })));
+      track('voice_downloaded', { id, count: r.done, missing: r.missing });
+      setVs(r.missing ? { note: 'Có bài đang được cập nhật giọng mẫu, thử lại sau ít phút.' } : {});
+    } catch {
+      setVs({ note: 'Tải chưa được. Kiểm tra mạng rồi thử lại.' });
     }
   };
   const remove = () => {
@@ -159,6 +195,72 @@ export default function ChantSetup() {
         </>
       ) : null}
 
+      <SectionHeader title="Cách đọc" />
+      <Segmented
+        value={reader}
+        onChange={(k) => setChant({ reader: k, voice: k === 'may' })}
+        options={[
+          { key: 'mo', label: 'Tự tụng' },
+          { key: 'mau', label: 'Giọng mẫu' },
+          { key: 'may', label: 'Giọng máy' },
+        ]}
+      />
+      <Card>
+        {reader === 'mo' ? (
+          <T v="body" muted>
+            Bạn tự tụng theo chữ trên màn hình. Mõ gõ mỗi chữ một tiếng, chữ đã tụng đổi màu.
+          </T>
+        ) : reader === 'mau' ? (
+          <>
+            <T v="body" muted>
+              Giọng đọc mẫu đọc từng câu, chữ sáng theo câu đang đọc, bạn tụng theo. Tải một lần, nghe không cần mạng.
+            </T>
+            {ready ? (
+              <T v="caption" accent weight="semibold">
+                Đã tải đủ giọng mẫu cho buổi tụng này
+              </T>
+            ) : (
+              <>
+                {vs.note ? (
+                  <T v="caption" muted>
+                    {vs.note}
+                  </T>
+                ) : null}
+                {vs.size ? (
+                  <Button
+                    title={`Tải giọng mẫu (${formatMB(vs.size)})`}
+                    icon="download"
+                    size="md"
+                    loading={vs.busy}
+                    onPress={download}
+                  />
+                ) : null}
+              </>
+            )}
+            <T v="caption" muted>
+              {VOICE_CREDIT}
+            </T>
+          </>
+        ) : (
+          <>
+            <T v="body" muted>
+              Giọng có sẵn trên máy đọc từng câu.
+            </T>
+            {tts === false ? (
+              <>
+                <T v="caption">{NO_VOICE_HELP}</T>
+                <Button
+                  title="Mở cài đặt giọng nói"
+                  variant="secondary"
+                  size="md"
+                  onPress={() => openTtsSettings()}
+                />
+              </>
+            ) : null}
+          </>
+        )}
+      </Card>
+
       <SectionHeader title="Khi tụng" />
       <Card style={{ gap: 4 }}>
         <Row between gap={12} style={{ minHeight: 52 }}>
@@ -185,12 +287,6 @@ export default function ChantSetup() {
           onChange={(chuong) => setChant({ chuong })}
         />
         <SettingRow
-          label="Giọng máy đọc cùng"
-          sub="Máy đọc từng câu; cần giọng tiếng Việt trên máy."
-          value={chant.voice}
-          onChange={(voice) => setChant({ voice })}
-        />
-        <SettingRow
           label="Hiện nghĩa tiếng Việt"
           sub="Với bài có bản dịch."
           value={chant.nghia}
@@ -202,11 +298,15 @@ export default function ChantSetup() {
       <Card style={{ paddingVertical: 4 }}>
         <NavRow
           icon="youtube"
-          title="Nghe chư Tăng tụng"
-          subtitle="Mở YouTube, tìm bản tụng của các chùa, kênh giáo hội."
+          title="Nghe chư Tăng tụng, đọc theo"
+          subtitle={
+            videosFor(id).length
+              ? 'Xem video ngay trong app, chữ kinh ở bên dưới.'
+              : 'Thêm video YouTube của chùa nhà mình để nghe ngay trong app.'
+          }
           onPress={() => {
             track('chant_listen_official', { id });
-            Linking.openURL(listenUrl(plan.title)).catch(() => toast('Không mở được trình duyệt'));
+            router.push(`/video?key=${id}` as never);
           }}
         />
         {rec ? (

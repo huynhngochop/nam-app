@@ -10,13 +10,24 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
-import * as Speech from 'expo-speech';
 import { Icon, IconName, T, ttNight, useLayout } from '@nam/ui';
 import { track } from '@nam/core';
 import { useTT } from '../../../src/store';
 import { usePrayer } from '../../../src/usePrayer';
 import { plainText } from '../../../src/lib/prayer';
 import { goBack } from '../../../src/nav';
+import { speakVi, stopSpeaking, ttsStatus } from '../../../src/voice';
+import {
+  bytesToDownload,
+  downloadVoices,
+  formatMB,
+  getManifest,
+  playVoice,
+  voiceState,
+  voiceTimings,
+  type VoicePlayback,
+} from '../../../src/sampleVoice';
+import { khanCues, khanVoiceId } from '../../../src/lib/voiceCues';
 
 const SPEEDS = [0, 18, 28, 40]; // điểm ảnh mỗi giây; 0 = tự cuộn tắt
 
@@ -83,6 +94,11 @@ export default function Pray() {
   const [noVoice, setNoVoice] = useState(false);
   const paraY = useRef<number[]>([]);
   const stopRef = useRef(false);
+  // Giọng đọc mẫu (tải về): đang phát thì giữ bộ điều khiển để dừng.
+  const sample = useRef<VoicePlayback | null>(null);
+  const [sampleOn, setSampleOn] = useState(false);
+  const [dl, setDl] = useState<{ open: boolean; size?: number; busy?: boolean; note?: string }>({ open: false });
+  useTT((s) => s.voices); // vẽ lại khi tải xong
 
   useFrameCallback((f: { timeSincePreviousFrame: number | null }) => {
     'worklet';
@@ -100,14 +116,15 @@ export default function Pray() {
   useEffect(
     () => () => {
       stopRef.current = true;
-      Speech.stop();
+      stopSpeaking();
+      sample.current?.stop();
     },
     [],
   );
   useEffect(() => {
-    Speech.getAvailableVoicesAsync()
-      .then((v: { language: string }[]) => setNoVoice(!v.some((x) => x.language?.toLowerCase().startsWith('vi'))))
-      .catch(() => {});
+    ttsStatus()
+      .then((t) => setNoVoice(!t.ok))
+      .catch(() => setNoVoice(true));
   }, []);
 
   if (!data) return null;
@@ -125,8 +142,7 @@ export default function Pray() {
     const times = paras[i].repeat ?? 1;
     let n = 0;
     const once = (): void => {
-      Speech.speak(text, {
-        language: 'vi-VN',
+      speakVi(text, {
         rate: 0.9,
         onDone: (): void => {
           n += 1;
@@ -142,7 +158,10 @@ export default function Pray() {
   const toggleSpeak = () => {
     if (speaking !== null) {
       stopRef.current = true;
-      Speech.stop();
+      stopSpeaking();
+      sample.current?.stop();
+      sample.current = null;
+      setSampleOn(false);
       setSpeaking(null);
       return;
     }
@@ -152,6 +171,80 @@ export default function Pray() {
     track('pray_tts', {});
     speakFrom(0);
   };
+  // Giọng mẫu: phát bài tải sẵn, tô sáng đoạn đang đọc. Tới chỗ tên, địa chỉ: máy có giọng tiếng Việt thì đọc
+  // tên đã điền, không thì để khoảng lặng cho người khấn tự đọc.
+  const vid = khanVoiceId(p.id);
+  const startSample = () => {
+    const v = useTT.getState().voices[vid];
+    const tm = voiceTimings(vid);
+    if (!v || !tm) return;
+    const cues = khanCues(p.id);
+    const fieldCues = new Set(cues.map((c, i) => (c.field ? i : -1)).filter((i) => i >= 0));
+    stopSpeaking();
+    speed.value = 0;
+    setSpeedIdx(0);
+    stopRef.current = false;
+    sample.current = playVoice(v.uri, tm, {
+      fieldCues,
+      onCue: (i) => {
+        const pi = cues[i]?.p ?? 0;
+        setSpeaking((cur) => {
+          if (cur !== pi) ref.current?.scrollTo?.({ y: Math.max(0, (paraY.current[pi] ?? 0) - 80), animated: true });
+          return pi;
+        });
+      },
+      onField: (i) => {
+        const f = cues[i]?.field;
+        const val = f ? data.values[f]?.trim() : '';
+        if (!val || noVoice) return null;
+        return new Promise<void>((res) => speakVi(val, { onDone: res, onStopped: res, onError: res }));
+      },
+      onEnd: () => {
+        sample.current = null;
+        setSampleOn(false);
+        setSpeaking(null);
+      },
+    });
+    if (sample.current) {
+      setSampleOn(true);
+      track('pray_sample_voice', { id: p.id });
+    }
+  };
+  const toggleSample = async () => {
+    if (sampleOn) {
+      sample.current?.stop();
+      sample.current = null;
+      stopSpeaking();
+      setSampleOn(false);
+      setSpeaking(null);
+      return;
+    }
+    if (speaking !== null) toggleSpeak();
+    if (voiceState(vid) === 'san-sang') {
+      startSample();
+      return;
+    }
+    setDl({ open: true, busy: true, note: 'Đang kiểm tra…' });
+    try {
+      const m = await getManifest(true);
+      const size = bytesToDownload(m, [vid]);
+      setDl(size ? { open: true, size } : { open: true, note: 'Giọng mẫu bài này đang được cập nhật, thử lại sau ít phút.' });
+    } catch {
+      setDl({ open: true, note: 'Cần mạng để tải giọng đọc mẫu lần đầu. Sau đó nghe không cần mạng.' });
+    }
+  };
+  const doDownload = async () => {
+    setDl((d) => ({ ...d, busy: true, note: 'Đang tải…' }));
+    try {
+      const r = await downloadVoices([vid]);
+      if (r.done) {
+        setDl({ open: false });
+        startSample();
+      } else setDl({ open: true, note: 'Giọng mẫu bài này đang được cập nhật, thử lại sau ít phút.' });
+    } catch {
+      setDl({ open: true, note: 'Tải chưa được. Kiểm tra mạng rồi thử lại.' });
+    }
+  };
   const cycleSpeed = () => {
     const n = (speedIdx + 1) % SPEEDS.length;
     setSpeedIdx(n);
@@ -159,7 +252,8 @@ export default function Pray() {
   };
   const finish = () => {
     stopRef.current = true;
-    Speech.stop();
+    stopSpeaking();
+    sample.current?.stop();
     speed.value = 0;
     logPray(r.id);
     track('pray_done', { id: p.id });
@@ -273,6 +367,18 @@ export default function Pray() {
           </Pressable>
         </View>
       </Animated.ScrollView>
+      {dl.open ? (
+        <View style={{ marginHorizontal: 12, padding: 14, borderRadius: 14, backgroundColor: ttNight.soft, gap: 10 }}>
+          <T v="body" color={ttNight.ink}>
+            {dl.note ??
+              `Tải giọng đọc mẫu bài này (${formatMB(dl.size ?? 0)}). Tải một lần, sau đó nghe không cần mạng. Giọng mẫu đọc, bạn khấn theo; tới chỗ tên, địa chỉ có khoảng lặng để bạn tự đọc.`}
+          </T>
+          <View style={{ flexDirection: 'row', gap: 8, justifyContent: 'flex-end' }}>
+            <Ctl icon="x" label="Để sau" onPress={() => setDl({ open: false })} />
+            {!dl.busy && dl.size ? <Ctl icon="download" label="Tải" onPress={doDownload} on /> : null}
+          </View>
+        </View>
+      ) : null}
       <View
         style={{
           flexDirection: 'row',
@@ -291,11 +397,17 @@ export default function Pray() {
           on={speedIdx > 0}
           onPress={cycleSpeed}
         />
+        <Ctl
+          icon={sampleOn ? 'pause' : 'headphones'}
+          label={sampleOn ? 'Dừng nghe' : 'Giọng mẫu'}
+          on={sampleOn}
+          onPress={toggleSample}
+        />
         {!noVoice ? (
           <Ctl
-            icon={speaking !== null ? 'pause' : 'volume-2'}
-            label={speaking !== null ? 'Dừng đọc' : 'Giọng máy'}
-            on={speaking !== null}
+            icon={speaking !== null && !sampleOn ? 'pause' : 'volume-2'}
+            label={speaking !== null && !sampleOn ? 'Dừng đọc' : 'Giọng máy'}
+            on={speaking !== null && !sampleOn}
             onPress={toggleSpeak}
           />
         ) : null}

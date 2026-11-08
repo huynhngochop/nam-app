@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { AppState, Linking } from 'react-native';
 import { router } from 'expo-router';
 import {
   AppBar,
@@ -19,7 +20,8 @@ import {
 import { restorePurchases, track } from '@nam/core';
 import Constants from 'expo-constants';
 import { useTT } from '../src/store';
-import { requestNotify } from '../src/notify';
+import { notifyStatus, requestNotify, sendTestNotification, type NotifyStatus } from '../src/notify';
+import { openTtsSettings, ttsStatus } from '../src/voice';
 import { TAM_AN_READY } from '../src/config';
 import { goBack } from '../src/nav';
 
@@ -40,8 +42,29 @@ export default function Settings() {
   const [pick, setPick] = useState(false);
   const [del, setDel] = useState(false);
   const [delFace, setDelFace] = useState(false);
+  const [ns, setNs] = useState<NotifyStatus | null>(null);
+  const [tts, setTts] = useState<boolean | null>(null);
+  const refresh = useCallback(() => {
+    notifyStatus().then(setNs).catch(() => setNs(null));
+    ttsStatus(true)
+      .then((t) => setTts(t.ok))
+      .catch(() => setTts(false));
+  }, []);
+  useEffect(() => {
+    refresh();
+    // quay lại từ cài đặt của máy (bật thông báo, cài giọng) thì đọc lại trạng thái
+    const sub = AppState.addEventListener('change', (st) => st === 'active' && refresh());
+    return () => sub.remove();
+  }, [refresh]);
+  const nsText = !ns
+    ? 'Đang kiểm tra…'
+    : !ns.granted
+      ? 'Thông báo đang tắt. Bấm để bật.'
+      : ns.scheduled
+        ? `Đã hẹn ${ns.scheduled} lời nhắc${ns.next ? `, lần tới ${ns.next.toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'numeric' })}` : ''}`
+        : 'Đang bật, chưa có lời nhắc nào sắp tới';
   const icon = (
-    name: 'bell' | 'moon' | 'gift' | 'dollar-sign' | 'home' | 'type' | 'trash-2' | 'refresh-cw' | 'smile',
+    name: 'bell' | 'moon' | 'gift' | 'dollar-sign' | 'home' | 'type' | 'trash-2' | 'refresh-cw' | 'smile' | 'upload' | 'volume-2' | 'send',
     danger = false,
   ) => <Thumb icon={name} bg={c.surface2} color={danger ? c.negative : c.ink} size={32} />;
   const remindToggle = (key: 'mung1Ram' | 'eveBefore' | 'mung10' | 'festivals') => async (v: boolean) => {
@@ -64,6 +87,33 @@ export default function Settings() {
         onPress={() => router.push('/onboarding/tradition?edit=1')}
       />
       <SectionHeader title="Nhắc lịch" />
+      <ListItem
+        left={icon('bell')}
+        title={ns && !ns.granted ? 'Bật thông báo' : 'Thông báo nhắc lịch'}
+        subtitle={nsText}
+        chevron={!!ns && !ns.granted}
+        onPress={
+          ns && !ns.granted
+            ? async () => {
+                if (ns.canAsk && (await requestNotify())) refresh();
+                else Linking.openSettings().catch(() => {});
+              }
+            : undefined
+        }
+      />
+      <ListItem
+        left={icon('send')}
+        title="Gửi thử thông báo"
+        subtitle="Thông báo hiện sau 5 giây"
+        chevron
+        onPress={async () => {
+          const ok = await sendTestNotification().catch(() => false);
+          toast(ok ? 'Đợi 5 giây, thông báo sẽ hiện' : 'Thông báo đang tắt trong cài đặt của máy', {
+            tone: ok ? undefined : 'error',
+          });
+          refresh();
+        }}
+      />
       <ListItem
         left={icon('moon')}
         title="Mùng 1 và rằm"
@@ -92,6 +142,20 @@ export default function Settings() {
         right={<Toggle label="Nhắc lễ lớn" value={s.remind.festivals} onChange={remindToggle('festivals')} />}
       />
       <SectionHeader title="Đọc văn khấn" />
+      <ListItem
+        left={icon('volume-2')}
+        title="Giọng đọc mẫu"
+        subtitle="Tải giọng đọc văn khấn, kinh để nghe và đọc theo"
+        chevron
+        onPress={() => router.push('/voices')}
+      />
+      <ListItem
+        left={icon('volume-2')}
+        title="Giọng máy tiếng Việt"
+        subtitle={tts === null ? 'Đang kiểm tra…' : tts ? 'Máy đã có giọng tiếng Việt' : 'Máy chưa có. Bấm để mở cài đặt giọng nói.'}
+        chevron={tts === false}
+        onPress={tts === false ? () => openTtsSettings() : undefined}
+      />
       <T v="caption" muted>
         Cỡ chữ văn khấn
       </T>
@@ -119,6 +183,13 @@ export default function Settings() {
         ]}
       />
       <SectionHeader title="Dữ liệu trên máy" />
+      <ListItem
+        left={icon('upload')}
+        title="Sao lưu và chia sẻ"
+        subtitle={s.lastBackupAt ? `Sao lưu lần cuối ${new Date(s.lastBackupAt).toLocaleDateString('vi-VN')}` : 'Chưa sao lưu lần nào'}
+        chevron
+        onPress={() => router.push('/data')}
+      />
       {TAM_AN_READY ? (
         <ListItem
           left={icon('refresh-cw')}
@@ -150,7 +221,7 @@ export default function Settings() {
         onPress={() => setDel(true)}
       />
       <T v="caption" muted>
-        Tên, địa chỉ, sổ giỗ, ngày sinh chỉ lưu trên máy này và được sao lưu cùng máy.
+        Tên, địa chỉ, sổ giỗ, ngày sinh chỉ lưu trên máy này. Tạo bản sao lưu để đổi máy không mất.
       </T>
       <T v="caption" muted center style={{ marginTop: 12 }}>{`Phiên bản ${Constants.expoConfig?.version ?? ''}`}</T>
 

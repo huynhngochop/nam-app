@@ -1,0 +1,83 @@
+# Tạo giọng đọc mẫu cho văn khấn và kinh của Thành Tâm, đăng lên Releases (thẻ thanh-tam-voice).
+# App tải từng bài khi người dùng cần, nên bản cài không nặng thêm.
+# Giọng: Piper (MIT), mô hình vi_VN-vais1000-medium (dữ liệu VAIS-1000, CC BY 4.0).
+# Chạy lại khi chữ văn khấn, kinh hoặc cách tách câu thay đổi; app so mã băm để biết bài nào cần tải lại.
+name: Thành Tâm · giọng đọc mẫu
+
+on:
+  push:
+    branches: [feat/thanh-tam]
+    paths:
+      - apps/thanh-tam/src/data/kinh.ts
+      - apps/thanh-tam/src/data/kinhText.ts
+      - apps/thanh-tam/src/data/prayers.ts
+      - apps/thanh-tam/src/lib/prayer.ts
+      - apps/thanh-tam/src/lib/voiceCues.ts
+      - apps/thanh-tam/scripts/gen_voice.py
+      - apps/thanh-tam/scripts/voice-text.ts
+      - .github/workflows/thanh-tam-voice.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: thanh-tam-voice
+  cancel-in-progress: true
+
+jobs:
+  voice:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Xuất danh sách câu
+        run: |
+          npm i -g tsx@4.20.5 --no-audit --no-fund
+          tsx apps/thanh-tam/scripts/voice-text.ts > voice-text.json
+          node -e 'const j=require("./voice-text.json");console.log(j.length+" bài, "+j.reduce((a,x)=>a+x.cues.length,0)+" câu")'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Cài Piper và mô hình giọng tiếng Việt
+        run: |
+          pip install --quiet "piper-tts>=1.2,<2"
+          BASE=https://huggingface.co/rhasspy/piper-voices/resolve/main/vi/vi_VN/vais1000/medium
+          curl -sSfL -o vi.onnx "$BASE/vi_VN-vais1000-medium.onnx"
+          curl -sSfL -o vi.onnx.json "$BASE/vi_VN-vais1000-medium.onnx.json"
+          curl -sSfL -o MODEL_CARD.txt "$BASE/MODEL_CARD"
+          cat MODEL_CARD.txt
+          ffmpeg -version | head -1
+      - name: Tạo âm thanh
+        run: python apps/thanh-tam/scripts/gen_voice.py voice-text.json vi.onnx voice-out
+      - name: Kiểm tra đủ bài, mã băm khớp
+        run: |
+          node -e '
+            const items=require("./voice-text.json"); const m=require("./voice-out/manifest.json");
+            let bad=0;
+            for (const it of items) {
+              const x=m.items[it.id];
+              if (!x) { console.log("THIẾU", it.id); bad++; continue; }
+              if (x.hash!==it.hash) { console.log("SAI MÃ", it.id); bad++; }
+              if (x.cues.length!==it.cues.length) { console.log("SAI SỐ CÂU", it.id); bad++; }
+            }
+            const mb=Object.values(m.items).reduce((a,x)=>a+x.bytes,0)/1048576;
+            const min=Object.values(m.items).reduce((a,x)=>a+x.ms,0)/60000;
+            console.log("Tổng: "+mb.toFixed(1)+" MB, "+min.toFixed(0)+" phút");
+            require("fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY, "Giọng đọc mẫu: "+items.length+" bài, "+mb.toFixed(1)+" MB, "+min.toFixed(0)+" phút\n");
+            process.exit(bad?1:0);'
+      - name: Đăng lên Releases (thanh-tam-voice)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          {
+            echo "Giọng đọc mẫu cho văn khấn và kinh của Thành Tâm. App tự tải từng bài khi cần."
+            echo ""
+            echo "Giọng tạo bằng Piper (MIT) với mô hình vi_VN-vais1000-medium, huấn luyện trên dữ liệu VAIS-1000 (CC BY 4.0)."
+          } > voice-notes.md
+          gh release view thanh-tam-voice >/dev/null 2>&1 || gh release create thanh-tam-voice --prerelease --title "Thành Tâm · giọng đọc mẫu" --notes-file voice-notes.md --target "$GITHUB_SHA"
+          gh release upload thanh-tam-voice voice-out/*.m4a --clobber
+          gh release upload thanh-tam-voice voice-out/manifest.json --clobber

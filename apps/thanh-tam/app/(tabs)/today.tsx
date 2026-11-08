@@ -248,6 +248,27 @@ export default function Today() {
       <View style={{ width: '100%', maxWidth: L.twoPane ? 1100 : L.readableWidth, alignSelf: 'center', gap: 12 }}>
         {header}
         <SearchField placeholder="Tìm lễ, văn khấn, điềm báo…" onPress={() => router.push('/search')} />
+        <Pressable
+          onPress={() => router.push('/ask')}
+          accessibilityRole="button"
+          accessibilityLabel="Hỏi Thành Tâm"
+          style={({ pressed }) => ({
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 10,
+            minHeight: 48,
+            paddingHorizontal: 14,
+            borderRadius: 14,
+            backgroundColor: c.at,
+            opacity: pressed ? 0.8 : 1,
+          })}
+        >
+          <Icon name="message-circle" color={c.a} />
+          <T v="body" style={{ flex: 1 }} numberOfLines={2}>
+            Hỏi Thành Tâm: giỗ tháng thiếu, thắp mấy nén hương…
+          </T>
+          <Icon name="chevron-right" color={c.inkMuted} />
+        </Pressable>
         {L.isCompact ? (
           <>
             <LunarCard date={today} onPress={() => router.push('/(tabs)/calendar')} />

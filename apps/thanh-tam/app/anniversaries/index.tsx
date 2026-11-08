@@ -46,6 +46,12 @@ export default function Anniversaries() {
             action="Thêm ngày giỗ"
             onAction={() => router.push('/anniversaries/edit')}
           />
+          <Button
+            title="Nhận sổ giỗ từ người trong nhà"
+            variant="text"
+            icon="inbox"
+            onPress={() => router.push('/data')}
+          />
         </>
       ) : (
         <FlashList
@@ -57,6 +63,24 @@ export default function Anniversaries() {
               <T v="caption" muted>
                 {rows.length} ngày giỗ · nhắc lúc 8:00 sáng · chỉ lưu trên máy này
               </T>
+              <Row gap={8} style={{ marginTop: 8, flexWrap: 'wrap' }}>
+                <Button
+                  title="Gửi cho cả nhà"
+                  icon="send"
+                  variant="secondary"
+                  size="md"
+                  full={false}
+                  onPress={() => router.push('/anniversaries/share')}
+                />
+                <Button
+                  title="Nhận, sao lưu"
+                  icon="inbox"
+                  variant="secondary"
+                  size="md"
+                  full={false}
+                  onPress={() => router.push('/data')}
+                />
+              </Row>
             </View>
           }
           ItemSeparatorComponent={() => <View style={{ height: 12 }} />}

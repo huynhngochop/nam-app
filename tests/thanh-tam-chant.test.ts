@@ -33,7 +33,7 @@ test('mỗi lễ có nghi thức tụng phù hợp, hoặc được ghi rõ là 
   assert.equal(RITUAL_CHANT['gio-thuong'], 'cau-sieu');
   assert.equal(RITUAL_CHANT['thanh-minh'], 'cau-sieu');
   assert.equal(RITUAL_CHANT['mung-1-ram'], 'cau-an');
-  assert.ok(nghiThucById('vu-lan')!.short.some((s) => s.kinh === 'vu-lan'));
+  assert.ok(nghiThucById('vu-lan-bao-hieu')!.short.some((s) => s.kinh === 'vu-lan'));
   assert.ok(nghiThucById('cau-sieu')!.full.some((s) => s.kinh === 'a-di-da'));
   assert.ok(nghiThucById('cau-an')!.full.some((s) => s.kinh === 'pho-mon'));
 });
@@ -44,7 +44,10 @@ test('nghi thức khác nhau tụng bộ kinh khác nhau', () => {
       .full.map((s) => s.kinh)
       .join(',');
   assert.notEqual(sig('cau-an'), sig('cau-sieu'));
-  assert.notEqual(sig('cau-sieu'), sig('vu-lan'));
+  assert.notEqual(sig('cau-sieu'), sig('vu-lan-bao-hieu'));
+  // Mã bài kinh và mã nghi thức không trùng nhau (từng trùng "vu-lan": mở bài Kinh Vu Lan ra cả nghi thức)
+  for (const n of NGHI_THUC) assert.equal(kinhById(n.id), undefined, n.id);
+  assert.equal(chantPlan('vu-lan', false)!.single, true);
   assert.ok(!nghiThucById('cau-an')!.full.some((s) => s.kinh === 'vang-sanh'), 'cầu an không tụng Vãng sanh');
 });
 

@@ -21,6 +21,18 @@ export default function Explore() {
       </T>
       <SearchField placeholder="Điềm báo, mẹo, sao, hạn…" onPress={() => router.push('/search')} />
       <Grid min={1} gap={12}>
+        <Card variant="tint" onPress={() => router.push('/ask')} accessibilityLabel="Hỏi Thành Tâm">
+          <Row gap={10}>
+            <Icon name="message-circle" color={c.a} />
+            <T v="headline" style={{ flex: 1 }}>
+              Hỏi Thành Tâm
+            </T>
+            <Icon name="chevron-right" color={c.inkMuted} />
+          </Row>
+          <T v="caption" muted numberOfLines={3}>
+            Hỏi về cúng lễ, ngày giỗ, tụng kinh. Trả lời ngay trên máy, không gửi câu hỏi đi đâu.
+          </T>
+        </Card>
         <Card variant="tint" onPress={() => router.push('/chant')} accessibilityLabel="Tụng kinh">
           <Row gap={10}>
             <Icon name="book-open" color={c.a} />

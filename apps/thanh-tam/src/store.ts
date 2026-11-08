@@ -33,7 +33,10 @@ export type ChantPrefs = {
   bpm: number;
   mo: boolean;
   chuong: boolean;
+  /** Cũ: bật giọng máy. Nay dùng `reader`; giữ để đọc dữ liệu đã lưu. */
   voice: boolean;
+  /** Cách đọc: tự tụng theo mõ, giọng đọc mẫu tải về, hay giọng máy. */
+  reader?: 'mo' | 'mau' | 'may';
   nghia: boolean;
   full: boolean;
 };
@@ -64,6 +67,12 @@ type State = {
   firstTimeDismissed: boolean;
   chant: ChantPrefs;
   recordings: Record<string, MyRecording>;
+  /** Lần sao lưu gần nhất (ms), để nhắc khi đã lâu chưa sao lưu. */
+  lastBackupAt?: number;
+  /** Giọng đọc mẫu đã tải: mã bài → tệp trên máy và mã nội dung (đổi nội dung thì tải lại). */
+  voices: Record<string, { uri: string; hash: string; bytes: number }>;
+  /** Video YouTube người dùng tự thêm cho một bài hay nghi thức (khóa như data/videos.ts). */
+  myVideos: Record<string, { id: string; title: string }>;
   set: (p: Partial<State>) => void;
   setHousehold: (p: Partial<Household>) => void;
   setRemind: (p: Partial<RemindSettings>) => void;
@@ -108,6 +117,8 @@ const DEFAULTS = {
   firstTimeDismissed: false,
   chant: { bpm: 120, mo: true, chuong: true, voice: false, nghia: false, full: false } as ChantPrefs,
   recordings: {} as Record<string, MyRecording>,
+  voices: {} as Record<string, { uri: string; hash: string; bytes: number }>,
+  myVideos: {} as Record<string, { id: string; title: string }>,
 };
 
 export const useTT = create<State>()(
