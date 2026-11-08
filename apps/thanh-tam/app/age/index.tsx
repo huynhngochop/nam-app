@@ -24,6 +24,7 @@ import { termById, YEAR_NOTES } from '../../src/data/ageContent';
 import { canChiYear } from '../../src/calendar/lunar';
 import { FactBlock, Swatches } from '../../src/components';
 import { SRC } from '../../src/data/sources';
+import { goBack } from '../../src/nav';
 
 const GOOD_SAO = new Set(['Thái Dương', 'Thái Âm', 'Mộc Đức']);
 
@@ -40,7 +41,7 @@ export default function AgeScreen() {
   if (!person || !a) {
     return (
       <Screen scroll>
-        <AppBar onBack={() => router.back()} title="Tuổi & năm" large />
+        <AppBar onBack={goBack} title="Tuổi & năm" large />
         <EmptyState
           icon="users"
           title="Thêm người trong nhà"
@@ -64,7 +65,7 @@ export default function AgeScreen() {
   return (
     <Screen scroll>
       <AppBar
-        onBack={() => router.back()}
+        onBack={goBack}
         title="Tuổi & năm"
         right={<IconButton icon="user-plus" label="Thêm người" onPress={() => router.push('/people/edit')} />}
       />

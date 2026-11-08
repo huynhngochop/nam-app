@@ -1,9 +1,10 @@
 import React from 'react';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { AppBar, Card, EmptyState, Screen, SectionHeader, T } from '@nam/ui';
 import { tipById } from '../../src/data/signs';
 import { ritualById } from '../../src/data/rituals';
 import { NavRow, SafetyCard, Sources } from '../../src/components';
+import { goBack } from '../../src/nav';
 
 /** TT-19 · Mẹo khi cúng. */
 export default function TipScreen() {
@@ -12,13 +13,13 @@ export default function TipScreen() {
   if (!t)
     return (
       <Screen>
-        <AppBar onBack={() => router.back()} />
+        <AppBar onBack={goBack} />
         <EmptyState icon="zap" title="Không tìm thấy mẹo này" />
       </Screen>
     );
   return (
     <Screen scroll>
-      <AppBar onBack={() => router.back()} />
+      <AppBar onBack={goBack} />
       <T v="display" accessibilityRole="header">
         {t.title}
       </T>

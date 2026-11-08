@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { View } from 'react-native';
 import { router } from 'expo-router';
-import { Button, Card, ListItem, Row, Screen, SectionHeader, StepDots, T, TextField, Toggle } from '@nam/ui';
+import { Button, Card, IconButton, ListItem, Row, Screen, SectionHeader, StepDots, T, TextField, Toggle } from '@nam/ui';
+import { goBack } from '../../src/nav';
 import { track } from '@nam/core';
 import { useTT } from '../../src/store';
 import { requestNotify, rescheduleAll } from '../../src/notify';
@@ -54,8 +56,10 @@ export default function Household() {
         </>
       }
     >
-      <Row style={{ minHeight: 48 }}>
+      <Row between style={{ minHeight: 48 }}>
+        <IconButton icon="chevron-left" label="Quay lại" onPress={() => goBack('/onboarding/tradition')} />
         <StepDots count={2} index={1} />
+        <View style={{ width: 40 }} />
       </Row>
       <T v="display">Điền sẵn vào văn khấn</T>
       <T v="body" muted>

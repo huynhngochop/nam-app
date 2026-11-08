@@ -387,6 +387,23 @@ await scenario(
   },
 );
 
+await scenario(
+  'U15',
+  'Mở từ thông báo nhắc lễ',
+  'Màn mở thẳng (không có màn trước): bấm Quay lại, Đóng vẫn ra được, về Hôm nay',
+  async (p, s) => {
+    await seed(p);
+    await go(p, '/ritual/mung-1-ram/prayer');
+    await click(p, 'Quay lại');
+    await expectText(p, /Chào buổi/, 'về Hôm nay sau khi bấm Quay lại');
+    s('màn văn khấn mở thẳng: Quay lại về Hôm nay');
+    await go(p, '/chant/cau-an/play');
+    await click(p, 'Đóng');
+    await expectText(p, /Chào buổi/, 'về Hôm nay sau khi bấm Đóng');
+    s('màn tụng mở thẳng: Đóng về Hôm nay');
+  },
+);
+
 await browser.close();
 const pass = results.filter((r) => r.pass).length;
 const md = [

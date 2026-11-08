@@ -8,6 +8,7 @@ import { useToday } from '../../src/hooks';
 import { daysBetween, nextGio, type Anniversary, type GioOccurrence } from '../../src/lib/schedule';
 import { lunarDayWords, monthName } from '../../src/calendar/lunar';
 import { inDays, solarWithWeekday } from '../../src/components';
+import { goBack } from '../../src/nav';
 
 type RowData = { a: Anniversary; o: GioOccurrence | null; days: number };
 
@@ -37,7 +38,7 @@ export default function Anniversaries() {
     >
       {!list.length ? (
         <>
-          <AppBar onBack={() => router.back()} title="Sổ giỗ" large />
+          <AppBar onBack={goBack} title="Sổ giỗ" large />
           <EmptyState
             icon="book"
             title="Chưa có ngày giỗ nào"
@@ -52,7 +53,7 @@ export default function Anniversaries() {
           keyExtractor={(r) => r.a.id}
           ListHeaderComponent={
             <View style={{ paddingBottom: 12 }}>
-              <AppBar onBack={() => router.back()} title="Sổ giỗ" large />
+              <AppBar onBack={goBack} title="Sổ giỗ" large />
               <T v="caption" muted>
                 {rows.length} ngày giỗ · nhắc lúc 8:00 sáng · chỉ lưu trên máy này
               </T>

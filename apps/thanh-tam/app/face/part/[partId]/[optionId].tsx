@@ -1,8 +1,9 @@
 import React from 'react';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { AppBar, Badge, EmptyState, Row, Screen, T } from '@nam/ui';
 import { FACE_ADVICE, FACE_PARTS, FACE_REAL, optionOf } from '../../../../src/face/data';
 import { Layers } from '../../../../src/components';
+import { goBack } from '../../../../src/nav';
 
 /** TT-36 · Chi tiết bộ vị. */
 export default function FacePart() {
@@ -12,13 +13,13 @@ export default function FacePart() {
   if (!part || !o)
     return (
       <Screen>
-        <AppBar onBack={() => router.back()} />
+        <AppBar onBack={goBack} />
         <EmptyState icon="smile" title="Không tìm thấy mục này" />
       </Screen>
     );
   return (
     <Screen scroll>
-      <AppBar onBack={() => router.back()} />
+      <AppBar onBack={goBack} />
       <T v="micro" muted>
         {part.name}
       </T>

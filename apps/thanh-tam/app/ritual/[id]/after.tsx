@@ -5,6 +5,7 @@ import { AppBar, Button, Card, Chip, Chips, Icon, Row, Screen, SectionHeader, T,
 import { ritualById } from '../../../src/data/rituals';
 import { remindTakedown } from '../../../src/notify';
 import { SafetyCard } from '../../../src/components';
+import { goBack } from '../../../src/nav';
 
 /** TT-12 · Sau khi cúng (+ TT-27 khi có lửa). */
 export default function After() {
@@ -24,7 +25,7 @@ export default function After() {
   };
   return (
     <Screen scroll footer={<Button title="Về trang chính" onPress={() => router.replace('/(tabs)/today')} />}>
-      <AppBar onBack={() => router.back()} />
+      <AppBar onBack={goBack} />
       <View style={{ alignItems: 'center', gap: 8, paddingVertical: 8 }}>
         <View
           style={{

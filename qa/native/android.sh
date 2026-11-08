@@ -121,6 +121,17 @@ done
 
 # 5) Bộ nhớ và lỗi JS
 say "BỘ NHỚ: $(adb shell dumpsys meminfo "$PKG" | grep -E 'TOTAL PSS|TOTAL:' | head -1)"
+adb shell dumpsys meminfo "$PKG" | sed -n '/App Summary/,/TOTAL SWAP/p' >"$OUT/meminfo.txt"
+say "BỘ NHỚ CHI TIẾT: $(grep -E 'Java Heap|Native Heap|Code:|Graphics|Private Other' "$OUT/meminfo.txt" | tr -s ' ' | tr '\n' ';')"
+
+# 6) Khởi động lạnh 3 lần khi đã có dữ liệu thật (ngân sách: xem apps/thanh-tam/CLAUDE.md)
+for i in 1 2 3; do
+  adb shell am force-stop "$PKG"
+  sleep 2
+  T=$(adb shell am start -W -n "$PKG/.MainActivity" 2>/dev/null | grep -E "TotalTime" | tr -d '\r')
+  say "KHỞI ĐỘNG LẠNH $i: $T"
+  sleep 4
+done
 adb logcat -d -s ReactNativeJS:V ReactNative:V AndroidRuntime:E >"$OUT/logcat.txt" 2>&1
 adb logcat -d -b crash >"$OUT/crash.txt" 2>&1
 say "LỖI JS: $(grep -c -E 'ReactNativeJS.*(Error|TypeError|Invariant)' "$OUT/logcat.txt")"

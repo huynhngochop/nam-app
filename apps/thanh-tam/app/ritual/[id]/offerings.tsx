@@ -4,6 +4,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { AppBar, Button, Card, Check, IconButton, ProgressBar, Row, Screen, Segmented, T, useTheme } from '@nam/ui';
 import { offeringsFor, ritualById } from '../../../src/data/rituals';
 import { useTT } from '../../../src/store';
+import { goBack } from '../../../src/nav';
 
 const REGION = { bac: 'miền Bắc', trung: 'miền Trung', nam: 'miền Nam' } as const;
 /** Mảng rỗng dùng chung: selector zustand trả mảng mới mỗi lần sẽ vẽ lại vô hạn (lỗi React #185, vòng UAT 3). */
@@ -38,7 +39,7 @@ export default function Offerings() {
       }
     >
       <AppBar
-        onBack={() => router.back()}
+        onBack={goBack}
         title="Chuẩn bị lễ vật"
         right={<IconButton icon="share" label="Gửi danh sách" onPress={shareList} />}
       />

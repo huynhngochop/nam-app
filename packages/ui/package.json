@@ -13,6 +13,7 @@
     "react-native-svg": "*",
     "expo-splash-screen": "*",
     "expo-status-bar": "*",
-    "react-native-gesture-handler": "*"
+    "react-native-gesture-handler": "*",
+    "expo-font": "*"
   }
 }

@@ -5,6 +5,7 @@ import Svg, { Path } from 'react-native-svg';
 import { AppBar, Button, Grid, Radio, Row, Screen, StepBar, T, useTheme } from '@nam/ui';
 import { FACE_PARTS } from '../../../src/face/data';
 import { useSession } from '../../../src/session';
+import { goBack } from '../../../src/nav';
 
 /** TT-34 · Chọn nét mặt (8 bước). */
 export default function FaceStep() {
@@ -39,7 +40,7 @@ export default function FaceStep() {
       }
     >
       <AppBar
-        onBack={() => (i === 0 ? router.back() : router.replace(`/face/step/${i - 1}`))}
+        onBack={() => (i === 0 ? goBack() : router.replace(`/face/step/${i - 1}`))}
         backIcon={i === 0 ? 'x' : 'chevron-left'}
         title={`Bước ${i + 1}/${FACE_PARTS.length} · ${part.name}`}
       />

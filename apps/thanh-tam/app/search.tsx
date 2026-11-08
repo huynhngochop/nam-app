@@ -18,6 +18,7 @@ import {
 import { track } from '@nam/core';
 import { search } from '../src/lib/search';
 import { useTT } from '../src/store';
+import { goBack } from '../src/nav';
 
 const SUGGEST = ['ông Táo', 'giỗ đầu', 'hương cháy', 'nhập trạch', 'Thần tài', 'Vu Lan', 'hóa vàng', 'mâm ngũ quả'];
 
@@ -40,7 +41,7 @@ export default function Search() {
 
   return (
     <Screen>
-      <AppBar onBack={() => router.back()} title="Tìm kiếm" />
+      <AppBar onBack={goBack} title="Tìm kiếm" />
       <SearchField
         value={q}
         onChangeText={setQ}

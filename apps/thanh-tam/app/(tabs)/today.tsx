@@ -1,6 +1,6 @@
-import React from 'react';
-import { Pressable, View } from 'react-native';
-import { router } from 'expo-router';
+import React, { useCallback, useRef } from 'react';
+import { BackHandler, Platform, Pressable, View } from 'react-native';
+import { router, useFocusEffect } from 'expo-router';
 import {
   Avatar,
   Badge,
@@ -15,6 +15,7 @@ import {
   Thumb,
   useLayout,
   useTheme,
+  useToast,
 } from '@nam/ui';
 import { greeting } from '@nam/core';
 import { useTT } from '../../src/store';
@@ -36,6 +37,26 @@ export default function Today() {
   const todays = rituals.filter((r) => r.days === 0);
   const later = rituals.filter((r) => r.days > 0).slice(0, 5);
   const tip = TIPS[(today.getDate() + today.getMonth()) % TIPS.length];
+
+  // Android: ở màn đầu, bấm Quay lại hai lần trong 2 giây mới thoát, tránh lỡ tay thoát app (người lớn tuổi hay gặp).
+  // iOS không có nút thoát: Apple không cho app tự đóng, người dùng vuốt về màn hình chính.
+  const toast = useToast();
+  const toastRef = useRef(toast);
+  toastRef.current = toast;
+  const lastBack = useRef(0);
+  useFocusEffect(
+    useCallback(() => {
+      if (Platform.OS !== 'android') return;
+      const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+        const now = Date.now();
+        if (now - lastBack.current < 2000) return false;
+        lastBack.current = now;
+        toastRef.current('Bấm Quay lại lần nữa để thoát');
+        return true;
+      });
+      return () => sub.remove();
+    }, []),
+  );
 
   const header = (
     <Row between style={{ minHeight: 56 }}>

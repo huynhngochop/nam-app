@@ -18,7 +18,8 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+// Nhập riêng bộ Feather: nhập từ gốc '@expo/vector-icons' kéo theo cả 19 bộ biểu tượng (≈6 MB phông + bảng mã).
+import Feather from '@expo/vector-icons/Feather';
 import { SafeAreaView, Edge } from 'react-native-safe-area-context';
 import { useTheme } from '../theme';
 import { fonts, proAmber, radius, type as typeScale, TypeVariant } from '../tokens';
@@ -687,15 +688,26 @@ export function ProgressBar({
 
 export function Toggle({ value, onChange, label }: { value: boolean; onChange: (v: boolean) => void; label: string }) {
   const { c } = useTheme();
+  // Công tắc gốc chỉ cao 20–31 px: bọc vùng chạm 44×52 để người lớn tuổi bấm trúng. Vùng bọc là phần trợ năng đọc.
   return (
-    <Switch
+    <Pressable
+      accessibilityRole="switch"
       accessibilityLabel={label}
-      value={value}
-      onValueChange={onChange}
-      trackColor={{ true: c.a, false: c.line }}
-      thumbColor="#ffffff"
-      ios_backgroundColor={c.line}
-    />
+      accessibilityState={{ checked: value }}
+      onPress={() => onChange(!value)}
+      hitSlop={4}
+      style={{ minHeight: 44, minWidth: 52, alignItems: 'center', justifyContent: 'center' }}
+    >
+      <Switch
+        accessible={false}
+        importantForAccessibility="no-hide-descendants"
+        value={value}
+        onValueChange={onChange}
+        trackColor={{ true: c.a, false: c.line }}
+        thumbColor="#ffffff"
+        ios_backgroundColor={c.line}
+      />
+    </Pressable>
   );
 }
 

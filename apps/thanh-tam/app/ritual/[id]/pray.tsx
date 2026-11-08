@@ -16,6 +16,7 @@ import { track } from '@nam/core';
 import { useTT } from '../../../src/store';
 import { usePrayer } from '../../../src/usePrayer';
 import { plainText } from '../../../src/lib/prayer';
+import { goBack } from '../../../src/nav';
 
 const SPEEDS = [0, 18, 28, 40]; // điểm ảnh mỗi giây; 0 = tự cuộn tắt
 
@@ -179,7 +180,7 @@ export default function Pray() {
       <StatusBar barStyle="light-content" />
       <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, minHeight: 52, gap: 8 }}>
         <Pressable
-          onPress={() => router.back()}
+          onPress={goBack}
           accessibilityRole="button"
           accessibilityLabel="Đóng"
           hitSlop={8}

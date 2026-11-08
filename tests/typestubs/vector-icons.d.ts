@@ -300,3 +300,7 @@ declare module '@expo/vector-icons' {
   export const MaterialIcons: any;
   export const Ionicons: any;
 }
+declare module '@expo/vector-icons/Feather' {
+  import { Feather } from '@expo/vector-icons';
+  export default Feather;
+}

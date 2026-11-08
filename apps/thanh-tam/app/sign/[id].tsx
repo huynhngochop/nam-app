@@ -1,9 +1,10 @@
 import React from 'react';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { AppBar, Badge, Card, EmptyState, IconButton, Screen, T, useTheme, useToast } from '@nam/ui';
 import { signById, SIGN_AREAS } from '../../src/data/signs';
 import { Layers, SafetyCard, Sources } from '../../src/components';
 import { useTT } from '../../src/store';
+import { goBack } from '../../src/nav';
 
 /** TT-18 · Chi tiết dấu hiệu: ba lớp, an toàn trước, nhắc gặp bác sĩ/người thân khi cần. */
 export default function SignScreen() {
@@ -16,14 +17,14 @@ export default function SignScreen() {
   if (!s)
     return (
       <Screen>
-        <AppBar onBack={() => router.back()} />
+        <AppBar onBack={goBack} />
         <EmptyState icon="search" title="Không tìm thấy mục này" />
       </Screen>
     );
   return (
     <Screen scroll>
       <AppBar
-        onBack={() => router.back()}
+        onBack={goBack}
         right={
           <IconButton
             icon="bookmark"

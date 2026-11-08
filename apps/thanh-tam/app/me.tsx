@@ -8,6 +8,7 @@ import { RITUALS, ritualById } from '../src/data/rituals';
 import { prayerById } from '../src/data/prayers';
 import { signById, tipById } from '../src/data/signs';
 import { TAM_AN_READY } from '../src/config';
+import { goBack } from '../src/nav';
 
 /** TT-21 · Tôi: người trong nhà, đã lưu, lịch sử khấn, cài đặt. */
 export default function Me() {
@@ -42,7 +43,7 @@ export default function Me() {
 
   return (
     <Screen scroll>
-      <AppBar onBack={() => router.back()} title="Tôi" />
+      <AppBar onBack={goBack} title="Tôi" />
       <Card>
         <Row gap={12}>
           <Avatar name={tinChu || 'T T'} size={52} soft />

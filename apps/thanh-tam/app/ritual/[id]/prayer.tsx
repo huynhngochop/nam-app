@@ -27,6 +27,7 @@ import type { PrayerField } from '../../../src/data/types';
 import { PrayerText, dmy } from '../../../src/components';
 import { nextByRule } from '../../../src/lib/schedule';
 import { lunarOf, lunarShort } from '../../../src/calendar/lunar';
+import { goBack } from '../../../src/nav';
 
 const HOUSEHOLD_FIELDS: PrayerField[] = ['tinChu', 'diaChi', 'hoGiaTien'];
 const DATE_FIELDS: PrayerField[] = ['ngayAm', 'thangAm', 'namCanChi'];
@@ -92,7 +93,7 @@ export default function PrayerScreen() {
       }
     >
       <AppBar
-        onBack={() => router.back()}
+        onBack={goBack}
         title="Văn khấn"
         right={
           <>

@@ -21,6 +21,7 @@ import Constants from 'expo-constants';
 import { useTT } from '../src/store';
 import { requestNotify } from '../src/notify';
 import { TAM_AN_READY } from '../src/config';
+import { goBack } from '../src/nav';
 
 const TIMES = ['05:30', '06:00', '06:30', '07:00', '07:30', '08:00'];
 const REGION = { bac: 'Miền Bắc', trung: 'Miền Trung', nam: 'Miền Nam' } as const;
@@ -53,7 +54,7 @@ export default function Settings() {
   };
   return (
     <Screen scroll>
-      <AppBar title="Cài đặt" onBack={() => router.back()} />
+      <AppBar title="Cài đặt" onBack={goBack} />
       <SectionHeader title="Nếp nhà mình" />
       <ListItem
         left={icon('home')}

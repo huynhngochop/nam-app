@@ -318,3 +318,18 @@ declare module 'react-native-reanimated' {
   export const runOnJS: any;
   export const runOnUI: any;
 }
+declare module '@expo-google-fonts/be-vietnam-pro/400Regular' {
+  export const BeVietnamPro_400Regular: any;
+}
+declare module '@expo-google-fonts/be-vietnam-pro/500Medium' {
+  export const BeVietnamPro_500Medium: any;
+}
+declare module '@expo-google-fonts/be-vietnam-pro/600SemiBold' {
+  export const BeVietnamPro_600SemiBold: any;
+}
+declare module '@expo-google-fonts/be-vietnam-pro/700Bold' {
+  export const BeVietnamPro_700Bold: any;
+}
+declare module 'expo-font' {
+  export function useFonts(map: Record<string, unknown>): [boolean, Error | null];
+}

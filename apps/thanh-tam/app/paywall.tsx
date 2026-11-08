@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { router } from 'expo-router';
 import { AppBar, Button, Card, Icon, Row, Screen, T, useTheme, useToast } from '@nam/ui';
 import { buy, groupDigits, PURCHASE_MESSAGES, restorePurchases, storePrice, track } from '@nam/core';
 import { useTT } from '../src/store';
 import { TAM_AN_YEAR, TAM_AN_YEAR_VND } from '../src/config';
+import { goBack } from '../src/nav';
 
 const BENEFITS = [
   'Giọng đọc mẫu cho các bài khấn hay dùng',
@@ -39,7 +39,7 @@ export default function TamAnPaywall() {
       set({ tamAn: true });
       track('purchase_completed', { productId: TAM_AN_YEAR });
       toast(PURCHASE_MESSAGES.success, { tone: 'success' });
-      router.back();
+      goBack();
     } else if (r.status !== 'cancelled') {
       setError(PURCHASE_MESSAGES[r.status]);
       track('purchase_failed', { code: r.code });
@@ -63,14 +63,14 @@ export default function TamAnPaywall() {
               if (ids.some((i) => i.startsWith('thanhtam.taman'))) {
                 set({ tamAn: true });
                 toast('Đã khôi phục', { tone: 'success' });
-                router.back();
+                goBack();
               } else toast('Không tìm thấy giao dịch cũ');
             }}
           />
         </View>
       }
     >
-      <AppBar onBack={() => router.back()} backIcon="x" />
+      <AppBar onBack={goBack} backIcon="x" />
       <T v="display">Gói Tâm An</T>
       <T v="body" muted>
         Văn khấn, lịch âm, sổ giỗ, nhắc lịch và Tuổi & năm luôn miễn phí. Tâm An thêm những điều sau:

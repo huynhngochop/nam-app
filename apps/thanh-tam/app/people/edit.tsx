@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import {
   AppBar,
   Button,
@@ -19,6 +19,7 @@ import { useTT } from '../../src/store';
 import { DateInput, DateValue, resolveDate } from '../../src/DateInput';
 import { canChiYear } from '../../src/calendar/lunar';
 import type { Sex } from '../../src/age';
+import { goBack } from '../../src/nav';
 
 const RELATIONS = ['Tôi', 'Vợ', 'Chồng', 'Bố', 'Mẹ', 'Con', 'Anh', 'Chị', 'Em'];
 
@@ -86,7 +87,7 @@ export default function EditPerson() {
       isHouseOwner: owner,
     });
     track('person_saved', { edit: !!existing, yearOnly });
-    router.back();
+    goBack();
   };
 
   return (
@@ -104,7 +105,7 @@ export default function EditPerson() {
               onPress={() => {
                 remove(existing.id);
                 toast('Đã xóa');
-                router.back();
+                goBack();
               }}
               style={{ alignSelf: 'center' }}
             />
@@ -112,7 +113,7 @@ export default function EditPerson() {
         </>
       }
     >
-      <AppBar onBack={() => router.back()} backIcon="x" title={existing ? 'Sửa thông tin' : 'Người trong nhà'} />
+      <AppBar onBack={goBack} backIcon="x" title={existing ? 'Sửa thông tin' : 'Người trong nhà'} />
       <TextField
         label="Họ tên"
         value={name}

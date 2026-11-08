@@ -1,14 +1,14 @@
 import React from 'react';
 import { Linking } from 'react-native';
-import { router } from 'expo-router';
 import { AppBar, Badge, Card, Row, Screen, SectionHeader, T } from '@nam/ui';
 import { MAIN_SOURCES, SOURCE_KIND_LABEL } from '../../src/data/sources';
+import { goBack } from '../../src/nav';
 
 /** TT-24 · Nguồn tham khảo và cách biên soạn. Không có dòng cố vấn vì chưa có cố vấn tôn giáo. */
 export default function SourcesScreen() {
   return (
     <Screen scroll>
-      <AppBar onBack={() => router.back()} title="Nguồn tham khảo" />
+      <AppBar onBack={goBack} title="Nguồn tham khảo" />
       <Card>
         <T v="headline">Cách biên soạn</T>
         <T v="body">

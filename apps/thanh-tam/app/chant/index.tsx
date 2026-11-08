@@ -1,10 +1,10 @@
 import React from 'react';
-import { router } from 'expo-router';
 import { AppBar, Card, Screen, SectionHeader, T } from '@nam/ui';
 import { NavRow, Sources } from '../../src/components';
 import { KINH, NGHI_THUC, chantMinutes } from '../../src/data/kinh';
 import { SRC } from '../../src/data/sources';
 import { useTT } from '../../src/store';
+import { goBack } from '../../src/nav';
 
 const KIND_LABEL = { kinh: 'Kinh', chu: 'Chú', ke: 'Kệ', niem: 'Niệm' } as const;
 
@@ -13,7 +13,7 @@ export default function ChantLibrary() {
   const bpm = useTT((s) => s.chant.bpm);
   return (
     <Screen scroll>
-      <AppBar title="Tụng kinh" onBack={() => router.back()} />
+      <AppBar title="Tụng kinh" onBack={goBack} />
       <T v="body" muted>
         Chữ kinh âm Hán Việt, có tiếng mõ giữ nhịp và chuông chuyển bài. Tụng theo mõ, hoặc bật giọng máy đọc cùng.
       </T>

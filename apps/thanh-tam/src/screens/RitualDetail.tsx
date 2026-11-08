@@ -26,6 +26,7 @@ import { NavRow, SafetyCard, Sources, inDays, solarWithWeekday } from '../compon
 import { nextByRule, daysBetween } from '../lib/schedule';
 import { useToday } from '../hooks';
 import { lunarOf, lunarShort } from '../calendar/lunar';
+import { goBack } from '../nav';
 
 /** TT-07 · Chi tiết lễ. Dùng làm trang riêng (điện thoại) và cột phải (tablet ngang). */
 export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean }) {
@@ -45,7 +46,7 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
   if (!r) {
     return (
       <Screen>
-        <AppBar onBack={embedded ? undefined : () => router.back()} />
+        <AppBar onBack={embedded ? undefined : goBack} />
         <EmptyState
           icon="book-open"
           title="Không tìm thấy lễ này"
@@ -78,7 +79,7 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
       }
     >
       <AppBar
-        onBack={embedded ? undefined : () => router.back()}
+        onBack={embedded ? undefined : goBack}
         right={
           <>
             <IconButton

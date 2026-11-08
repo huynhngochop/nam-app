@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Button, Check, Grid, Row, Screen, SectionHeader, Segmented, StepDots, T, Thumb, useTheme } from '@nam/ui';
+import { Button, Check, Grid, IconButton, Row, Screen, SectionHeader, Segmented, StepDots, T, Thumb, useTheme } from '@nam/ui';
 import { track } from '@nam/core';
 import { useTT, type Altar } from '../../src/store';
 import type { Diet, Region } from '../../src/data/types';
+import { goBack } from '../../src/nav';
 
 const ALTARS: { id: Altar; name: string; sub: string; icon: 'users' | 'dollar-sign' | 'sun' | 'home' }[] = [
   { id: 'gia-tien', name: 'Bàn thờ gia tiên', sub: 'Ông bà, tổ tiên', icon: 'users' },
@@ -26,13 +27,17 @@ export default function Tradition() {
   const next = () => {
     setHousehold({ region, diet, altars });
     track('onboarding_tradition', { region, diet, altars: altars.length });
-    if (edit) router.back();
+    if (edit) goBack('/settings');
     else router.push('/onboarding/household');
   };
   return (
     <Screen scroll footer={<Button title={edit ? 'Lưu' : 'Tiếp tục'} onPress={next} />}>
       <Row between style={{ minHeight: 48 }}>
-        {edit ? <View /> : <StepDots count={2} index={0} />}
+        {edit ? (
+          <IconButton icon="chevron-left" label="Quay lại" onPress={() => goBack('/settings')} />
+        ) : (
+          <StepDots count={2} index={0} />
+        )}
       </Row>
       <T v="display">Nếp nhà mình</T>
       <T v="body" muted>

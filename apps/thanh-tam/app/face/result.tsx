@@ -1,11 +1,12 @@
 import React from 'react';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { AppBar, Badge, Button, Card, Row, Screen, SectionHeader, T, useToast } from '@nam/ui';
 import { track } from '@nam/core';
 import { FACE_ADVICE, FACE_DISCLAIMER, FACE_PARTS, FACE_REAL, optionOf, topTraits } from '../../src/face/data';
 import { useSession } from '../../src/session';
 import { useTT } from '../../src/store';
 import { Brief } from '../../src/components';
+import { goBack } from '../../src/nav';
 
 /** TT-35 · Kết quả nhân tướng: 3 nét nổi bật + từng bộ vị (3 dòng, Xem thêm). */
 export default function FaceResult() {
@@ -27,21 +28,21 @@ export default function FaceResult() {
                 set({ face: { answers: draft, savedAt: Date.now() } });
                 track('face_saved', { parts: answered.length });
                 toast('Đã lưu trên máy này', { tone: 'success' });
-                router.back();
+                goBack();
               }}
             />
             <Button
               title="Không lưu"
               variant="text"
               size="sm"
-              onPress={() => router.back()}
+              onPress={goBack}
               style={{ alignSelf: 'center' }}
             />
           </>
         )
       }
     >
-      <AppBar onBack={() => router.back()} title="Kết quả" />
+      <AppBar onBack={goBack} title="Kết quả" />
       <T v="micro" muted>
         {FACE_DISCLAIMER}
       </T>

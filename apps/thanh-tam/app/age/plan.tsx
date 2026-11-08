@@ -7,6 +7,7 @@ import { defaultAgeYear } from '../../src/hooks';
 import { ageYear, HOANG_OC_CAN_THAN, KIM_LAU_LABEL } from '../../src/age';
 import { canChiYear } from '../../src/calendar/lunar';
 import { MoreLink } from '../../src/components';
+import { goBack } from '../../src/nav';
 
 type Kind = 'lam-nha' | 'cuoi';
 
@@ -48,7 +49,7 @@ export default function Plan() {
   if (!person)
     return (
       <Screen>
-        <AppBar onBack={() => router.back()} />
+        <AppBar onBack={goBack} />
         <EmptyState
           icon="users"
           title="Chưa có người trong nhà"
@@ -59,7 +60,7 @@ export default function Plan() {
     );
   return (
     <Screen scroll>
-      <AppBar onBack={() => router.back()} title="Xem tuổi làm việc lớn" />
+      <AppBar onBack={goBack} title="Xem tuổi làm việc lớn" />
       <Segmented
         options={[
           { key: 'lam-nha', label: 'Làm nhà, sửa nhà' },

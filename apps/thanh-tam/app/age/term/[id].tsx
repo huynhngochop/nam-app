@@ -1,9 +1,10 @@
 import React from 'react';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { AppBar, Badge, Card, EmptyState, Screen, T } from '@nam/ui';
 import { termById } from '../../../src/data/ageContent';
 import { Layers, Sources } from '../../../src/components';
 import { SRC } from '../../../src/data/sources';
+import { goBack } from '../../../src/nav';
 
 /** TT-32 · Chi tiết sao, hạn, khái niệm (ba lớp). */
 export default function TermScreen() {
@@ -12,13 +13,13 @@ export default function TermScreen() {
   if (!t)
     return (
       <Screen>
-        <AppBar onBack={() => router.back()} />
+        <AppBar onBack={goBack} />
         <EmptyState icon="star" title="Mục này đang được biên soạn" />
       </Screen>
     );
   return (
     <Screen scroll>
-      <AppBar onBack={() => router.back()} />
+      <AppBar onBack={goBack} />
       <Badge label={t.kind} tone="accent" />
       <T v="display" accessibilityRole="header">
         {t.title}

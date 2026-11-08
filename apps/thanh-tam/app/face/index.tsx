@@ -4,6 +4,7 @@ import { AppBar, Badge, Button, Card, Row, Screen, T, useTheme } from '@nam/ui';
 import { FACE_ADVICE, FACE_DISCLAIMER, FACE_PARTS, topTraits } from '../../src/face/data';
 import { useTT } from '../../src/store';
 import { useSession } from '../../src/session';
+import { goBack } from '../../src/nav';
 
 /** TT-33 · Nhân tướng: giới thiệu + kết quả đã lưu. Không camera, không ảnh, không điểm số. */
 export default function FaceIntro() {
@@ -21,7 +22,7 @@ export default function FaceIntro() {
         <Button title={face ? 'Chọn lại từ đầu' : 'Bắt đầu'} variant={face ? 'secondary' : 'primary'} onPress={start} />
       }
     >
-      <AppBar onBack={() => router.back()} title="Nhân tướng" large />
+      <AppBar onBack={goBack} title="Nhân tướng" large />
       <T v="body" muted>
         Tự chọn nét mặt của chính mình qua {FACE_PARTS.length} bước. Thành Tâm tra theo nhân tướng học dân gian và ghép
         3 nét tính cách nổi bật.

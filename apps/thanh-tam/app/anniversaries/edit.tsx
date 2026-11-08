@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { View } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import {
   AppBar,
   Button,
@@ -24,6 +24,7 @@ import { leapOf, lunarMonthLength, lunarOf, monthName } from '../../src/calendar
 import { memorialMilestones, nextGio, daysBetween, startOfDay } from '../../src/lib/schedule';
 import { dmy, inDays, solarWithWeekday } from '../../src/components';
 import { requestNotify } from '../../src/notify';
+import { goBack } from '../../src/nav';
 
 const RELATIONS = ['Ông nội', 'Bà nội', 'Ông ngoại', 'Bà ngoại', 'Bố', 'Mẹ', 'Cụ', 'Anh', 'Chị', 'Em'];
 const REMIND = [7, 3, 1];
@@ -103,7 +104,7 @@ export default function EditAnniversary() {
     track('anniversary_saved', { edit: !!existing, recent });
     if (remind.length) await requestNotify();
     toast(existing ? 'Đã lưu' : 'Đã thêm ngày giỗ', { tone: 'success' });
-    router.back();
+    goBack();
     return id;
   };
 
@@ -113,7 +114,7 @@ export default function EditAnniversary() {
       edges={['top', 'bottom']}
       footer={<Button title={existing ? 'Lưu' : 'Thêm ngày giỗ'} disabled={!valid} onPress={save} />}
     >
-      <AppBar onBack={() => router.back()} backIcon="x" title={existing ? 'Sửa ngày giỗ' : 'Thêm ngày giỗ'} />
+      <AppBar onBack={goBack} backIcon="x" title={existing ? 'Sửa ngày giỗ' : 'Thêm ngày giỗ'} />
       <TextField
         label="Tên người đã khuất"
         value={name}

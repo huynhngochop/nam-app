@@ -23,6 +23,7 @@ import { SRC } from '../../../src/data/sources';
 import { NavRow, Sources } from '../../../src/components';
 import { useTT } from '../../../src/store';
 import { forgetRecording, pickRecording } from '../../../src/recordings';
+import { goBack } from '../../../src/nav';
 
 function SettingRow({
   label,
@@ -65,7 +66,7 @@ export default function ChantSetup() {
   if (!plan) {
     return (
       <Screen>
-        <AppBar onBack={() => router.back()} />
+        <AppBar onBack={goBack} />
         <EmptyState icon="book-open" title="Không tìm thấy bài tụng" />
       </Screen>
     );
@@ -108,7 +109,7 @@ export default function ChantSetup() {
         />
       }
     >
-      <AppBar title={plan.title} onBack={() => router.back()} />
+      <AppBar title={plan.title} onBack={goBack} />
       {r ? (
         <T v="caption" accent weight="semibold">
           Cho lễ {r.title.toLowerCase()}

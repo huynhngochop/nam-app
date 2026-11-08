@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, ScrollView, StatusBar, View } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { initialWindowMetrics, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import * as Speech from 'expo-speech';
@@ -11,6 +11,7 @@ import type { ChantLine } from '../../../src/data/kinh';
 import { ChantPos, gotoLine, gotoStep, nextLine, startPos, tick } from '../../../src/lib/chant';
 import { bell, closeChantAudio, knock, openChantAudio, openRecording, setMoVolume } from '../../../src/chantAudio';
 import { useTT } from '../../../src/store';
+import { goBack } from '../../../src/nav';
 
 const FONTS = [22, 24, 26, 28, 30];
 
@@ -330,7 +331,7 @@ export default function ChantPlay() {
   const finish = () => {
     track('chant_done', { id, ritual: ritual ?? null });
     if (ritual) logPray(ritual);
-    router.back();
+    goBack();
   };
 
   const rows: React.ReactNode[] = [];
@@ -418,7 +419,7 @@ export default function ChantPlay() {
       <StatusBar barStyle="light-content" />
       <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, minHeight: 56, gap: 8 }}>
         <Pressable
-          onPress={() => router.back()}
+          onPress={goBack}
           accessibilityRole="button"
           accessibilityLabel="Đóng"
           hitSlop={8}
