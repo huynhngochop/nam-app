@@ -1,6 +1,6 @@
 # Build 4 file APK cài thử (release, biến thể preview, ký bằng khóa debug) — không cần EXPO_TOKEN.
 # Chạy mỗi lần main đổi mã app; APK được đẩy lên nhánh apk-builds (tải trực tiếp từ GitHub).
-# Đẩy tag vX.Y.Z thì tạo thêm GitHub Release kèm 4 APK (ghi chú lấy từ .github/release-notes/<tag>.md).
+# Có .github/release-notes/v<phiên bản>.md thì tạo thêm GitHub Release kèm 4 APK (một lần cho mỗi phiên bản).
 # Bản lên Google Play vẫn build bằng EAS (eas-build.yml, cần EXPO_TOKEN và khóa ký thật).
 name: APK cài thử
 
@@ -8,8 +8,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    tags: ['v*']
-    paths: ['apps/**', 'packages/**', 'package-lock.json', '.github/workflows/apk-build.yml']
+    paths: ['apps/**', 'packages/**', 'package-lock.json', '.github/workflows/apk-build.yml', '.github/release-notes/**']
 
 permissions:
   contents: write
@@ -69,19 +68,25 @@ jobs:
           pattern: apk-*
           merge-multiple: true
       - uses: actions/checkout@v4
-        if: startsWith(github.ref, 'refs/tags/v')
         with:
           path: src
-          sparse-checkout: .github/release-notes
+          sparse-checkout: |
+            .github/release-notes
+            apps/vi-gon/app.json
+      # Tạo GitHub Release vX.Y.Z (kèm tag) khi main có ghi chú .github/release-notes/vX.Y.Z.md cho phiên bản
+      # hiện tại trong app.json mà release đó chưa có. Đổi số phiên bản + thêm ghi chú = ra bản mới.
       - name: Tạo GitHub Release
-        if: startsWith(github.ref, 'refs/tags/v') && needs.apk.result == 'success'
+        if: needs.apk.result == 'success'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: ${{ github.ref_name }}
+          REPO: ${{ github.repository }}
         run: |
-          notes="src/.github/release-notes/$TAG.md"
-          [ -f "$notes" ] || { echo "Bản $TAG" > /tmp/notes.md; notes=/tmp/notes.md; }
-          gh release create "$TAG" apks/*.apk --repo "${{ github.repository }}" --title "$TAG" --notes-file "$notes"
+          tag="v$(node -p "require('./src/apps/vi-gon/app.json').expo.version")"
+          notes="src/.github/release-notes/$tag.md"
+          if [ ! -f "$notes" ]; then echo "Chưa có ghi chú cho $tag, bỏ qua."; exit 0; fi
+          if gh release view "$tag" --repo "$REPO" > /dev/null 2>&1; then echo "$tag đã có, bỏ qua."; exit 0; fi
+          gh release create "$tag" apks/*.apk --repo "$REPO" --target "${{ github.sha }}" --title "$tag" --notes-file "$notes"
+          echo "::notice title=release::đã tạo $tag"
       - name: Đẩy lên nhánh apk-builds
         run: |
           cd apks
