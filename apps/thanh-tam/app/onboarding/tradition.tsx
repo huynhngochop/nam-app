@@ -1,7 +1,20 @@
 import React, { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Button, Check, Grid, IconButton, Row, Screen, SectionHeader, Segmented, StepDots, T, Thumb, useTheme } from '@nam/ui';
+import {
+  Button,
+  Check,
+  Grid,
+  IconButton,
+  Row,
+  Screen,
+  SectionHeader,
+  Segmented,
+  StepDots,
+  T,
+  Thumb,
+  useTheme,
+} from '@nam/ui';
 import { track } from '@nam/core';
 import { useTT, type Altar } from '../../src/store';
 import type { Diet, Region } from '../../src/data/types';

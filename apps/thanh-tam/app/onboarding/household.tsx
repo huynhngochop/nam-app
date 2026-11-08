@@ -1,7 +1,19 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import { Button, Card, IconButton, ListItem, Row, Screen, SectionHeader, StepDots, T, TextField, Toggle } from '@nam/ui';
+import {
+  Button,
+  Card,
+  IconButton,
+  ListItem,
+  Row,
+  Screen,
+  SectionHeader,
+  StepDots,
+  T,
+  TextField,
+  Toggle,
+} from '@nam/ui';
 import { goBack } from '../../src/nav';
 import { track } from '@nam/core';
 import { useTT } from '../../src/store';

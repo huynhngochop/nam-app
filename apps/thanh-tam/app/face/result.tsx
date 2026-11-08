@@ -31,13 +31,7 @@ export default function FaceResult() {
                 goBack();
               }}
             />
-            <Button
-              title="Không lưu"
-              variant="text"
-              size="sm"
-              onPress={goBack}
-              style={{ alignSelf: 'center' }}
-            />
+            <Button title="Không lưu" variant="text" size="sm" onPress={goBack} style={{ alignSelf: 'center' }} />
           </>
         )
       }

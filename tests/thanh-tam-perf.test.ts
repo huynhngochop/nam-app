@@ -41,21 +41,30 @@ test('không dùng router.back() trực tiếp: màn mở từ thông báo khôn
 });
 
 test('mọi màn đều có đường ra: nút Quay lại, Đóng, hoặc là màn gốc', () => {
-  const ROOTS = new Set(['(tabs)/today', '(tabs)/rituals', '(tabs)/calendar', '(tabs)/explore', 'index', 'onboarding/tradition', 'ritual/[id]/index']);
+  const ROOTS = new Set([
+    '(tabs)/today',
+    '(tabs)/rituals',
+    '(tabs)/calendar',
+    '(tabs)/explore',
+    'index',
+    'onboarding/tradition',
+    'ritual/[id]/index',
+  ]);
   for (const f of files(path.join(TT, 'app')).filter((x) => !/_layout\.tsx$/.test(x))) {
     const route = path.relative(path.join(TT, 'app'), f).replace(/\.tsx$/, '');
     const s = fs.readFileSync(f, 'utf8');
     if (ROOTS.has(route) || route === 'qa-seed') continue;
-    assert.ok(
-      /goBack|accessibilityLabel="Đóng"|label="Quay lại"/.test(s),
-      `${route}: thiếu nút Quay lại hoặc Đóng`,
-    );
+    assert.ok(/goBack|accessibilityLabel="Đóng"|label="Quay lại"/.test(s), `${route}: thiếu nút Quay lại hoặc Đóng`);
   }
 });
 
 test('Thành Tâm không kèm thư viện chỉ dùng khi phát triển, có bật thu gọn mã bản phát hành', () => {
   const pkg = JSON.parse(fs.readFileSync(path.join(TT, 'package.json'), 'utf8'));
-  assert.equal(pkg.dependencies['expo-dev-client'], undefined, 'expo-dev-client kéo theo máy quét mã QR (≈5 MB mỗi kiểu chip)');
+  assert.equal(
+    pkg.dependencies['expo-dev-client'],
+    undefined,
+    'expo-dev-client kéo theo máy quét mã QR (≈5 MB mỗi kiểu chip)',
+  );
   const app = JSON.parse(fs.readFileSync(path.join(TT, 'app.json'), 'utf8'));
   const bp = app.expo.plugins.find((p: unknown) => Array.isArray(p) && p[0] === 'expo-build-properties');
   assert.ok(bp, 'thiếu expo-build-properties');
