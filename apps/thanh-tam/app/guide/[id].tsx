@@ -99,7 +99,13 @@ export default function GuideScreen() {
       <SectionHeader title="Hướng dẫn khác" />
       <Card style={{ paddingVertical: 4 }}>
         {others.map((x) => (
-          <NavRow key={x.id} icon={x.icon} title={x.title} subtitle={x.summary} onPress={() => router.replace(`/guide/${x.id}`)} />
+          <NavRow
+            key={x.id}
+            icon={x.icon}
+            title={x.title}
+            subtitle={x.summary}
+            onPress={() => router.replace(`/guide/${x.id}`)}
+          />
         ))}
       </Card>
       <Sources sources={g.sources} />

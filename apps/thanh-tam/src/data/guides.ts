@@ -140,10 +140,7 @@ export const GUIDES: Guide[] = [
           'Chả giò.',
           'Đĩa xôi hoặc bánh.',
         ],
-        p: [
-          'Ngày giỗ thường có thêm món người mất thích lúc còn sống.',
-          'Mỗi nhà một kiểu; mâm vừa đủ ăn, không phí.',
-        ],
+        p: ['Ngày giỗ thường có thêm món người mất thích lúc còn sống.', 'Mỗi nhà một kiểu; mâm vừa đủ ăn, không phí.'],
       },
       {
         h: 'Miền Trung',
@@ -190,10 +187,7 @@ export const GUIDES: Guide[] = [
           'Đặt hai bàn tay xuống chiếu, cúi đầu sát tay.',
           'Ngẩng lên, đứng dậy (hoặc ngồi thẳng). Như vậy là một lạy.',
         ],
-        p: [
-          'Lạy xong số lạy thì đứng dậy, vái thêm 3 vái rồi lui ra.',
-          'Nên trải chiếu hoặc thảm sạch trước bàn thờ.',
-        ],
+        p: ['Lạy xong số lạy thì đứng dậy, vái thêm 3 vái rồi lui ra.', 'Nên trải chiếu hoặc thảm sạch trước bàn thờ.'],
       },
       {
         h: 'Số lạy, số vái theo nơi thờ',

@@ -287,10 +287,7 @@ function Draw({ id, p }: { id: FigureId; p: Pal }) {
       const bowls = [0, 90, 180, 270].map((d) => ({ at: polar(160, 110, 40, d - 45), kind: 'bowl' as Dish }));
       const plates: Dish[] = ['chicken', 'slices', 'rolls', 'mound', 'plate', 'small'];
       return (
-        <Tray
-          p={p}
-          items={[...bowls, ...plates.map((k, i) => ({ at: polar(160, 110, 76, i * 60 - 15), kind: k }))]}
-        />
+        <Tray p={p} items={[...bowls, ...plates.map((k, i) => ({ at: polar(160, 110, 76, i * 60 - 15), kind: k }))]} />
       );
     }
     case 'mam-nam': {
@@ -344,7 +341,16 @@ function Draw({ id, p }: { id: FigureId; p: Pal }) {
             { x: 275, top: 124 },
           ].map((s, i) => (
             <G key={i}>
-              <Line x1={s.x} y1={135} x2={s.x} y2={30} stroke={p.muted} strokeWidth={2} strokeDasharray="3 4" opacity={0.5} />
+              <Line
+                x1={s.x}
+                y1={135}
+                x2={s.x}
+                y2={30}
+                stroke={p.muted}
+                strokeWidth={2}
+                strokeDasharray="3 4"
+                opacity={0.5}
+              />
               <Stick x={s.x} y0={140} y1={s.top} p={p} />
               <Bowl cx={s.x} y={136} w={40} p={p} />
               <Cup cx={s.x + 38} y={150} p={p} fill={0.3 + i * 0.25} />

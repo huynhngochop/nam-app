@@ -128,7 +128,15 @@ export const RITUALS: Ritual[] = [
     },
     variantNote:
       'Miền Bắc thường có mâm ngũ quả có chuối xanh, bưởi; miền Nam hay bày mãng cầu, dừa, đu đủ, xoài. Theo nếp nhà mình nếu đã có.',
-    steps: [LAU_DON, { title: 'Bày lễ vật', text: 'Theo danh sách đã chọn: hoa bên phải, quả bên trái (nhìn từ ngoài vào). Lễ giản dị cũng đủ.', guide: 'bay-ban-tho' }, ...GIA_TIEN],
+    steps: [
+      LAU_DON,
+      {
+        title: 'Bày lễ vật',
+        text: 'Theo danh sách đã chọn: hoa bên phải, quả bên trái (nhìn từ ngoài vào). Lễ giản dị cũng đủ.',
+        guide: 'bay-ban-tho',
+      },
+      ...GIA_TIEN,
+    ],
     afterSteps: HA_LE,
     cautions: ['Không cần mâm cao cỗ đầy; tâm thành là chính.'],
     prayers: ['gia-tien-thuong', 'tho-cong'],
@@ -263,7 +271,11 @@ export const RITUALS: Ritual[] = [
     steps: [
       { title: 'Bày lễ ngoài trời', text: 'Đặt mâm lễ nơi thoáng, xa vật dễ cháy.', fire: true },
       ...THAN_LINH_LE,
-      { title: 'Vào nhà cúng gia tiên', text: 'Thắp hương bàn thờ gia tiên, khấn mời ông bà về ăn Tết, lạy 4 lạy rồi vái 3 vái.', guide: 'vai-lay' },
+      {
+        title: 'Vào nhà cúng gia tiên',
+        text: 'Thắp hương bàn thờ gia tiên, khấn mời ông bà về ăn Tết, lạy 4 lạy rồi vái 3 vái.',
+        guide: 'vai-lay',
+      },
     ],
     afterSteps: HA_LE,
     prayers: ['giao-thua', 'gia-tien-thuong'],
@@ -403,7 +415,16 @@ export const RITUALS: Ritual[] = [
       chay: [{ name: 'Hương, hoa, quả' }, { name: 'Mâm chay' }, { name: 'Trà, nước' }],
       gianDi: GIAN_DI,
     },
-    steps: [LAU_DON, { title: 'Bày mâm cỗ', text: 'Mâm cỗ theo nếp miền mình, thêm món người mất thích (ghi trong Sổ giỗ). Đặt bát cơm, đôi đũa cho người được giỗ.', guide: 'mam-co' }, ...GIA_TIEN, ...BA_TUAN],
+    steps: [
+      LAU_DON,
+      {
+        title: 'Bày mâm cỗ',
+        text: 'Mâm cỗ theo nếp miền mình, thêm món người mất thích (ghi trong Sổ giỗ). Đặt bát cơm, đôi đũa cho người được giỗ.',
+        guide: 'mam-co',
+      },
+      ...GIA_TIEN,
+      ...BA_TUAN,
+    ],
     afterSteps: HA_LE,
     prayers: ['gio'],
     guides: G_MAM,
@@ -563,8 +584,17 @@ export const RITUALS: Ritual[] = [
       { ...THAP_HUONG, title: 'Thắp hương mời an vị' },
       LAY_GIA_TIEN,
     ],
-    afterSteps: [{ title: 'Đốt chân hương cũ', text: 'Đốt ở nơi an toàn rồi thả tro xuống sông, hồ hoặc chôn ở gốc cây.', fire: true }],
-    cautions: ['Bát hương không nhấc lên lau; chỉ lau quanh miệng bát.', 'Phụ nữ hay ai lau cũng được, miễn sạch sẽ, cẩn thận.'],
+    afterSteps: [
+      {
+        title: 'Đốt chân hương cũ',
+        text: 'Đốt ở nơi an toàn rồi thả tro xuống sông, hồ hoặc chôn ở gốc cây.',
+        fire: true,
+      },
+    ],
+    cautions: [
+      'Bát hương không nhấc lên lau; chỉ lau quanh miệng bát.',
+      'Phụ nữ hay ai lau cũng được, miễn sạch sẽ, cẩn thận.',
+    ],
     prayers: ['bao-sai'],
     guides: ['bay-ban-tho', 'thap-huong', 'vai-lay'],
     tips: ['bao-sai'],
@@ -599,7 +629,12 @@ export const RITUALS: Ritual[] = [
         { name: 'Trà, rượu, nước' },
         VANG_MA,
       ],
-      chay: [{ name: 'Hương, hoa, quả' }, { name: 'Bánh chưng hoặc bánh tét chay' }, { name: 'Mâm cỗ chay' }, { name: 'Trà, nước' }],
+      chay: [
+        { name: 'Hương, hoa, quả' },
+        { name: 'Bánh chưng hoặc bánh tét chay' },
+        { name: 'Mâm cỗ chay' },
+        { name: 'Trà, nước' },
+      ],
       gianDi: [...GIAN_DI, { name: 'Bánh chưng hoặc bánh tét' }],
     },
     variantNote: 'Miền Bắc "bốn bát sáu đĩa", miền Nam thịt kho, canh khổ qua. Xem hình trong "Mâm cỗ cúng theo miền".',
@@ -626,7 +661,10 @@ export const RITUALS: Ritual[] = [
     summary: 'Sáng đầu năm thắp hương gia tiên, dâng mâm cơm hoặc mâm chay.',
     meaning:
       'Sáng mùng Một, con cháu mặc áo mới, thắp hương mời ông bà, rồi mới chúc Tết nhau. Ba ngày Tết sáng chiều đều thắp hương, dâng cơm.',
-    when: { rule: { kind: 'yearly', day: 1, month: 1 }, text: 'Sáng mùng 1 Tết (mùng 2 sáng chiều thắp hương như thường)' },
+    when: {
+      rule: { kind: 'yearly', day: 1, month: 1 },
+      text: 'Sáng mùng 1 Tết (mùng 2 sáng chiều thắp hương như thường)',
+    },
     where: ['Bàn thờ gia tiên', 'Thổ công'],
     offerings: {
       chung: [
@@ -657,16 +695,14 @@ export const RITUALS: Ritual[] = [
     when: { rule: { kind: 'yearly', day: 3, month: 1 }, text: 'Mùng 3 Tết (tùy nhà mùng 4 đến mùng 10)' },
     where: ['Bàn thờ gia tiên'],
     offerings: {
-      chung: [
-        { name: 'Hương, hoa, quả' },
-        { name: 'Mâm cơm tiễn' },
-        { name: 'Trà, rượu, nước' },
-        VANG_MA,
-      ],
+      chung: [{ name: 'Hương, hoa, quả' }, { name: 'Mâm cơm tiễn' }, { name: 'Trà, rượu, nước' }, VANG_MA],
       chay: [{ name: 'Hương, hoa, quả' }, { name: 'Mâm chay' }, { name: 'Trà, nước' }],
       gianDi: GIAN_DI,
     },
-    steps: [{ title: 'Bày mâm cơm tiễn', text: 'Mâm cơm như ngày Tết, có thể giản dị hơn.', guide: 'mam-co' }, ...GIA_TIEN],
+    steps: [
+      { title: 'Bày mâm cơm tiễn', text: 'Mâm cơm như ngày Tết, có thể giản dị hơn.', guide: 'mam-co' },
+      ...GIA_TIEN,
+    ],
     afterSteps: HA_LE,
     cautions: ['Nếu hóa vàng: ít thôi, nơi thoáng, có xô nước, chờ tàn hẳn. Chung cư hóa ở nơi ban quản lý quy định.'],
     prayers: ['hoa-vang'],
@@ -799,7 +835,10 @@ export const RITUALS: Ritual[] = [
     ],
     afterSteps: [
       { title: 'Rắc gạo muối', text: 'Hương tàn, rắc gạo muối ra ngoài đường hoặc gốc cây.' },
-      { title: 'Chia lễ', text: 'Bánh kẹo, hoa quả chia cho trẻ em, người cần; không mang lễ này vào bàn thờ gia tiên.' },
+      {
+        title: 'Chia lễ',
+        text: 'Bánh kẹo, hoa quả chia cho trẻ em, người cần; không mang lễ này vào bàn thờ gia tiên.',
+      },
     ],
     cautions: ['Giáo hội khuyên không đốt vàng mã, thay bằng việc thiện.', 'Đặt hương xa xe cộ, xa vật dễ cháy.'],
     prayers: ['chung-sinh'],
@@ -827,7 +866,11 @@ export const RITUALS: Ritual[] = [
       ],
       gianDi: [...GIAN_DI, { name: 'Một chiếc bánh trung thu' }],
     },
-    steps: [LAU_DON, { title: 'Bày lễ vật', text: 'Bánh, quả bày ngay ngắn trước bát hương.', guide: 'bay-ban-tho' }, ...GIA_TIEN],
+    steps: [
+      LAU_DON,
+      { title: 'Bày lễ vật', text: 'Bánh, quả bày ngay ngắn trước bát hương.', guide: 'bay-ban-tho' },
+      ...GIA_TIEN,
+    ],
     afterSteps: [HA_LE[0], { title: 'Phá cỗ', text: 'Hạ bánh quả xuống bày mâm cỗ trông trăng cho trẻ nhỏ.' }],
     prayers: ['gia-tien-thuong'],
     guides: G_GIA_TIEN,
@@ -856,7 +899,11 @@ export const RITUALS: Ritual[] = [
       chay: [{ name: 'Hương, hoa, quả' }, { name: 'Mâm chay' }, { name: 'Trà, nước' }],
       gianDi: GIAN_DI,
     },
-    steps: [LAU_DON, { title: 'Bày mâm cơm', text: 'Đặt bát cơm, đôi đũa trước ảnh người mất.', guide: 'mam-co' }, ...GIA_TIEN],
+    steps: [
+      LAU_DON,
+      { title: 'Bày mâm cơm', text: 'Đặt bát cơm, đôi đũa trước ảnh người mất.', guide: 'mam-co' },
+      ...GIA_TIEN,
+    ],
     afterSteps: [
       { title: 'Tụng kinh cầu siêu (nếu có)', text: 'Tụng nghi thức Cầu siêu trong mục Tụng kinh, hoặc thỉnh chùa.' },
       HA_LE[0],
@@ -913,15 +960,14 @@ export const RITUALS: Ritual[] = [
     when: { rule: null, text: 'Thường từ rằm tháng Chạp đến trước 23 tháng Chạp' },
     where: ['Bàn thờ gia tiên hoặc giữa nhà'],
     offerings: {
-      chung: [
-        { name: 'Hương, hoa, quả' },
-        { name: 'Xôi, gà hoặc mâm cơm' },
-        { name: 'Trầu cau, rượu, trà' },
-        VANG_MA,
-      ],
+      chung: [{ name: 'Hương, hoa, quả' }, { name: 'Xôi, gà hoặc mâm cơm' }, { name: 'Trầu cau, rượu, trà' }, VANG_MA],
       gianDi: GIAN_DI,
     },
-    steps: [LAU_DON, { title: 'Bày lễ', text: 'Bày gọn giữa nhà hoặc trên bàn thờ.', guide: 'bay-ban-tho' }, ...THAN_LINH_LE],
+    steps: [
+      LAU_DON,
+      { title: 'Bày lễ', text: 'Bày gọn giữa nhà hoặc trên bàn thờ.', guide: 'bay-ban-tho' },
+      ...THAN_LINH_LE,
+    ],
     afterSteps: HA_LE,
     prayers: ['ta-dat'],
     guides: G_THAN,
@@ -968,7 +1014,8 @@ export const RITUALS: Ritual[] = [
     icon: 'truck',
     minutes: 15,
     summary: 'Lễ nhỏ khi mua xe, cầu đi lại an toàn.',
-    meaning: 'Nhiều người làm lễ nhỏ khi mua xe mới. An toàn thật sự đến từ lái cẩn thận, đội mũ bảo hiểm, không uống rượu bia khi lái.',
+    meaning:
+      'Nhiều người làm lễ nhỏ khi mua xe mới. An toàn thật sự đến từ lái cẩn thận, đội mũ bảo hiểm, không uống rượu bia khi lái.',
     when: { rule: null, text: 'Ngày nhận xe' },
     where: ['Trước đầu xe, ngoài sân'],
     offerings: {
@@ -1014,7 +1061,11 @@ export const RITUALS: Ritual[] = [
     },
     steps: [
       { title: 'Ăn mặc', text: 'Quần áo kín đáo, màu nhã. Nói nhỏ, tắt chuông điện thoại.' },
-      { title: 'Lễ Đức Ông (nếu chùa có)', text: 'Nhiều chùa miền Bắc lễ ban Đức Ông trước, rồi vào chính điện.', guide: 'vai-lay' },
+      {
+        title: 'Lễ Đức Ông (nếu chùa có)',
+        text: 'Nhiều chùa miền Bắc lễ ban Đức Ông trước, rồi vào chính điện.',
+        guide: 'vai-lay',
+      },
       {
         title: 'Dâng lễ ban Tam bảo',
         text: 'Đặt lễ chay lên ban chính; thắp hương ở bát hương chung ngoài sân nếu chùa quy định.',

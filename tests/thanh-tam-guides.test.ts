@@ -46,7 +46,11 @@ test('đủ các lễ phổ biến trong năm và trong đời', () => {
     'xe-moi',
     'le-chua',
   ];
-  for (const id of need) assert.ok(RITUALS.some((r) => r.id === id), id);
+  for (const id of need)
+    assert.ok(
+      RITUALS.some((r) => r.id === id),
+      id,
+    );
   assert.equal(new Set(RITUALS.map((r) => r.id)).size, RITUALS.length, 'mã lễ trùng');
   assert.equal(new Set(PRAYERS.map((p) => p.id)).size, PRAYERS.length, 'mã văn khấn trùng');
   // Mỗi nhóm có ít nhất một lễ (nhóm "Lễ chùa, đền" trước đây trống).
@@ -147,5 +151,9 @@ test('nhắc lễ: hai lễ cùng ngày chỉ nhắc một lần', () => {
 
 test('giọng mẫu: văn khấn mới tự có trong danh sách tạo giọng', () => {
   const ids = new Set(voiceItems().map((v) => v.id));
-  for (const p of PRAYERS) assert.ok([...ids].some((x) => x.endsWith(p.id)), p.id);
+  for (const p of PRAYERS)
+    assert.ok(
+      [...ids].some((x) => x.endsWith(p.id)),
+      p.id,
+    );
 });
