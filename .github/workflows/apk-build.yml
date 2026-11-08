@@ -1,5 +1,6 @@
 # Build 4 file APK cài thử (release, biến thể preview, ký bằng khóa debug) — không cần EXPO_TOKEN.
 # Chạy mỗi lần main đổi mã app; APK được đẩy lên nhánh apk-builds (tải trực tiếp từ GitHub).
+# Đẩy tag vX.Y.Z thì tạo thêm GitHub Release kèm 4 APK (ghi chú lấy từ .github/release-notes/<tag>.md).
 # Bản lên Google Play vẫn build bằng EAS (eas-build.yml, cần EXPO_TOKEN và khóa ký thật).
 name: APK cài thử
 
@@ -7,13 +8,14 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
+    tags: ['v*']
     paths: ['apps/**', 'packages/**', 'package-lock.json', '.github/workflows/apk-build.yml']
 
 permissions:
   contents: write
 
 concurrency:
-  group: apk-build
+  group: apk-build-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -66,6 +68,20 @@ jobs:
           path: apks
           pattern: apk-*
           merge-multiple: true
+      - uses: actions/checkout@v4
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          path: src
+          sparse-checkout: .github/release-notes
+      - name: Tạo GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v') && needs.apk.result == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          notes="src/.github/release-notes/$TAG.md"
+          [ -f "$notes" ] || { echo "Bản $TAG" > /tmp/notes.md; notes=/tmp/notes.md; }
+          gh release create "$TAG" apks/*.apk --repo "${{ github.repository }}" --title "$TAG" --notes-file "$notes"
       - name: Đẩy lên nhánh apk-builds
         run: |
           cd apks

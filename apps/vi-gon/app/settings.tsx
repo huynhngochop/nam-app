@@ -26,6 +26,7 @@ import { allTx, wipeTx } from '../src/db';
 import { listenerSupported, openPermissionSettings } from '../src/listener';
 import { catOf, useVi } from '../src/store';
 import { canUseBiometric } from '../src/ui';
+import Constants from 'expo-constants';
 
 /** VG-15 · Cài đặt: tự ghi, bảo mật, thông báo, dữ liệu (sao lưu mã hóa, xuất CSV – Pro), giao diện. */
 export default function Settings() {
@@ -209,7 +210,7 @@ export default function Settings() {
       <View style={{ height: 8 }} />
       <Button title="Xóa toàn bộ dữ liệu trên máy" variant="danger" size="md" onPress={() => setWipe(true)} />
       <T v="caption" muted center>
-        Ví Gọn 0.1.0 · dữ liệu chỉ nằm trên máy này
+        Ví Gọn {Constants.expoConfig?.version} · dữ liệu chỉ nằm trên máy này
       </T>
 
       <ExitAppItem />
