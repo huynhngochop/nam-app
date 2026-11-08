@@ -29,7 +29,6 @@ import { AdNative, TipRow } from '../src/components';
 const SORTS: { key: SortKey; label: string }[] = [
   { key: 'popular', label: 'Phổ biến' },
   { key: 'new', label: 'Mới nhất' },
-  { key: 'rating', label: 'Đánh giá cao' },
 ];
 
 /** MN-05 Tìm kiếm + MN-06 Kết quả trên cùng một màn: gõ → gợi ý; nhấn Tìm → kết quả. */

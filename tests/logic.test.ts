@@ -6,7 +6,8 @@ import { DEFAULT_CATEGORIES } from '../apps/vi-gon/src/types';
 import { parseLocally, parsePrice } from '../apps/hen-dep/src/priceBoard';
 import { templateVariants } from '../apps/hen-dep/src/promo';
 import { preCheck } from '../apps/meo-nha/src/lib/ask';
-import { searchTips } from '../apps/meo-nha/src/lib/search';
+import { feedFor, searchTips } from '../apps/meo-nha/src/lib/search';
+import { CATEGORIES, TIPS, tipById, validateTips } from '../apps/meo-nha/src/data/tips';
 import { windowClassOf } from '../packages/ui/src/layout';
 
 const funds = [
@@ -117,6 +118,41 @@ test('Mẹo Nhà: chặn câu nguy hiểm, không chặn nhầm', () => {
 });
 test('Mẹo Nhà: tìm không dấu vẫn ra kết quả', () => {
   assert.ok(searchTips('khu mui tu lanh').length > 0);
+});
+test('Mẹo Nhà: kho mẹo đủ, đúng cú pháp, mẹo rủi ro có cảnh báo', () => {
+  assert.ok(TIPS.length >= 579, `chỉ có ${TIPS.length} mẹo`);
+  assert.deepEqual(validateTips(TIPS), []);
+  for (const c of CATEGORIES)
+    assert.ok(
+      TIPS.some((t) => t.categoryId === c.id),
+      `danh mục ${c.id} trống`,
+    );
+  // Id cũ còn nguyên (đã lưu, bộ sưu tập, lịch sử của người dùng trỏ tới).
+  for (let i = 1; i <= 20; i++) assert.ok(tipById(`t${i}`), `mất mẹo t${i}`);
+});
+test('Mẹo Nhà: tìm được các vấn đề thường gặp', () => {
+  for (const q of [
+    'tac bon cau',
+    'vết máu trên áo',
+    'mùi gas',
+    'gián',
+    'nồm',
+    'tiền điện',
+    'cây vàng lá',
+    'điện thoại rơi nước',
+    'mèo cào sofa',
+    'cửa kẹt',
+  ])
+    assert.ok(searchTips(q).length > 0, `không ra kết quả: ${q}`);
+  assert.equal(searchTips('mùi gas')[0].categoryId, 'safety');
+});
+test('Mẹo Nhà: bảng tin đủ mẹo, danh mục quan tâm lên đầu, xen kẽ danh mục', () => {
+  const feed = feedFor(['plants']);
+  assert.equal(feed.length, TIPS.length);
+  assert.equal(new Set(feed.map((t) => t.id)).size, TIPS.length);
+  assert.ok(feed.slice(0, 10).every((t) => t.categoryId === 'plants'));
+  const all = feedFor([]);
+  assert.equal(new Set(all.slice(0, CATEGORIES.length).map((t) => t.categoryId)).size, CATEGORIES.length);
 });
 
 /* ---------------- Bố cục đa màn hình ---------------- */

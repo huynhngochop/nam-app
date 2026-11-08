@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { InteractionManager, ScrollView, View } from 'react-native';
 import { router } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -20,7 +20,7 @@ import {
 import { getConfig, greeting, track, useOnline } from '@nam/core';
 import { CATEGORIES, Tip, tipById } from '../../src/data/tips';
 import { useMeo } from '../../src/store';
-import { dailyTip, feedFor } from '../../src/lib/search';
+import { dailyTip, feedFor, warmSearchIndex } from '../../src/lib/search';
 import { AdNative, TipDetail, TipRow } from '../../src/components';
 
 type FeedRow = { kind: 'tip'; tip: Tip } | { kind: 'ad'; key: string };
@@ -34,6 +34,10 @@ export default function Explore() {
   const name = useMeo((s) => s.name);
   const hidden = useMeo((s) => s.hiddenTips);
   const [selected, setSelected] = useState<string | null>(null);
+  useEffect(() => {
+    const h = InteractionManager.runAfterInteractions(warmSearchIndex);
+    return () => h.cancel();
+  }, []);
 
   const today = useMemo(() => dailyTip(interests), [interests, hidden]);
   const rows = useMemo<FeedRow[]>(() => {

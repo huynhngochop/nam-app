@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import { AppBar, Card, Chip, Chips, IconButton, Row, Screen, Segmented, T, Thumb, useLayout, useTheme } from '@nam/ui';
-import { CATEGORIES, CategoryId, TIPS } from '../../src/data/tips';
+import { CATEGORIES, CategoryId, TIPS, tipMeta } from '../../src/data/tips';
 import { useMeo } from '../../src/store';
 import { TipRow } from '../../src/components';
 
@@ -21,14 +21,11 @@ export default function Category() {
   const list = useMemo(() => {
     let l = TIPS.filter((t) => t.categoryId === cat.id && (!sub || t.sub === sub) && !hidden.includes(t.id));
     l = [...l].sort((a, b) =>
-      sort === 'easy'
-        ? a.minutes - b.minutes
-        : sort === 'new'
-          ? b.id.localeCompare(a.id)
-          : b.ratingCount - a.ratingCount,
+      sort === 'easy' ? a.minutes - b.minutes : sort === 'new' ? b.order - a.order : a.order - b.order,
     );
     return l;
   }, [cat.id, sub, sort, hidden]);
+  const count = useMemo(() => TIPS.filter((t) => t.categoryId === cat.id).length, [cat.id]);
   return (
     <Screen padded={false}>
       <FlashList
@@ -46,7 +43,7 @@ export default function Category() {
                 <Thumb icon={cat.icon} bg={c.surface} color={cat.id === 'plants' ? c.a2 : c.a} />
                 <View>
                   <T v="title">{cat.name}</T>
-                  <T v="caption">{`${TIPS.filter((t) => t.categoryId === cat.id).length} mẹo · cập nhật hằng tuần`}</T>
+                  <T v="caption">{`${count} mẹo`}</T>
                 </View>
               </Row>
             </Card>
@@ -66,9 +63,7 @@ export default function Category() {
             />
           </View>
         }
-        renderItem={({ item }) => (
-          <TipRow tip={item} meta={`${item.rating.toString().replace('.', ',')} ★ · ${item.steps.length} bước`} />
-        )}
+        renderItem={({ item }) => <TipRow tip={item} meta={`${tipMeta(item)} · ${item.steps.length} bước`} />}
       />
     </Screen>
   );
