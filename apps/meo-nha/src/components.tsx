@@ -19,7 +19,7 @@ import {
   useToast,
 } from '@nam/ui';
 import { track } from '@nam/core';
-import { categoryOf, DIFF_LABEL, Tip } from './data/tips';
+import { categoryOf, Tip, tipMeta } from './data/tips';
 import { useMeo } from './store';
 
 export const TipRow = memo(function TipRow({
@@ -42,7 +42,7 @@ export const TipRow = memo(function TipRow({
     <ListItem
       left={<Thumb icon={cat.icon} color={tip.categoryId === 'plants' ? c.a2 : undefined} />}
       title={tip.title}
-      subtitle={meta ?? `${tip.rating.toString().replace('.', ',')} ★ · ${tip.minutes} phút · ${cat.name}`}
+      subtitle={meta ?? `${tipMeta(tip)} · ${cat.name}`}
       onPress={onPress ?? (() => router.push(`/tip/${tip.id}`))}
       right={
         showSave ? (
@@ -125,10 +125,7 @@ export function TipDetail({ tip, onClose }: { tip: Tip; onClose?: () => void }) 
           />
         </Row>
       </Row>
-      <T
-        v="micro"
-        accent
-      >{`${cat.name} · ${tip.minutes} phút · ${tip.rating.toString().replace('.', ',')} ★ (${(tip.ratingCount / 1000).toFixed(1).replace('.', ',')}k)`}</T>
+      <T v="micro" accent>{`${cat.name} · ${tipMeta(tip)}`}</T>
       <T v="title" accessibilityRole="header">
         {tip.title}
       </T>

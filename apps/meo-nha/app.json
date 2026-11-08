@@ -3,7 +3,7 @@
     "name": "Mẹo Nhà",
     "slug": "meo-nha",
     "scheme": "meonha",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -13,6 +13,7 @@
       "bundleIdentifier": "vn.namapp.meonha"
     },
     "android": {
+      "versionCode": 2,
       "package": "vn.namapp.meonha",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",

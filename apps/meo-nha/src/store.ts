@@ -127,8 +127,7 @@ export const useMeo = create<State>()(
           categoryId,
           minutes: 5,
           difficulty: 'easy',
-          rating: 0,
-          ratingCount: 0,
+          order: Date.now(),
           steps,
           keywords: '',
         };
