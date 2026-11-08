@@ -166,7 +166,7 @@ jobs:
           cp qa/seeds/thanh-tam.tsx apps/thanh-tam/app/qa-seed.tsx
           $A "prebuild android" "cd apps/thanh-tam && npx expo prebuild -p android --clean --no-install 2>&1 | tail -20"
       - name: Build APK release (x86_64)
-        run: $A "gradle" "cd apps/thanh-tam/android && ./gradlew assembleRelease -PreactNativeArchitectures=x86_64 --no-daemon -q 2>&1 | tail -60"
+        run: $A "gradle" "bash .github/scripts/gradle-retry.sh apps/thanh-tam/android assembleRelease -PreactNativeArchitectures=x86_64 --no-daemon -q"
       - name: Bật KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -268,11 +268,11 @@ jobs:
       # Bỏ x86_64 (chỉ máy ảo dùng). Gộp 3 kiểu chip vào một tệp từng làm bản cài nặng 97 MB.
       - name: Build APK arm64 (gần như mọi điện thoại)
         run: |
-          $A "gradle arm64" "cd apps/thanh-tam/android && ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a --no-daemon -q 2>&1 | tail -60"
+          $A "gradle arm64" "bash .github/scripts/gradle-retry.sh apps/thanh-tam/android assembleRelease -PreactNativeArchitectures=arm64-v8a --no-daemon -q"
           cp apps/thanh-tam/android/app/build/outputs/apk/release/app-release.apk ThanhTam.apk
       - name: Build APK arm32 (máy rất cũ)
         run: |
-          $A "gradle arm32" "cd apps/thanh-tam/android && ./gradlew assembleRelease -PreactNativeArchitectures=armeabi-v7a --no-daemon -q 2>&1 | tail -60"
+          $A "gradle arm32" "bash .github/scripts/gradle-retry.sh apps/thanh-tam/android assembleRelease -PreactNativeArchitectures=armeabi-v7a --no-daemon -q"
           cp apps/thanh-tam/android/app/build/outputs/apk/release/app-release.apk ThanhTam-may-cu.apk
       - name: Ngân sách dung lượng (xem apps/thanh-tam/CLAUDE.md)
         run: node .github/scripts/tt-apk-size.mjs ThanhTam.apk 40 ThanhTam-may-cu.apk 35
