@@ -7,6 +7,7 @@ import { buildPrayer } from '../apps/thanh-tam/src/lib/prayer';
 import { cueAt, hashCues, khanCues, kinhCues, voiceItems } from '../apps/thanh-tam/src/lib/voiceCues';
 import { pickViVoice } from '../apps/thanh-tam/src/lib/voicePick';
 import { VIDEOS, youtubeId } from '../apps/thanh-tam/src/data/videos';
+import { YT_BLOCKED_CODES, nextPlayable } from '../apps/thanh-tam/src/lib/videoFallback';
 
 test('giọng mẫu kinh: mỗi câu ứng đúng một dòng trên màn tụng, cùng thứ tự', () => {
   for (const k of KINH) {
@@ -106,4 +107,27 @@ test('video: đọc đúng mã từ mọi kiểu đường dẫn YouTube; khóa 
     for (const v of list) assert.match(v.id, /^[\w-]{11}$/, `${k}: ${v.id}`);
   }
   for (const n of NGHI_THUC) assert.ok(VIDEOS[n.id]?.length, `nghi thức ${n.id} chưa có video`);
+});
+
+test('video trong app: mỗi mục 2–3 bản khác nhau; lỗi thì chuyển bản kế; không cho rời sang trang YouTube', () => {
+  for (const [k, list] of Object.entries(VIDEOS)) {
+    assert.ok(list.length >= 2 && list.length <= 3, `${k}: ${list.length} bản`);
+    assert.equal(new Set(list.map((v) => v.id)).size, list.length, `${k}: trùng bản`);
+  }
+  const O = 'https://huynhngochop.github.io';
+  // khung chính: chỉ trang trình phát
+  assert.equal(nextPlayable.allowNavigation(O, true, O), true);
+  assert.equal(nextPlayable.allowNavigation('about:blank', true, O), true);
+  assert.equal(nextPlayable.allowNavigation('https://www.youtube.com/watch?v=dfovLYA4jhI', true, O), false);
+  assert.equal(nextPlayable.allowNavigation('https://m.youtube.com/channel/x', true, O), false);
+  assert.equal(nextPlayable.allowNavigation('https://accounts.google.com/', true, O), false);
+  assert.equal(nextPlayable.allowNavigation('https://huynhngochop.github.io.evil.com/', true, O), false);
+  // khung con (iframe trình phát) tải bình thường
+  assert.equal(nextPlayable.allowNavigation('https://www.youtube-nocookie.com/embed/x', false, O), true);
+  // chuyển bản: vòng quanh, bỏ bản đã thử, hết thì -1
+  assert.equal(nextPlayable.next(3, 0, new Set([0])), 1);
+  assert.equal(nextPlayable.next(3, 2, new Set([2])), 0);
+  assert.equal(nextPlayable.next(3, 1, new Set([0, 1])), 2);
+  assert.equal(nextPlayable.next(3, 2, new Set([0, 1, 2])), -1);
+  for (const c of [101, 150, 152, 153, 100]) assert.ok(YT_BLOCKED_CODES.includes(c));
 });

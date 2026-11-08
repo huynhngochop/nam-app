@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Linking, View } from 'react-native';
+import type { PlayerEvent } from '../src/YouTubePlayer';
 import { useLocalSearchParams } from 'expo-router';
 import { AppBar, Button, Chip, Chips, Screen, SectionHeader, Sheet, T, TextField, useLayout, useToast } from '@nam/ui';
 import { track } from '@nam/core';
@@ -7,11 +8,11 @@ import { goBack } from '../src/nav';
 import { useTT } from '../src/store';
 import { YouTubePlayer } from '../src/YouTubePlayer';
 import { videosFor, watchUrl, youtubeId, type Video } from '../src/data/videos';
-import { chantLines, chantPlan, kinhById, listenUrl } from '../src/data/kinh';
+import { chantLines, chantPlan, kinhById } from '../src/data/kinh';
 
 /**
  * TT-36 · Nghe tụng và đọc theo: video YouTube phát ngay trong app, chữ kinh ngay bên dưới (máy rộng: cạnh nhau).
- * Không chuyển sang app YouTube; video nào chủ kênh tắt nhúng thì có nút mở bằng YouTube.
+ * Không chuyển sang app hay trang YouTube. Mỗi bài 2–3 bản: bản nào không phát được trong app thì tự chuyển bản kế.
  */
 export default function VideoScreen() {
   const L = useLayout();
@@ -24,10 +25,31 @@ export default function VideoScreen() {
     () => [...(mine ? [{ ...mine, title: `${mine.title} (của tôi)` }] : []), ...videosFor(key)],
     [key, mine],
   );
-  const [cur, setCur] = useState<string | undefined>(v ?? list[0]?.id);
+  const ids = useMemo(() => list.map((x) => x.id), [list]);
+  const [start, setStart] = useState(() => Math.max(0, v ? ids.indexOf(v) : 0));
+  const [playing, setPlaying] = useState(start);
+  const [note, setNote] = useState<string | null>(null);
+  const [failed, setFailed] = useState(false);
+  const pick = (i: number) => {
+    setStart(i);
+    setPlaying(i);
+    setNote(null);
+    setFailed(false);
+  };
+  const onEvent = (e: PlayerEvent) => {
+    if (e.t === 'switched') {
+      setPlaying(e.i);
+      setNote(`Bản ${e.from + 1} không phát được trong app, đang chuyển sang bản ${e.i + 1}.`);
+      track('video_switched', { key, from: ids[e.from], code: String(e.code) });
+    } else if (e.t === 'allfailed') {
+      setFailed(true);
+      setNote(null);
+      track('video_all_failed', { key, code: String(e.code) });
+    } else if (e.t === 'playing') setNote(null);
+  };
   const [adding, setAdding] = useState(false);
   const [link, setLink] = useState('');
-  const video = list.find((x) => x.id === cur) ?? list[0];
+  const video = list[playing] ?? list[0];
   const plan = chantPlan(key, true);
   const lines = useMemo(() => (plan ? chantLines(plan.steps) : []), [plan]);
 
@@ -38,7 +60,7 @@ export default function VideoScreen() {
       return;
     }
     set({ myVideos: { ...myVideos, [key]: { id, title: 'Video tôi thêm' } } });
-    setCur(id);
+    pick(0);
     setAdding(false);
     setLink('');
     track('video_added', { key });
@@ -46,31 +68,37 @@ export default function VideoScreen() {
 
   const player = video ? (
     <View style={{ gap: 8 }}>
-      <YouTubePlayer id={video.id} title={video.title} />
+      <YouTubePlayer ids={ids} start={start} title={video.title} onEvent={onEvent} />
       <T v="caption" muted numberOfLines={2}>
-        {video.title}
+        Bản {playing + 1}/{list.length}: {video.title}
       </T>
-      <Button
-        title="Không xem được? Mở bằng YouTube"
-        variant="text"
-        size="sm"
-        icon="external-link"
-        onPress={() => Linking.openURL(watchUrl(video.id)).catch(() => {})}
-      />
+      {note ? (
+        <T v="caption" accent>
+          {note}
+        </T>
+      ) : null}
+      {failed ? (
+        <View style={{ gap: 6 }}>
+          <T v="body">
+            Các bản video của bài này chưa phát được trong app (mạng yếu, hoặc chủ kênh không cho phát ngoài YouTube).
+            Thử lại, hoặc thêm video của chùa nhà mình.
+          </T>
+          <Button title="Thử lại" variant="secondary" size="md" icon="refresh-cw" onPress={() => pick(start)} />
+          <Button
+            title="Mở bằng YouTube (rời khỏi app)"
+            variant="text"
+            size="sm"
+            onPress={() => Linking.openURL(watchUrl(video.id)).catch(() => {})}
+          />
+        </View>
+      ) : null}
       {list.length > 1 ? (
         <Chips>
           {list.map((x, i) => (
-            <Chip key={x.id} label={`Bản ${i + 1}`} selected={x.id === video.id} onPress={() => setCur(x.id)} />
+            <Chip key={x.id} label={`Bản ${i + 1}`} selected={i === playing} onPress={() => pick(i)} />
           ))}
         </Chips>
       ) : null}
-      <Button
-        title="Tìm bản khác trên YouTube"
-        variant="text"
-        size="sm"
-        icon="search"
-        onPress={() => Linking.openURL(listenUrl(plan?.title ?? '')).catch(() => {})}
-      />
       <Button
         title={mine ? 'Đổi video của tôi' : 'Thêm video của tôi'}
         variant="secondary"
@@ -130,7 +158,7 @@ export default function VideoScreen() {
             onPress={() => {
               const { [key]: _drop, ...rest } = myVideos;
               set({ myVideos: rest });
-              setCur(videosFor(key)[0]?.id);
+              pick(0);
               setAdding(false);
             }}
           />
