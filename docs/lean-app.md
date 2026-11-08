@@ -11,6 +11,19 @@
 | Mọi màn hình mở được, không văng | `smoke-apk.sh` trên máy ảo |
 | Nội dung có sẵn hợp lệ (ví dụ kho mẹo Mẹo Nhà) | `validateTips` + test |
 
+Số đo APK release arm64, 11/2026:
+
+| App | Trước | Sau |
+| --- | --- | --- |
+| Ví Gọn | 35,3 MB | 24,1 MB |
+| Hẹn Đẹp | 35,8 MB | 24,8 MB |
+| Nhịp | 39,2 MB | 25,7 MB |
+| Mẹo Nhà | 35,0 MB | 24,2 MB |
+
+Trước đây APK cài thử gộp hai loại chip nên nặng 52–56 MB.
+
+Khoảng 15 MB là lõi React Native, Hermes và Expo, phần này không giảm được nếu vẫn dùng React Native. Phần còn lại là mã và tài nguyên của app: tối ưu ở đó.
+
 Muốn nâng ngân sách: ghi lý do trong PR (tính năng gì, nặng bao nhiêu, đã thử cách nhẹ hơn chưa) rồi mới sửa `apk-budget.json`.
 
 ## Dung lượng
