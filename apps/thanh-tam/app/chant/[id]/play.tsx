@@ -19,7 +19,9 @@ import {
   playVoice,
   voiceState,
   voiceTimings,
-  type VoicePlayback, VOICE_UNAVAILABLE } from '../../../src/sampleVoice';
+  type VoicePlayback,
+  VOICE_UNAVAILABLE,
+} from '../../../src/sampleVoice';
 import { kinhVoiceId } from '../../../src/lib/voiceCues';
 import { goBack } from '../../../src/nav';
 

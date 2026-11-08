@@ -26,7 +26,9 @@ import {
   formatMB,
   getManifest,
   voiceState,
-  VOICE_CREDIT, VOICE_UNAVAILABLE } from '../../../src/sampleVoice';
+  VOICE_CREDIT,
+  VOICE_UNAVAILABLE,
+} from '../../../src/sampleVoice';
 import { NO_VOICE_HELP, openTtsSettings, ttsStatus } from '../../../src/voice';
 import { ritualById } from '../../../src/data/rituals';
 import { SRC } from '../../../src/data/sources';

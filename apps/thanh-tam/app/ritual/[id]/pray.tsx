@@ -25,7 +25,9 @@ import {
   playVoice,
   voiceState,
   voiceTimings,
-  type VoicePlayback, VOICE_UNAVAILABLE } from '../../../src/sampleVoice';
+  type VoicePlayback,
+  VOICE_UNAVAILABLE,
+} from '../../../src/sampleVoice';
 import { khanCues, khanVoiceId } from '../../../src/lib/voiceCues';
 
 const SPEEDS = [0, 18, 28, 40]; // điểm ảnh mỗi giây; 0 = tự cuộn tắt

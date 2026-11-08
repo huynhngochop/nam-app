@@ -13,7 +13,9 @@ import {
   removeVoice,
   voiceCatalog,
   voiceState,
-  type Manifest, VOICE_UNAVAILABLE } from '../src/sampleVoice';
+  type Manifest,
+  VOICE_UNAVAILABLE,
+} from '../src/sampleVoice';
 
 /** TT-37 · Giọng đọc mẫu: xem bài nào đã tải, tải tất cả hoặc từng bài, xóa để lấy lại chỗ trống. */
 export default function Voices() {
