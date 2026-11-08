@@ -1,5 +1,10 @@
 {
-  "_doc": "Ngân sách dung lượng APK release arm64 (KB) cho mỗi app — CI (android-native.yml) báo lỗi nếu vượt. Xem docs/lean-app.md trước khi nâng.",
-  "default": 30000,
-  "apps": {}
+  "_doc": "Ngân sách dung lượng APK release arm64 (KB) cho mỗi app — CI (android-native.yml) báo lỗi nếu vượt. Đặt ≈ dung lượng đo được + 8%. Xem docs/lean-app.md trước khi nâng.",
+  "default": 26000,
+  "apps": {
+    "vi-gon": 26000,
+    "hen-dep": 26800,
+    "nhip": 27700,
+    "meo-nha": 26000
+  }
 }
