@@ -31,6 +31,32 @@ module.exports = defineConfig([
           message: 'toISOString() là giờ UTC — dùng dateKey() trong @nam/core để lấy ngày theo giờ máy.',
         },
       ],
+      // docs/lean-app.md: import gói gốc kéo cả bộ tài nguyên vào APK (mọi bộ icon, mọi kiểu chữ).
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: '@expo/vector-icons',
+              message: "Kéo mọi bộ icon (vài MB) vào APK — nhập đúng một bộ: import Feather from '@expo/vector-icons/Feather'.",
+            },
+            { name: 'lodash', message: 'Dùng hàm JS sẵn có hoặc lodash/<hàm> (docs/lean-app.md).' },
+            { name: 'moment', message: 'Nặng ~300 KB — dùng Date/Intl hoặc dateKey() trong @nam/core (docs/lean-app.md).' },
+          ],
+          patterns: [
+            {
+              regex: '^@expo-google-fonts/[^/]+$',
+              message:
+                "Gói gốc kéo mọi kiểu chữ (~2 MB) — nhập từng file: require('@expo-google-fonts/<họ>/400Regular/<Tên>_400Regular.ttf').",
+            },
+          ],
+        },
+      ],
     },
+  },
+  {
+    // Typestub và test cần khai báo / dùng đúng tên gói gốc.
+    files: ['tests/**'],
+    rules: { 'no-restricted-imports': 'off' },
   },
 ]);

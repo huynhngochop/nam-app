@@ -298,3 +298,6 @@ declare module '@expo-google-fonts/be-vietnam-pro' {
   export const BeVietnamPro_700Bold: any;
   export type BeVietnamPro_700Bold = any;
 }
+declare module 'expo-font' {
+  export function useFonts(map: Record<string, any>): [boolean, Error | null];
+}

@@ -4,14 +4,14 @@ name: Android native build
 
 on:
   workflow_dispatch:
+  # Mọi thay đổi mã app / thư viện / tài nguyên đều có thể đổi dung lượng → luôn đo và kiểm ngân sách.
   pull_request:
     paths:
-      - 'apps/*/modules/**'
-      - 'apps/*/package.json'
-      - 'apps/*/app.json'
-      - 'apps/*/app.config.js'
-      - 'packages/*/package.json'
+      - 'apps/**'
+      - 'packages/**'
       - 'package-lock.json'
+      - '.github/apk-budget.json'
+      - '.github/scripts/**'
       - '.github/workflows/android-native.yml'
 
 concurrency:
@@ -56,6 +56,8 @@ jobs:
           # Module native cục bộ (apps/<app>/modules) có được autolink và vào manifest cuối không.
           svc=$(grep -rl BankNotificationService apps/${{ matrix.app }}/android/app/build/intermediates --include=AndroidManifest.xml | head -3 | tr '\n' ' ')
           echo "::notice title=APK ${{ matrix.app }}::${size} KB (arm64, release) · NotificationListener: ${svc:-không có}"
+      - name: Ngân sách dung lượng (docs/lean-app.md)
+        run: bash .github/scripts/apk-budget.sh "${{ matrix.app }}" "$(ls apps/${{ matrix.app }}/android/app/build/outputs/apk/release/*.apk | head -1)"
 
       # Máy ảo x86_64 không nạp được thư viện arm64 của React Native: build thêm bản x86_64 chỉ để mở thử.
       - name: Gradle assembleRelease (x86_64, để mở thử)

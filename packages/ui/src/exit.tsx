@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { BackHandler, Platform, Pressable, Text, View, useColorScheme } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
-import { Feather } from '@expo/vector-icons';
+// Chỉ nhập bộ Feather: nhập từ '@expo/vector-icons' kéo mọi bộ icon (vài MB phông + bảng mã) vào APK.
+import Feather from '@expo/vector-icons/Feather';
 import { Dialog, useToast } from './components/overlay';
 import { ListItem, Thumb } from './components/base';
 import { useTheme } from './theme';

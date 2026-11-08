@@ -1,0 +1,5 @@
+{
+  "_doc": "Ngân sách dung lượng APK release arm64 (KB) cho mỗi app — CI (android-native.yml) báo lỗi nếu vượt. Xem docs/lean-app.md trước khi nâng.",
+  "default": 30000,
+  "apps": {}
+}
