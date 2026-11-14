@@ -43,7 +43,10 @@ export function useExitOnBack(canGoBack?: () => boolean) {
     const t = setTimeout(() => {
       sub = BackHandler.addEventListener('hardwareBackPress', () => {
         const now = Date.now();
-        const d = backDecision(now, last.current, !!check.current?.());
+        const can = !!check.current?.();
+        const d = backDecision(now, last.current, can);
+        // TẠM (chẩn đoán CI): xem listener có được gọi và quyết định gì.
+        console.log(`[nam-back] can=${can} d=${d}`);
         last.current = { at: now, prompted: d === 'prompt' };
         if (d === 'exit') {
           BackHandler.exitApp();

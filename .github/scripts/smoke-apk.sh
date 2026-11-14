@@ -74,15 +74,19 @@ if [ -n "$appdir" ]; then
 
   # Nút Quay lại (packages/ui/src/exit.tsx): 1 lần = về màn trước, 2 lần liền = thoát app.
   front() { adb shell dumpsys activity activities | grep -E "mResumedActivity|topResumedActivity" | head -1 | grep -q "$pkg"; }
+  diag() { echo "::warning title=diag $pkg::$(adb logcat -d | grep -E 'nam-back|ReactNativeJS|AndroidRuntime' | tail -15 | tr '\n' ' ' | cut -c1-2000) || stack: $(adb shell dumpsys activity activities | grep -E 'Hist #|mResumedActivity' | head -6 | tr '\n' ' ')"; }
   inner=$(echo "$routes" | grep -E '^(settings|tasks)$' | head -1)
   adb shell am force-stop "$pkg"
   adb shell monkey -p "$pkg" -c android.intent.category.LAUNCHER 1 > /dev/null 2>&1
   sleep 10
   if [ -n "$inner" ]; then
+    adb logcat -c
     adb shell am start -a android.intent.action.VIEW -d "$scheme://$inner" "$pkg" > /dev/null 2>&1
     sleep 4
+    echo "::notice title=diag-before $pkg::$(adb shell dumpsys activity activities | grep -E 'Hist #|mResumedActivity' | head -6 | tr '\n' ' ')"
     adb shell input keyevent KEYCODE_BACK
     sleep 2
+    diag
     front || { echo "::error title=back $pkg::bấm Quay lại 1 lần ở màn $inner mà app thoát (phải về màn trước)"; exit 1; }
     adb shell am start -a android.intent.action.VIEW -d "$scheme://$inner" "$pkg" > /dev/null 2>&1
     sleep 4
