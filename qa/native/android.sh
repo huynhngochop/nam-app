@@ -41,6 +41,48 @@ done
 adb exec-out screencap -p >"$OUT/shots/01-seed.png"
 say "SEED: $SEEDLINE"
 
+# Nút Quay lại (vòng 18): chạm một lần về màn trước; ở màn chính chạm hai lần liền nhau mới thoát.
+front() { adb shell dumpsys window 2>/dev/null | grep -E "mCurrentFocus|mFocusedApp" | grep -q "$PKG"; }
+back() { adb shell input keyevent 4; }
+seen() { ui | grep -q "$1"; }
+check_back() {
+  local ok=0 fail=0
+  r() { if [ "$2" = 0 ]; then ok=$((ok + 1)); say "  ĐẠT  $1"; else fail=$((fail + 1)); say "  LỖI  $1"; fi; }
+  say "== NÚT QUAY LẠI"
+  adb shell am force-stop "$PKG"; sleep 1
+  adb shell am start -W -n "$PKG/.MainActivity" >/dev/null 2>&1; sleep 6
+  seen 'Trang cá nhân'; r "mở app vào Hôm nay" $?
+  open_url "thanhtam://ritual/gio-thuong"; sleep 3
+  back; sleep 2
+  front && seen 'Trang cá nhân'; r "từ màn lễ chạm 1 lần: về Hôm nay, không thoát" $?
+  open_url "thanhtam://guide/vai-lay"; sleep 3
+  open_url "thanhtam://ritual/tat-nien"; sleep 3
+  back; sleep 2
+  front && seen 'Cách vái, cách lạy'; r "2 màn chồng nhau, chạm 1 lần: về đúng màn trước (hướng dẫn)" $?
+  back; sleep 2
+  front && seen 'Trang cá nhân'; r "chạm thêm 1 lần: về Hôm nay" $?
+  back; sleep 0.6
+  adb exec-out screencap -p >"$OUT/shots/back-01-nhac-thoat.png"
+  seen 'lần nữa để thoát'; r "ở Hôm nay chạm 1 lần: hiện nhắc chạm lần nữa để thoát" $?
+  front; r "sau lần chạm đầu app vẫn mở" $?
+  sleep 3
+  back; sleep 1
+  front; r "chạm lần hai sau hơn 2 giây: chưa thoát (nhắc lại)" $?
+  sleep 3
+  adb shell "input keyevent 4; sleep 0.5; input keyevent 4"; sleep 2
+  ! front; r "chạm 2 lần liền nhau: thoát app" $?
+  adb shell am force-stop "$PKG"; sleep 1
+  adb shell am start -W -a android.intent.action.VIEW -d "thanhtam://ritual/tat-nien" "$PKG" >/dev/null 2>&1; sleep 7
+  back; sleep 2
+  front && seen 'Trang cá nhân'; r "mở thẳng màn lễ (như từ thông báo), chạm 1 lần: về Hôm nay" $?
+  open_url "thanhtam://rituals"; sleep 2
+  open_url "thanhtam://calendar"; sleep 2
+  back; sleep 2
+  front && ! seen 'Trang cá nhân' ; r "tab Lịch chạm 1 lần: về tab vừa xem (Bài cúng), không thoát" $?
+  adb exec-out screencap -p >"$OUT/shots/back-02-tab-truoc.png"
+  say "NÚT QUAY LẠI: $ok đạt, $fail lỗi"
+}
+
 ROUTES=$(node -e 'const r=require(process.argv[1]);for(const[k,v]of Object.entries(r))if(k!=="_")console.log(k+" "+v)' "$PWD/qa/thanh-tam-routes.json")
 
 # 2) Mỗi cấu hình màn: tên | kích thước px | mật độ | xoay | cỡ chữ | nền tối
@@ -56,6 +98,14 @@ PROFILES=(
   "tablet-land|1600x2560|320|1|1.0|no"
   "phone-dark|1080x2400|420|0|1.0|yes"
 )
+if [ "${BACK_ONLY:-0}" = 1 ]; then
+  check_back
+  adb logcat -d -s ReactNativeJS:V ReactNative:V AndroidRuntime:E >"$OUT/logcat.txt" 2>&1
+  adb logcat -d -b crash >"$OUT/crash.txt" 2>&1
+  say "LỖI JS: $(grep -c -E 'ReactNativeJS.*(Error|TypeError|Invariant)' "$OUT/logcat.txt")"
+  exit 0
+fi
+
 adb shell settings put system accelerometer_rotation 0
 for P in "${PROFILES[@]}"; do
   IFS='|' read -r NAME SIZE DENS ROT FONT DARK <<<"$P"
@@ -118,6 +168,8 @@ for KEY in anniversaries calendar today age; do
   J=$(adb shell dumpsys gfxinfo "$PKG" | grep -E "Total frames rendered|Janky frames" | tr -s ' ' | tr '\n' ' ')
   say "DỮ LIỆU LỚN $KEY: $J $(alive && echo '(đang chạy)' || echo '(SẬP)')"
 done
+
+check_back
 
 # 5) Bộ nhớ và lỗi JS
 say "BỘ NHỚ: $(adb shell dumpsys meminfo "$PKG" | grep -E 'TOTAL PSS|TOTAL:' | head -1)"

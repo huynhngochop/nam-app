@@ -6,7 +6,8 @@ import { Icon, useAdaptiveTabOptions } from '@nam/ui';
 export default function TabsLayout() {
   const opts = useAdaptiveTabOptions();
   return (
-    <Tabs screenOptions={opts}>
+    // Quay lại từ một tab về tab vừa xem trước đó (không nhảy thẳng về Hôm nay).
+    <Tabs screenOptions={opts} backBehavior="history">
       <Tabs.Screen
         name="today"
         options={{

@@ -5,6 +5,12 @@ name: Thành Tâm QA
 
 on:
   workflow_dispatch:
+    inputs:
+      only:
+        description: 'all: chạy đủ; back: chỉ build APK và thử nút Quay lại trên emulator'
+        default: all
+        type: choice
+        options: [all, back]
   push:
     branches: [feat/thanh-tam]
 
@@ -56,6 +62,7 @@ jobs:
   check:
     name: UT + IT (lint, kiểu, test, bundle iOS/Android)
     needs: prep
+    if: inputs.only != 'back'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -91,6 +98,7 @@ jobs:
   web:
     name: Web · ${{ matrix.kind }}
     needs: prep
+    if: inputs.only != 'back'
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     strategy:
@@ -182,7 +190,7 @@ jobs:
           profile: pixel_6
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          script: bash qa/native/android.sh apps/thanh-tam/android/app/build/outputs/apk/release/app-release.apk qa-out/android
+          script: BACK_ONLY=${{ inputs.only == 'back' && '1' || '0' }} bash qa/native/android.sh apps/thanh-tam/android/app/build/outputs/apk/release/app-release.apk qa-out/android
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -193,6 +201,7 @@ jobs:
   ios:
     name: iOS Simulator (iPhone, iPad)
     needs: prep
+    if: inputs.only != 'back'
     runs-on: macos-15
     timeout-minutes: 150
     steps:
@@ -244,6 +253,7 @@ jobs:
   apk:
     name: Bản cài Android (APK) cho người dùng
     needs: [prep, check]
+    if: always() && needs.prep.result == 'success' && (needs.check.result == 'success' || needs.check.result == 'skipped')
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     steps:

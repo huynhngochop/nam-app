@@ -3,9 +3,11 @@ import { Stack } from 'expo-router';
 import { AppShell } from '@nam/ui';
 import { useTT } from '../src/store';
 import { useNotifications } from '../src/notify';
+import { useAndroidBack } from '../src/backPress';
 
 function Routes() {
   useNotifications();
+  useAndroidBack();
   const modal = { presentation: 'modal' as const, animation: 'slide_from_bottom' as const };
   return (
     <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
