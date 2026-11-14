@@ -1,11 +1,10 @@
 import React from 'react';
-import { router, Tabs } from 'expo-router';
-import { Icon, useAdaptiveTabOptions, useExitOnBack } from '@nam/ui';
+import { Tabs } from 'expo-router';
+import { Icon, useAdaptiveTabOptions } from '@nam/ui';
 
 /** Tab dưới trên điện thoại; thanh dọc bên trái trên tablet ngang / máy gập mở ngang. */
 export default function TabsLayout() {
   const opts = useAdaptiveTabOptions();
-  useExitOnBack(router.canGoBack);
   return (
     <Tabs screenOptions={opts}>
       <Tabs.Screen

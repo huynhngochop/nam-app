@@ -14,7 +14,7 @@ export default function RootLayout() {
     return () => sub.remove();
   }, []);
   return (
-    <AppShell app="nhip" pref={theme} ready={hydrated}>
+    <AppShell app="nhip" pref={theme} ready={hydrated} canGoBack={router.canGoBack}>
       <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="session" options={{ animation: 'fade', gestureEnabled: false }} />

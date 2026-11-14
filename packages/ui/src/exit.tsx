@@ -7,30 +7,64 @@ import { Dialog, useToast } from './components/overlay';
 import { ListItem, Thumb } from './components/base';
 import { useTheme } from './theme';
 
+/** Hai lần bấm Quay lại cách nhau dưới mức này (ms) thì thoát app, ở bất kỳ màn hình nào. */
+export const DOUBLE_BACK_MS = 500;
+/** Ở màn gốc, sau lời nhắc "Bấm lần nữa để thoát", có thời gian này (ms) để bấm lần hai. */
+export const ROOT_EXIT_MS = 2000;
+
 /**
- * Android: ở màn gốc (không còn trang để lùi), bấm Quay lại lần 1 hiện nhắc, lần 2 trong 2 giây thì thoát app.
- * `canGoBack` lấy từ router của app (còn trang để lùi thì để điều hướng tự xử lý).
+ * Quyết định cho một lần bấm Quay lại (tách riêng để dễ đọc và dễ kiểm).
+ * - Bấm 1 lần: còn trang để lùi thì về trang trước; ở màn gốc thì nhắc "bấm lần nữa".
+ * - Bấm 2 lần liền (< DOUBLE_BACK_MS), hoặc bấm lần hai trong ROOT_EXIT_MS sau lời nhắc: thoát app.
  */
-export function useExitOnBack(canGoBack: () => boolean) {
+export function backDecision(
+  now: number,
+  last: { at: number; prompted: boolean },
+  canGoBack: boolean,
+): 'exit' | 'back' | 'prompt' {
+  if (now - last.at < (last.prompted ? ROOT_EXIT_MS : DOUBLE_BACK_MS)) return 'exit';
+  return canGoBack ? 'back' : 'prompt';
+}
+
+/**
+ * Android, dùng trong AppShell nên áp dụng cho mọi màn hình (kể cả giới thiệu, đăng nhập).
+ * `canGoBack` lấy từ router của app.
+ * Đăng ký sau khi điều hướng đã đăng ký (BackHandler gọi listener thêm sau cùng trước), nên app luôn thấy mọi lần bấm:
+ * lần bấm "về trang trước" vẫn để điều hướng xử lý (trả false), chỉ ghi lại thời điểm để nhận ra lần bấm thứ hai.
+ */
+export function useExitOnBack(canGoBack?: () => boolean) {
   const toast = useToast();
-  const last = useRef(0);
+  const last = useRef({ at: 0, prompted: false });
   const check = useRef(canGoBack);
   check.current = canGoBack;
   useEffect(() => {
-    if (Platform.OS !== 'android') return;
-    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
-      if (check.current()) return false;
-      const now = Date.now();
-      if (now - last.current < 2000) {
-        BackHandler.exitApp();
+    if (Platform.OS !== 'android' || !check.current) return;
+    let sub: { remove(): void } | undefined;
+    const t = setTimeout(() => {
+      sub = BackHandler.addEventListener('hardwareBackPress', () => {
+        const now = Date.now();
+        const d = backDecision(now, last.current, !!check.current?.());
+        last.current = { at: now, prompted: d === 'prompt' };
+        if (d === 'exit') {
+          BackHandler.exitApp();
+          return true;
+        }
+        if (d === 'back') return false;
+        toast('Bấm Quay lại lần nữa để thoát');
         return true;
-      }
-      last.current = now;
-      toast('Bấm Quay lại lần nữa để thoát');
-      return true;
-    });
-    return () => sub.remove();
+      });
+    }, 0);
+    return () => {
+      clearTimeout(t);
+      sub?.remove();
+    };
   }, [toast]);
+}
+
+/** Gắn trong AppShell (cần ToastProvider bao ngoài). */
+export function BackExit({ canGoBack }: { canGoBack?: () => boolean }) {
+  useExitOnBack(canGoBack);
+  return null;
 }
 
 /** Dòng "Thoát ứng dụng" trong Cài đặt (chỉ Android — iOS không cho app tự thoát). Dữ liệu đã lưu sẵn trên máy. */

@@ -35,7 +35,7 @@ export default function RootLayout() {
   const hydrated = useHen((s) => s.hydrated);
   const theme = useHen((s) => s.theme);
   return (
-    <AppShell app="hen" pref={theme} ready={hydrated}>
+    <AppShell app="hen" pref={theme} ready={hydrated} canGoBack={router.canGoBack}>
       <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="booking/new" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
