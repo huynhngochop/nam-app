@@ -25,6 +25,7 @@ Mọi thay đổi phải qua 5 góc nhìn dưới đây. Một tính năng chỉ
 - Không tính nặng trong render. Dữ liệu tính được lúc build thì sinh sẵn thành tệp (bảng âm lịch là ví dụ).
 - Hoạt ảnh và cuộn tự động chạy trên luồng giao diện (Reanimated worklet), không `setInterval` cập nhật state mỗi khung hình.
 - Hẹn giờ, âm thanh, giọng đọc, giữ màn sáng: luôn dọn trong hàm trả về của `useEffect`. API máy (âm thanh, wake lock, chia sẻ) bọc `try/catch`, lỗi không làm hỏng màn.
+- `predictiveBackGestureEnabled: false` trong `app.json`: bật lên thì Android không gửi nút Quay lại cho `BackHandler` (React Native 0.81 chưa hỗ trợ), mọi lần chạm Quay lại đều thoát app.
 - Điều hướng quay lại dùng `goBack()` của app (có màn dự phòng), không gọi `router.back()` trực tiếp: màn mở từ thông báo không có màn trước.
 - Logic mới có kiểm thử đơn vị trước. Mỗi lỗi sửa xong có một ca kiểm thử giữ nó không quay lại.
 - Lệnh: `npm test`, `npm run typecheck:stubs`, `npm run lint`. Không chạy được `expo` trên máy này: build và chạy máy ảo nằm ở GitHub Actions.

@@ -20,7 +20,7 @@
         "backgroundColor": "#6e3b1f"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": true,
+      "predictiveBackGestureEnabled": false,
       "allowBackup": true
     },
     "web": {
