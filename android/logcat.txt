@@ -1,0 +1,11 @@
+--------- beginning of main
+11-14 01:48:12.126  2961  3063 I ReactNativeJS: Running "main"
+11-14 01:48:17.248  2961  2961 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view e4.b0{7df6a1f V.E...... ......ID 0,0-1080,2400 #1}
+11-14 01:48:30.716  2961  3063 I ReactNativeJS: Running "main"
+11-14 01:48:31.041  2961  2961 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view e4.b0{7df6a1f V.E...... .......D 0,0-1080,2400 #1}
+11-14 01:48:31.079  2961  2961 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view e4.b0{ddfe055 V.E...... .......D 0,0-1080,2400 #b}
+11-14 01:51:44.024  7261  7283 I ReactNativeJS: Running "main"
+11-14 01:51:44.228  7261  7261 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view e4.b0{6df9be V.E...... ......ID 0,0-1080,2400 #1}
+11-14 01:52:25.222  7261  7261 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view e4.b0{6df9be V.E...... .......D 0,0-1080,2400 #1}
+11-14 01:52:28.602  7506  7530 I ReactNativeJS: Running "main"
+11-14 01:52:28.795  7506  7506 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view e4.b0{7df6a1f V.E...... ......ID 0,0-1080,2400 #1}
