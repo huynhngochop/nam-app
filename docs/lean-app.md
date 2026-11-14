@@ -70,6 +70,7 @@ Muốn nâng ngân sách: ghi lý do trong PR (tính năng gì, nặng bao nhiê
 ## Checklist khi thêm app mới
 
 - [ ] `app.json` có plugin `with-android-release`.
+- [ ] `android.predictiveBackGestureEnabled: false`: bật lên thì Android 14+ bỏ qua BackHandler của React Native, bấm Quay lại 1 lần là đóng app.
 - [ ] Không có `expo-dev-client`. Chỉ có thư viện thật sự dùng.
 - [ ] Icon và phông nhập theo mục 4–5 (ESLint tự chặn sai).
 - [ ] Thêm app vào ma trận của `android-native.yml` và `apk-build.yml`.
