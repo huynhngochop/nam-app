@@ -38,6 +38,11 @@ Khung hình giật trên emulator dùng đồ họa phần mềm nên chưa kế
 - Văn khấn mới tự có giọng mẫu: workflow `thanh-tam-voice` chạy lại khi `prayers.ts` đổi; vòng 17 đã tạo đủ 37 bài.
 - QA vòng 17: UAT 19/19, 920 lượt chụp 0 vấn đề, crawler 37 màn 0 lỗi JS, Android và iOS đạt.
 
+## Nút Quay lại (vòng 18)
+
+- Xử lý chung ở `src/backPress.ts`: chạm 1 lần về màn trước (tab về tab vừa xem); màn mở từ thông báo về Hôm nay; ở màn chính chạm 2 lần trong 2 giây mới thoát, lần đầu nhắc.
+- Cần `predictiveBackGestureEnabled: false` (bật thì mọi lần chạm đều thoát). Emulator thử 10 bước, đạt 10/10 (run 43541205490). Chạy riêng: Actions → Thành Tâm QA → only=back.
+
 ## Thư viện thêm ở vòng 11 (giá dung lượng)
 
 - `react-native-webview` (trình phát YouTube nhúng), `expo-sharing` (gửi tệp): mã Java, không thêm thư viện máy.
