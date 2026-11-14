@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack } from 'expo-router';
+import { router, Stack } from 'expo-router';
 import { AppShell } from '@nam/ui';
 import { useMeo } from '../src/store';
 import { useDailyTipNotification } from '../src/lib/notify';
@@ -20,7 +20,7 @@ export default function RootLayout() {
   const hydrated = useMeo((s) => s.hydrated);
   const theme = useMeo((s) => s.theme);
   return (
-    <AppShell app="meo" pref={theme} ready={hydrated}>
+    <AppShell app="meo" pref={theme} ready={hydrated} canGoBack={router.canGoBack}>
       <Routes />
     </AppShell>
   );

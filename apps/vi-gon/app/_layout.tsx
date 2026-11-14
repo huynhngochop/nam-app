@@ -58,7 +58,7 @@ export default function RootLayout() {
   const hydrated = useVi((s) => s.hydrated);
   const theme = useVi((s) => s.theme);
   return (
-    <AppShell app="vi" pref={theme} ready={hydrated}>
+    <AppShell app="vi" pref={theme} ready={hydrated} canGoBack={router.canGoBack}>
       <LockGate>
         <Effects />
         <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>

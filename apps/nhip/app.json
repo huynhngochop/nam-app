@@ -24,7 +24,7 @@
         "backgroundColor": "#c23b2a"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": true
+      "predictiveBackGestureEnabled": false
     },
     "web": {
       "output": "single",

@@ -1,12 +1,11 @@
 import React from 'react';
-import { router, Tabs } from 'expo-router';
-import { Icon, useAdaptiveTabOptions, useExitOnBack } from '@nam/ui';
+import { Tabs } from 'expo-router';
+import { Icon, useAdaptiveTabOptions } from '@nam/ui';
 import { useHen } from '../../src/store';
 
 /** Nhân viên chỉ thấy Lịch và Khách. */
 export default function TabsLayout() {
   const opts = useAdaptiveTabOptions();
-  useExitOnBack(router.canGoBack);
   const isStaff = useHen((s) => s.auth?.role === 'staff');
   return (
     <Tabs screenOptions={opts}>

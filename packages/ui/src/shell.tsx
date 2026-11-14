@@ -7,15 +7,19 @@ import { ThemePref, ThemeProvider, useTheme } from './theme';
 import { AppId } from './tokens';
 import { ToastProvider } from './components/overlay';
 import { useAppFonts } from './fonts';
+import { BackExit } from './exit';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
-function Inner({ children }: { children: ReactNode }) {
+function Inner({ children, canGoBack }: { children: ReactNode; canGoBack?: () => boolean }) {
   const { scheme, c } = useTheme();
   return (
     <View style={{ flex: 1, backgroundColor: c.bg }}>
       <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
-      <ToastProvider>{children}</ToastProvider>
+      <ToastProvider>
+        <BackExit canGoBack={canGoBack} />
+        {children}
+      </ToastProvider>
     </View>
   );
 }
@@ -28,11 +32,14 @@ export function AppShell({
   app,
   pref,
   ready = true,
+  canGoBack,
   children,
 }: {
   app: AppId;
   pref?: ThemePref;
   ready?: boolean;
+  /** router.canGoBack của app: bật Quay lại 1 lần = về trước, 2 lần liền = thoát (Android). */
+  canGoBack?: () => boolean;
   children: ReactNode;
 }) {
   const fontsReady = useAppFonts();
@@ -43,7 +50,7 @@ export function AppShell({
   return (
     <SafeAreaProvider>
       <ThemeProvider app={app} pref={pref}>
-        {ok ? <Inner>{children}</Inner> : null}
+        {ok ? <Inner canGoBack={canGoBack}>{children}</Inner> : null}
       </ThemeProvider>
     </SafeAreaProvider>
   );

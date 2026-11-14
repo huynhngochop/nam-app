@@ -72,18 +72,32 @@ if [ -n "$appdir" ]; then
   fi
   echo "::notice title=routes $pkg::mở $n màn hình không văng, không màn lỗi${js3:+ · log JS: $js3}"
 
-  # Quay lại ở màn gốc: mở lại app từ đầu, bấm Quay lại 2 lần liền → app rời màn hình.
+  # Nút Quay lại (packages/ui/src/exit.tsx): 1 lần = về màn trước, 2 lần liền = thoát app.
+  front() { adb shell dumpsys activity activities | grep -E "mResumedActivity|topResumedActivity" | head -1 | grep -q "$pkg"; }
+  inner=$(echo "$routes" | grep -E '^(settings|tasks)$' | head -1)
   adb shell am force-stop "$pkg"
   adb shell monkey -p "$pkg" -c android.intent.category.LAUNCHER 1 > /dev/null 2>&1
   sleep 10
+  if [ -n "$inner" ]; then
+    adb shell am start -a android.intent.action.VIEW -d "$scheme://$inner" "$pkg" > /dev/null 2>&1
+    sleep 4
+    adb shell input keyevent KEYCODE_BACK
+    sleep 2
+    front || { echo "::error title=back $pkg::bấm Quay lại 1 lần ở màn $inner mà app thoát (phải về màn trước)"; exit 1; }
+    adb shell am start -a android.intent.action.VIEW -d "$scheme://$inner" "$pkg" > /dev/null 2>&1
+    sleep 4
+    adb shell input keyevent KEYCODE_BACK KEYCODE_BACK
+    sleep 2
+    front && { echo "::error title=back $pkg::bấm Quay lại 2 lần liền ở màn $inner mà app chưa thoát"; exit 1; }
+    adb shell monkey -p "$pkg" -c android.intent.category.LAUNCHER 1 > /dev/null 2>&1
+    sleep 6
+  fi
+  # Màn đầu: bấm 1 lần vẫn ở trong app (nhắc "bấm lần nữa"), lần hai trong 2 giây thì thoát.
   adb shell input keyevent KEYCODE_BACK
   sleep 1
+  front || { echo "::error title=back $pkg::bấm Quay lại 1 lần ở màn đầu mà app đã thoát (phải nhắc bấm lần nữa)"; exit 1; }
   adb shell input keyevent KEYCODE_BACK
   sleep 2
-  top=$(adb shell dumpsys activity activities | grep -E "mResumedActivity|topResumedActivity" | head -1 | tr -d '\r')
-  if echo "$top" | grep -q "$pkg"; then
-    echo "::error title=back $pkg::bấm Quay lại 2 lần ở màn đầu mà app vẫn ở trên cùng: $top"
-    exit 1
-  fi
-  echo "::notice title=back $pkg::bấm Quay lại 2 lần ở màn đầu thì thoát app"
+  front && { echo "::error title=back $pkg::bấm Quay lại lần hai ở màn đầu mà app chưa thoát"; exit 1; }
+  echo "::notice title=back $pkg::Quay lại: 1 lần ở màn ${inner:-?} thì về trước · 2 lần liền thì thoát · ở màn đầu nhắc rồi thoát"
 fi
