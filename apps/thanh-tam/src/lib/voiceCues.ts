@@ -16,9 +16,14 @@ export type VoiceItem = { id: string; title: string; kind: 'kinh' | 'khan'; cues
 export const kinhVoiceId = (kinhId: string) => `kinh-${kinhId}`;
 export const khanVoiceId = (prayerId: string) => `khan-${prayerId}`;
 
-/** Giọng mẫu đọc chậm cho dễ đọc theo: kinh khoảng 3 chữ mỗi giây (độ dài âm 1,35 lần), văn khấn 1,12 lần. */
-const KINH_PACE = 1.35;
-const KHAN_PACE = 1.12;
+/**
+ * Giọng tạo sẵn và nhịp đọc. `pace` là độ dài âm so với tốc độ thường của giọng (1,2 = chậm hơn 20 %).
+ * Đổi giọng (VOICE_ENGINE) hay nhịp thì mã băm mọi bài đổi theo, app biết cần tải lại.
+ * Vòng 19: giọng Google Chirp 3 HD (tự nhiên hơn Piper), đọc chậm như người khấn; ngắt hơi ở dấu phẩy do gen_voice.py chèn.
+ */
+export const VOICE_ENGINE = 'google-chirp3hd-charon';
+const KINH_PACE = 1.12;
+const KHAN_PACE = 1.18;
 
 export function kinhCues(kinhId: string): Cue[] {
   const k = KINH.find((x) => x.id === kinhId);
@@ -65,7 +70,7 @@ export function voiceItems(): VoiceItem[] {
 
 /** Băm FNV-1a 32 bit: nhỏ, đồng bộ, đủ để biết nội dung đổi (không dùng cho bảo mật). */
 export function hashCues(cues: Cue[], pace: number): string {
-  const s = JSON.stringify([pace, cues.map((c) => c.text ?? `{${c.field}}`)]);
+  const s = JSON.stringify([VOICE_ENGINE, pace, cues.map((c) => c.text ?? `{${c.field}}`)]);
   let h = 0x811c9dc5;
   for (let i = 0; i < s.length; i++) {
     h ^= s.charCodeAt(i);

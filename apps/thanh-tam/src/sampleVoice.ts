@@ -9,8 +9,7 @@ import { cueAt, hashCues, voiceItems, type VoiceItem } from './lib/voiceCues';
  * App tải từng bài khi người dùng chọn, lưu trong máy, phát lại không cần mạng. Không cần giọng tiếng Việt của máy.
  */
 export const VOICE_BASE = 'https://github.com/huynhngochop/nam-app/releases/download/thanh-tam-voice/';
-export const VOICE_CREDIT =
-  'Giọng đọc mẫu tạo bằng phần mềm Piper (mã nguồn mở) với giọng tiếng Việt vais1000, dữ liệu VAIS-1000 (giấy phép CC BY 4.0).';
+export const VOICE_CREDIT = 'Giọng đọc mẫu tạo sẵn bằng Google Cloud Text-to-Speech (giọng Chirp 3 HD tiếng Việt).';
 
 /** Câu báo khi chưa lấy được danh mục giọng mẫu: bản web không tải được, điện thoại thì cần mạng lần đầu. */
 export const VOICE_UNAVAILABLE =

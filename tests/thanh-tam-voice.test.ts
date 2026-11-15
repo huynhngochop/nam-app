@@ -49,7 +49,7 @@ test('giọng mẫu văn khấn: câu thuộc đúng đoạn, chỗ tên/địa 
   assert.ok(tinChu.length >= 1);
 });
 
-test('mã băm: đổi chữ thì đổi mã, giữ nguyên thì giữ mã; đủ 23 bài', () => {
+test('mã băm: đổi chữ thì đổi mã, giữ nguyên thì giữ mã; đủ mọi bài', () => {
   const items = voiceItems();
   assert.equal(items.length, KINH.length + PRAYERS.length);
   assert.equal(new Set(items.map((x) => x.id)).size, items.length);
