@@ -19,11 +19,17 @@ export const khanVoiceId = (prayerId: string) => `khan-${prayerId}`;
 /**
  * Giọng tạo sẵn và nhịp đọc. `pace` là độ dài âm so với tốc độ thường của giọng (1,2 = chậm hơn 20 %).
  * Đổi giọng (VOICE_ENGINE) hay nhịp thì mã băm mọi bài đổi theo, app biết cần tải lại.
- * Vòng 19: giọng Google Chirp 3 HD (tự nhiên hơn Piper), đọc chậm như người khấn; ngắt hơi ở dấu phẩy do gen_voice.py chèn.
+ * - 'piper': giọng Piper vais1000 đang đăng (mã băm giữ kiểu cũ để bản đã cài vẫn dùng được).
+ * - 'google-chirp3hd-charon': giọng Google Chirp 3 HD, đọc chậm như người khấn. Bật khi đã tạo xong giọng trên CI
+ *   (cần secret GOOGLE_TTS_KEY), cùng lúc phát hành bản app mới.
  */
-export const VOICE_ENGINE = 'google-chirp3hd-charon';
-const KINH_PACE = 1.12;
-const KHAN_PACE = 1.18;
+export const VOICE_ENGINE = 'piper' as 'piper' | 'google-chirp3hd-charon';
+const PACE = {
+  piper: { kinh: 1.35, khan: 1.12 },
+  'google-chirp3hd-charon': { kinh: 1.12, khan: 1.18 },
+}[VOICE_ENGINE];
+const KINH_PACE = PACE.kinh;
+const KHAN_PACE = PACE.khan;
 
 export function kinhCues(kinhId: string): Cue[] {
   const k = KINH.find((x) => x.id === kinhId);
@@ -70,7 +76,8 @@ export function voiceItems(): VoiceItem[] {
 
 /** Băm FNV-1a 32 bit: nhỏ, đồng bộ, đủ để biết nội dung đổi (không dùng cho bảo mật). */
 export function hashCues(cues: Cue[], pace: number): string {
-  const s = JSON.stringify([VOICE_ENGINE, pace, cues.map((c) => c.text ?? `{${c.field}}`)]);
+  const body = [pace, cues.map((c) => c.text ?? `{${c.field}}`)];
+  const s = JSON.stringify(VOICE_ENGINE === 'piper' ? body : [VOICE_ENGINE, ...body]);
   let h = 0x811c9dc5;
   for (let i = 0; i < s.length; i++) {
     h ^= s.charCodeAt(i);

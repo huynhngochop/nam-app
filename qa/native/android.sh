@@ -98,6 +98,33 @@ PROFILES=(
   "tablet-land|1600x2560|320|1|1.0|no"
   "phone-dark|1080x2400|420|0|1.0|yes"
 )
+# Ảnh cho trang Google Play: thanh trạng thái gọn (chế độ trình diễn), ảnh PNG gốc 1080x2400.
+if [ "${STORE_ONLY:-0}" = 1 ]; then
+  mkdir -p "$OUT/store"
+  adb shell settings put global sysui_demo_allowed 1
+  dm() { adb shell am broadcast -a com.android.systemui.demo -e command "$@" >/dev/null 2>&1; }
+  dm enter
+  dm clock -e hhmm 0830
+  dm battery -e level 100 -e plugged false
+  dm network -e wifi show -e level 4 -e mobile show -e datatype none -e level 4
+  dm notifications -e visible false
+  for t in light dark; do
+    adb shell cmd uimode night "$([ $t = dark ] && echo yes || echo no)" >/dev/null 2>&1
+    adb shell am force-stop "$PKG"; sleep 1
+    adb shell am start -W -n "$PKG/.MainActivity" >/dev/null 2>&1; sleep 7
+    n=0
+    for u in today ritual/gio-thuong guide/mam-co ritual/mung-1-ram/pray guide/vai-lay calendar anniversaries chant/cau-an/play ritual/tat-nien/offerings; do
+      n=$((n + 1))
+      open_url "thanhtam://$u"; sleep 4
+      adb exec-out screencap -p >"$OUT/store/$t-$(printf %02d $n)-$(echo "$u" | tr '/' '-').png"
+    done
+  done
+  adb shell cmd uimode night no >/dev/null 2>&1
+  dm exit
+  say "ẢNH CỬA HÀNG: $(ls "$OUT/store" | wc -l) ảnh"
+  exit 0
+fi
+
 if [ "${BACK_ONLY:-0}" = 1 ]; then
   check_back
   adb logcat -d -s ReactNativeJS:V ReactNative:V AndroidRuntime:E >"$OUT/logcat.txt" 2>&1

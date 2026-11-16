@@ -65,7 +65,17 @@ jobs:
         env:
           GOOGLE_TTS_KEY: ${{ secrets.GOOGLE_TTS_KEY }}
           THU: ${{ inputs.thu }}
-        run: python3 apps/thanh-tam/scripts/gen_voice.py voice-text.json - voice-out $THU
+        run: |
+          ENGINE=$(node -p 'require("./voice-text.json")[0].engine')
+          if [ -n "$THU" ]; then
+            # Nghe thử luôn bằng giọng Google, kể cả khi app vẫn đang dùng giọng cũ
+            TTS_ENGINE=google-chirp3hd-charon python3 apps/thanh-tam/scripts/gen_voice.py voice-text.json - voice-out $THU
+          elif [ "$ENGINE" = piper ]; then
+            echo "::notice::App đang dùng giọng Piper đã đăng (VOICE_ENGINE=piper): không tạo lại. Đổi VOICE_ENGINE sang google-chirp3hd-charon để tạo giọng mới."
+            echo "skip" > voice-skip
+          else
+            python3 apps/thanh-tam/scripts/gen_voice.py voice-text.json - voice-out
+          fi
       - name: Đăng bản nghe thử (thanh-tam-voice-thu)
         if: steps.key.outputs.ok == '1' && inputs.thu != ''
         env:
@@ -77,6 +87,7 @@ jobs:
       - name: Kiểm tra đủ bài, mã băm khớp
         if: steps.key.outputs.ok == '1' && inputs.thu == ''
         run: |
+          [ -f voice-skip ] && exit 0
           node -e '
             const items=require("./voice-text.json"); const m=require("./voice-out/manifest.json");
             let bad=0;
@@ -96,6 +107,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          [ -f voice-skip ] && exit 0
           {
             echo "Giọng đọc mẫu cho văn khấn và kinh của Thành Tâm. App tự tải từng bài khi cần."
             echo ""

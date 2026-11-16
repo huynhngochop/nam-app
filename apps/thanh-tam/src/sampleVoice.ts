@@ -2,14 +2,17 @@ import { Platform } from 'react-native';
 import { Directory, File, Paths } from 'expo-file-system';
 import { createAudioPlayer, type AudioPlayer } from 'expo-audio';
 import { useTT } from './store';
-import { cueAt, hashCues, voiceItems, type VoiceItem } from './lib/voiceCues';
+import { cueAt, hashCues, VOICE_ENGINE, voiceItems, type VoiceItem } from './lib/voiceCues';
 
 /**
  * Giọng đọc mẫu: tệp âm thanh tạo sẵn trên CI (.github/workflows/thanh-tam-voice.yml), đăng ở GitHub Releases.
  * App tải từng bài khi người dùng chọn, lưu trong máy, phát lại không cần mạng. Không cần giọng tiếng Việt của máy.
  */
 export const VOICE_BASE = 'https://github.com/huynhngochop/nam-app/releases/download/thanh-tam-voice/';
-export const VOICE_CREDIT = 'Giọng đọc mẫu tạo sẵn bằng Google Cloud Text-to-Speech (giọng Chirp 3 HD tiếng Việt).';
+export const VOICE_CREDIT =
+  VOICE_ENGINE === 'piper'
+    ? 'Giọng đọc mẫu tạo bằng phần mềm Piper (mã nguồn mở) với giọng tiếng Việt vais1000, dữ liệu VAIS-1000 (giấy phép CC BY 4.0).'
+    : 'Giọng đọc mẫu tạo sẵn bằng Google Cloud Text-to-Speech (giọng Chirp 3 HD tiếng Việt).';
 
 /** Câu báo khi chưa lấy được danh mục giọng mẫu: bản web không tải được, điện thoại thì cần mạng lần đầu. */
 export const VOICE_UNAVAILABLE =

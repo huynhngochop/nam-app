@@ -22,7 +22,7 @@ import Constants from 'expo-constants';
 import { useTT } from '../src/store';
 import { notifyStatus, requestNotify, sendTestNotification, type NotifyStatus } from '../src/notify';
 import { openTtsSettings, ttsStatus } from '../src/voice';
-import { TAM_AN_READY } from '../src/config';
+import { OWNER_EMAIL, OWNER_NAME, PRIVACY_URL, TAM_AN_READY } from '../src/config';
 import { goBack } from '../src/nav';
 
 const TIMES = ['05:30', '06:00', '06:30', '07:00', '07:30', '08:00'];
@@ -77,6 +77,9 @@ export default function Settings() {
       | 'refresh-cw'
       | 'smile'
       | 'upload'
+      | 'user'
+      | 'mail'
+      | 'shield'
       | 'volume-2'
       | 'send',
     danger = false,
@@ -248,7 +251,27 @@ export default function Settings() {
       <T v="caption" muted>
         Tên, địa chỉ, sổ giỗ, ngày sinh chỉ lưu trên máy này. Tạo bản sao lưu để đổi máy không mất.
       </T>
-      <T v="caption" muted center style={{ marginTop: 12 }}>{`Phiên bản ${Constants.expoConfig?.version ?? ''}`}</T>
+      <SectionHeader title="Về Thành Tâm" />
+      <ListItem left={icon('user')} title="Chủ sở hữu, phát triển" subtitle={OWNER_NAME} />
+      <ListItem
+        left={icon('mail')}
+        title="Góp ý, liên hệ"
+        subtitle={OWNER_EMAIL}
+        chevron
+        onPress={() =>
+          Linking.openURL(
+            `mailto:${OWNER_EMAIL}?subject=${encodeURIComponent(`Góp ý Thành Tâm ${Constants.expoConfig?.version ?? ''}`)}`,
+          ).catch(() => toast(`Gửi thư tới ${OWNER_EMAIL}`))
+        }
+      />
+      <ListItem
+        left={icon('shield')}
+        title="Chính sách riêng tư"
+        chevron
+        divider={false}
+        onPress={() => Linking.openURL(PRIVACY_URL).catch(() => toast('Cần mạng để mở trang này'))}
+      />
+      <T v="caption" muted center style={{ marginTop: 12 }}>{`Thành Tâm ${Constants.expoConfig?.version ?? ''} · © ${new Date().getFullYear()} ${OWNER_NAME}`}</T>
 
       <Sheet visible={pick} onClose={() => setPick(false)} title="Giờ nhắc buổi sáng">
         <Chips>

@@ -159,7 +159,7 @@ def main():
     only = set(sys.argv[4:])
     os.makedirs(out, exist_ok=True)
     items = json.load(open(src, encoding='utf-8'))
-    engine = items[0].get('engine', 'piper')
+    engine = os.environ.get('TTS_ENGINE') or items[0].get('engine', 'piper')  # TTS_ENGINE: nghe thử giọng khác
     if engine.startswith('google'):
         tts = Google(engine)
         voice, credit = tts.voice, 'Giọng đọc mẫu tạo sẵn bằng Google Cloud Text-to-Speech (giọng Chirp 3 HD tiếng Việt).'
