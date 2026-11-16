@@ -271,7 +271,12 @@ export default function Settings() {
         divider={false}
         onPress={() => Linking.openURL(PRIVACY_URL).catch(() => toast('Cần mạng để mở trang này'))}
       />
-      <T v="caption" muted center style={{ marginTop: 12 }}>{`Thành Tâm ${Constants.expoConfig?.version ?? ''} · © ${new Date().getFullYear()} ${OWNER_NAME}`}</T>
+      <T
+        v="caption"
+        muted
+        center
+        style={{ marginTop: 12 }}
+      >{`Thành Tâm ${Constants.expoConfig?.version ?? ''} · © ${new Date().getFullYear()} ${OWNER_NAME}`}</T>
 
       <Sheet visible={pick} onClose={() => setPick(false)} title="Giờ nhắc buổi sáng">
         <Chips>
