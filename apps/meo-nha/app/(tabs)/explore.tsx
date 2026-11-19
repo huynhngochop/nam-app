@@ -18,6 +18,7 @@ import {
   useTheme,
 } from '@nam/ui';
 import { greeting, track, useOnline } from '@nam/core';
+import { AdNative, isAdSlot, withAds } from '@nam/ads';
 import { CATEGORIES, Tip, tipById } from '../../src/data/tips';
 import { useMeo } from '../../src/store';
 import { dailyTip, feedFor } from '../../src/lib/search';
@@ -39,6 +40,8 @@ export default function Explore() {
     () => (online ? feedFor(interests) : savedTips.map((id) => tipById(id)).filter((t): t is Tip => !!t)),
     [interests, online, savedTips],
   );
+  // Ngoại tuyến không có quảng cáo (không tải được), chỉ còn mẹo đã lưu.
+  const rows = useMemo(() => withAds(tips, { enabled: online }), [tips, online]);
 
   const open = useCallback(
     (id: string) => {
@@ -90,8 +93,9 @@ export default function Explore() {
 
   const list = (
     <FlashList
-      data={tips}
-      keyExtractor={(t) => t.id}
+      data={rows}
+      keyExtractor={(row) => (isAdSlot(row) ? row.key : row.id)}
+      getItemType={(row) => (isAdSlot(row) ? 'ad' : 'tip')}
       ListHeaderComponent={header}
       ListEmptyComponent={
         !online ? (
@@ -109,7 +113,7 @@ export default function Explore() {
           <View style={{ height: 24 }} />
         )
       }
-      renderItem={({ item }) => <TipRow tip={item} onPress={() => open(item.id)} />}
+      renderItem={({ item }) => (isAdSlot(item) ? <AdNative /> : <TipRow tip={item} onPress={() => open(item.id)} />)}
       contentContainerStyle={{ paddingHorizontal: layout.gutter }}
     />
   );

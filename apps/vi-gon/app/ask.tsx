@@ -24,6 +24,7 @@ import { getLimit, quotaLeft, quotaUse, shortMoney, track, useOnline } from '@na
 import { Intent, intentViaAi, parseIntent, PERIOD_LABEL, PeriodKey, SUGGESTED } from '../src/ask';
 import { Answer, computeAnswer } from '../src/answer';
 import { catOf, useVi } from '../src/store';
+import { usePro } from '../src/features';
 
 type Turn = { q: string; intent: Intent | null; answer: Answer | null; viaAi: boolean };
 const PERIODS: PeriodKey[] = ['today', 'yesterday', 'this_week', 'this_month', 'last_month', 'this_year'];
@@ -34,13 +35,14 @@ export default function Ask() {
   const layout = useLayout();
   const online = useOnline();
   const state = useVi();
+  const pro = usePro();
   const [q, setQ] = useState('');
   const [turns, setTurns] = useState<Turn[]>([]);
   const [busy, setBusy] = useState(false);
   const [fix, setFix] = useState<number | null>(null);
   const scroll = useRef<ScrollView>(null);
   const input = useRef<TextInput>(null);
-  const limit = getLimit(state.isPro ? 'AI_FINANCE_DAILY_PRO' : 'AI_FINANCE_DAILY_FREE', 10);
+  const limit = getLimit(pro ? 'AI_FINANCE_DAILY_PRO' : 'AI_FINANCE_DAILY_FREE', 10);
   const left = quotaLeft(state.askUsed, limit);
   const ctx = {
     cats: state.categories,

@@ -1,6 +1,6 @@
 # Chính sách riêng tư của ứng dụng Thành Tâm
 
-Cập nhật: 19/11/2026
+Cập nhật: 19/11/2026 (thêm phần quảng cáo)
 
 Thành Tâm là ứng dụng hướng dẫn cúng lễ, văn khấn, lịch âm và sổ giỗ cho gia đình Việt Nam.
 Chủ sở hữu và nhà phát triển: **Huỳnh Ngọc Hợp**, liên hệ: **huynhngochop@gmail.com**.
@@ -24,10 +24,13 @@ Chủ sở hữu và nhà phát triển: **Huỳnh Ngọc Hợp**, liên hệ: *
 - **Thông báo**: để nhắc ngày rằm, mùng một, ngày giỗ. Bạn có thể tắt bất cứ lúc nào. Lịch nhắc được tạo trên máy.
 - Ứng dụng **không** xin quyền vị trí, danh bạ, máy ảnh, micro hay tệp ảnh.
 
-## Quảng cáo, đo lường
+## Quảng cáo
 
-- Không có quảng cáo. Không dùng mã quảng cáo (Advertising ID).
-- Hiện không gửi số liệu sử dụng nào ra ngoài. Nếu sau này có, chỉ là số liệu ẩn danh (ví dụ số lượt mở một màn), sẽ cập nhật chính sách này trước.
+- Ứng dụng có quảng cáo của **Google AdMob** ở một số màn danh sách (Bài cúng, Lịch, Tra cứu, Tụng kinh). Quảng cáo luôn có nhãn **Tài trợ**. Không có quảng cáo ở màn khấn, màn tụng kinh và chi tiết lễ.
+- Để hiện quảng cáo, Google có thể thu thập mã quảng cáo của thiết bị (Advertising ID trên Android), địa chỉ IP và thông tin tương tác với quảng cáo, theo [chính sách của Google](https://policies.google.com/technologies/partner-sites).
+- Trên Android, bạn có thể tắt quảng cáo theo sở thích hoặc đặt lại mã quảng cáo trong phần cài đặt quảng cáo của máy. Trên iPhone, ứng dụng chỉ hiện quảng cáo không theo sở thích và không xin quyền theo dõi.
+- Ứng dụng giới hạn quảng cáo ở mức phù hợp mọi lứa tuổi. Thông tin gia đình bạn nhập (tên, địa chỉ, sổ giỗ) **không** được gửi cho bên quảng cáo.
+- Ứng dụng không gửi số liệu sử dụng nào khác ra ngoài.
 
 ## Trẻ em
 

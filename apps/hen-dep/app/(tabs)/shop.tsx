@@ -1,7 +1,7 @@
 import React from 'react';
 import { router } from 'expo-router';
 import { Badge, Card, Grid, ListItem, Row, Screen, SectionHeader, T, Thumb, useTheme } from '@nam/ui';
-import { getLimit } from '@nam/core';
+import { getLimit, purchasesReady } from '@nam/core';
 import { useHen } from '../../src/store';
 
 const PLAN_LABEL = { trial: 'Dùng thử', basic: 'Cơ bản', standard: 'Tiêu chuẩn', chain: 'Chuỗi' } as const;
@@ -26,15 +26,18 @@ export default function ShopTab() {
       <T v="display" accessibilityRole="header">
         {state.shop.name}
       </T>
-      <Card variant="tint" onPress={() => router.push('/billing')} accessibilityLabel="Gói dịch vụ">
-        <Row between>
-          <T v="headline">{`Gói ${PLAN_LABEL[state.plan.code]}`}</T>
-          {state.plan.code === 'trial' ? (
-            <Badge label={`Còn ${trialDays} ngày`} tone={trialDays <= 5 ? 'warning' : 'accent'} />
-          ) : null}
-        </Row>
-        <T v="caption">{`Lượt AI tháng này: ${used}/${quota}`}</T>
-      </Card>
+      {/* Gói dịch vụ chỉ hiện khi đã nối cửa hàng; chưa nối thì không đếm ngày dùng thử. */}
+      {purchasesReady() ? (
+        <Card variant="tint" onPress={() => router.push('/billing')} accessibilityLabel="Gói dịch vụ">
+          <Row between>
+            <T v="headline">{`Gói ${PLAN_LABEL[state.plan.code]}`}</T>
+            {state.plan.code === 'trial' ? (
+              <Badge label={`Còn ${trialDays} ngày`} tone={trialDays <= 5 ? 'warning' : 'accent'} />
+            ) : null}
+          </Row>
+          <T v="caption">{`Lượt AI tháng này: ${used}/${quota}`}</T>
+        </Card>
+      ) : null}
       <Grid min={1} gap={12}>
         <Card>
           <SectionHeader title="Khách đặt lịch" />

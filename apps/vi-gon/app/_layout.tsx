@@ -6,6 +6,7 @@ import { AppShell } from '@nam/ui';
 import { useVi } from '../src/store';
 import { useTxVersion } from '../src/db';
 import { LockGate } from '../src/ui';
+import { useAppAds } from '../src/ads';
 import { checkBudgets, syncFundReminder } from '../src/alerts';
 import { refreshListenerState, startListening } from '../src/listener';
 
@@ -19,6 +20,7 @@ Notifications.setNotificationHandler({
 });
 
 function Effects() {
+  useAppAds();
   useEffect(() => {
     const stop = startListening();
     refreshListenerState();

@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppBar, Card, Screen, SectionHeader, T } from '@nam/ui';
+import { AdBanner } from '@nam/ads';
 import { NavRow, Sources } from '../../src/components';
 import { KINH, NGHI_THUC, chantMinutes } from '../../src/data/kinh';
 import { SRC } from '../../src/data/sources';
@@ -41,6 +42,7 @@ export default function ChantLibrary() {
           />
         ))}
       </Card>
+      <AdBanner />
       <Sources sources={[SRC.kinhNhatTung]} />
       <T v="caption" muted>
         Thời lượng ước tính theo nhịp mõ đang chọn. Nhà có thầy hướng dẫn thì theo nghi thức của chùa mình.

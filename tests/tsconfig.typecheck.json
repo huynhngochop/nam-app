@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "target": "es2022",
-    "lib": ["es2023"],
+    "lib": [
+      "es2023"
+    ],
     "module": "esnext",
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
@@ -13,9 +15,21 @@
     "esModuleInterop": true,
     "types": [],
     "paths": {
-      "@nam/ui": ["../packages/ui/src/index.ts"],
-      "@nam/core": ["../packages/core/src/index.ts"]
+      "@nam/ui": [
+        "../packages/ui/src/index.ts"
+      ],
+      "@nam/core": [
+        "../packages/core/src/index.ts"
+      ],
+      "@nam/ads": [
+        "../packages/ads/src/index.ts"
+      ]
     }
   },
-  "include": ["typestubs/*.d.ts", "../packages/*/src/**/*", "../apps/*/app/**/*", "../apps/*/src/**/*"]
+  "include": [
+    "typestubs/*.d.ts",
+    "../packages/*/src/**/*",
+    "../apps/*/app/**/*",
+    "../apps/*/src/**/*"
+  ]
 }

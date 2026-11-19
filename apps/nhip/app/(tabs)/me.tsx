@@ -18,16 +18,18 @@ import {
 } from '@nam/ui';
 import { dateKey, minutesLabel, restorePurchases } from '@nam/core';
 import { useNhip } from '../../src/store';
+import { features, usePro } from '../../src/features';
 
 /** Tôi. */
 export default function Me() {
   const { c } = useTheme();
   const toast = useToast();
   const state = useNhip();
+  const pro = usePro();
   const [goalOpen, setGoalOpen] = useState(false);
   const [themeOpen, setThemeOpen] = useState(false);
   const exportCsv = () => {
-    if (!state.isPro) {
+    if (!pro) {
       router.push('/paywall');
       return;
     }
@@ -49,17 +51,19 @@ export default function Me() {
           <T v="caption" muted>{`Mục tiêu ${minutesLabel(state.goalMin)}/ngày`}</T>
         </View>
       </Row>
-      <Card variant="accent" onPress={() => router.push('/paywall')}>
-        <Row between>
-          <T v="headline" color={c.onAccent}>
-            Nhịp Pro
+      {features.proForSale() ? (
+        <Card variant="accent" onPress={() => router.push('/paywall')}>
+          <Row between>
+            <T v="headline" color={c.onAccent}>
+              Nhịp Pro
+            </T>
+            {state.isPro ? <Badge label="Đang dùng" /> : <Badge label="Dùng thử" />}
+          </Row>
+          <T v="caption" color={c.onAccent}>
+            Mọi gói âm thanh, thống kê theo việc, thói quen không giới hạn.
           </T>
-          {state.isPro ? <Badge label="Đang dùng" /> : <Badge label="Dùng thử" />}
-        </Row>
-        <T v="caption" color={c.onAccent}>
-          Mọi gói âm thanh, thống kê theo việc, thói quen không giới hạn.
-        </T>
-      </Card>
+        </Card>
+      ) : null}
       <View>
         <ListItem
           left={<Thumb icon="target" />}
@@ -89,29 +93,33 @@ export default function Me() {
           chevron
           onPress={() => setThemeOpen(true)}
         />
-        <ListItem
-          left={<Thumb icon="shopping-bag" />}
-          title="Cửa hàng âm thanh"
-          chevron
-          onPress={() => router.push('/store')}
-        />
+        {features.soundStore() ? (
+          <ListItem
+            left={<Thumb icon="shopping-bag" />}
+            title="Cửa hàng âm thanh"
+            chevron
+            onPress={() => router.push('/store')}
+          />
+        ) : null}
         <ListItem
           left={<Thumb icon="download" />}
           title="Xuất dữ liệu (CSV)"
-          subtitle={state.isPro ? undefined : 'Pro'}
+          subtitle={pro ? undefined : 'Pro'}
           chevron
           onPress={exportCsv}
         />
-        <ListItem
-          left={<Thumb icon="refresh-cw" />}
-          title="Khôi phục giao dịch"
-          chevron
-          divider={false}
-          onPress={async () => {
-            const ids = await restorePurchases();
-            toast(ids.length ? 'Đã khôi phục' : 'Không tìm thấy giao dịch cũ');
-          }}
-        />
+        {features.proForSale() ? (
+          <ListItem
+            left={<Thumb icon="refresh-cw" />}
+            title="Khôi phục giao dịch"
+            chevron
+            divider={false}
+            onPress={async () => {
+              const ids = await restorePurchases();
+              toast(ids.length ? 'Đã khôi phục' : 'Không tìm thấy giao dịch cũ');
+            }}
+          />
+        ) : null}
       </View>
       <Sheet visible={goalOpen} onClose={() => setGoalOpen(false)} title="Mục tiêu hằng ngày">
         <Row wrap>

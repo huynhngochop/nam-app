@@ -3,6 +3,7 @@ import { router } from 'expo-router';
 import { Card, Chip, Chips, Grid, Icon, Row, Screen, SearchField, SectionHeader, T, useTheme } from '@nam/ui';
 import { SIGNS, SIGN_AREAS, TIPS } from '../../src/data/signs';
 import { GUIDES } from '../../src/data/guides';
+import { AdBanner, AdNative } from '@nam/ads';
 import { NavRow } from '../../src/components';
 import { useTT } from '../../src/store';
 import { defaultAgeYear } from '../../src/hooks';
@@ -109,6 +110,8 @@ export default function Explore() {
         Mỗi dấu hiệu có ba phần: dân gian quan niệm, nhìn thực tế, nên làm. Không có điềm “dữ” nào cần lo sợ.
       </T>
 
+      <AdNative />
+
       <SectionHeader title="Hướng dẫn có hình" />
       <Card style={{ paddingVertical: 4 }}>
         {GUIDES.map((g) => (
@@ -122,6 +125,7 @@ export default function Explore() {
           <NavRow key={t.id} icon="zap" title={t.title} subtitle={t.summary} href={`/tip/${t.id}`} />
         ))}
       </Card>
+      <AdBanner />
     </Screen>
   );
 }

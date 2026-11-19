@@ -21,6 +21,7 @@ import {
 } from '@nam/ui';
 import { addDays, dateKey, track, weekdayShort } from '@nam/core';
 import { useNhip } from '../src/store';
+import { usePro } from '../src/features';
 
 const FREE_HABITS = 3;
 const SUGGEST = [
@@ -33,6 +34,7 @@ export default function Habits() {
   const { c } = useTheme();
   const toast = useToast();
   const state = useNhip();
+  const pro = usePro();
   const [day, setDay] = useState(dateKey(new Date()));
   const [add, setAdd] = useState(false);
   const [name, setName] = useState('');
@@ -52,7 +54,7 @@ export default function Habits() {
     return r.reduce((a, b) => a + b, 0) / Math.max(1, r.length);
   };
   const tryAdd = (h: { name: string; target: number; unit: string; icon: string }) => {
-    if (state.habits.length >= FREE_HABITS + 1 && !state.isPro) {
+    if (state.habits.length >= FREE_HABITS + 1 && !pro) {
       router.push('/paywall');
       return;
     }
@@ -181,7 +183,7 @@ export default function Habits() {
             <Chip key={u} label={u} selected={unit === u} onPress={() => setUnit(u)} />
           ))}
         </Chips>
-        {!state.isPro ? <T v="caption" muted>{`Miễn phí tối đa ${FREE_HABITS} thói quen tự thêm.`}</T> : null}
+        {!pro ? <T v="caption" muted>{`Miễn phí tối đa ${FREE_HABITS} thói quen tự thêm.`}</T> : null}
       </Sheet>
     </Screen>
   );

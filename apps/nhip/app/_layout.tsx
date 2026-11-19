@@ -3,10 +3,12 @@ import { Stack, router } from 'expo-router';
 import * as Notifications from 'expo-notifications';
 import { AppShell } from '@nam/ui';
 import { useNhip } from '../src/store';
+import { useAppAds } from '../src/ads';
 
 export default function RootLayout() {
   const hydrated = useNhip((s) => s.hydrated);
   const theme = useNhip((s) => s.theme);
+  useAppAds();
   useEffect(() => {
     const sub = Notifications.addNotificationResponseReceivedListener(() => {
       if (useNhip.getState().session) router.push('/session');

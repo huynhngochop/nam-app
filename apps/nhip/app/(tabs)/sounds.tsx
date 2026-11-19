@@ -18,9 +18,11 @@ import {
   Thumb,
   useTheme,
 } from '@nam/ui';
+import { AdBanner } from '@nam/ads';
 import { getPrice, track } from '@nam/core';
 import { PACKS, SOUNDS, soundById } from '../../src/data';
 import { useNhip } from '../../src/store';
+import { features } from '../../src/features';
 import { syncMix } from '../../src/audio';
 
 /** Trộn âm thanh. */
@@ -89,7 +91,7 @@ export default function Sounds() {
         </T>
       ) : null}
       <Button title="Thêm âm thanh" icon="plus" variant="secondary" size="md" onPress={() => setAdd(true)} />
-      {promo ? (
+      {promo && features.soundStore() ? (
         <Card variant="tint" onPress={() => router.push(`/pack/${promo.id}`)}>
           <Row between>
             <T v="micro" accent>
@@ -101,7 +103,9 @@ export default function Sounds() {
           <T v="caption">{promo.description}</T>
         </Card>
       ) : null}
-      <Button title="Cửa hàng âm thanh" variant="text" icon="shopping-bag" onPress={() => router.push('/store')} />
+      {features.soundStore() ? (
+        <Button title="Cửa hàng âm thanh" variant="text" icon="shopping-bag" onPress={() => router.push('/store')} />
+      ) : null}
 
       <Sheet visible={add} onClose={() => setAdd(false)} title="Thêm âm thanh">
         {SOUNDS.map((x) => {
@@ -158,6 +162,7 @@ export default function Sounds() {
           placeholder="Ví dụ: Mưa đêm"
         />
       </Sheet>
+      <AdBanner />
     </Screen>
   );
 }

@@ -3,9 +3,11 @@ import { Stack } from 'expo-router';
 import { AppShell } from '@nam/ui';
 import { useMeo } from '../src/store';
 import { useDailyTipNotification } from '../src/lib/notify';
+import { useAppAds } from '../src/ads';
 
 function Routes() {
   useDailyTipNotification();
+  useAppAds();
   return (
     <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
       <Stack.Screen name="(tabs)" />

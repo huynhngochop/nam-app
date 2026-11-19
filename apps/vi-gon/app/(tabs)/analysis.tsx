@@ -19,14 +19,17 @@ import {
   Thumb,
   useTheme,
 } from '@nam/ui';
+import { AdBanner } from '@nam/ads';
 import { shortMoney, vnd } from '@nam/core';
 import { byCategory, totals, useQuery } from '../../src/db';
 import { catOf, periodOf, useVi } from '../../src/store';
+import { usePro } from '../../src/features';
 
 /** Phân tích: dòng tiền, cơ cấu danh mục, dự báo (Pro). Tablet: 2 cột thẻ. */
 export default function Analysis() {
   const { c } = useTheme();
   const state = useVi();
+  const pro = usePro();
   const [months, setMonths] = useState(6);
   const cur = periodOf(state.monthStartDay);
 
@@ -130,15 +133,15 @@ export default function Analysis() {
             </T>
           )}
         </Card>
-        <Card onPress={state.isPro ? undefined : () => router.push('/paywall')} accessibilityLabel="Dự báo cuối tháng">
+        <Card onPress={pro ? undefined : () => router.push('/paywall')} accessibilityLabel="Dự báo cuối tháng">
           <Row between>
             <Row>
-              <Icon name={state.isPro ? 'trending-up' : 'lock'} color={c.a} />
+              <Icon name={pro ? 'trending-up' : 'lock'} color={c.a} />
               <T v="headline">Dự báo cuối kỳ</T>
             </Row>
-            {!state.isPro ? <Badge label="Pro" tone="pro" /> : null}
+            {!pro ? <Badge label="Pro" tone="pro" /> : null}
           </Row>
-          {state.isPro ? (
+          {pro ? (
             <>
               <T v="title">{vnd(forecast)}</T>
               <T v="caption" color={state.monthlyBudget && forecast > state.monthlyBudget ? c.negative : c.inkMuted}>
@@ -189,6 +192,7 @@ export default function Analysis() {
       {!withData.length ? (
         <Button title="Thêm giao dịch đầu tiên" variant="secondary" onPress={() => router.push('/add')} />
       ) : null}
+      <AdBanner />
     </Screen>
   );
 }

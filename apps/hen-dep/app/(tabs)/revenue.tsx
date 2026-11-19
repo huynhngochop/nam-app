@@ -13,6 +13,7 @@ import {
   T,
   useTheme,
 } from '@nam/ui';
+import { AdBanner } from '@nam/ads';
 import { addDays, dayMonth, shortMoney, startOfDay, vnd, weekdayShort } from '@nam/core';
 import { priceOf, svcOf, useHen } from '../../src/store';
 import { SOURCE_LABEL } from '../../src/types';
@@ -222,6 +223,7 @@ export default function Revenue() {
           </T>
         </>
       )}
+      <AdBanner />
     </Screen>
   );
 }

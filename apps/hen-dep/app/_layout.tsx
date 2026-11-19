@@ -3,6 +3,7 @@ import { router, Stack, useSegments, type Href } from 'expo-router';
 import { AppShell } from '@nam/ui';
 import { useHen } from '../src/store';
 import { redirectFor } from '../src/access';
+import { useAppAds } from '../src/ads';
 
 /** Chặn route theo vai trò: chưa đăng nhập → màn đăng nhập; nhân viên → không vào màn của chủ tiệm (W3). */
 function RouteGuard() {
@@ -18,6 +19,7 @@ function RouteGuard() {
 export default function RootLayout() {
   const hydrated = useHen((s) => s.hydrated);
   const theme = useHen((s) => s.theme);
+  useAppAds();
   return (
     <AppShell app="hen" pref={theme} ready={hydrated}>
       <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>

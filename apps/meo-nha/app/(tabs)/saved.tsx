@@ -20,10 +20,12 @@ import {
   useLayout,
   useToast,
 } from '@nam/ui';
+import { AdBanner } from '@nam/ads';
 import { fold, relativeTime, track } from '@nam/core';
 import { categoryOf, tipById } from '../../src/data/tips';
 import { RECIPES } from '../../src/data/recipes';
 import { useMeo } from '../../src/store';
+import { usePlus } from '../../src/features';
 
 const FREE_COLLECTIONS = 3;
 
@@ -31,6 +33,7 @@ const FREE_COLLECTIONS = 3;
 export default function Saved() {
   const layout = useLayout();
   const state = useMeo();
+  const plus = usePlus();
   const toast = useToast();
   const [tab, setTab] = useState<'tips' | 'recipes'>('tips');
   const [col, setCol] = useState<string | null>(null);
@@ -51,7 +54,7 @@ export default function Saved() {
   const recipes = RECIPES.filter((r) => state.savedRecipes.includes(r.id));
 
   const createCol = () => {
-    if (state.collections.length >= FREE_COLLECTIONS && !state.plus) {
+    if (state.collections.length >= FREE_COLLECTIONS && !plus) {
       setNewCol(false);
       router.push('/paywall');
       return;
@@ -157,7 +160,7 @@ export default function Saved() {
           autoFocus
           placeholder="Ví dụ: Dọn bếp"
         />
-        {!state.plus ? <T v="caption" muted>{`Miễn phí tối đa ${FREE_COLLECTIONS} bộ sưu tập.`}</T> : null}
+        {!plus ? <T v="caption" muted>{`Miễn phí tối đa ${FREE_COLLECTIONS} bộ sưu tập.`}</T> : null}
       </Sheet>
       <Sheet visible={!!menuFor} onClose={() => setMenuFor(null)} title="Tùy chọn">
         <T v="caption" muted>
@@ -189,6 +192,7 @@ export default function Saved() {
           }}
         />
       </Sheet>
+      <AdBanner />
     </Screen>
   );
 }

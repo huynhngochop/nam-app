@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
+import { AdNative, isAdSlot, withAds } from '@nam/ads';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Avatar,
@@ -88,10 +89,13 @@ export default function Customers() {
         />
       ) : (
         <FlashList
-          data={rows}
-          keyExtractor={(r) => r.cu.id}
+          data={withAds(rows, { first: 5, every: 12 })}
+          keyExtractor={(row) => (isAdSlot(row) ? row.key : row.cu.id)}
+          getItemType={(row) => (isAdSlot(row) ? 'ad' : 'customer')}
           contentContainerStyle={{ paddingHorizontal: layout.gutter, paddingBottom: 96 }}
-          renderItem={({ item: { cu, st } }) => {
+          renderItem={({ item }) => {
+            if (isAdSlot(item)) return <AdNative />;
+            const { cu, st } = item;
             const vip = st.visits >= vipVisits || st.spend >= vipSpend;
             return (
               <ListItem

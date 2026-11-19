@@ -28,6 +28,7 @@ declare module 'react' {
     function useId(): string;
     function useTransition(): [boolean, (fn: () => void) => void];
     function useDeferredValue<T>(v: T): T;
+    function useSyncExternalStore<T>(subscribe: (cb: () => void) => () => void, get: () => T, getServer?: () => T): T;
     function useImperativeHandle(...a: any[]): void;
     function createContext<T>(d: T): Context<T>;
     function memo<T>(c: T, eq?: any): T;

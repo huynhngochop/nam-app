@@ -1,0 +1,13 @@
+{
+  "name": "@nam/ads",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "peerDependencies": {
+    "@nam/ui": "*",
+    "react": "*",
+    "react-native": "*",
+    "react-native-google-mobile-ads": "*"
+  }
+}

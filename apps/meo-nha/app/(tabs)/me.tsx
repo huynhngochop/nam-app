@@ -5,10 +5,12 @@ import { Avatar, Card, Grid, ListItem, PricePlaceholder, Row, Screen, T, Thumb }
 import { getPrice } from '@nam/core';
 import { CATEGORIES } from '../../src/data/tips';
 import { useMeo } from '../../src/store';
+import { features, usePlus } from '../../src/features';
 
 /** Tôi. */
 export default function Me() {
   const state = useMeo();
+  const plus = usePlus();
   const stats = [
     { v: Object.keys(state.doneTips).length, l: 'Đã làm' },
     { v: state.savedTips.length, l: 'Đã lưu' },
@@ -37,7 +39,7 @@ export default function Me() {
           </Card>
         ))}
       </Grid>
-      {!state.plus ? (
+      {!plus ? (
         <Card variant="tint" onPress={() => router.push('/paywall')}>
           <Row between>
             <T v="headline">Mẹo Nhà Plus</T>
@@ -67,12 +69,14 @@ export default function Me() {
           chevron
           onPress={() => router.push('/ask')}
         />
-        <ListItem
-          left={<Thumb icon="edit-2" />}
-          title="Gửi mẹo của bạn"
-          chevron
-          onPress={() => router.push('/submit')}
-        />
+        {features.server() ? (
+          <ListItem
+            left={<Thumb icon="edit-2" />}
+            title="Gửi mẹo của bạn"
+            chevron
+            onPress={() => router.push('/submit')}
+          />
+        ) : null}
         <ListItem
           left={<Thumb icon="settings" />}
           title="Cài đặt"
