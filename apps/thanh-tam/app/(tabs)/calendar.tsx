@@ -240,7 +240,9 @@ function DayDetail({ date, info }: { date: Date; info?: DayInfo }) {
         title="Thêm ngày giỗ vào ngày này"
         variant="secondary"
         icon="plus"
-        onPress={() => router.push(`/anniversaries/edit?day=${lunar.day}&month=${lunar.month}&leap=${lunar.leap ? 1 : 0}`)}
+        onPress={() =>
+          router.push(`/anniversaries/edit?day=${lunar.day}&month=${lunar.month}&leap=${lunar.leap ? 1 : 0}`)
+        }
       />
       <T v="caption" muted>
         Ngày dương {dmy(date)}. Âm lịch tính theo giờ Việt Nam.

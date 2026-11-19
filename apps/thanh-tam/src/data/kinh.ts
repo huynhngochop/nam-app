@@ -250,7 +250,9 @@ export function chantPlan(id: string, full: boolean): { title: string; steps: Ch
   if (currentKinh)
     return {
       title: currentKinh.title,
-      steps: [{ kinh: currentKinh.id, times: currentKinh.kind === 'niem' ? 108 : currentKinh.id === 'vang-sanh' ? 3 : 1 }],
+      steps: [
+        { kinh: currentKinh.id, times: currentKinh.kind === 'niem' ? 108 : currentKinh.id === 'vang-sanh' ? 3 : 1 },
+      ],
       single: true,
     };
   return null;

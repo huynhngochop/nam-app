@@ -28,7 +28,8 @@ export default function Me() {
         const prayer = prayerById(id);
         const r = RITUALS.find((x) => x.prayers.includes(id));
         return (
-          prayer && r && { k, icon: 'book-open' as const, title: prayer.title, href: `/ritual/${r.id}/prayer?prayerId=${id}` }
+          prayer &&
+          r && { k, icon: 'book-open' as const, title: prayer.title, href: `/ritual/${r.id}/prayer?prayerId=${id}` }
         );
       }
       if (type === 'sign') {

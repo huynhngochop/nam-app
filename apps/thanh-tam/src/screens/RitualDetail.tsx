@@ -87,7 +87,9 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
               icon="share"
               label="Chia sẻ"
               onPress={() =>
-                Share.share({ message: `${ritual.title}: ${ritual.summary}\nhttps://thanhtam.app/le/${ritual.id}` }).catch(() => {})
+                Share.share({
+                  message: `${ritual.title}: ${ritual.summary}\nhttps://thanhtam.app/le/${ritual.id}`,
+                }).catch(() => {})
               }
             />
             <IconButton
@@ -238,7 +240,13 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
             {ritual.guides.map((gid) => {
               const guide = guideById(gid);
               return guide ? (
-                <NavRow key={gid} icon={guide.icon} title={guide.title} subtitle={guide.summary} href={`/guide/${gid}`} />
+                <NavRow
+                  key={gid}
+                  icon={guide.icon}
+                  title={guide.title}
+                  subtitle={guide.summary}
+                  href={`/guide/${gid}`}
+                />
               ) : null;
             })}
           </Card>

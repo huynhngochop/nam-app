@@ -226,7 +226,9 @@ export default function Today() {
 
   return (
     <Screen scroll readable={false}>
-      <View style={{ width: '100%', maxWidth: layout.twoPane ? 1100 : layout.readableWidth, alignSelf: 'center', gap: 12 }}>
+      <View
+        style={{ width: '100%', maxWidth: layout.twoPane ? 1100 : layout.readableWidth, alignSelf: 'center', gap: 12 }}
+      >
         {header}
         <SearchField placeholder="Tìm lễ, văn khấn, điềm báo…" onPress={() => router.push('/search')} />
         <Pressable

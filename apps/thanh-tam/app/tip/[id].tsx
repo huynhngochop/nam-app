@@ -40,7 +40,9 @@ export default function TipScreen() {
           <Card style={{ paddingVertical: 4 }}>
             {tip.usedIn.map((rid) => {
               const ritual = ritualById(rid);
-              return ritual ? <NavRow key={rid} icon={ritual.icon} title={ritual.title} href={`/ritual/${rid}`} /> : null;
+              return ritual ? (
+                <NavRow key={rid} icon={ritual.icon} title={ritual.title} href={`/ritual/${rid}`} />
+              ) : null;
             })}
           </Card>
         </>

@@ -144,7 +144,9 @@ export default function Settings() {
           left={icon('bell')}
           title="Nhắc cả tối hôm trước"
           subtitle="Lúc 19:00"
-          right={<Toggle label="Nhắc tối hôm trước" value={state.remind.eveBefore} onChange={remindToggle('eveBefore')} />}
+          right={
+            <Toggle label="Nhắc tối hôm trước" value={state.remind.eveBefore} onChange={remindToggle('eveBefore')} />
+          }
         />
       ) : null}
       <ListItem
@@ -185,7 +187,12 @@ export default function Settings() {
       </T>
       <Chips>
         {SIZES.map((x) => (
-          <Chip key={x.v} label={x.l} selected={state.fontScale === x.v} onPress={() => state.set({ fontScale: x.v })} />
+          <Chip
+            key={x.v}
+            label={x.l}
+            selected={state.fontScale === x.v}
+            onPress={() => state.set({ fontScale: x.v })}
+          />
         ))}
       </Chips>
       <T v="caption" muted>

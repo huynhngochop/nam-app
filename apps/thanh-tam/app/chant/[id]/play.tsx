@@ -562,7 +562,12 @@ export default function ChantPlay() {
         onLayout={(e) => {
           viewH.current = e.nativeEvent.layout.height;
         }}
-        contentContainerStyle={{ paddingHorizontal: screenLayout.gutter, paddingTop: 8, paddingBottom: 200, alignItems: 'center' }}
+        contentContainerStyle={{
+          paddingHorizontal: screenLayout.gutter,
+          paddingTop: 8,
+          paddingBottom: 200,
+          alignItems: 'center',
+        }}
       >
         <View style={{ width: '100%', maxWidth: 760 }}>
           {rows}

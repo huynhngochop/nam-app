@@ -3,15 +3,7 @@ import { Pressable, View } from 'react-native';
 import { router, type Href } from 'expo-router';
 import { Badge, Card, Icon, IconName, Row, T, useLayout, useTheme, radius } from '@nam/ui';
 import { weekdayLong } from '@nam/core';
-import {
-  canChiDay,
-  canChiMonth,
-  canChiYear,
-  hoangDaoHours,
-  lunarDayShort,
-  lunarOf,
-  monthName,
-} from './calendar/lunar';
+import { canChiDay, canChiMonth, canChiYear, hoangDaoHours, lunarDayShort, lunarOf, monthName } from './calendar/lunar';
 import { SOURCE_KIND_LABEL } from './data/sources';
 import type { SourceRef } from './data/types';
 import type { Paragraph } from './lib/prayer';
@@ -198,7 +190,8 @@ export function LunarCard({ date, onPress }: { date: Date; onPress?: () => void 
             {lunarDayShort(lunar.day)} tháng {monthName(lunar.month, lunar.leap)}
           </T>
           <T v="caption" muted>
-            Âm lịch · năm {canChiYear(lunar.year)} · tháng {canChiMonth(lunar.month, lunar.year)} · ngày {canChiDay(date)}
+            Âm lịch · năm {canChiYear(lunar.year)} · tháng {canChiMonth(lunar.month, lunar.year)} · ngày{' '}
+            {canChiDay(date)}
           </T>
         </View>
         <View style={{ alignItems: 'center', minWidth: 56 }}>
