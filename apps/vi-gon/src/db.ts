@@ -295,9 +295,11 @@ export function useQuery<T>(fn: () => T, deps: unknown[], fallback: T): T {
     try {
       setVal(fn());
     } catch (e) {
-      console.warn('[vigon] query failed', e);
+      if (__DEV__) console.warn('[vigon] query failed', e);
       setVal(fallback);
     }
-  }, [v, ...deps]); // eslint-disable-line react-hooks/exhaustive-deps
+    // `fn` là hàm truy vấn mới mỗi lần render; chạy lại khi bảng giao dịch đổi (v) hoặc khi tham số người gọi truyền vào đổi.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [v, ...deps]);
   return val;
 }

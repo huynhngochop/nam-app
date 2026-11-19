@@ -22,7 +22,7 @@ import { useVi } from '../src/store';
 
 type Kind = 'expense' | 'income' | 'fund';
 
-/** VG-08 · Thêm giao dịch nhanh bằng bàn phím số. Tablet ngang: bàn phím bên phải, chi tiết bên trái. */
+/** Thêm giao dịch nhanh bằng bàn phím số. Tablet ngang: bàn phím bên phải, chi tiết bên trái. */
 export default function Add() {
   const { c } = useTheme();
   const L = useLayout();

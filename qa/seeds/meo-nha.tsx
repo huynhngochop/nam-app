@@ -1,4 +1,4 @@
-// Seed QA (chỉ chép vào bản build trong CI thành app/qa-seed.tsx): người dùng đã dùng Mẹo Nhà nhiều tháng.
+// Dữ liệu thử cho kiểm thử trên máy ảo (CI chép vào bản build thành app/qa-seed.tsx): người dùng đã dùng Mẹo Nhà nhiều tháng.
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text } from 'react-native';
 import Storage from 'expo-sqlite/kv-store';

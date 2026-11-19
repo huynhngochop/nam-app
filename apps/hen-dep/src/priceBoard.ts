@@ -30,7 +30,7 @@ const DURATION = /(\d+)\s*(?:phút|phut|ph|p|')(?![a-zA-Zà-ỹÀ-Ỹđ])/i;
 /** "180K" | "180.000" | "180,000đ" | "1tr2" | "1,5tr" | "2,5 triệu" → số VND */
 export function parsePrice(raw: string): number | null {
   const s = fold(raw).replace(/\s/g, '');
-  // Phần thập phân trước "tr" phải nằm trong cùng nhóm số, nếu không "1,5tr" bị đọc thành 5 triệu (lỗi H1).
+  // Phần thập phân trước "tr" phải nằm trong cùng nhóm số, nếu không "1,5tr" bị đọc thành 5 triệu.
   const tr = s.match(/(\d+(?:[.,]\d+)?)(tr|trieu)(\d+)?/);
   if (tr) {
     if (/[.,]/.test(tr[1])) return Math.round(Number(tr[1].replace(',', '.')) * 1e6);

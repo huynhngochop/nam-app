@@ -28,7 +28,7 @@ import { Task, useNhip } from '../src/store';
 
 type Filter = 'today' | 'upcoming' | 'done';
 
-/** NH-07 Việc cần làm + NH-08 Thêm/sửa việc (sheet). ?pick=1 → chọn việc cho phiên. */
+/** Việc cần làm + Thêm/sửa việc (sheet). ?pick=1 → chọn việc cho phiên. */
 export default function Tasks() {
   const { c } = useTheme();
   const L = useLayout();

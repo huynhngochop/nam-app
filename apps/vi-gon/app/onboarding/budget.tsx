@@ -8,7 +8,7 @@ import { useVi } from '../../src/store';
 
 const QUICK = [8_000_000, 12_000_000, 15_000_000, 20_000_000];
 
-/** VG-04 · Ngân sách tháng (3/3). Bàn phím số riêng để không bật bàn phím hệ thống trên tablet/máy gập. */
+/** Ngân sách tháng (3/3). Bàn phím số riêng để không bật bàn phím hệ thống trên tablet/máy gập. */
 export default function Budget() {
   const { c } = useTheme();
   const s = useVi();

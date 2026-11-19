@@ -9,7 +9,7 @@ import { TipRow } from '../../src/components';
 
 type Sort = 'popular' | 'new' | 'easy';
 
-/** MN-07 · Danh mục. */
+/** Danh sách mẹo của một danh mục, lọc theo nhóm con và sắp xếp. */
 export default function Category() {
   const { id } = useLocalSearchParams<{ id: CategoryId }>();
   const { c } = useTheme();

@@ -9,3 +9,4 @@ export * from './shell';
 export * from './components/paywall';
 export * from './components/slider';
 export * from './exit';
+export * from './ads';

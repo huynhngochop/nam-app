@@ -16,7 +16,7 @@ export type MonthSummary = {
   count: number;
 };
 
-/** Tổng kết một kỳ (VG-23). Mặc định viết bằng mẫu trên máy; chỉ khi người dùng bật "AI viết nhận xét" mới gửi SỐ TỔNG theo danh mục. */
+/** Tổng kết một kỳ. Mặc định viết bằng mẫu trên máy; chỉ khi người dùng bật "AI viết nhận xét" mới gửi SỐ TỔNG theo danh mục. */
 export function buildSummary(
   offset: number,
   ctx: { cats: Category[]; startDay: number; budgets: Record<string, number> },

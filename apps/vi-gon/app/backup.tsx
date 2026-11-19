@@ -5,7 +5,7 @@ import { relativeTime, track } from '@nam/core';
 import { createBackup } from '../src/backup';
 import { useVi } from '../src/store';
 
-/** Tạo bản sao lưu mã hóa (VG-15). */
+/** Tạo bản sao lưu mã hóa. */
 export default function Backup() {
   const toast = useToast();
   const s = useVi();

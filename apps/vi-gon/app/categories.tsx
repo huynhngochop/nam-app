@@ -43,7 +43,7 @@ const ICONS: IconName[] = [
   'sun',
 ];
 
-/** VG-12 · Danh mục & quy tắc tự xếp. Lưới danh mục tự tăng số cột trên tablet. */
+/** Danh mục & quy tắc tự xếp. Lưới danh mục tự tăng số cột trên tablet. */
 export default function Categories() {
   const { c } = useTheme();
   const L = useLayout();

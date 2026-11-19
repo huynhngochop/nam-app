@@ -31,7 +31,7 @@ import { classifySession } from '../../src/recovery';
 /** Đã kiểm tra "phiên dở" kể từ khi app khởi động chưa (biến cấp module: mất khi app bị tắt hẳn). */
 let launchChecked = false;
 
-/** NH-03 Hẹn giờ · NH-17 Khôi phục phiên · NH-18 Thông báo bị tắt. */
+/** Hẹn giờ · Khôi phục phiên · Thông báo bị tắt. */
 export default function Timer() {
   const { c } = useTheme();
   const toast = useToast();
@@ -62,6 +62,7 @@ export default function Timer() {
       track('session_completed', { focusMin: Math.round(sess.plannedSec / 60), recovered: true });
       toast(`Đã xong phiên ${Math.round(sess.plannedSec / 60)} phút`, { tone: 'success' });
     } else s.set({ session: null });
+    // Chỉ xử lý một lần khi phiên chuyển sang hết giờ; store đổi sau đó không được ghi nhận phiên lần nữa.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
   useFocusEffect(

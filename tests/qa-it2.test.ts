@@ -34,7 +34,7 @@ function reference(cId: string) {
   };
 }
 
-test('IT2: customerIndex cho cùng kết quả với cách tính từng khách', () => {
+test('customerIndex cho cùng kết quả với cách tính từng khách', () => {
   const idx = customerIndex(bookings, services);
   for (let i = 0; i < 37; i++) {
     const got = idx.get(`c${i}`);
@@ -43,7 +43,7 @@ test('IT2: customerIndex cho cùng kết quả với cách tính từng khách',
   assert.deepEqual(idx.get('khong-co'), { visits: 0, spend: 0, noShows: 0 });
 });
 
-test('IT2: 2.500 khách × 10 nghìn lịch hẹn tính dưới 100 ms', () => {
+test('2.500 khách × 10 nghìn lịch hẹn tính dưới 100 ms', () => {
   const big = Array.from({ length: 10_000 }, (_, i) => ({
     ...bookings[i % 600],
     id: `x${i}`,
@@ -56,7 +56,7 @@ test('IT2: 2.500 khách × 10 nghìn lịch hẹn tính dưới 100 ms', () => {
 });
 
 /* ---------------- IT3 · Lưu store lớn: gom các lần ghi ---------------- */
-test('IT3: nhiều lần setItem liền nhau chỉ ghi một lần, giá trị mới nhất; flush ghi ngay', async () => {
+test('nhiều lần setItem liền nhau chỉ ghi một lần, giá trị mới nhất; flush ghi ngay', async () => {
   const writes: [string, string][] = [];
   const mem = new Map<string, string>();
   const backing = () => ({
@@ -87,7 +87,7 @@ test('IT3: nhiều lần setItem liền nhau chỉ ghi một lần, giá trị m
   assert.equal(mem.has('hen'), false, 'xóa thì bỏ cả lần ghi đang chờ');
 });
 
-/* ---------------- Vòng 3 (UAT) · Hẹn Đẹp ---------------- */
+/* ---------------- Hẹn Đẹp: lịch, giờ mở cửa, khách ---------------- */
 test('UAT H2: thêm lại cùng dịch vụ (quay lại bước thiết lập) không nhân đôi bảng giá', async () => {
   const { useHen } = await import('../apps/hen-dep/src/store');
   useHen.setState({ services: [] });

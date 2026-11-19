@@ -1,5 +1,5 @@
 /**
- * Mã lịch hẹn hiển thị cho khách (HD-3001…), lỗi H4.
+ * Mã lịch hẹn hiển thị cho khách (HD-3001…).
  * Lấy số lớn nhất giữa các mã đang có và `lastIssued` (mốc đã cấp, lưu bền, không bị đặt lại khi xóa dữ liệu
  * hay nạp dữ liệu mẫu), nên không cấp lại mã cũ. Khi có máy chủ, máy chủ nên cấp mã để hai máy không trùng nhau.
  */

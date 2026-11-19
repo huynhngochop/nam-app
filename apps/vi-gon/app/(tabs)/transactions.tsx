@@ -13,7 +13,7 @@ import { TxDetail } from '../../src/TxDetail';
 
 type Item = { type: 'header'; key: string; label: string; net: number } | { type: 'tx'; key: string; tx: Tx };
 
-/** VG-07 · Giao dịch theo ngày. Tablet / máy gập mở: danh sách trái, chi tiết phải. Nhận ?from&to&categoryId&kind từ "Hỏi Ví Gọn". */
+/** Giao dịch theo ngày. Tablet / máy gập mở: danh sách trái, chi tiết phải. Nhận ?from&to&categoryId&kind từ "Hỏi Ví Gọn". */
 export default function Transactions() {
   const { c } = useTheme();
   const L = useLayout();

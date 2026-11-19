@@ -4,7 +4,7 @@ import { AppBar, Dialog, ListItem, Screen, SectionHeader, Stepper, Toggle } from
 import { track } from '@nam/core';
 import { TimerSettings, useNhip } from '../src/store';
 
-/** NH-14 · Cài đặt hẹn giờ. Lưu ngay khi đổi. */
+/** Cài đặt hẹn giờ. Lưu ngay khi đổi. */
 export default function TimerSettingsScreen() {
   const s = useNhip();
   const st = s.settings;

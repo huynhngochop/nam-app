@@ -8,7 +8,7 @@ import { Button, Card, Dialog, EmptyState, IconButton, Row, Screen, StepBar, T, 
 import { mmss, track } from '@nam/core';
 import { Recipe, RECIPES } from '../../src/data/recipes';
 
-/** MN-12 · Chế độ nấu: màn luôn sáng, chữ to, hẹn giờ từng bước (đếm theo thời điểm kết thúc, đúng cả khi app chạy nền). */
+/** Chế độ nấu: màn luôn sáng, chữ to, hẹn giờ từng bước (đếm theo thời điểm kết thúc, đúng cả khi app chạy nền). */
 export default function Cook() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const r = RECIPES.find((x) => x.id === id);

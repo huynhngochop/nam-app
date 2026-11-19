@@ -28,7 +28,7 @@ const SUGGEST = [
   { name: 'Không mạng xã hội trước 9h', target: 1, unit: 'lần', icon: 'smartphone' },
 ];
 
-/** NH-13 · Thói quen. */
+/** Thói quen hằng ngày: đánh dấu đã làm, chuỗi ngày liên tiếp, thêm/sửa/xóa. */
 export default function Habits() {
   const { c } = useTheme();
   const toast = useToast();

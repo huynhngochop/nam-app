@@ -4,7 +4,7 @@ import { Paywall, useToast } from '@nam/ui';
 import { buy, getPrice, PURCHASE_MESSAGES, restorePurchases, track } from '@nam/core';
 import { useMeo } from '../src/store';
 
-/** MN-16 · Bỏ quảng cáo. Giá chưa chốt: lấy từ cửa hàng theo productId khi đã nối mua trong app. */
+/** Bỏ quảng cáo. Giá chưa chốt: lấy từ cửa hàng theo productId khi đã nối mua trong app. */
 export default function MeoPaywall() {
   const set = useMeo((s) => s.set);
   const toast = useToast();

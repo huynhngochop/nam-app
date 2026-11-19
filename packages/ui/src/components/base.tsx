@@ -36,7 +36,7 @@ type TProps = TextProps & {
 };
 /**
  * Màu chữ mặc định khi nằm trên nền màu nhấn (Card variant="fill"). Không có giá trị = nền thường.
- * Lỗi W1: chữ màu ink/accent trên nền màu nhấn gần như không đọc được, nhất là ở giao diện tối.
+ * chữ màu ink/accent trên nền màu nhấn gần như không đọc được, nhất là ở giao diện tối.
  */
 const OnFillCtx = React.createContext<string | null>(null);
 /** Màu chữ cần dùng khi đang nằm trong thẻ nền màu nhấn, hoặc null. */

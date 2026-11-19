@@ -21,11 +21,11 @@ import { getConfig, greeting, track, useOnline } from '@nam/core';
 import { CATEGORIES, Tip, tipById } from '../../src/data/tips';
 import { useMeo } from '../../src/store';
 import { dailyTip, feedFor, warmSearchIndex } from '../../src/lib/search';
-import { AdNative, TipDetail, TipRow } from '../../src/components';
+import { FeedAd, TipDetail, TipRow } from '../../src/components';
 
 type FeedRow = { kind: 'tip'; tip: Tip } | { kind: 'ad'; key: string };
 
-/** MN-04 · Khám phá (+ MN-17 khi ngoại tuyến). Tablet/máy gập mở ngang: danh sách + chi tiết cạnh nhau. */
+/** Tab Khám phá: mẹo hôm nay, danh mục, bảng tin (vẫn dùng được khi mất mạng). Tablet/máy gập mở ngang: danh sách + chi tiết cạnh nhau. */
 export default function Explore() {
   const { c } = useTheme();
   const L = useLayout();
@@ -128,7 +128,7 @@ export default function Explore() {
       renderItem={({ item }) =>
         item.kind === 'ad' ? (
           <View style={{ paddingVertical: 8 }}>
-            <AdNative />
+            <FeedAd />
           </View>
         ) : (
           <TipRow tip={item.tip} onPress={() => open(item.tip.id)} />

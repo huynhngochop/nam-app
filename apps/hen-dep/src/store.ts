@@ -78,7 +78,7 @@ export const useHen = create<State>()(
       },
       addServices: (list) => {
         // Bỏ dịch vụ trùng (cùng tên, giá, thời lượng) với cái đã có: quay lại bước "Dịch vụ chính" khi thiết lập
-        // tiệm rồi bấm Tiếp tục, hay chụp lại cùng bảng giá, không làm nhân đôi bảng giá (UAT H2).
+        // tiệm rồi bấm Tiếp tục, hay chụp lại cùng bảng giá, không làm nhân đôi bảng giá.
         const key = (x: { name: string; price: number; durationMin: number }) =>
           `${x.name.trim().toLowerCase()}|${x.price}|${x.durationMin}`;
         const seen = new Set(get().services.map(key));
@@ -186,7 +186,7 @@ export function findGap(
   hours?: Hours,
 ): { staffId: string; from: number; to: number } | null {
   const horizon = now + 4 * 3600000;
-  // Giờ mở cửa của tiệm hôm nay: ngày nghỉ thì không gợi ý; không gợi ý ngoài giờ mở cửa (UAT H3).
+  // Giờ mở cửa của tiệm hôm nay: ngày nghỉ thì không gợi ý; không gợi ý ngoài giờ mở cửa.
   const today = hours?.find((h) => h.day === new Date(now).getDay());
   if (today && !today.open) return null;
   const at = (hhmm: string) => {

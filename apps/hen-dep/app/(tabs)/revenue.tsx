@@ -1,18 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { View } from 'react-native';
-import {
-  BarChart,
-  Card,
-  EmptyState,
-  Grid,
-  ListItem,
-  Row,
-  Screen,
-  SectionHeader,
-  Segmented,
-  T,
-  useTheme,
-} from '@nam/ui';
+import { AdBanner, BarChart, Card, EmptyState, Grid, ListItem, Row, Screen, SectionHeader, Segmented, T, useTheme } from '@nam/ui';
 import { addDays, dayMonth, shortMoney, startOfDay, vnd, weekdayShort } from '@nam/core';
 import { priceOf, svcOf, useHen } from '../../src/store';
 import { SOURCE_LABEL } from '../../src/types';
@@ -222,6 +210,7 @@ export default function Revenue() {
           </T>
         </>
       )}
+      <AdBanner hidden={s.plan.code !== 'trial'} />
     </Screen>
   );
 }

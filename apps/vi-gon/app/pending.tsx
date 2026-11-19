@@ -8,7 +8,7 @@ import { ruleKeyword } from '../src/parse';
 import { useVi } from '../src/store';
 import { Money } from '../src/ui';
 
-/** VG-06 · Xác nhận giao dịch tự ghi, từng cái một. */
+/** Xác nhận giao dịch tự ghi, từng cái một. */
 export default function Pending() {
   const { c } = useTheme();
   const toast = useToast();

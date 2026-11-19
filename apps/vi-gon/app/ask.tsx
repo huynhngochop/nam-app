@@ -28,7 +28,7 @@ import { catOf, useVi } from '../src/store';
 type Turn = { q: string; intent: Intent | null; answer: Answer | null; viaAi: boolean };
 const PERIODS: PeriodKey[] = ['today', 'yesterday', 'this_week', 'this_month', 'last_month', 'this_year'];
 
-/** VG-21 Hỏi Ví Gọn · VG-22 Câu trả lời (số liệu tính trên máy, cho sửa cách hiểu). */
+/** Hỏi Ví Gọn · Câu trả lời (số liệu tính trên máy, cho sửa cách hiểu). */
 export default function Ask() {
   const { c } = useTheme();
   const L = useLayout();

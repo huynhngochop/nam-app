@@ -42,7 +42,7 @@ export function openPermissionSettings() {
   native?.openPermissionSettings();
 }
 
-/** Gọi khi app mở / quay lại: cập nhật trạng thái quyền, ghi lại thời điểm mất quyền (VG-17). */
+/** Gọi khi app mở / quay lại: cập nhật trạng thái quyền, ghi lại thời điểm mất quyền. */
 export async function refreshListenerState() {
   const s = useVi.getState();
   const st = await checkPermission();

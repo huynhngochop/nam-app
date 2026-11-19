@@ -25,7 +25,7 @@ import { PACKS, SOUNDS } from '../../src/data';
 import { useNhip } from '../../src/store';
 import { DOWNLOAD_ERROR_TEXT, downloadPack, PackDownloadError } from '../../src/packs';
 
-/** NH-11 Chi tiết gói · NH-19 Tải gói · NH-20 (lỗi mua). */
+/** Chi tiết một gói âm thanh: nghe thử, mua, tải về; báo rõ khi mua chưa hoàn tất. */
 export default function PackScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { c } = useTheme();

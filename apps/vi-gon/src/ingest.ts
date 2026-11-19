@@ -8,7 +8,7 @@ export type IngestResult = { status: 'saved' | 'pending' | 'unparsed' | 'duplica
 
 /**
  * Một thông báo / tin nhắn ngân hàng đi vào app (từ bộ lắng nghe Android, Phím tắt iOS qua deep link, hoặc dán tay).
- * Mọi xử lý ở trên máy. Không đọc được → xếp vào "Chưa đọc được" (VG-18) thay vì bỏ mất.
+ * Mọi xử lý ở trên máy. Không đọc được → xếp vào "Chưa đọc được" thay vì bỏ mất.
  */
 export function ingestText(
   text: string,
@@ -46,7 +46,7 @@ export function ingestText(
     createdAt: Date.now(),
   };
 
-  // VG-19: cùng số tiền trong 3 phút từ nguồn khác → nghi trùng; ngược chiều trong 10 phút, khác tài khoản → nghi chuyển nội bộ.
+  // cùng số tiền trong 3 phút từ nguồn khác → nghi trùng; ngược chiều trong 10 phút, khác tài khoản → nghi chuyển nội bộ.
   const around = near(parsed.amount, at, 10 * 60000);
   const dup = around.find((x) => x.kind === tx.kind && Math.abs(x.at - at) <= 180000 && x.raw !== text);
   const pair = around.find(

@@ -28,7 +28,7 @@ import { catOf, useVi } from '../src/store';
 import { canUseBiometric } from '../src/ui';
 import Constants from 'expo-constants';
 
-/** VG-15 · Cài đặt: tự ghi, bảo mật, thông báo, dữ liệu (sao lưu mã hóa, xuất CSV – Pro), giao diện. */
+/** Cài đặt: tự ghi, bảo mật, thông báo, dữ liệu (sao lưu mã hóa, xuất CSV – Pro), giao diện. */
 export default function Settings() {
   const { c } = useTheme();
   const toast = useToast();

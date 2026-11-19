@@ -22,7 +22,7 @@ export async function requestNotify(): Promise<boolean> {
   return r.granted;
 }
 
-/** Lên lịch "Mẹo hôm nay" theo giờ người dùng chọn; mở mẹo khi chạm (MN-03, MN-15). */
+/** Lên lịch "Mẹo hôm nay" theo giờ người dùng chọn; mở mẹo khi chạm. */
 export async function scheduleDailyTip(time: string, enabled: boolean, title: string) {
   await Notifications.cancelScheduledNotificationAsync('daily-tip').catch(() => {});
   if (!enabled) return;

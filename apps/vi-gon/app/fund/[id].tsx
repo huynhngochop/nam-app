@@ -30,7 +30,7 @@ import { FUND_ICON_NAMES, FUND_ICONS } from '../../src/types';
 const digits = (s: string) => Number(s.replace(/\D/g, '')) || 0;
 const money = (n: number) => (n ? n.toLocaleString('vi-VN') : '');
 
-/** VG-14 Quỹ mới (id = "new") · Chi tiết quỹ: góp / rút (ghi là chuyển quỹ, không tính vào chi tiêu). */
+/** Quỹ mới (id = "new") · Chi tiết quỹ: góp / rút (ghi là chuyển quỹ, không tính vào chi tiêu). */
 export default function FundScreen() {
   const { c } = useTheme();
   const toast = useToast();

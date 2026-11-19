@@ -24,7 +24,7 @@ import { requestNotify } from '../src/lib/notify';
 
 const TIMES = ['06:00', '06:30', '07:00', '07:30', '08:00', '12:00', '19:00', '21:00'];
 
-/** MN-15 · Cài đặt. */
+/** Cài đặt: giờ "Mẹo hôm nay", giao diện, quyền riêng tư, thoát app. */
 export default function Settings() {
   const { c } = useTheme();
   const s = useMeo();

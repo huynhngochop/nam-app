@@ -27,7 +27,7 @@ import { useMeo } from '../../src/store';
 
 const FREE_COLLECTIONS = 3;
 
-/** MN-13 · Đã lưu. */
+/** Tab Đã lưu: mẹo và công thức đã lưu, chia theo bộ sưu tập. */
 export default function Saved() {
   const L = useLayout();
   const s = useMeo();

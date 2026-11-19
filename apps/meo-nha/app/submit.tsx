@@ -5,7 +5,7 @@ import { track } from '@nam/core';
 import { CATEGORIES, CategoryId } from '../src/data/tips';
 import { useMeo } from '../src/store';
 
-/** Gửi mẹo của bạn (từ MN-14). Lưu trên máy thành "Mẹo của tôi"; gửi đội Mẹo Nhà duyệt khi có máy chủ. */
+/** Gửi mẹo của bạn. Lưu trên máy thành "Mẹo của tôi"; gửi đội Mẹo Nhà duyệt khi có máy chủ. */
 export default function Submit() {
   const toast = useToast();
   const [title, setTitle] = useState('');

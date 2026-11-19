@@ -33,7 +33,7 @@ const BANK_APPS = [
 ];
 const SHORTCUT_URL = 'vigon://import?text=';
 
-/** VG-03 · Quyền đọc thông báo (2/3). Android: NotificationListener. iPhone: Phím tắt. Không có cả hai: nhập nhanh / dán tin. */
+/** Quyền đọc thông báo (2/3). Android: NotificationListener. iPhone: Phím tắt. Không có cả hai: nhập nhanh / dán tin. */
 export default function Permission() {
   const { c } = useTheme();
   const toast = useToast();

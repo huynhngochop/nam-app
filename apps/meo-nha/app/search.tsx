@@ -24,14 +24,14 @@ import { track } from '@nam/core';
 import { CATEGORIES, CategoryId, Tip } from '../src/data/tips';
 import { useMeo } from '../src/store';
 import { looksLikeQuestion, searchTips, SortKey, suggestions, TRENDING } from '../src/lib/search';
-import { AdNative, TipRow } from '../src/components';
+import { FeedAd, TipRow } from '../src/components';
 
 const SORTS: { key: SortKey; label: string }[] = [
   { key: 'popular', label: 'Phổ biến' },
   { key: 'new', label: 'Mới nhất' },
 ];
 
-/** MN-05 Tìm kiếm + MN-06 Kết quả trên cùng một màn: gõ → gợi ý; nhấn Tìm → kết quả. */
+/** Tìm kiếm + Kết quả trên cùng một màn: gõ → gợi ý; nhấn Tìm → kết quả. */
 export default function Search() {
   const { c } = useTheme();
   const L = useLayout();
@@ -188,7 +188,7 @@ export default function Search() {
           renderItem={({ item }) =>
             item === 'ad' ? (
               <View style={{ paddingVertical: 8 }}>
-                <AdNative />
+                <FeedAd />
               </View>
             ) : (
               <TipRow tip={item} />

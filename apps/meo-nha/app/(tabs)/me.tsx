@@ -6,7 +6,7 @@ import { getPrice } from '@nam/core';
 import { CATEGORIES } from '../../src/data/tips';
 import { useMeo } from '../../src/store';
 
-/** MN-14 · Tôi. */
+/** Tab Tôi: hồ sơ, mối quan tâm, mẹo đã gửi, lối vào Cài đặt. */
 export default function Me() {
   const s = useMeo();
   const stats = [

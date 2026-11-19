@@ -6,7 +6,7 @@ import { shortDate, shortMoney, vnd } from '@nam/core';
 import { useVi } from '../../src/store';
 import { FREE_FUNDS, monthlyNeed } from '../../src/funds';
 
-/** VG-13 · Quỹ mục tiêu. Tablet: lưới 2–3 cột. */
+/** Quỹ mục tiêu. Tablet: lưới 2–3 cột. */
 export default function Funds() {
   const { c } = useTheme();
   const s = useVi();

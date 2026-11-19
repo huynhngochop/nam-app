@@ -20,7 +20,7 @@ import {
 import { dateKey, minutesLabel, restorePurchases } from '@nam/core';
 import { useNhip } from '../../src/store';
 
-/** NH-15 · Tôi. */
+/** Tab Tôi: mục tiêu ngày, giao diện, gói Pro, thoát app. */
 export default function Me() {
   const { c } = useTheme();
   const toast = useToast();

@@ -12,7 +12,7 @@ const RATINGS: { v: 1 | 2 | 3; label: string }[] = [
   { v: 3, label: 'Rất tốt' },
 ];
 
-/** NH-06 · Hoàn thành phiên. Nếu bật "Tự vào giờ nghỉ", tự chuyển sang nghỉ sau 15 giây. */
+/** Hoàn thành phiên. Nếu bật "Tự vào giờ nghỉ", tự chuyển sang nghỉ sau 15 giây. */
 export default function Done() {
   const { c } = useTheme();
   const { cycle } = useLocalSearchParams<{ cycle?: string }>();
@@ -57,6 +57,7 @@ export default function Done() {
     }
     const t = setTimeout(() => setAuto((x) => x - 1), 1000);
     return () => clearTimeout(t);
+    // Đồng hồ đếm ngược chỉ phụ thuộc số giây còn lại; `toBreak` đổi mỗi lần render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auto]);
 

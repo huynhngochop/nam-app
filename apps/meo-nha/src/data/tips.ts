@@ -1,7 +1,7 @@
 /**
  * Kho mẹo có sẵn trên máy (chạy không cần mạng). Nội dung viết ở `./tipdata/<danh mục>.ts` dạng văn bản gọn,
  * đọc một lần khi mở app — thêm mẹo chỉ cần thêm vài dòng, không sửa code. Cú pháp: xem `parseTips`.
- * Mẹo có hóa chất tẩy rửa, điện, gas, độ cao phải có dòng an toàn `+` (MN-20; kiểm tra ở `validateTips`).
+ * Mẹo có hóa chất tẩy rửa, điện, gas, độ cao phải có dòng an toàn `+` (kiểm tra ở `validateTips`).
  */
 import { fold } from '@nam/core';
 import kitchen from './tipdata/kitchen';
@@ -32,7 +32,6 @@ export type Tip = {
   steps: string[];
   caution?: string;
   safety?: string[];
-  product?: { name: string; url: string };
   /** Từ khóa thêm, đã bỏ dấu. */
   keywords: string;
   childSafe?: boolean;
@@ -86,7 +85,6 @@ export function tipMeta(t: Tip): string {
  *   ! Lưu ý (một dòng)
  *   + Cảnh báo an toàn (mỗi dòng một ý)
  *   ~ từ khóa thêm để tìm (tên gọi khác, vùng miền)
- *   @ Tên sản phẩm | https://…
  * Id mặc định lấy từ tên mẹo bỏ dấu — đừng đổi tên mẹo đã phát hành nếu không giữ lại id cũ bằng id=…
  */
 export function parseTips(categoryId: CategoryId, src: string, start = 0): Tip[] {
@@ -106,10 +104,7 @@ export function parseTips(categoryId: CategoryId, src: string, start = 0): Tip[]
     else if (cur && mark === '!') cur.caution = rest;
     else if (cur && mark === '+') (cur.safety ??= []).push(rest);
     else if (cur && mark === '~') cur.keywords = `${cur.keywords} ${fold(rest)}`.trim();
-    else if (cur && mark === '@') {
-      const [name, url] = rest.split('|').map((s) => s.trim());
-      cur.product = { name, url };
-    } else {
+    else {
       const [title, summary, meta = ''] = line.split('|').map((s) => s.trim());
       const tokens = meta.split(/\s+/);
       const d = tokens[1];

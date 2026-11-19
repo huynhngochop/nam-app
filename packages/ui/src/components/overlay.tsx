@@ -201,7 +201,7 @@ function ToastView({ msg, onDone }: { msg: ToastMsg; onDone: () => void }) {
         opacity: op,
       }}
     >
-      {/* W2: thân toast không nhận chạm, để nút bên dưới vẫn bấm được; chỉ nút hành động (Hoàn tác…) nhận chạm. */}
+      {/* thân toast không nhận chạm, để nút bên dưới vẫn bấm được; chỉ nút hành động (Hoàn tác…) nhận chạm. */}
       <View
         pointerEvents="box-none"
         style={{

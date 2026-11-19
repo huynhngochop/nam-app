@@ -26,7 +26,7 @@ import { ask, AskAnswer, POPULAR_QUESTIONS } from '../src/lib/ask';
 
 type Turn = { q: string; a?: AskAnswer; loading?: boolean; error?: boolean };
 
-/** MN-21 Hỏi · MN-22 Trả lời · MN-23 Từ chối an toàn. Không quảng cáo. */
+/** Hỏi · Trả lời · Từ chối an toàn. Không quảng cáo. */
 export default function Ask() {
   const { c } = useTheme();
   const toast = useToast();
@@ -60,8 +60,10 @@ export default function Ask() {
       setTurns((t) => t.map((x, i) => (i === t.length - 1 ? { q: text, error: true } : x)));
     }
   };
+  // Câu hỏi truyền qua đường dẫn (?q=) chỉ gửi một lần khi mở màn, không gửi lại mỗi lần `send` đổi.
   useEffect(() => {
-    if (params.q) send(String(params.q)); /* eslint-disable-next-line react-hooks/exhaustive-deps */
+    if (params.q) send(String(params.q));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     setTimeout(() => scroll.current?.scrollToEnd({ animated: true }), 50);

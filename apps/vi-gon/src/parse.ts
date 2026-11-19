@@ -20,7 +20,7 @@ export type Parsed = {
 
 // Dấu +/− không được đứng ngay sau chữ số (phần đuôi số tài khoản, ngày). Sau chữ thì được: "PS-50,000", "GD-50,000".
 const MONEY = /(?:^|[^0-9])([+\-−–])\s*([\d]{1,3}(?:[.,]\d{3})+|\d+)(?:[.,]00)?\s*(?:VND|VNĐ|đ|d\b|dong)?/i;
-// Ngày (29-10-2026, 29/10/26, 30-10) và giờ (08:12:05) — bỏ đi trước khi tìm số tiền (lỗi V1).
+// Ngày (29-10-2026, 29/10/26, 30-10) và giờ (08:12:05) — bỏ đi trước khi tìm số tiền.
 // (?![.,]\d): không nuốt phần đầu của số tiền liền sau ("29-10-50,000").
 const DATES = /\b\d{1,2}[/-]\d{1,2}(?:[/-]\d{2,4})?\b(?![.,]\d)/g;
 const TIMES = /\b\d{1,2}:\d{2}(?::\d{2})?\b/g;
@@ -138,7 +138,7 @@ export function ruleKeyword(merchant: string) {
   return fold(merchant).toUpperCase().split(' ').filter(Boolean).slice(0, 2).join(' ');
 }
 
-/** Nhận diện dấu hiệu định dạng (VG-18): các từ không phải số ở đầu thông báo. */
+/** Nhận diện dấu hiệu định dạng: các từ không phải số ở đầu thông báo. */
 export function signatureOf(text: string) {
   return fold(text)
     .replace(/[\d.,:+\-−/]+/g, '#')

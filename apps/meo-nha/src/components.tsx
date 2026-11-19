@@ -1,23 +1,7 @@
 import React, { memo, useState } from 'react';
-import { Linking, Share, View } from 'react-native';
+import { Share, View } from 'react-native';
 import { router } from 'expo-router';
-import {
-  Badge,
-  Button,
-  Card,
-  Check,
-  Chip,
-  Chips,
-  Icon,
-  IconButton,
-  ListItem,
-  Row,
-  Sheet,
-  T,
-  Thumb,
-  useTheme,
-  useToast,
-} from '@nam/ui';
+import { AdBanner, Badge, Button, Card, Check, Chip, Chips, Icon, IconButton, ListItem, Row, Sheet, T, Thumb, useTheme, useToast } from '@nam/ui';
 import { track } from '@nam/core';
 import { categoryOf, Tip, tipMeta } from './data/tips';
 import { useMeo } from './store';
@@ -63,35 +47,13 @@ export const TipRow = memo(function TipRow({
   );
 });
 
-export function AdNative() {
+/** Quảng cáo xen giữa bảng tin và kết quả tìm kiếm; ẩn khi người dùng đã mua bản không quảng cáo. */
+export function FeedAd() {
   const noAds = useMeo((s) => s.noAds);
-  const { c } = useTheme();
-  if (noAds) return null;
-  // Chỗ quảng cáo giữ chiều cao cố định để không nhảy bố cục (Chuẩn spec › 10). Nối SDK quảng cáo ở đây.
-  return (
-    <View
-      style={{
-        minHeight: 64,
-        borderWidth: 1,
-        borderStyle: 'dashed',
-        borderColor: c.line,
-        borderRadius: 14,
-        padding: 12,
-        flexDirection: 'row',
-        gap: 10,
-        alignItems: 'center',
-        backgroundColor: c.bg,
-      }}
-    >
-      <Badge label="Tài trợ" />
-      <T v="caption" muted style={{ flex: 1 }}>
-        Quảng cáo native — cùng kiểu thẻ, luôn có nhãn
-      </T>
-    </View>
-  );
+  return <AdBanner hidden={noAds} />;
 }
 
-/** Chi tiết mẹo (MN-08 + MN-20). Dùng cho trang riêng và cột chi tiết trên tablet. */
+/** Chi tiết mẹo. Dùng cho trang riêng và cột chi tiết trên tablet. */
 export function TipDetail({ tip, onClose }: { tip: Tip; onClose?: () => void }) {
   const { c } = useTheme();
   const s = useMeo();
@@ -178,33 +140,6 @@ export function TipDetail({ tip, onClose }: { tip: Tip; onClose?: () => void }) 
             </T>
           </Row>
         </Card>
-      ) : null}
-      {tip.product ? (
-        <View style={{ gap: 8 }}>
-          <T v="headline">Dụng cụ gợi ý</T>
-          <Card>
-            <Row>
-              <Thumb icon="shopping-bag" />
-              <View style={{ flex: 1 }}>
-                <T v="headline">{tip.product.name}</T>
-                <T v="caption" muted>
-                  Xem giá ở sàn
-                </T>
-              </View>
-              <Button
-                title="Xem"
-                size="sm"
-                onPress={() => {
-                  track('affiliate_clicked', { tipId: tip.id });
-                  Linking.openURL(tip.product!.url);
-                }}
-              />
-            </Row>
-            <T v="caption" muted>
-              Link liên kết — Mẹo Nhà nhận hoa hồng, giá bạn trả không đổi.
-            </T>
-          </Card>
-        </View>
       ) : null}
       <Button
         title={done ? 'Đã làm ✓' : 'Đã làm xong'}

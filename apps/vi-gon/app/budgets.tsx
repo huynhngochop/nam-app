@@ -26,7 +26,7 @@ import { catOf, periodOf, useVi } from '../src/store';
 const digits = (s: string) => Number(s.replace(/\D/g, '')) || 0;
 const fmt = (n: number) => (n ? n.toLocaleString('vi-VN') : '');
 
-/** VG-10 · Ngân sách tổng và theo danh mục, cảnh báo 80% / vượt. */
+/** Ngân sách tổng và theo danh mục, cảnh báo 80% / vượt. */
 export default function Budgets() {
   const { c } = useTheme();
   const toast = useToast();

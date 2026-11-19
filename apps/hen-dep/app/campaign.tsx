@@ -92,7 +92,7 @@ export default function Campaign() {
   const noConsent = s.customers.filter((x) => !x.marketingConsent).length;
   const missingLink = !!link && !msg.includes(link);
 
-  // H5: chưa có máy chủ thì không có gì gửi đi được — không báo "đang gửi", chỉ cho chia sẻ để tự gửi.
+  // Chưa có máy chủ thì không có gì gửi đi được — không báo "đang gửi", chỉ cho chia sẻ để tự gửi.
   const canSend = !!getConfig().apiBaseUrl;
   const send = () => {
     setConfirm(false);

@@ -4,7 +4,7 @@ import { Paywall, useToast } from '@nam/ui';
 import { buy, getPrice, PURCHASE_MESSAGES, restorePurchases, track } from '@nam/core';
 import { useNhip } from '../src/store';
 
-/** NH-16 Nhịp Pro · NH-20 Mua chưa hoàn tất (nói rõ đã/chưa trừ tiền). */
+/** Nhịp Pro · Mua chưa hoàn tất (nói rõ đã/chưa trừ tiền). */
 export default function NhipPaywall() {
   const set = useNhip((s) => s.set);
   const toast = useToast();

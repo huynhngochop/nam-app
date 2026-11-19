@@ -2,7 +2,7 @@ import { AiUnavailableError, callAi, fold } from '@nam/core';
 import { Category, Fund } from './types';
 
 /**
- * Hỏi Ví Gọn (VG-21/22). Hiểu câu hỏi bằng quy tắc trên máy; chỉ khi không hiểu mới gửi CÂU HỎI (không kèm số liệu) lên cổng AI
+ * Hỏi Ví Gọn. Hiểu câu hỏi bằng quy tắc trên máy; chỉ khi không hiểu mới gửi CÂU HỎI (không kèm số liệu) lên cổng AI
  * để nhận lại "cách hiểu" dạng JSON. Mọi con số luôn tính trên máy.
  */
 export type Metric = 'sum' | 'count' | 'top' | 'change' | 'average' | 'fund_eta' | 'left';
@@ -75,7 +75,7 @@ export function parseIntent(q: string, cats: Category[], funds: Fund[], now = ne
   if (fund && / quy | bao lau | khi nao | bao gio | du /.test(f))
     return { metric: 'fund_eta', kind: 'expense', categoryId: null, period, fundId: fund.id, merchant: null };
 
-  // Bỏ cụm chỉ thời gian, thứ trong tuần và "còn bao nhiêu" trước khi dò danh mục / thu-chi (lỗi V2):
+  // Bỏ cụm chỉ thời gian, thứ trong tuần và "còn bao nhiêu" trước khi dò danh mục / thu-chi:
   // "hôm qua" chứa "qua" (Quà), "còn bao nhiêu" chứa "con" (Gia đình), "thứ hai" chứa "thu" (khoản thu).
   const fc = f.replace(NOT_TOPIC, ' ').replace(/\s+/g, ' ');
 

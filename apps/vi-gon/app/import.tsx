@@ -29,7 +29,7 @@ const digits = (s: string) => Number(s.replace(/\D/g, '')) || 0;
 
 /**
  * Dán tin ngân hàng (Android không có bộ đọc, hoặc tin bị thiếu) · nhận deep link vigon://import?text=… từ Phím tắt iOS ·
- * VG-18 "Chưa đọc được": người dùng điền giúp một lần.
+ * "Chưa đọc được": người dùng điền giúp một lần.
  */
 export default function Import() {
   const { c } = useTheme();
@@ -60,7 +60,9 @@ export default function Import() {
       toast('Giao dịch này đã có');
       router.replace('/(tabs)/home');
     }
-  }, [p.text]); // eslint-disable-line react-hooks/exhaustive-deps
+    // Mỗi đoạn tin nhắn được chia sẻ vào chỉ xử lý một lần; `toast` và store không phải lý do để chạy lại.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [p.text]);
 
   const run = () => {
     const r = ingestMany(text);
@@ -120,7 +122,7 @@ export default function Import() {
   );
 }
 
-/** VG-18 · Người dùng dạy app một lần. Không gửi mẫu đi đâu ở bản này (chưa có máy chủ nhận mẫu). */
+/** Người dùng dạy app một lần. Không gửi mẫu đi đâu ở bản này (chưa có máy chủ nhận mẫu). */
 function Teach({ item, onDone }: { item: Unparsed; onDone: () => void }) {
   const toast = useToast();
   const s = useVi();

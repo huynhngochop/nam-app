@@ -8,7 +8,7 @@ import { requestNotify } from '../../src/lib/notify';
 
 const TIMES = ['06:00', '06:30', '07:00', '07:30', '08:00', '12:00', '19:00', '21:00'];
 
-/** MN-03 · Bật thông báo: giải thích trước, rồi mới gọi hộp thoại của hệ điều hành. */
+/** Bật thông báo: giải thích trước, rồi mới gọi hộp thoại của hệ điều hành. */
 export default function NotifyOnboarding() {
   const s = useMeo();
   const [pick, setPick] = useState(false);

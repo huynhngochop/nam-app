@@ -20,7 +20,7 @@ function Reminders() {
   return null;
 }
 
-/** Chặn route theo vai trò: chưa đăng nhập → màn đăng nhập; nhân viên → không vào màn của chủ tiệm (W3). */
+/** Chặn route theo vai trò: chưa đăng nhập → màn đăng nhập; nhân viên → không vào màn của chủ tiệm. */
 function RouteGuard() {
   const segments = useSegments();
   const role = useHen((s) => s.auth?.role ?? null);

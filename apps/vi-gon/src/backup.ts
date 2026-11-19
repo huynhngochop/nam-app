@@ -9,7 +9,7 @@ import { useVi } from './store';
 import { Tx } from './types';
 
 /**
- * Sao lưu mã hóa đầu-cuối (VG-15/VG-20). Khóa sinh từ mật khẩu bằng PBKDF2-SHA256, mã hóa XChaCha20-Poly1305.
+ * Sao lưu mã hóa đầu-cuối. Khóa sinh từ mật khẩu bằng PBKDF2-SHA256, mã hóa XChaCha20-Poly1305.
  * Ví Gọn không giữ mật khẩu — quên mật khẩu thì không ai mở được bản sao lưu.
  * Tệp .vgb do người dùng tự lưu vào iCloud Drive / Google Drive qua bảng chia sẻ của hệ điều hành.
  */

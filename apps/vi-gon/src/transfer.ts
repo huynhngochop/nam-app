@@ -4,7 +4,7 @@ type Leg = { raw: string | null };
 type Kind = 'expense' | 'income';
 
 /**
- * Bỏ đánh dấu "chuyển nội bộ" (lỗi V4): trả lại đúng chiều thu/chi cho từng chân.
+ * Bỏ đánh dấu "chuyển nội bộ": trả lại đúng chiều thu/chi cho từng chân.
  * Chiều lấy từ tin ngân hàng gốc; thiếu tin gốc thì suy từ chân kia (hai chân luôn ngược chiều).
  * Không đoán được → null, màn hình hỏi người dùng.
  */

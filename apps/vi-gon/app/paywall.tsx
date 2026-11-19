@@ -4,7 +4,7 @@ import { Paywall, useToast } from '@nam/ui';
 import { buy, getPrice, PURCHASE_MESSAGES, restorePurchases, track } from '@nam/core';
 import { useVi } from '../src/store';
 
-/** VG-16 · Ví Gọn Pro. Giá chốt sau (PRICE_*). Mua chưa xong → nói rõ đã/chưa trừ tiền. */
+/** Ví Gọn Pro. Giá chốt sau (PRICE_*). Mua chưa xong → nói rõ đã/chưa trừ tiền. */
 export default function ViPaywall() {
   const set = useVi((s) => s.set);
   const toast = useToast();

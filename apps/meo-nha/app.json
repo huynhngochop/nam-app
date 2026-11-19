@@ -51,5 +51,14 @@
     "experiments": {
       "typedRoutes": true
     }
+  },
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-3940256099942544~3347511713",
+    "ios_app_id": "ca-app-pub-3940256099942544~1458002511",
+    "delay_app_measurement_init": true,
+    "user_tracking_usage_description": "Cho phép để quảng cáo phù hợp hơn với bạn. Bạn vẫn dùng app đầy đủ nếu không cho phép.",
+    "sk_ad_network_items": [
+      "cstr6suwn9.skadnetwork"
+    ]
   }
 }

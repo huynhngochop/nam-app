@@ -23,7 +23,7 @@ import { shortMoney, vnd } from '@nam/core';
 import { byCategory, totals, useQuery } from '../../src/db';
 import { catOf, periodOf, useVi } from '../../src/store';
 
-/** VG-11 · Phân tích: dòng tiền, cơ cấu danh mục, dự báo (Pro). Tablet: 2 cột thẻ. */
+/** Phân tích: dòng tiền, cơ cấu danh mục, dự báo (Pro). Tablet: 2 cột thẻ. */
 export default function Analysis() {
   const { c } = useTheme();
   const s = useVi();

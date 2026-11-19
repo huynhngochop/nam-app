@@ -23,7 +23,7 @@ import { PACKS, SOUNDS, soundById } from '../../src/data';
 import { useNhip } from '../../src/store';
 import { syncMix } from '../../src/audio';
 
-/** NH-09 · Trộn âm thanh. */
+/** Trộn âm thanh nền: bật từng tiếng, chỉnh âm lượng riêng, lưu thành bộ trộn. */
 export default function Sounds() {
   const { c } = useTheme();
   const s = useNhip();

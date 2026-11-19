@@ -55,7 +55,7 @@ export default function NewBooking() {
   const cust = s.customers.find((x) => x.id === customerId);
   const dur = durationOf(svcIds, s.services) || 30;
   const day = addDays(new Date(), dayOff);
-  // Ô giờ theo giờ mở cửa của ngày đã chọn, chỉ những giờ làm xong trước giờ đóng cửa (UAT H5).
+  // Ô giờ theo giờ mở cửa của ngày đã chọn, chỉ những giờ làm xong trước giờ đóng cửa.
   const dayHours = s.shop.hours.find((h) => h.day === day.getDay());
   const closed = !!dayHours && !dayHours.open;
   const toMin = (t: string) => {

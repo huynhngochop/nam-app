@@ -23,7 +23,7 @@ import { IngredientChecklist } from '../../src/components';
 
 const fmtQty = (n: number) => (Number.isInteger(n) ? String(n) : n.toFixed(1).replace('.', ','));
 
-/** MN-11 · Chi tiết công thức. Tablet: nguyên liệu và các bước chia hai cột. */
+/** Chi tiết công thức. Tablet: nguyên liệu và các bước chia hai cột. */
 export default function RecipeScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { c } = useTheme();

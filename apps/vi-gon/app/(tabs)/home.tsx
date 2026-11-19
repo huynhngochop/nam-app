@@ -1,28 +1,14 @@
 import React from 'react';
 import { Linking, View } from 'react-native';
 import { router } from 'expo-router';
-import {
-  Avatar,
-  Banner,
-  Button,
-  Card,
-  FAB,
-  Grid,
-  IconButton,
-  Ring,
-  Row,
-  Screen,
-  SectionHeader,
-  T,
-  useTheme,
-} from '@nam/ui';
+import { AdBanner, Avatar, Banner, Button, Card, FAB, Grid, IconButton, Ring, Row, Screen, SectionHeader, T, useTheme } from '@nam/ui';
 import { dayMonth, greeting, vnd } from '@nam/core';
 import { countWhere, listTx, totals, useQuery } from '../../src/db';
 import { periodOf, useVi } from '../../src/store';
 import { Money, TxRow } from '../../src/ui';
 import { openPermissionSettings } from '../../src/listener';
 
-/** VG-05 Tổng quan + VG-17 Mất quyền tự ghi. Tablet: vòng ngân sách và danh sách đặt cạnh nhau. */
+/** Tổng quan + Mất quyền tự ghi. Tablet: vòng ngân sách và danh sách đặt cạnh nhau. */
 export default function Home() {
   const { c } = useTheme();
   const s = useVi();
@@ -186,6 +172,7 @@ export default function Home() {
           />
         </Card>
       )}
+      <AdBanner hidden={s.isPro} />
     </Screen>
   );
 }

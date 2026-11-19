@@ -21,7 +21,7 @@ import { PACKS } from '../src/data';
 import { RING_THEMES } from '../src/themes';
 import { useNhip } from '../src/store';
 
-/** NH-10 · Cửa hàng gói âm thanh. Giá chưa chốt → ô khóa giá. */
+/** Cửa hàng gói âm thanh. Giá chưa chốt → ô khóa giá. */
 export default function Store() {
   const { c } = useTheme();
   const toast = useToast();

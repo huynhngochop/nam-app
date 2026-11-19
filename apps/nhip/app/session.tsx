@@ -15,7 +15,7 @@ import { cancelPhaseEnd, schedulePhaseEnd } from '../src/notify';
 
 const GREEN = '#5cc48e';
 
-/** NH-04 Phiên đang chạy · NH-05 Nghỉ giải lao. Luôn nền tối, không quảng cáo. */
+/** Phiên đang chạy · Nghỉ giải lao. Luôn nền tối, không quảng cáo. */
 export default function SessionScreen() {
   const theme = ringTheme(useNhip((x) => x.ringTheme));
   const L = useLayout();
@@ -59,7 +59,7 @@ export default function SessionScreen() {
       deactivateKeepAwake('nhip-session').catch(() => {});
     };
   }, [s.settings.keepAwake]);
-  // Nhịp ghi mỗi 30 giây để khôi phục khi app bị tắt (NH-17).
+  // Nhịp ghi mỗi 30 giây để khôi phục khi app bị tắt.
   useEffect(() => {
     if (!running) return;
     const t = setInterval(() => useNhip.getState().heartbeat(), 30_000);
@@ -97,6 +97,7 @@ export default function SessionScreen() {
     } else if (s.settings.autoNext) {
       startFocus();
     }
+    // Chỉ xét kết thúc phiên khi đồng hồ chạy hoặc dừng; `ended` chặn chạy hai lần.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [remaining, running]);
 

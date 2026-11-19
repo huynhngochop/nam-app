@@ -23,7 +23,7 @@ import { byCategory, useQuery, useTxVersion } from '../src/db';
 import { periodOf, useVi } from '../src/store';
 import { aiRewrite, buildSummary, MonthSummary } from '../src/summary';
 
-/** VG-23 · Tổng kết kỳ. Mẫu trên máy; AI (nếu bật trong Cài đặt) chỉ nhận số tổng theo danh mục. */
+/** Tổng kết kỳ. Mẫu trên máy; AI (nếu bật trong Cài đặt) chỉ nhận số tổng theo danh mục. */
 export default function Summary() {
   const { c } = useTheme();
   const toast = useToast();
@@ -49,7 +49,9 @@ export default function Summary() {
     return () => {
       alive = false;
     };
-  }, [base, v, s.aiSummary, online]); // eslint-disable-line react-hooks/exhaustive-deps
+    // Danh mục và ngày đầu kỳ đã nằm trong `base`; thêm chúng vào đây chỉ gọi AI thêm lần thừa.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [base, v, s.aiSummary, online]);
 
   if (!sum) return null;
   const share = () => {

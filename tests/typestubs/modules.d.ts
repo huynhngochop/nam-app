@@ -301,3 +301,19 @@ declare module '@expo-google-fonts/be-vietnam-pro' {
 declare module 'expo-font' {
   export function useFonts(map: Record<string, any>): [boolean, Error | null];
 }
+declare module 'react-native-google-mobile-ads' {
+  import type { ComponentType } from 'react';
+  export const TestIds: { ADAPTIVE_BANNER: string; BANNER: string };
+  export const BannerAdSize: { ANCHORED_ADAPTIVE_BANNER: string; INLINE_ADAPTIVE_BANNER: string; BANNER: string };
+  export const BannerAd: ComponentType<{
+    unitId: string;
+    size: string;
+    onAdLoaded?: () => void;
+    onAdFailedToLoad?: (error: Error) => void;
+  }>;
+  export const AdsConsent: {
+    gatherConsent(): Promise<{ canRequestAds: boolean }>;
+    getConsentInfo(): Promise<{ canRequestAds: boolean }>;
+  };
+  export default function mobileAds(): { initialize(): Promise<unknown> };
+}

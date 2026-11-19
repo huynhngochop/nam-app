@@ -1,27 +1,13 @@
 import React, { useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import {
-  Badge,
-  BarChart,
-  Card,
-  Icon,
-  ListItem,
-  ProgressBar,
-  Row,
-  Screen,
-  SectionHeader,
-  Segmented,
-  T,
-  Thumb,
-  useTheme,
-} from '@nam/ui';
+import { AdBanner, Badge, BarChart, Card, Icon, ListItem, ProgressBar, Row, Screen, SectionHeader, Segmented, T, Thumb, useTheme } from '@nam/ui';
 import { addDays, dateKey, decimalVi, minutesLabel, weekdayShort } from '@nam/core';
 import { habitTarget, streakOf, useNhip } from '../../src/store';
 
 type Range = 'day' | 'week' | 'month';
 
-/** NH-12 · Thống kê. Tổng theo ngày tính sẵn trong store nên mở nhanh dù có nhiều phiên. */
+/** Thống kê. Tổng theo ngày tính sẵn trong store nên mở nhanh dù có nhiều phiên. */
 export default function Stats() {
   const { c } = useTheme();
   const s = useNhip();
@@ -40,6 +26,7 @@ export default function Stats() {
       0,
     );
     return { data: pts, total: pts.reduce((a, p) => a + p.value, 0), prevTotal: prev };
+    // `today` và `days` suy ra từ `range` và ngày hiện tại, không cần nằm trong danh sách.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [s.daily, range]);
   const delta = prevTotal ? Math.round(((total - prevTotal) / prevTotal) * 100) : null;
@@ -124,24 +111,7 @@ export default function Stats() {
           </Row>
         </Card>
       )}
-      {!s.isPro ? (
-        <View
-          style={{
-            minHeight: 50,
-            borderWidth: 1,
-            borderStyle: 'dashed',
-            borderColor: c.line,
-            borderRadius: 12,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginTop: 8,
-          }}
-        >
-          <T v="caption" muted>
-            Banner quảng cáo 320×50 — chỉ ở màn này
-          </T>
-        </View>
-      ) : null}
+      <AdBanner hidden={s.isPro} />
     </Screen>
   );
 }
