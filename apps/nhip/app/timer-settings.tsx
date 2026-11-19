@@ -36,7 +36,9 @@ export default function TimerSettingsScreen() {
       <ListItem
         title="Nghỉ ngắn"
         strong={false}
-        right={<Stepper value={timer.shortMin} onChange={(v) => set({ shortMin: v })} min={1} max={30} format={minutes} />}
+        right={
+          <Stepper value={timer.shortMin} onChange={(v) => set({ shortMin: v })} min={1} max={30} format={minutes} />
+        }
       />
       <ListItem
         title="Nghỉ dài"
