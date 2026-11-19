@@ -14,7 +14,7 @@ const MAP = {
     ['r', 'camera ?', 'pickerResult'],
     ['t', 'await recognizeText', 'recognized'],
     ['r', 'used < quota', 'parsed'],
-    ['p', 'parsePrice(', 'price'],
+    ['p', 'parsePrice(', 'parsedPrice'],
   ],
   'apps/hen-dep/app/setup.tsx': [['h', 'hours.find', 'dayHours']],
   'apps/hen-dep/src/codes.ts': [['b', '', 'booking']],
@@ -28,14 +28,14 @@ const MAP = {
     ['b', '', 'booking'],
     ['h', '', 'hoursBefore'],
     ['t', 'null', 'timer'],
-    ['d', 'r.notification', 'data'],
+    ['d', 'r.notification', 'payload'],
   ],
   'apps/hen-dep/src/seed.ts': [
     ['n', '2400', 'bookingCount'],
     ['b', '(', 'makeBooking'],
   ],
   'apps/hen-dep/src/store.ts': [
-    ['b', '{ ...bk', 'booking'],
+    ['b', '{ ...bk', 'newBooking'],
     ['b', '', 'booking'],
   ],
   'apps/hen-dep/src/sync.tsx': [
@@ -43,15 +43,15 @@ const MAP = {
     ['h', 'state.shop.hours', 'dayHours'],
     ['b', 'c0.payload', 'remote'],
   ],
-  'apps/hen-dep/src/Timeline.tsx': [['h', 'Math.max(28', 'height']],
+  'apps/hen-dep/src/Timeline.tsx': [['h', 'Math.max(28', 'blockHeight']],
   'apps/hen-dep/app/(tabs)/revenue.tsx': [['e', 'svcCount.get', 'entry']],
-  'apps/hen-dep/app/booking/[id].tsx': [['b', 'useHen(', 'booking']],
+  'apps/hen-dep/app/booking/[id].tsx': [['b', 'useHen(', 'found']],
   'apps/hen-dep/app/booking/new.tsx': [
     ['m', 'openMin', 'minute'],
     ['b', 'state.createBooking', 'booking'],
   ],
-  'apps/meo-nha/app/ask.tsx': [['a', 'await ask', 'answer']],
-  'apps/meo-nha/app/search.tsx': [['t', 'term.trim', 'query']],
+  'apps/meo-nha/app/ask.tsx': [['a', 'await ask', 'reply']],
+  'apps/meo-nha/app/search.tsx': [['t', 'term.trim', 'trimmed']],
   'apps/meo-nha/src/store.ts': [['t', 'today()', 'todayKey']],
   'apps/meo-nha/app/(tabs)/explore.tsx': [
     ['h', 'InteractionManager', 'task'],
@@ -61,7 +61,7 @@ const MAP = {
     ['d', 'tokens[1]', 'difficultyCode'],
     ['t', '', 'tip'],
   ],
-  'apps/meo-nha/src/lib/ask.ts': [['d', '', 'danger']],
+  'apps/meo-nha/src/lib/ask.ts': [['d', '', 'dangerRule']],
   'apps/meo-nha/src/lib/search.ts': [
     ['h', 'useMeo.getState', 'hidden'],
     ['f', 'cache.get', 'entry'],
@@ -75,7 +75,7 @@ const MAP = {
     ['h', 'state.habits.find', 'habit'],
     ['r', 'state.habits.map', 'ratios'],
     ['r', 'ratioOf(', 'ratio'],
-    ['v', 'valueOf(', 'value'],
+    ['v', 'valueOf(', 'dayValue'],
   ],
   'apps/nhip/app/session.tsx': [['n', 'useNhip.getState().startPhase', 'next']],
   'apps/nhip/src/audio.ts': [['p', 'players.get', 'player']],
@@ -84,7 +84,7 @@ const MAP = {
     ['m', '{ id: uid()', 'mix'],
     ['n', '0', 'count'],
   ],
-  'apps/nhip/app/(tabs)/timer.tsx': [['s', 'useNhip()', 'store']],
+  'apps/nhip/app/(tabs)/timer.tsx': [['s', 'useNhip()', 'nhipState']],
   'apps/vi-gon/app/_layout.tsx': [['t', 'null', 'timer']],
   'apps/vi-gon/app/backup.tsx': [['r', 'await createBackup', 'backup']],
   'apps/vi-gon/app/budgets.tsx': [
@@ -107,8 +107,8 @@ const MAP = {
   'apps/vi-gon/src/answer.ts': [
     ['f', 'ctx.funds.find', 'fund'],
     ['p', 'periodOf(', 'currentPeriod'],
-    ['n', 'countOf(', 'count'],
-    ['v', 'cat ?', 'value'],
+    ['n', 'countOf(', 'txCount'],
+    ['v', 'cat ?', 'spent'],
   ],
   'apps/vi-gon/src/ask.ts': [
     ['m', 'folded.match', 'monthMatch'],
@@ -118,7 +118,7 @@ const MAP = {
     ['a', 'month(-1)', 'lastMonth'],
     ['b', 'month(-2)', 'monthBefore'],
     ['a', 'month(0)', 'thisMonth'],
-    ['b', 'month(-1)', 'lastMonth'],
+    ['b', 'month(-1)', 'previousMonth'],
   ],
   'apps/vi-gon/src/backup.ts': [
     ['s', "''", 'encoded'],
@@ -137,7 +137,7 @@ const MAP = {
     ['r', 'rules.find', 'rule'],
     ['b', 'BUILTIN.find', 'builtin'],
   ],
-  'apps/vi-gon/src/store.ts': [['m', 'now.getMonth()', 'month']],
+  'apps/vi-gon/src/store.ts': [['m', 'now.getMonth()', 'currentMonth']],
   'apps/vi-gon/src/summary.ts': [
     ['t', 'totals(', 'periodTotal'],
     ['c', '', 'category'],
