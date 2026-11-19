@@ -13,6 +13,6 @@
     "react-native-svg": "*",
     "expo-splash-screen": "*",
     "expo-status-bar": "*",
-    "react-native-google-mobile-ads": "*"
+    "react-native-google-mobile-ads": "^15.0.0"
   }
 }
