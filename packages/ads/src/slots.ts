@@ -9,7 +9,10 @@ export function isAdSlot<T>(row: WithAds<T>): row is AdSlot {
   return typeof row === 'object' && row !== null && (row as AdSlot).kind === 'ad' && 'key' in row;
 }
 
-export function withAds<T>(items: readonly T[], opts: { first?: number; every?: number; enabled?: boolean } = {}): WithAds<T>[] {
+export function withAds<T>(
+  items: readonly T[],
+  opts: { first?: number; every?: number; enabled?: boolean } = {},
+): WithAds<T>[] {
   const first = opts.first ?? 3;
   const every = Math.max(4, opts.every ?? 8);
   if (opts.enabled === false || items.length < first) return [...items];

@@ -1,12 +1,6 @@
 import React, { memo, useEffect, useState } from 'react';
 import { Image, Text, View } from 'react-native';
-import {
-  NativeAd,
-  NativeAdView,
-  NativeAsset,
-  NativeAssetType,
-  NativeMediaView,
-} from 'react-native-google-mobile-ads';
+import { NativeAd, NativeAdView, NativeAsset, NativeAssetType, NativeMediaView } from 'react-native-google-mobile-ads';
 import { Badge, fonts, radius, useTheme } from '@nam/ui';
 import { useAdsVisible } from './state';
 import { requestOptions, unitId } from './units';

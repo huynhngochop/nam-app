@@ -341,7 +341,10 @@ declare module 'react-native-webview' {
 }
 
 declare module 'react-native-google-mobile-ads' {
-  const mobileAds: () => { initialize(): Promise<unknown>; setRequestConfiguration(c: Record<string, unknown>): Promise<void> };
+  const mobileAds: () => {
+    initialize(): Promise<unknown>;
+    setRequestConfiguration(c: Record<string, unknown>): Promise<void>;
+  };
   export default mobileAds;
   export const AdsConsent: { gatherConsent(): Promise<unknown> };
   export const MaxAdContentRating: { G: string; PG: string; T: string; MA: string };
@@ -351,7 +354,13 @@ declare module 'react-native-google-mobile-ads' {
   export const NativeAdView: any;
   export const NativeAsset: any;
   export const NativeMediaView: any;
-  export const NativeAssetType: { ICON: string; HEADLINE: string; BODY: string; ADVERTISER: string; CALL_TO_ACTION: string };
+  export const NativeAssetType: {
+    ICON: string;
+    HEADLINE: string;
+    BODY: string;
+    ADVERTISER: string;
+    CALL_TO_ACTION: string;
+  };
   export class NativeAd {
     static createForAdRequest(unitId: string, options?: Record<string, unknown>): Promise<NativeAd>;
     headline: string;
