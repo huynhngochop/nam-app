@@ -7,8 +7,8 @@ Quy tắc chung ở `/CLAUDE.md`. Tệp này giữ con số cụ thể của app
 
 | Chỉ số | Ngân sách | Đo gần nhất | Đo ở đâu |
 | --- | --- | --- | --- |
-| APK arm64 | ≤ 40 MB (mục tiêu 30) | 29,6 MB (vòng 17, thêm 15 lễ và 10 hình vẫn không tăng; vòng 9 là 97 MB gộp 3 chip) | job `apk`, `tt-apk-size.mjs` (chặn CI) |
-| APK arm32 | ≤ 35 MB | 23,7 MB (vòng 17) | job `apk` |
+| APK arm64 | ≤ 40 MB (mục tiêu 30) | 33,5 MB (có AdMob, +3,9 MB; trước đó 29,6 MB; vòng 9 là 97 MB gộp 3 chip) | job `apk`, `tt-apk-size.mjs` (chặn CI) |
+| APK arm32 | ≤ 35 MB | 27,3 MB (có AdMob) | job `apk` |
 | Mã JS (Hermes) | ≤ 4 MB | 3,1 MB (vòng 10) | bảng dung lượng trong job `apk` |
 | Khởi động lạnh | ≤ 1,5 s trên emulator | 0,62–0,82 s khi đã có dữ liệu (vòng 16) | `qa/native/android.sh` mục 6 |
 | Bộ nhớ khi chạy | ≤ 200 MB PSS | 104 MB ngay sau khởi động (vòng 16); 380 MB sau khi mở mọi màn kể cả video (WebView nạp Chromium) | `android.sh` mục 5–6 |
@@ -49,6 +49,7 @@ Khung hình giật trên emulator dùng đồ họa phần mềm nên chưa kế
   Không có ở Hôm nay, chi tiết lễ, màn khấn, màn tụng, hướng dẫn. Nội dung quảng cáo giới hạn mức G. Có gói Tâm An thì ẩn hết.
 - Mã thật: biến Actions `ADMOB_THANH_TAM_ANDROID_APP_ID`, `ADMOB_THANH_TAM_ANDROID_BANNER`, `ADMOB_THANH_TAM_ANDROID_NATIVE`; chưa đặt thì là quảng cáo thử.
 - iPhone không xin quyền theo dõi, chỉ quảng cáo không cá nhân hóa. Chính sách riêng tư và mô tả cửa hàng đã ghi có quảng cáo.
+- Emulator (run 44469131227): dải quảng cáo thử hiện ở Bài cúng, Tra cứu, Lịch; thẻ "Tài trợ" nằm dưới màn đầu nên chưa thấy trong ảnh, cần thử tay. 0 lỗi JS, 0 sập.
 
 ## Thư viện thêm ở vòng 11 (giá dung lượng)
 
