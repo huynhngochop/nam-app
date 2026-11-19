@@ -113,11 +113,11 @@ export const useMeo = create<State>()(
           askHistory: [{ q, at: Date.now() }, ...s.askHistory].slice(0, 50),
         })),
       touchStreak: () => {
-        const t = today();
+        const todayKey = today();
         const { last, days } = get().streak;
-        if (last === t) return;
+        if (last === todayKey) return;
         const y = dateKey(new Date(Date.now() - 86400000));
-        set({ streak: { last: t, days: last === y ? days + 1 : 1 } });
+        set({ streak: { last: todayKey, days: last === y ? days + 1 : 1 } });
       },
       addMyTip: ({ title, categoryId, steps }) => {
         const tip: Tip = {

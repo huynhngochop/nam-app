@@ -204,7 +204,7 @@ export const Button = memo(function Button({
   ...rest
 }: BtnProps) {
   const { c } = useTheme();
-  const h = size === 'lg' ? 52 : size === 'md' ? 44 : 36;
+  const buttonHeight = size === 'lg' ? 52 : size === 'md' ? 44 : 36;
   const bg = variant === 'primary' ? (color ?? c.a) : variant === 'secondary' ? c.surface2 : 'transparent';
   const fg =
     textColor ??
@@ -217,7 +217,7 @@ export const Button = memo(function Button({
       disabled={disabled || loading}
       style={({ pressed }) => [
         {
-          height: h,
+          height: buttonHeight,
           minWidth: 44,
           paddingHorizontal: size === 'sm' ? 14 : 18,
           borderRadius: size === 'sm' ? radius.sm : radius.md,
@@ -457,7 +457,7 @@ export function Card({
   accessibilityLabel?: string;
 }) {
   const { c } = useTheme();
-  const s: ViewStyle = {
+  const cardStyle: ViewStyle = {
     backgroundColor:
       variant === 'tint' ? c.at : variant === 'fill' ? c.surface2 : variant === 'accent' ? c.a : c.surface,
     borderWidth: variant === 'outlineAccent' ? 2 : variant === 'danger' ? 1.5 : 1,
@@ -480,13 +480,13 @@ export function Card({
         accessibilityRole="button"
         accessibilityLabel={accessibilityLabel}
         onPress={onPress}
-        style={({ pressed }) => [s, { opacity: pressed ? 0.85 : 1 }, style]}
+        style={({ pressed }) => [cardStyle, { opacity: pressed ? 0.85 : 1 }, style]}
       >
         {body}
       </Pressable>
     );
   }
-  return <View style={[s, style]}>{body}</View>;
+  return <View style={[cardStyle, style]}>{body}</View>;
 }
 
 export function Thumb({ icon, color, bg, size = 40 }: { icon: IconName; color?: string; bg?: string; size?: number }) {

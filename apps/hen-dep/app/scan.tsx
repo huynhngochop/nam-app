@@ -55,20 +55,20 @@ export default function Scan() {
         toast(camera ? 'Cần quyền máy ảnh. Mở Cài đặt để cấp quyền.' : 'Cần quyền truy cập ảnh.');
         return;
       }
-      const r = camera
+      const pickerResult = camera
         ? await ImagePicker.launchCameraAsync({ mediaTypes: ['images'], quality: 0.6 })
         : await ImagePicker.launchImageLibraryAsync({ mediaTypes: ['images'], quality: 0.6 });
-      if (r.canceled || !r.assets[0]) return;
-      const picked = r.assets[0].uri;
+      if (pickerResult.canceled || !pickerResult.assets[0]) return;
+      const picked = pickerResult.assets[0].uri;
       setUri(picked);
       if (!ocrAvailable) return;
       setReading(true);
       try {
-        const t = await recognizeText(picked);
-        if (t.length < 5) toast('Không thấy chữ trên ảnh. Chụp gần, đủ sáng hơn hoặc dán chữ vào ô.');
+        const recognized = await recognizeText(picked);
+        if (recognized.length < 5) toast('Không thấy chữ trên ảnh. Chụp gần, đủ sáng hơn hoặc dán chữ vào ô.');
         else {
-          setText(t);
-          track('price_board_ocr', { chars: t.length });
+          setText(recognized);
+          track('price_board_ocr', { chars: recognized.length });
           toast('Đã đọc chữ trên ảnh. Sửa nếu sai rồi bấm Đọc bảng giá.', { tone: 'success' });
         }
       } catch {
@@ -95,11 +95,11 @@ export default function Scan() {
   const run = async () => {
     setBusy(true);
     try {
-      const r = used < quota ? await parsePriceBoard(text) : { services: parseLocally(text), viaAi: false };
-      if (r.viaAi) state.consumeAi();
-      setViaAi(r.viaAi);
-      setRows(r.services.map((x) => ({ ...x, keep: true })));
-      track('price_board_parsed', { count: r.services.length, viaAi: r.viaAi });
+      const parsed = used < quota ? await parsePriceBoard(text) : { services: parseLocally(text), viaAi: false };
+      if (parsed.viaAi) state.consumeAi();
+      setViaAi(parsed.viaAi);
+      setRows(parsed.services.map((x) => ({ ...x, keep: true })));
+      track('price_board_parsed', { count: parsed.services.length, viaAi: parsed.viaAi });
     } catch (error) {
       toast(
         error instanceof AiQuotaError

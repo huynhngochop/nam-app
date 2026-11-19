@@ -23,7 +23,7 @@ export function buildSummary(
 ): MonthSummary {
   const period = periodOf(ctx.startDay, offset);
   const prev = periodOf(ctx.startDay, offset - 1);
-  const t = totals(period.from, period.to);
+  const periodTotal = totals(period.from, period.to);
   const cats = byCategory(period.from, period.to);
   const prevCats = byCategory(prev.from, prev.to);
   const hist = Array.from({ length: 6 }, (_, k) => {
@@ -34,23 +34,23 @@ export function buildSummary(
   const avgSaved = hist.length ? hist.reduce((a, b) => a + b, 0) / hist.length : 0;
 
   const insights: Insight[] = [];
-  for (const c of cats.slice(0, 4)) {
-    const before = prevCats.find((x) => x.categoryId === c.categoryId)?.total ?? 0;
-    const name = catOf(c.categoryId, ctx.cats).name;
-    const limit = ctx.budgets[c.categoryId];
-    if (limit && c.total > limit)
-      insights.push({ icon: 'alert-triangle', text: `${name} vượt ngân sách ${vnd(c.total - limit)}.` });
-    else if (before && c.total > before * 1.1)
+  for (const category of cats.slice(0, 4)) {
+    const before = prevCats.find((x) => x.categoryId === category.categoryId)?.total ?? 0;
+    const name = catOf(category.categoryId, ctx.cats).name;
+    const limit = ctx.budgets[category.categoryId];
+    if (limit && category.total > limit)
+      insights.push({ icon: 'alert-triangle', text: `${name} vượt ngân sách ${vnd(category.total - limit)}.` });
+    else if (before && category.total > before * 1.1)
       insights.push({
         icon: 'trending-up',
-        text: `${name} tăng ${Math.round(((c.total - before) / before) * 100)}% (${shortMoney(before)} → ${shortMoney(c.total)}).`,
+        text: `${name} tăng ${Math.round(((category.total - before) / before) * 100)}% (${shortMoney(before)} → ${shortMoney(category.total)}).`,
       });
-    else if (before && c.total < before * 0.9)
+    else if (before && category.total < before * 0.9)
       insights.push({
         icon: 'trending-down',
-        text: `${name} giảm ${Math.round(((before - c.total) / before) * 100)}%.`,
+        text: `${name} giảm ${Math.round(((before - category.total) / before) * 100)}%.`,
       });
-    else insights.push({ icon: 'check-circle', text: `${name} ổn định: ${shortMoney(c.total)}.` });
+    else insights.push({ icon: 'check-circle', text: `${name} ổn định: ${shortMoney(category.total)}.` });
   }
 
   const over = cats
@@ -67,14 +67,14 @@ export function buildSummary(
 
   return {
     label: period.label,
-    income: t.income,
-    expense: t.expense,
-    saved: t.income - t.expense,
+    income: periodTotal.income,
+    expense: periodTotal.expense,
+    saved: periodTotal.income - periodTotal.expense,
     avgSaved,
     insights,
     suggestion,
     viaAi: false,
-    count: t.count,
+    count: periodTotal.count,
   };
 }
 

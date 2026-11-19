@@ -69,8 +69,8 @@ export default function NewBooking() {
   const times = closed
     ? []
     : Array.from({ length: Math.max(0, Math.floor((closeMin - dur - openMin) / step) + 1) }, (_, i) => {
-        const m = openMin + i * step;
-        return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+        const minute = openMin + i * step;
+        return `${String(Math.floor(minute / 60)).padStart(2, '0')}:${String(minute % 60).padStart(2, '0')}`;
       });
   // Giờ đã chọn không còn hợp lệ (đổi ngày / thêm dịch vụ dài hơn) → lấy ô gần nhất.
   const time = times.includes(pickedTime)
@@ -101,7 +101,7 @@ export default function NewBooking() {
         phone: typedPhone,
         marketingConsent: false,
       });
-    const b = state.createBooking({
+    const booking = state.createBooking({
       customerId: cid,
       staffId: staffId!,
       serviceIds: svcIds,
@@ -116,7 +116,7 @@ export default function NewBooking() {
     const st = useHen.getState();
     const who = st.customers.find((x) => x.id === cid);
     if (notify && who?.phone)
-      openSms(who.phone, confirmText(st.shop, who, b, st.services)).catch(() => toast('Không mở được Tin nhắn'));
+      openSms(who.phone, confirmText(st.shop, who, booking, st.services)).catch(() => toast('Không mở được Tin nhắn'));
   };
 
   return (

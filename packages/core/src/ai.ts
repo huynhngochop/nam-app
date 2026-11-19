@@ -28,8 +28,8 @@ export async function callAi<T>(
   const key = uid();
   const delays = [0, 1000, 4000];
   let lastErr: unknown;
-  for (const d of delays) {
-    if (d) await sleep(d + Math.random() * 300);
+  for (const data of delays) {
+    if (data) await sleep(data + Math.random() * 300);
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), opts.timeoutMs ?? 15000);
     try {

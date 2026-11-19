@@ -52,12 +52,12 @@ export default function Auth() {
     let ok = false;
     if (base) {
       try {
-        const r = await fetch(`${base}/auth/otp/verify`, {
+        const response = await fetch(`${base}/auth/otp/verify`, {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({ phone: clean, code: v }),
         });
-        ok = r.ok;
+        ok = response.ok;
       } catch {
         setErr('Không kết nối được. Thử lại.');
         return;

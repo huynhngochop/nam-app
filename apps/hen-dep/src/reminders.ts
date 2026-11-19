@@ -57,18 +57,18 @@ export async function syncReminders({ ask = false, now = Date.now() } = {}) {
 
   const offsets = [remind24h ? 24 : 0, remind2h ? 2 : 0].filter(Boolean);
   const jobs: { at: number; bookingId: string; title: string; body: string }[] = [];
-  for (const b of state.bookings) {
-    if (b.status !== 'confirmed' || b.startAt <= now || b.startAt > now + HORIZON) continue;
-    const cust = state.customers.find((x) => x.id === b.customerId);
+  for (const booking of state.bookings) {
+    if (booking.status !== 'confirmed' || booking.startAt <= now || booking.startAt > now + HORIZON) continue;
+    const cust = state.customers.find((x) => x.id === booking.customerId);
     if (!cust?.phone) continue;
-    for (const h of offsets) {
-      const at = b.startAt - h * 3600000;
+    for (const hoursBefore of offsets) {
+      const at = booking.startAt - hoursBefore * 3600000;
       if (at <= now + 60000) continue;
       jobs.push({
         at,
-        bookingId: b.id,
-        title: `Nhắc ${cust.name} · ${h === 24 ? 'ngày mai' : 'sau 2 giờ'}`,
-        body: `Hẹn ${hhmm(new Date(b.startAt))} ${shortDate(new Date(b.startAt))}. Bấm để gửi tin nhắc khách.`,
+        bookingId: booking.id,
+        title: `Nhắc ${cust.name} · ${hoursBefore === 24 ? 'ngày mai' : 'sau 2 giờ'}`,
+        body: `Hẹn ${hhmm(new Date(booking.startAt))} ${shortDate(new Date(booking.startAt))}. Bấm để gửi tin nhắc khách.`,
       });
     }
   }
@@ -85,10 +85,10 @@ export async function syncReminders({ ask = false, now = Date.now() } = {}) {
 
 /** Đồng bộ lại (gộp 2 giây) khi lịch hẹn, khách hay cài đặt nhắc đổi. Trả về hàm hủy. */
 export function watchReminders() {
-  let t: ReturnType<typeof setTimeout> | null = null;
+  let timer: ReturnType<typeof setTimeout> | null = null;
   const run = (ask: boolean) => {
-    if (t) clearTimeout(t);
-    t = setTimeout(() => syncReminders({ ask }).catch(() => {}), 2000);
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => syncReminders({ ask }).catch(() => {}), 2000);
   };
   run(false);
   const unsub = useHen.subscribe((st, prev) => {
@@ -96,7 +96,7 @@ export function watchReminders() {
       run(true);
   });
   return () => {
-    if (t) clearTimeout(t);
+    if (timer) clearTimeout(timer);
     unsub();
   };
 }

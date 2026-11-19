@@ -22,9 +22,9 @@ export default function Backup() {
     setBusy(true);
     setErr(null);
     try {
-      const r = await createBackup(pw, hint.trim());
+      const backup = await createBackup(pw, hint.trim());
       track('backup_created');
-      toast(r.shared ? 'Đã tạo bản sao lưu' : 'Đã tạo bản sao lưu trong bộ nhớ app', { tone: 'success' });
+      toast(backup.shared ? 'Đã tạo bản sao lưu' : 'Đã tạo bản sao lưu trong bộ nhớ app', { tone: 'success' });
       router.back();
     } catch (error) {
       setErr(

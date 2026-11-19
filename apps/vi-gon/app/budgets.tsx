@@ -46,9 +46,9 @@ export default function Budgets() {
     setVal(fmt(id === 'total' ? state.monthlyBudget : (state.budgets[id] ?? 0)));
   };
   const save = () => {
-    const n = digits(val);
-    if (edit === 'total') state.set({ monthlyBudget: n });
-    else if (edit) state.set({ budgets: { ...state.budgets, [edit]: n } });
+    const amount = digits(val);
+    if (edit === 'total') state.set({ monthlyBudget: amount });
+    else if (edit) state.set({ budgets: { ...state.budgets, [edit]: amount } });
     setEdit(null);
     toast('Đã lưu ngân sách', { tone: 'success' });
   };
@@ -82,7 +82,7 @@ export default function Budgets() {
         const cat = catOf(id, state.categories);
         const used = spent.find((x) => x.categoryId === id)?.total ?? 0;
         const limit = state.budgets[id];
-        const r = used / limit;
+        const ratio = used / limit;
         return (
           <ListItem
             key={id}
@@ -91,15 +91,18 @@ export default function Budgets() {
             onLongPress={() => setDel(id)}
             title={cat.name}
             subtitle={
-              r >= 1
+              ratio >= 1
                 ? `Vượt ${vnd(used - limit)}`
-                : r >= 0.8
-                  ? `Đã dùng ${Math.round(r * 100)}%`
+                : ratio >= 0.8
+                  ? `Đã dùng ${Math.round(ratio * 100)}%`
                   : `${shortMoney(used)} / ${shortMoney(limit)}`
             }
             right={
               <View style={{ width: 96 }}>
-                <ProgressBar value={Math.min(1, r)} color={r >= 1 ? c.negative : r >= 0.8 ? c.warning : c.a} />
+                <ProgressBar
+                  value={Math.min(1, ratio)}
+                  color={ratio >= 1 ? c.negative : ratio >= 0.8 ? c.warning : c.a}
+                />
               </View>
             }
           />
@@ -151,9 +154,9 @@ export default function Budgets() {
         destructive
         onCancel={() => setDel(null)}
         onConfirm={() => {
-          const b = { ...state.budgets };
-          delete b[del!];
-          state.set({ budgets: b });
+          const nextBudgets = { ...state.budgets };
+          delete nextBudgets[del!];
+          state.set({ budgets: nextBudgets });
           setDel(null);
         }}
       />

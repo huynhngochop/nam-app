@@ -35,18 +35,18 @@ export default function Explore() {
   const hidden = useMeo((s) => s.hiddenTips);
   const [selected, setSelected] = useState<string | null>(null);
   useEffect(() => {
-    const h = InteractionManager.runAfterInteractions(warmSearchIndex);
-    return () => h.cancel();
+    const task = InteractionManager.runAfterInteractions(warmSearchIndex);
+    return () => task.cancel();
   }, []);
 
   const today = useMemo(() => dailyTip(interests), [interests, hidden]);
   const rows = useMemo<FeedRow[]>(() => {
     const src = feedFor(interests);
-    const n = getConfig().adEveryN;
+    const adEvery = getConfig().adEveryN;
     const out: FeedRow[] = [];
     src.forEach((t, i) => {
       out.push({ kind: 'tip', tip: t });
-      if (online && (i + 1) % n === 0) out.push({ kind: 'ad', key: `ad${i}` });
+      if (online && (i + 1) % adEvery === 0) out.push({ kind: 'ad', key: `ad${i}` });
     });
     return out;
   }, [interests, online, hidden]);

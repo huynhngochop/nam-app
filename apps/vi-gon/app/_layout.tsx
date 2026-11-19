@@ -29,10 +29,10 @@ function Effects() {
       }
     });
     // Kiểm tra ngân sách sau mỗi lần dữ liệu đổi (gộp lại 1,5 giây).
-    let t: ReturnType<typeof setTimeout> | null = null;
+    let timer: ReturnType<typeof setTimeout> | null = null;
     const unsub = useTxVersion.subscribe(() => {
-      if (t) clearTimeout(t);
-      t = setTimeout(() => checkBudgets().catch(() => {}), 1500);
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => checkBudgets().catch(() => {}), 1500);
     });
     const tap = Notifications.addNotificationResponseReceivedListener((r) => {
       const url = r.notification.request.content.data?.url;
@@ -48,7 +48,7 @@ function Effects() {
       unsub();
       unsubFunds();
       tap.remove();
-      if (t) clearTimeout(t);
+      if (timer) clearTimeout(timer);
     };
   }, []);
   return null;

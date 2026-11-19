@@ -32,26 +32,26 @@ export function computeAnswer(
   const what = cat ? cat.name : i.kind === 'income' ? 'Tổng thu' : 'Tổng chi';
 
   if (i.metric === 'fund_eta') {
-    const f = ctx.funds.find((x) => x.id === i.fundId);
-    if (!f) return { headline: 'Không tìm thấy quỹ', detail: 'Kiểm tra tên quỹ trong tab Quỹ.' };
-    const left = Math.max(0, f.goal - f.saved);
-    if (!left) return { headline: 'Đã đủ!', detail: `Quỹ ${f.name} đã đạt ${vnd(f.goal)}.` };
-    const months = Math.max(1, (Date.now() - f.createdAt) / (30 * 86400000));
-    const pace = f.saved / months;
+    const fund = ctx.funds.find((x) => x.id === i.fundId);
+    if (!fund) return { headline: 'Không tìm thấy quỹ', detail: 'Kiểm tra tên quỹ trong tab Quỹ.' };
+    const left = Math.max(0, fund.goal - fund.saved);
+    if (!left) return { headline: 'Đã đủ!', detail: `Quỹ ${fund.name} đã đạt ${vnd(fund.goal)}.` };
+    const months = Math.max(1, (Date.now() - fund.createdAt) / (30 * 86400000));
+    const pace = fund.saved / months;
     if (pace < 1000)
       return {
         headline: `Còn thiếu ${vnd(left)}`,
-        detail: `Quỹ ${f.name} chưa có tiền góp đều — chưa ước được thời gian.`,
+        detail: `Quỹ ${fund.name} chưa có tiền góp đều — chưa ước được thời gian.`,
       };
     const need = Math.ceil(left / pace);
     return {
       headline: `Khoảng ${need} tháng nữa`,
-      detail: `Quỹ ${f.name}: còn thiếu ${vnd(left)}, bạn đang góp trung bình ${shortMoney(pace)}/tháng.`,
+      detail: `Quỹ ${fund.name}: còn thiếu ${vnd(left)}, bạn đang góp trung bình ${shortMoney(pace)}/tháng.`,
     };
   }
 
   if (i.metric === 'left') {
-    const p = periodOf(ctx.startDay);
+    const currentPeriod = periodOf(ctx.startDay);
     const limit = cat ? (ctx.budgets[cat.id] ?? 0) : ctx.monthlyBudget;
     if (!limit)
       return {
@@ -59,20 +59,20 @@ export function computeAnswer(
         detail: `Đặt ngân sách ${cat ? cat.name : 'tháng'} để Ví Gọn tính phần còn lại.`,
       };
     const spent = cat
-      ? (byCategory(p.from, p.to).find((x) => x.categoryId === cat.id)?.total ?? 0)
-      : totals(p.from, p.to).expense;
-    const daysLeft = Math.max(1, Math.ceil((p.to - Date.now()) / 86400000));
+      ? (byCategory(currentPeriod.from, currentPeriod.to).find((x) => x.categoryId === cat.id)?.total ?? 0)
+      : totals(currentPeriod.from, currentPeriod.to).expense;
+    const daysLeft = Math.max(1, Math.ceil((currentPeriod.to - Date.now()) / 86400000));
     const left = limit - spent;
     return left >= 0
       ? {
           headline: vnd(left),
           detail: `Còn lại của ngân sách ${cat ? cat.name : 'tháng'} · ≈ ${shortMoney(left / daysLeft)}/ngày trong ${daysLeft} ngày`,
-          txFilter: { from: p.from, to: p.to, categoryId: cat?.id, kind: 'expense' },
+          txFilter: { from: currentPeriod.from, to: currentPeriod.to, categoryId: cat?.id, kind: 'expense' },
         }
       : {
           headline: `Vượt ${vnd(-left)}`,
           detail: `Đã chi ${vnd(spent)} / ngân sách ${vnd(limit)}`,
-          txFilter: { from: p.from, to: p.to, categoryId: cat?.id, kind: 'expense' },
+          txFilter: { from: currentPeriod.from, to: currentPeriod.to, categoryId: cat?.id, kind: 'expense' },
         };
   }
 

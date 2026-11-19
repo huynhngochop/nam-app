@@ -73,10 +73,10 @@ export default function Revenue() {
     const svcCount = new Map<string, { name: string; n: number; rev: number }>();
     done.forEach((b) =>
       svcOf(b.serviceIds, state.services).forEach((sv) => {
-        const e = svcCount.get(sv.id) ?? { name: sv.name, n: 0, rev: 0 };
-        e.n++;
-        e.rev += sv.price;
-        svcCount.set(sv.id, e);
+        const entry = svcCount.get(sv.id) ?? { name: sv.name, n: 0, rev: 0 };
+        entry.n++;
+        entry.rev += sv.price;
+        svcCount.set(sv.id, entry);
       }),
     );
     const topSvc = [...svcCount.values()].sort((a, b) => b.rev - a.rev).slice(0, 5);

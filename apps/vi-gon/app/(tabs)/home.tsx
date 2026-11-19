@@ -28,14 +28,14 @@ export default function Home() {
   const { c } = useTheme();
   const state = useVi();
   const period = periodOf(state.monthStartDay);
-  const t = useQuery(() => totals(period.from, period.to), [period.from], { expense: 0, income: 0, count: 0 });
+  const total = useQuery(() => totals(period.from, period.to), [period.from], { expense: 0, income: 0, count: 0 });
   const recent = useQuery(() => listTx({ limit: 6 }), [], []);
   const pending = useQuery(() => countWhere("status = 'pending'"), [], 0);
   const flagged = useQuery(() => countWhere('flag IS NOT NULL'), [], 0);
   const daysLeft = Math.max(1, Math.ceil((period.to - Date.now()) / 86400000));
   const budget = state.monthlyBudget;
-  const pct = budget ? t.expense / budget : 0;
-  const left = budget - t.expense;
+  const pct = budget ? total.expense / budget : 0;
+  const left = budget - total.expense;
   const hide = state.hideAmounts;
 
   return (
@@ -88,7 +88,7 @@ export default function Home() {
                 <T v="caption" muted>
                   Đã chi
                 </T>
-                <Money amount={t.expense} v="title" masked plain />
+                <Money amount={total.expense} v="title" masked plain />
                 <T v="caption" muted>
                   {hide ? '/ ••••••' : `/ ${vnd(budget)}`}
                 </T>
@@ -104,7 +104,7 @@ export default function Home() {
           ) : (
             <View style={{ gap: 6 }}>
               <T v="caption" muted>{`Đã chi ${period.label.toLowerCase()}`}</T>
-              <Money amount={t.expense} v="title" masked plain />
+              <Money amount={total.expense} v="title" masked plain />
               <Button
                 title="Đặt ngân sách tháng"
                 size="sm"
@@ -145,15 +145,15 @@ export default function Home() {
               <T v="caption" muted>
                 Thu kỳ này
               </T>
-              <Money amount={t.income} kind="income" masked />
+              <Money amount={total.income} kind="income" masked />
             </Row>
             <Row between>
               <T v="caption" muted>
                 Chênh lệch
               </T>
               <Money
-                amount={Math.abs(t.income - t.expense)}
-                kind={t.income >= t.expense ? 'income' : 'expense'}
+                amount={Math.abs(total.income - total.expense)}
+                kind={total.income >= total.expense ? 'income' : 'expense'}
                 masked
               />
             </Row>

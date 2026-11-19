@@ -50,13 +50,13 @@ test('"thứ Hai" không làm câu hỏi thành khoản thu', () => {
   assert.equal(intent('Thứ hai tuần này ăn uống hết bao nhiêu')!.kind, 'expense');
 });
 test('danh từ "thu" trước năm / từ / sau vẫn là khoản thu', () => {
-  for (const q of [
+  for (const question of [
     'Tổng thu năm nay',
     'Khoản thu năm nay bao nhiêu',
     'Thu từ bán hàng tháng này bao nhiêu',
     'Thu sau thuế năm nay bao nhiêu',
   ])
-    assert.equal(intent(q)!.kind, 'income', q);
+    assert.equal(intent(question)!.kind, 'income', question);
   assert.equal(intent('Tháng này còn được chi bao nhiêu')!.categoryId, null);
   assert.equal(intent('Chi cho con lại tăng tháng này')!.categoryId, 'family');
 });

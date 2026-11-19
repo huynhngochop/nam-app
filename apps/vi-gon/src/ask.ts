@@ -61,8 +61,9 @@ export function parseIntent(q: string, cats: Category[], funds: Fund[], now = ne
   else if (/ hom qua /.test(folded)) period = 'yesterday';
   else if (/ nam nay | ca nam /.test(folded)) period = 'this_year';
   else {
-    const m = folded.match(/ thang (\d{1,2}) /);
-    if (m && Number(m[1]) >= 1 && Number(m[1]) <= 12) period = `month_${Number(m[1])}`;
+    const monthMatch = folded.match(/ thang (\d{1,2}) /);
+    if (monthMatch && Number(monthMatch[1]) >= 1 && Number(monthMatch[1]) <= 12)
+      period = `month_${Number(monthMatch[1])}`;
   }
 
   const fund = funds.find(
@@ -86,9 +87,9 @@ export function parseIntent(q: string, cats: Category[], funds: Fund[], now = ne
   else {
     let best = 0;
     for (const [id, words] of Object.entries(CAT_WORDS))
-      for (const w of words)
-        if (fc.includes(` ${w} `) && w.length > best) {
-          best = w.length;
+      for (const word of words)
+        if (fc.includes(` ${word} `) && word.length > best) {
+          best = word.length;
           categoryId = id;
         }
   }
@@ -117,18 +118,18 @@ export function periodRange(
   const day = 86400000;
   const month = (offset: number) => {
     const y = now.getFullYear();
-    let m = now.getMonth();
-    if (now.getDate() < startDay) m -= 1;
-    m += offset;
-    return { from: new Date(y, m, startDay).getTime(), to: new Date(y, m + 1, startDay).getTime() };
+    let monthIndex = now.getMonth();
+    if (now.getDate() < startDay) monthIndex -= 1;
+    monthIndex += offset;
+    return { from: new Date(y, monthIndex, startDay).getTime(), to: new Date(y, monthIndex + 1, startDay).getTime() };
   };
   if (p === 'today')
     return { from: d0.getTime(), to: d0.getTime() + day, prevFrom: d0.getTime() - day, prevTo: d0.getTime() };
   if (p === 'yesterday')
     return { from: d0.getTime() - day, to: d0.getTime(), prevFrom: d0.getTime() - 2 * day, prevTo: d0.getTime() - day };
   if (p === 'this_week') {
-    const s = d0.getTime() - ((d0.getDay() + 6) % 7) * day;
-    return { from: s, to: s + 7 * day, prevFrom: s - 7 * day, prevTo: s };
+    const weekStart = d0.getTime() - ((d0.getDay() + 6) % 7) * day;
+    return { from: weekStart, to: weekStart + 7 * day, prevFrom: weekStart - 7 * day, prevTo: weekStart };
   }
   if (p === 'this_year') {
     const date = new Date(now.getFullYear(), 0, 1).getTime();
@@ -140,9 +141,9 @@ export function periodRange(
     };
   }
   if (p === 'last_month') {
-    const a = month(-1);
-    const b = month(-2);
-    return { ...a, prevFrom: b.from, prevTo: b.to };
+    const lastMonth = month(-1);
+    const monthBefore = month(-2);
+    return { ...lastMonth, prevFrom: monthBefore.from, prevTo: monthBefore.to };
   }
   if (p.startsWith('month_')) {
     const value = Number(p.split('_')[1]) - 1;
@@ -154,9 +155,9 @@ export function periodRange(
       prevTo: new Date(y, value, startDay).getTime(),
     };
   }
-  const a = month(0);
+  const thisMonth = month(0);
   const b = month(-1);
-  return { ...a, prevFrom: b.from, prevTo: b.to };
+  return { ...thisMonth, prevFrom: b.from, prevTo: b.to };
 }
 
 /** Không hiểu bằng quy tắc → nhờ AI hiểu câu hỏi. Chỉ gửi câu hỏi + danh sách TÊN danh mục/quỹ, không gửi số liệu. */

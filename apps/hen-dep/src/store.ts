@@ -202,9 +202,9 @@ export function findGap(
       .filter((b) => b.staffId === st.id && isActive(b) && b.endAt > now && b.startAt < horizon)
       .sort((a, b) => a.startAt - b.startAt);
     let cursor = Math.max(Math.ceil(now / 900000) * 900000, start);
-    for (const b of [...busy, { startAt: Math.min(horizon, end), endAt: Infinity } as Booking]) {
-      if (b.startAt - cursor >= 3600000) return { staffId: st.id, from: cursor, to: b.startAt };
-      cursor = Math.max(cursor, b.endAt);
+    for (const booking of [...busy, { startAt: Math.min(horizon, end), endAt: Infinity } as Booking]) {
+      if (booking.startAt - cursor >= 3600000) return { staffId: st.id, from: cursor, to: booking.startAt };
+      cursor = Math.max(cursor, booking.endAt);
     }
   }
   return null;

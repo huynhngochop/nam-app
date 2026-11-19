@@ -77,7 +77,7 @@ export function ingestMany(block: string): { saved: number; pending: number; unp
     .flatMap((p) => (p.split('\n').filter((l) => /[+\-−]\s*\d/.test(l)).length > 1 ? p.split('\n') : [p]))
     .map((x) => x.trim())
     .filter(Boolean);
-  const r = { saved: 0, pending: 0, unparsed: 0, duplicate: 0 };
-  for (const p of parts.slice(0, 200)) r[ingestText(p, { source: 'import' }).status]++;
-  return r;
+  const summary = { saved: 0, pending: 0, unparsed: 0, duplicate: 0 };
+  for (const part of parts.slice(0, 200)) summary[ingestText(part, { source: 'import' }).status]++;
+  return summary;
 }

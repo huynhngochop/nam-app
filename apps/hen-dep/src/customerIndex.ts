@@ -10,14 +10,14 @@ const EMPTY_SUMMARY: CustomerSummary = { visits: 0, spend: 0, noShows: 0 };
 export function customerIndex(bookings: Booking[], services: Service[]) {
   const priceById = new Map(services.map((s) => [s.id, s.price]));
   const byId = new Map<string, CustomerSummary>();
-  for (const b of bookings) {
-    let st = byId.get(b.customerId);
-    if (!st) byId.set(b.customerId, (st = { visits: 0, spend: 0, noShows: 0 }));
-    if (b.status === 'completed') {
+  for (const booking of bookings) {
+    let st = byId.get(booking.customerId);
+    if (!st) byId.set(booking.customerId, (st = { visits: 0, spend: 0, noShows: 0 }));
+    if (booking.status === 'completed') {
       st.visits++;
-      st.spend += b.payment?.amount ?? b.serviceIds.reduce((a, id) => a + (priceById.get(id) ?? 0), 0);
-      if (st.lastAt === undefined || b.startAt > st.lastAt) st.lastAt = b.startAt;
-    } else if (b.status === 'no_show') st.noShows++;
+      st.spend += booking.payment?.amount ?? booking.serviceIds.reduce((a, id) => a + (priceById.get(id) ?? 0), 0);
+      if (st.lastAt === undefined || booking.startAt > st.lastAt) st.lastAt = booking.startAt;
+    } else if (booking.status === 'no_show') st.noShows++;
   }
   return { get: (id: string) => byId.get(id) ?? EMPTY_SUMMARY };
 }

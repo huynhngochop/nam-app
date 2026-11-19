@@ -245,17 +245,17 @@ export const useNhip = create<State>()(
         })),
       logHabit: (habitId, delta) =>
         set((s) => {
-          const d = dateKey(new Date());
-          const day = { ...(s.habitLogs[d] ?? {}) };
+          const todayKey = dateKey(new Date());
+          const day = { ...(s.habitLogs[todayKey] ?? {}) };
           day[habitId] = Math.max(0, (day[habitId] ?? 0) + delta);
-          return { habitLogs: { ...s.habitLogs, [d]: day } };
+          return { habitLogs: { ...s.habitLogs, [todayKey]: day } };
         }),
       addHabit: (h) => set((s) => ({ habits: [...s.habits, { ...h, id: uid() }] })),
       saveMix: (name) =>
         set((s) => {
           const cur = s.mixes.find((m) => m.id === s.mixId);
-          const m: Mix = { id: uid(), name: name.trim().slice(0, 30), layers: cur?.layers ?? [] };
-          return { mixes: [...s.mixes, m], mixId: m.id };
+          const mix: Mix = { id: uid(), name: name.trim().slice(0, 30), layers: cur?.layers ?? [] };
+          return { mixes: [...s.mixes, mix], mixId: mix.id };
         }),
       setLayer: (id, vol) =>
         set((s) => ({
@@ -285,18 +285,18 @@ export function focusedSecOf(s: Session, now = Date.now()): number {
 
 /** Chuỗi ngày: ngày đạt mục tiêu liên tiếp tính đến hôm nay (hôm nay chưa đạt thì tính đến hôm qua). Ngày nghỉ phép giữ chuỗi. */
 export function streakOf(daily: Record<string, number>, goal: number, restDays: string[], today = new Date()): number {
-  let n = 0;
+  let count = 0;
   const date = new Date(today);
   if ((daily[dateKey(date)] ?? 0) < goal) date.setDate(date.getDate() - 1);
   for (;;) {
     const k = dateKey(date);
     if ((daily[k] ?? 0) >= goal || restDays.includes(k)) {
-      n += 1;
+      count += 1;
       date.setDate(date.getDate() - 1);
     } else break;
-    if (n > 3650) break;
+    if (count > 3650) break;
   }
-  return n;
+  return count;
 }
 
 /**

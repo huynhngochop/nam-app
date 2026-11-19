@@ -45,11 +45,15 @@ export default function Restore() {
   const pick = async () => {
     setErr(null);
     try {
-      const r = await DocumentPicker.getDocumentAsync({ type: '*/*', copyToCacheDirectory: true, multiple: false });
-      if (r.canceled || !r.assets?.[0]) return;
-      const m = readMeta(r.assets[0].uri);
-      setUri(r.assets[0].uri);
-      setMeta(m);
+      const picked = await DocumentPicker.getDocumentAsync({
+        type: '*/*',
+        copyToCacheDirectory: true,
+        multiple: false,
+      });
+      if (picked.canceled || !picked.assets?.[0]) return;
+      const meta = readMeta(picked.assets[0].uri);
+      setUri(picked.assets[0].uri);
+      setMeta(meta);
       setTries(0);
       setPw('');
     } catch {
@@ -62,20 +66,20 @@ export default function Restore() {
     setBusy(true);
     setErr(null);
     try {
-      const r = await restoreBackup(uri, pw);
-      track('backup_restored', { tx: r.txCount });
-      toast(`Đã khôi phục ${r.txCount} giao dịch`, { tone: 'success' });
+      const result = await restoreBackup(uri, pw);
+      track('backup_restored', { tx: result.txCount });
+      toast(`Đã khôi phục ${result.txCount} giao dịch`, { tone: 'success' });
       router.replace('/(tabs)/home');
     } catch (error) {
       if (error instanceof Error && error.message === 'WRONG_PASSWORD') {
-        const n = tries + 1;
-        setTries(n);
-        if (n >= MAX_TRIES) {
+        const attempts = tries + 1;
+        setTries(attempts);
+        if (attempts >= MAX_TRIES) {
           setWaitUntil(Date.now() + 30000);
           setNow(Date.now());
           setTries(0);
           setErr('Sai quá nhiều lần. Thử lại sau 30 giây.');
-        } else setErr(`Mật khẩu chưa đúng · còn ${MAX_TRIES - n} lần thử`);
+        } else setErr(`Mật khẩu chưa đúng · còn ${MAX_TRIES - attempts} lần thử`);
       } else setErr('Không khôi phục được. Dữ liệu hiện tại vẫn giữ nguyên.');
     } finally {
       setBusy(false);

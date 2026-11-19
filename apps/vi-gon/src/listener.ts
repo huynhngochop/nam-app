@@ -61,13 +61,13 @@ const take = (e: Posted) => {
 /** Nghe thông báo mới + xử lý thông báo đến lúc app tắt. Gọi lại khi app quay về trước (drain là rẻ). */
 export function startListening() {
   if (!native) return () => {};
-  const n = native;
-  const sub = n.addListener('notification', take);
+  const nativeModule = native;
+  const sub = nativeModule.addListener('notification', take);
   drainPending();
   // Lọc ngay ở phía native để không xếp hàng thông báo của app không chọn.
-  n.setAllowedApps(useVi.getState().allowedApps);
+  nativeModule.setAllowedApps(useVi.getState().allowedApps);
   const unsub = useVi.subscribe((st, prev) => {
-    if (st.allowedApps !== prev.allowedApps) n.setAllowedApps(st.allowedApps);
+    if (st.allowedApps !== prev.allowedApps) nativeModule.setAllowedApps(st.allowedApps);
   });
   return () => {
     sub.remove();

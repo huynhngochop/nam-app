@@ -51,13 +51,13 @@ export function parseLocally(text: string): ParsedService[] {
     // Tách thời lượng ra trước, vì nó có thể đứng sau giá ("Uốn lạnh 800K 150 phút") — lỗi H2.
     const dur = trimmed.match(DURATION);
     const rest = (dur ? trimmed.replace(dur[0], ' ') : trimmed).replace(/[\s\-–:.…]+$/, '').trim();
-    const m = rest.match(/^(.*?)[\s.:\-–…]*((?:\d[\d.,]*\s*(?:k|K|đ|d|vnd|VND|tr|triệu)?)(?:\s*\d+)?)\s*$/);
-    const name = (m ? m[1] : rest)
+    const priceMatch = rest.match(/^(.*?)[\s.:\-–…]*((?:\d[\d.,]*\s*(?:k|K|đ|d|vnd|VND|tr|triệu)?)(?:\s*\d+)?)\s*$/);
+    const name = (priceMatch ? priceMatch[1] : rest)
       .replace(/[.:\-–…]+$/, '')
       .replace(/\s+/g, ' ')
       .trim();
     if (!name || /^bang gia|^menu|^gia$/.test(fold(name))) continue;
-    const price = m ? parsePrice(m[2]) : null;
+    const price = priceMatch ? parsePrice(priceMatch[2]) : null;
     const guess = GUESS.find((x) => x.re.test(fold(name)));
     out.push({
       name: name.charAt(0).toUpperCase() + name.slice(1).toLowerCase(),

@@ -44,12 +44,12 @@ export default function Habits() {
   const sessionsOn = (k: string) =>
     state.logs.filter((l) => l.status === 'completed' && dateKey(new Date(l.at)) === k).length;
   const valueOf = (hId: string, k: string) => {
-    const h = state.habits.find((x) => x.id === hId)!;
-    return h.auto ? sessionsOn(k) : (state.habitLogs[k]?.[hId] ?? 0);
+    const habit = state.habits.find((x) => x.id === hId)!;
+    return habit.auto ? sessionsOn(k) : (state.habitLogs[k]?.[hId] ?? 0);
   };
   const ratioOf = (k: string) => {
-    const r = state.habits.map((h) => Math.min(1, valueOf(h.id, k) / habitTarget(h, state)));
-    return r.reduce((a, b) => a + b, 0) / Math.max(1, r.length);
+    const ratios = state.habits.map((h) => Math.min(1, valueOf(h.id, k) / habitTarget(h, state)));
+    return ratios.reduce((a, b) => a + b, 0) / Math.max(1, ratios.length);
   };
   const tryAdd = (h: { name: string; target: number; unit: string; icon: string }) => {
     if (state.habits.length >= FREE_HABITS + 1 && !state.isPro) {
@@ -71,7 +71,7 @@ export default function Habits() {
       <Row between>
         {week.map((d) => {
           const k = dateKey(d);
-          const r = ratioOf(k);
+          const ratio = ratioOf(k);
           const isToday = k === dateKey(new Date());
           const future = d > new Date();
           return (
@@ -91,12 +91,12 @@ export default function Habits() {
                   borderRadius: 17,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  backgroundColor: r >= 1 ? c.a : r > 0 ? c.at : 'transparent',
+                  backgroundColor: ratio >= 1 ? c.a : ratio > 0 ? c.at : 'transparent',
                   borderWidth: isToday || k === day ? 2 : 0,
                   borderColor: c.a,
                 }}
               >
-                <T v="caption" weight="semibold" color={r >= 1 ? c.onAccent : r > 0 ? c.a : c.ink}>
+                <T v="caption" weight="semibold" color={ratio >= 1 ? c.onAccent : ratio > 0 ? c.a : c.ink}>
                   {String(d.getDate())}
                 </T>
               </View>

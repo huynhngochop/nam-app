@@ -70,13 +70,13 @@ export function LockGate({ children }: { children: React.ReactNode }) {
   const unlock = useCallback(async () => {
     setErr(null);
     try {
-      const r = await LocalAuthentication.authenticateAsync({
+      const auth = await LocalAuthentication.authenticateAsync({
         promptMessage: 'Mở khóa Ví Gọn',
         cancelLabel: 'Hủy',
         disableDeviceFallback: false,
       });
-      if (r.success) setLocked(false);
-      else if (r.error !== 'user_cancel' && r.error !== 'system_cancel')
+      if (auth.success) setLocked(false);
+      else if (auth.error !== 'user_cancel' && auth.error !== 'system_cancel')
         setErr('Chưa xác thực được. Thử lại hoặc dùng mật mã máy.');
     } catch {
       setErr('Máy không hỗ trợ xác thực. Tắt khóa trong Cài đặt máy nếu cần.');

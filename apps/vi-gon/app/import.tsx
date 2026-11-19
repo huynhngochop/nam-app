@@ -50,13 +50,13 @@ export default function Import() {
     } catch {
       /* đã được giải mã sẵn */
     }
-    const r = ingestText(raw.slice(0, 1000), { source: 'auto', app: 'ios-shortcut' });
-    track('shortcut_import', { status: r.status });
-    if (r.status === 'pending') router.replace('/pending');
-    else if (r.status === 'saved') {
+    const result = ingestText(raw.slice(0, 1000), { source: 'auto', app: 'ios-shortcut' });
+    track('shortcut_import', { status: result.status });
+    if (result.status === 'pending') router.replace('/pending');
+    else if (result.status === 'saved') {
       toast('Đã ghi giao dịch', { tone: 'success' });
       router.replace('/(tabs)/home');
-    } else if (r.status === 'duplicate') {
+    } else if (result.status === 'duplicate') {
       toast('Giao dịch này đã có');
       router.replace('/(tabs)/home');
     }
@@ -65,19 +65,19 @@ export default function Import() {
   }, [params.text]);
 
   const run = () => {
-    const r = ingestMany(text);
-    track('paste_import', r);
+    const result = ingestMany(text);
+    track('paste_import', result);
     setText('');
     const parts = [
-      r.saved && `${r.saved} đã lưu`,
-      r.pending && `${r.pending} chờ xác nhận`,
-      r.duplicate && `${r.duplicate} đã có`,
-      r.unparsed && `${r.unparsed} chưa đọc được`,
+      result.saved && `${result.saved} đã lưu`,
+      result.pending && `${result.pending} chờ xác nhận`,
+      result.duplicate && `${result.duplicate} đã có`,
+      result.unparsed && `${result.unparsed} chưa đọc được`,
     ]
       .filter(Boolean)
       .join(' · ');
-    toast(parts || 'Không có gì để ghi', { tone: r.saved + r.pending ? 'success' : 'info' });
-    if (r.pending && !r.unparsed) router.replace('/pending');
+    toast(parts || 'Không có gì để ghi', { tone: result.saved + result.pending ? 'success' : 'info' });
+    if (result.pending && !result.unparsed) router.replace('/pending');
   };
 
   if (teach) return <Teach item={teach} onDone={() => setTeach(null)} />;
@@ -105,8 +105,8 @@ export default function Import() {
         variant="secondary"
         size="md"
         onPress={async () => {
-          const t = await Clipboard.getStringAsync().catch(() => '');
-          if (t) setText((x) => (x ? `${x}\n\n${t}` : t));
+          const clipboard = await Clipboard.getStringAsync().catch(() => '');
+          if (clipboard) setText((x) => (x ? `${x}\n\n${clipboard}` : clipboard));
           else toast('Bộ nhớ tạm trống');
         }}
       />

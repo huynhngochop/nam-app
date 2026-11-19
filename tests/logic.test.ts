@@ -131,7 +131,7 @@ test('Mẹo Nhà: kho mẹo đủ, đúng cú pháp, mẹo rủi ro có cảnh b
   for (let i = 1; i <= 20; i++) assert.ok(tipById(`t${i}`), `mất mẹo t${i}`);
 });
 test('Mẹo Nhà: tìm được các vấn đề thường gặp', () => {
-  for (const q of [
+  for (const question of [
     'tac bon cau',
     'vết máu trên áo',
     'mùi gas',
@@ -143,7 +143,7 @@ test('Mẹo Nhà: tìm được các vấn đề thường gặp', () => {
     'mèo cào sofa',
     'cửa kẹt',
   ])
-    assert.ok(searchTips(q).length > 0, `không ra kết quả: ${q}`);
+    assert.ok(searchTips(question).length > 0, `không ra kết quả: ${question}`);
   assert.equal(searchTips('mùi gas')[0].categoryId, 'safety');
 });
 test('Mẹo Nhà: bảng tin đủ mẹo, danh mục quan tâm lên đầu, xen kẽ danh mục', () => {

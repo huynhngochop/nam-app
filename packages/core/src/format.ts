@@ -10,13 +10,13 @@ export function vnd(n: number, opts: { signed?: boolean } = {}): string {
 }
 /** 3100000 → "3,1 tr"; 1250000000 → "1,25 tỷ"; 520000 → "520k" */
 export function shortMoney(n: number): string {
-  const a = Math.abs(n);
+  const absolute = Math.abs(n);
   const sign = n < 0 ? '−' : '';
   const dec = (x: number) => (Math.round(x * 100) / 100).toString().replace('.', ',');
-  if (a >= 1e9) return `${sign}${dec(a / 1e9)} tỷ`;
-  if (a >= 1e6) return `${sign}${dec(a / 1e6)} tr`;
-  if (a >= 1e3) return `${sign}${Math.round(a / 1e3)}k`;
-  return `${sign}${a}`;
+  if (absolute >= 1e9) return `${sign}${dec(absolute / 1e9)} tỷ`;
+  if (absolute >= 1e6) return `${sign}${dec(absolute / 1e6)} tr`;
+  if (absolute >= 1e3) return `${sign}${Math.round(absolute / 1e3)}k`;
+  return `${sign}${absolute}`;
 }
 export function decimalVi(n: number, digits = 1): string {
   return n.toFixed(digits).replace('.', ',');
@@ -52,11 +52,11 @@ export function minutesLabel(min: number) {
 }
 export function relativeTime(iso: string | number, now = Date.now()) {
   const ms = typeof iso === 'number' ? iso : Date.parse(iso);
-  const s = Math.round((now - ms) / 1000);
-  if (s < 60) return 'vừa xong';
-  if (s < 3600) return `${Math.floor(s / 60)} phút trước`;
-  if (s < 86400) return `${Math.floor(s / 3600)} giờ trước`;
-  const days = Math.floor(s / 86400);
+  const seconds = Math.round((now - ms) / 1000);
+  if (seconds < 60) return 'vừa xong';
+  if (seconds < 3600) return `${Math.floor(seconds / 60)} phút trước`;
+  if (seconds < 86400) return `${Math.floor(seconds / 3600)} giờ trước`;
+  const days = Math.floor(seconds / 86400);
   if (days === 1) return 'hôm qua';
   if (days < 7) return `${days} ngày trước`;
   return dayMonth(new Date(ms));

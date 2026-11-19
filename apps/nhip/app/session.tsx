@@ -105,8 +105,8 @@ export default function SessionScreen() {
 
   function startFocus() {
     ended.current = false;
-    const n = useNhip.getState().startPhase('focus', { cycleIndex: sess!.cycleIndex });
-    schedulePhaseEnd(n.endAt, 'Hết phiên!', 'Nghỉ một chút nhé.');
+    const next = useNhip.getState().startPhase('focus', { cycleIndex: sess!.cycleIndex });
+    schedulePhaseEnd(next.endAt, 'Hết phiên!', 'Nghỉ một chút nhé.');
   }
   const togglePause = () => {
     if (running) {

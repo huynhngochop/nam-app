@@ -4,28 +4,28 @@ import { useMeo } from '../store';
 
 /** Mẹo còn hiện với người này (bỏ mẹo đã báo). */
 const pool = () => {
-  const h = useMeo.getState().hiddenTips;
-  return h.length ? TIPS.filter((t) => !h.includes(t.id)) : TIPS;
+  const hidden = useMeo.getState().hiddenTips;
+  return hidden.length ? TIPS.filter((t) => !hidden.includes(t.id)) : TIPS;
 };
 
 type Indexed = { title: string; hay: string; rawTitle: string; rawHay: string };
 /** Chữ thường (có dấu và bỏ dấu) của từng mẹo, tính một lần rồi giữ lại (vài trăm mẹo × mỗi lần gõ phím). */
 const cache = new WeakMap<Tip, Indexed>();
 function index(t: Tip): Indexed {
-  let f = cache.get(t);
-  if (!f) {
+  let entry = cache.get(t);
+  if (!entry) {
     const rawTitle = t.title.toLowerCase();
     const rawHay = `${rawTitle} ${t.sub ?? ''} ${t.summary} ${t.steps.join(' ')}`.toLowerCase();
     const title = fold(t.title);
-    f = { title, hay: `${fold(rawHay)} ${t.keywords}`, rawTitle, rawHay };
-    cache.set(t, f);
+    entry = { title, hay: `${fold(rawHay)} ${t.keywords}`, rawTitle, rawHay };
+    cache.set(t, entry);
   }
-  return f;
+  return entry;
 }
 
 /** Dựng sẵn chỉ mục khi app rảnh để lần tìm đầu tiên không bị khựng. */
 export function warmSearchIndex() {
-  for (const t of TIPS) index(t);
+  for (const tip of TIPS) index(tip);
 }
 
 type Word = { f: string; raw: string | null };
@@ -45,12 +45,12 @@ export function scoreTip(t: Tip, q: string): number {
 function scoreWords(t: Tip, words: Word[]): number {
   if (!words.length) return 0;
   const x = index(t);
-  let s = 0;
-  for (const w of words) {
-    if (x.title.includes(w.f)) s += w.raw && x.rawTitle.includes(w.raw) ? 3.5 : 3;
-    else if (x.hay.includes(w.f)) s += w.raw && x.rawHay.includes(w.raw) ? 1.25 : 1;
+  let score = 0;
+  for (const word of words) {
+    if (x.title.includes(word.f)) score += word.raw && x.rawTitle.includes(word.raw) ? 3.5 : 3;
+    else if (x.hay.includes(word.f)) score += word.raw && x.rawHay.includes(word.raw) ? 1.25 : 1;
   }
-  return s / words.length;
+  return score / words.length;
 }
 
 export type SortKey = 'popular' | 'new' | 'easy';
@@ -75,8 +75,8 @@ export function suggestions(q: string): string[] {
   const folded = fold(q);
   if (folded.length < 2) return [];
   const out: string[] = [];
-  for (const t of pool()) {
-    if (index(t).title.includes(folded) || t.keywords.includes(folded)) out.push(t.title);
+  for (const tip of pool()) {
+    if (index(tip).title.includes(folded) || tip.keywords.includes(folded)) out.push(tip.title);
     if (out.length === 5) break;
   }
   return out;
@@ -87,16 +87,16 @@ export const TRENDING = ['nồm ẩm', 'dọn nhà Tết', 'kiến trong bếp',
 /** Bảng tin: xen kẽ các danh mục (danh mục quan tâm trước), trong mỗi danh mục mẹo cơ bản trước. */
 export function feedFor(interests: CategoryId[]): Tip[] {
   const groups = new Map<CategoryId, Tip[]>();
-  for (const t of pool()) {
-    const g = groups.get(t.categoryId);
-    if (g) g.push(t);
-    else groups.set(t.categoryId, [t]);
+  for (const tip of pool()) {
+    const group = groups.get(tip.categoryId);
+    if (group) group.push(tip);
+    else groups.set(tip.categoryId, [tip]);
   }
   const interleave = (keys: CategoryId[]) => {
     const lists = keys.map((k) => groups.get(k)!);
     const max = Math.max(0, ...lists.map((l) => l.length));
     const out: Tip[] = [];
-    for (let i = 0; i < max; i++) for (const l of lists) if (i < l.length) out.push(l[i]);
+    for (let i = 0; i < max; i++) for (const list of lists) if (i < list.length) out.push(list[i]);
     return out;
   };
   const keys = [...groups.keys()];

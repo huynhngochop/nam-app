@@ -270,7 +270,7 @@ export function allTx(pageSize = EXPORT_PAGE): Tx[] {
           pageSize,
         ])
       : db.getAllSync<Row>('SELECT * FROM tx ORDER BY at, id LIMIT ?', [pageSize]);
-    for (const r of rows) out.push(toTx(r));
+    for (const result of rows) out.push(toTx(result));
     if (rows.length < pageSize) return out;
     const tail = rows[rows.length - 1];
     last = { at: tail.at, id: tail.id };

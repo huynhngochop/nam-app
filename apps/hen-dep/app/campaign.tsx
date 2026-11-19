@@ -34,27 +34,27 @@ export default function Campaign() {
   const { c } = useTheme();
   const toast = useToast();
   const online = useOnline();
-  const p = useLocalSearchParams<{ window?: string; message?: string }>();
+  const routeParams = useLocalSearchParams<{ window?: string; message?: string }>();
   const state = useHen();
   const link = bookingContact(state.shop);
   const [aud, setAud] = useState<Aud>('lapsed');
   const [picked, setPicked] = useState<string[]>([]);
   const [q, setQ] = useState('');
   const [msg, setMsg] = useState(
-    p.message ??
+    routeParams.message ??
       templateVariants({
         shopName: state.shop.name,
         link,
-        goal: p.window ? 'lunch' : 'lapsed',
+        goal: routeParams.window ? 'lunch' : 'lapsed',
         tone: 'friendly',
         offerPct: 10,
-        window: p.window,
+        window: routeParams.window,
       })[0],
   );
   const [confirm, setConfirm] = useState(false);
   useEffect(() => {
-    if (p.message) setMsg(p.message);
-  }, [p.message]);
+    if (routeParams.message) setMsg(routeParams.message);
+  }, [routeParams.message]);
 
   const index = useMemo(() => customerIndex(state.bookings, state.services), [state.bookings, state.services]);
   const people = useMemo(() => {
@@ -146,9 +146,9 @@ export default function Campaign() {
           <T v="body">Bản này chưa gửi tin tự động qua Zalo. Chia sẻ nội dung để tự gửi cho khách bên dưới.</T>
         </Card>
       ) : null}
-      {p.window ? (
+      {routeParams.window ? (
         <Card variant="tint">
-          <T v="body">{`Lấp khung trống ${p.window} hôm nay`}</T>
+          <T v="body">{`Lấp khung trống ${routeParams.window} hôm nay`}</T>
         </Card>
       ) : null}
       <SectionHeader title="Gửi cho ai" />
@@ -187,7 +187,7 @@ export default function Campaign() {
           size="sm"
           variant="text"
           icon="zap"
-          onPress={() => router.push({ pathname: '/campaign-ai', params: { window: p.window ?? '' } })}
+          onPress={() => router.push({ pathname: '/campaign-ai', params: { window: routeParams.window ?? '' } })}
         />
       </Row>
       <TextField

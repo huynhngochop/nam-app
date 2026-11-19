@@ -66,18 +66,18 @@ export default function Transactions() {
     let day = -1;
     let header: Extract<Item, { type: 'header' }> | null = null;
     for (const tx of list) {
-      const d = startOfDay(new Date(tx.at)).getTime();
-      if (d !== day) {
-        day = d;
-        const dt = new Date(d);
+      const dayStart = startOfDay(new Date(tx.at)).getTime();
+      if (dayStart !== day) {
+        day = dayStart;
+        const dt = new Date(dayStart);
         const today = startOfDay(new Date()).getTime();
         header = {
           type: 'header',
-          key: `h${d}`,
+          key: `h${dayStart}`,
           label:
-            d === today
+            dayStart === today
               ? `Hôm nay · ${dayMonth(dt)}`
-              : d === today - 86400000
+              : dayStart === today - 86400000
                 ? `Hôm qua · ${dayMonth(dt)}`
                 : `${weekdayLong(dt)} · ${dayMonth(dt)}`,
           net: 0,

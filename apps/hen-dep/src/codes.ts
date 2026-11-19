@@ -5,8 +5,8 @@
  */
 export function nextBookingCode(existing: { code: string }[], lastIssued = 3000): { code: string; n: number } {
   let max = Math.max(3000, lastIssued);
-  for (const b of existing) {
-    const value = Number(b.code.replace(/^HD-/, ''));
+  for (const booking of existing) {
+    const value = Number(booking.code.replace(/^HD-/, ''));
     if (Number.isInteger(value) && value > max) max = value;
   }
   return { code: `HD-${max + 1}`, n: max + 1 };

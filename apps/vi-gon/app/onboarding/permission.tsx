@@ -44,8 +44,8 @@ export default function Permission() {
   useEffect(() => {
     const sub = AppState.addEventListener('change', async (st) => {
       if (st === 'active') {
-        const p = await checkPermission();
-        setGranted(p === 'granted');
+        const permission = await checkPermission();
+        setGranted(permission === 'granted');
         refreshListenerState();
       }
     });

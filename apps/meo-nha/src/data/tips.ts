@@ -107,7 +107,7 @@ export function parseTips(categoryId: CategoryId, src: string, start = 0): Tip[]
     else {
       const [title, summary, meta = ''] = line.split('|').map((s) => s.trim());
       const tokens = meta.split(/\s+/);
-      const d = tokens[1];
+      const difficultyCode = tokens[1];
       const id = tokens.find((x) => x.startsWith('id='))?.slice(3);
       cur = {
         id: id ?? slug(title),
@@ -116,7 +116,7 @@ export function parseTips(categoryId: CategoryId, src: string, start = 0): Tip[]
         categoryId,
         sub,
         minutes: Number(tokens[0]) || 5,
-        difficulty: d === 'h' ? 'hard' : d === 'm' ? 'medium' : 'easy',
+        difficulty: difficultyCode === 'h' ? 'hard' : difficultyCode === 'm' ? 'medium' : 'easy',
         order: start + out.length,
         steps: [],
         keywords: '',
@@ -155,17 +155,17 @@ const RISKY =
 export function validateTips(list: Tip[]): string[] {
   const errs: string[] = [];
   const ids = new Set<string>();
-  for (const t of list) {
-    const where = `${t.categoryId}/${t.id}`;
-    if (ids.has(t.id)) errs.push(`${where}: trùng id`);
-    ids.add(t.id);
-    const cat = CATEGORIES.find((c) => c.id === t.categoryId);
-    if (!t.sub || !cat?.subs.includes(t.sub)) errs.push(`${where}: nhóm con "${t.sub}" không có trong danh mục`);
-    if (!t.summary) errs.push(`${where}: thiếu tóm tắt`);
-    if (t.steps.length < 2 || t.steps.length > 6) errs.push(`${where}: cần 2–6 bước (đang ${t.steps.length})`);
-    if (t.title.length > 60) errs.push(`${where}: tên dài quá 60 ký tự`);
-    const text = fold(`${t.title} ${t.summary} ${t.steps.join(' ')}`);
-    if (RISKY.test(text) && !t.safety?.length)
+  for (const tip of list) {
+    const where = `${tip.categoryId}/${tip.id}`;
+    if (ids.has(tip.id)) errs.push(`${where}: trùng id`);
+    ids.add(tip.id);
+    const cat = CATEGORIES.find((c) => c.id === tip.categoryId);
+    if (!tip.sub || !cat?.subs.includes(tip.sub)) errs.push(`${where}: nhóm con "${tip.sub}" không có trong danh mục`);
+    if (!tip.summary) errs.push(`${where}: thiếu tóm tắt`);
+    if (tip.steps.length < 2 || tip.steps.length > 6) errs.push(`${where}: cần 2–6 bước (đang ${tip.steps.length})`);
+    if (tip.title.length > 60) errs.push(`${where}: tên dài quá 60 ký tự`);
+    const text = fold(`${tip.title} ${tip.summary} ${tip.steps.join(' ')}`);
+    if (RISKY.test(text) && !tip.safety?.length)
       errs.push(`${where}: đụng hóa chất/gas/điện/độ cao mà thiếu dòng an toàn +`);
   }
   return errs;

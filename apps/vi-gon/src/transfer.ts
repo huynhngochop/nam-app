@@ -11,9 +11,9 @@ type Kind = 'expense' | 'income';
 export function untransferKinds(self: Leg, pair: Leg | null): { self: Kind | null; pair: Kind | null } {
   const kindOf = (l: Leg | null): Kind | null => (l?.raw ? (parseBankText(l.raw)?.kind ?? null) : null);
   const flip = (k: Kind): Kind => (k === 'income' ? 'expense' : 'income');
-  let a = kindOf(self);
-  let b = kindOf(pair);
-  if (!a && b) a = flip(b);
-  if (a && !b && pair) b = flip(a);
-  return { self: a, pair: pair ? b : null };
+  let selfKind = kindOf(self);
+  let pairKind = kindOf(pair);
+  if (!selfKind && pairKind) selfKind = flip(pairKind);
+  if (selfKind && !pairKind && pair) pairKind = flip(selfKind);
+  return { self: selfKind, pair: pair ? pairKind : null };
 }

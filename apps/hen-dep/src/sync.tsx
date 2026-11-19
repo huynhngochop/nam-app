@@ -31,15 +31,15 @@ async function resolve(b: Booking, choice: number): Promise<string | null> {
   }
   if (choice === 1) {
     const step = (state.shop.settings.slotStepMin || 15) * 60000;
-    for (let t = b.startAt + step; t < b.startAt + 12 * 3600000; t += step) {
-      const date = new Date(t);
-      const h = state.shop.hours.find((x) => x.day === date.getDay());
-      const [ch, cm] = (h?.to ?? '21:00').split(':').map(Number);
+    for (let slotStart = b.startAt + step; slotStart < b.startAt + 12 * 3600000; slotStart += step) {
+      const date = new Date(slotStart);
+      const dayHours = state.shop.hours.find((x) => x.day === date.getDay());
+      const [ch, cm] = (dayHours?.to ?? '21:00').split(':').map(Number);
       const close = new Date(date).setHours(ch, cm, 0, 0);
-      if (h && !h.open) continue;
-      if (t + dur > close) continue;
-      if (!overlaps(others, b.staffId, t, t + dur)) {
-        state.updateBooking(b.id, { startAt: t, endAt: t + dur });
+      if (dayHours && !dayHours.open) continue;
+      if (slotStart + dur > close) continue;
+      if (!overlaps(others, b.staffId, slotStart, slotStart + dur)) {
+        state.updateBooking(b.id, { startAt: slotStart, endAt: slotStart + dur });
         return `Đã dời sang ${hhmm(date)}`;
       }
     }
@@ -116,8 +116,8 @@ export function SyncBar() {
           body="Một thay đổi bạn làm khi ngoại tuyến trùng với lịch khách vừa đặt online. Lịch của khách được giữ nguyên."
           confirm="Áp dụng"
           onConfirm={async () => {
-            const b = c0.payload as Booking;
-            const cur = useHen.getState().bookings.find((x) => x.id === b?.id);
+            const remote = c0.payload as Booking;
+            const cur = useHen.getState().bookings.find((x) => x.id === remote?.id);
             const msg = cur ? await resolve(cur, choice).catch(() => null) : null;
             if (!msg) {
               toast(choice === 2 ? 'Khách không có số điện thoại' : 'Không tìm được chỗ trống — chọn cách khác');

@@ -31,9 +31,9 @@ type BackupFile = BackupMeta & { data: string };
 const enc = new TextEncoder();
 const dec = new TextDecoder();
 function b64(bytes: Uint8Array) {
-  let s = '';
-  for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
-  return btoa(s);
+  let encoded = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) encoded += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  return btoa(encoded);
 }
 function unb64(s: string) {
   const bin = atob(s);
@@ -81,22 +81,22 @@ export async function createBackup(password: string, hint: string): Promise<{ ur
     data: b64(cipher),
   };
   const date = new Date();
-  const f = new File(
+  const backupFile = new File(
     Paths.cache,
     `ViGon-saoluu-${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, '0')}${String(date.getDate()).padStart(2, '0')}.vgb`,
   );
-  if (f.exists) f.delete();
-  f.create();
-  f.write(JSON.stringify(file));
+  if (backupFile.exists) backupFile.delete();
+  backupFile.create();
+  backupFile.write(JSON.stringify(file));
   state.set({ lastBackupAt: Date.now(), backupHint: hint });
   const can = await Sharing.isAvailableAsync();
   if (can)
-    await Sharing.shareAsync(f.uri, {
+    await Sharing.shareAsync(backupFile.uri, {
       mimeType: 'application/octet-stream',
       dialogTitle: 'Lưu bản sao lưu Ví Gọn',
       UTI: 'public.data',
     });
-  return { uri: f.uri, shared: can };
+  return { uri: backupFile.uri, shared: can };
 }
 
 export function readMeta(uri: string): BackupMeta {

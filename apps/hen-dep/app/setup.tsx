@@ -205,27 +205,33 @@ export default function Setup() {
             Khách chỉ đặt được trong giờ này.
           </T>
           {[1, 2, 3, 4, 5, 6, 0].map((d) => {
-            const h = hours.find((x) => x.day === d)!;
+            const dayHours = hours.find((x) => x.day === d)!;
             return (
               <ListItem
                 key={d}
                 strong={false}
                 title={DAYS[d]}
-                left={<Toggle label={`Mở cửa ${DAYS[d]}`} value={h.open} onChange={(v) => setDay(d, { open: v })} />}
+                left={
+                  <Toggle label={`Mở cửa ${DAYS[d]}`} value={dayHours.open} onChange={(v) => setDay(d, { open: v })} />
+                }
                 right={
-                  h.open ? (
+                  dayHours.open ? (
                     <Row gap={4}>
                       <Chip
-                        label={h.from}
+                        label={dayHours.from}
                         onPress={() =>
-                          setDay(d, { from: h.from === '08:00' ? '09:00' : h.from === '09:00' ? '07:00' : '08:00' })
+                          setDay(d, {
+                            from: dayHours.from === '08:00' ? '09:00' : dayHours.from === '09:00' ? '07:00' : '08:00',
+                          })
                         }
                       />
                       <T v="caption">–</T>
                       <Chip
-                        label={h.to}
+                        label={dayHours.to}
                         onPress={() =>
-                          setDay(d, { to: h.to === '20:00' ? '21:00' : h.to === '21:00' ? '19:00' : '20:00' })
+                          setDay(d, {
+                            to: dayHours.to === '20:00' ? '21:00' : dayHours.to === '21:00' ? '19:00' : '20:00',
+                          })
                         }
                       />
                     </Row>

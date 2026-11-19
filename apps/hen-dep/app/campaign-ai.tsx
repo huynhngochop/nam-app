@@ -9,9 +9,9 @@ import { generatePromo, GOAL_LABEL, PromoGoal, PromoTone, templateVariants, TONE
 /** HD-C19 · AI soạn tin ưu đãi. Hết lượt / không có mạng → mẫu soạn sẵn trên máy. */
 export default function CampaignAi() {
   const toast = useToast();
-  const p = useLocalSearchParams<{ window?: string }>();
+  const routeParams = useLocalSearchParams<{ window?: string }>();
   const state = useHen();
-  const [goal, setGoal] = useState<PromoGoal>(p.window ? 'lunch' : 'lapsed');
+  const [goal, setGoal] = useState<PromoGoal>(routeParams.window ? 'lunch' : 'lapsed');
   const [tone, setTone] = useState<PromoTone>('friendly');
   const [offer, setOffer] = useState(10);
   const [busy, setBusy] = useState(false);
@@ -33,7 +33,7 @@ export default function CampaignAi() {
     goal,
     tone,
     offerPct: offer,
-    window: p.window || undefined,
+    window: routeParams.window || undefined,
   };
 
   const run = async () => {
@@ -44,11 +44,11 @@ export default function CampaignAi() {
         setViaAi(false);
         return;
       }
-      const r = await generatePromo(input);
-      if (r.viaAi) state.consumeAi();
-      setVariants(r.variants);
-      setViaAi(r.viaAi);
-      track('promo_generated', { goal, tone, viaAi: r.viaAi });
+      const promo = await generatePromo(input);
+      if (promo.viaAi) state.consumeAi();
+      setVariants(promo.variants);
+      setViaAi(promo.viaAi);
+      track('promo_generated', { goal, tone, viaAi: promo.viaAi });
     } catch (error) {
       setVariants(templateVariants(input));
       setViaAi(false);
@@ -95,7 +95,7 @@ export default function CampaignAi() {
             <Card
               key={i}
               onPress={() =>
-                router.dismissTo({ pathname: '/campaign', params: { message: v, window: p.window ?? '' } })
+                router.dismissTo({ pathname: '/campaign', params: { message: v, window: routeParams.window ?? '' } })
               }
               accessibilityLabel={`Chọn mẫu ${i + 1}`}
             >
