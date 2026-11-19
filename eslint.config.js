@@ -10,7 +10,7 @@ module.exports = defineConfig([
       '**/dist/**',
       '**/dist-web/**',
       '**/.expo/**',
-      // Màn tạo dữ liệu QA: chỉ được chép vào app trong CI (it-round.yml), import tương đối theo vị trí đó.
+      // Màn tạo dữ liệu thử (qa/seeds): CI chép vào app lúc kiểm thử (it-round.yml), nên import tương đối theo vị trí đó.
       'qa/seeds/**',
       // Crawler chạy ngoài monorepo, Playwright cài riêng trong CI.
       'qa/crawl.mjs',

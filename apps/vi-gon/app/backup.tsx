@@ -5,13 +5,13 @@ import { relativeTime, track } from '@nam/core';
 import { createBackup } from '../src/backup';
 import { useVi } from '../src/store';
 
-/** Tạo bản sao lưu mã hóa (VG-15). */
+/** Tạo bản sao lưu mã hóa. */
 export default function Backup() {
   const toast = useToast();
-  const s = useVi();
+  const state = useVi();
   const [pw, setPw] = useState('');
   const [pw2, setPw2] = useState('');
-  const [hint, setHint] = useState(s.backupHint);
+  const [hint, setHint] = useState(state.backupHint);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const weak = pw.length > 0 && pw.length < 8;
@@ -22,13 +22,13 @@ export default function Backup() {
     setBusy(true);
     setErr(null);
     try {
-      const r = await createBackup(pw, hint.trim());
+      const backup = await createBackup(pw, hint.trim());
       track('backup_created');
-      toast(r.shared ? 'Đã tạo bản sao lưu' : 'Đã tạo bản sao lưu trong bộ nhớ app', { tone: 'success' });
+      toast(backup.shared ? 'Đã tạo bản sao lưu' : 'Đã tạo bản sao lưu trong bộ nhớ app', { tone: 'success' });
       router.back();
-    } catch (e) {
+    } catch (error) {
       setErr(
-        e instanceof Error && e.message === 'WEAK_PASSWORD'
+        error instanceof Error && error.message === 'WEAK_PASSWORD'
           ? 'Mật khẩu cần ít nhất 8 ký tự.'
           : 'Không tạo được bản sao lưu. Kiểm tra dung lượng máy rồi thử lại.',
       );
@@ -56,7 +56,7 @@ export default function Backup() {
         icon="lock"
         text="Mã hóa đầu-cuối bằng mật khẩu của bạn. Ví Gọn không giữ mật khẩu — quên là không ai mở được."
       />
-      {s.lastBackupAt ? <T v="caption" muted>{`Lần sao lưu trước: ${relativeTime(s.lastBackupAt)}`}</T> : null}
+      {state.lastBackupAt ? <T v="caption" muted>{`Lần sao lưu trước: ${relativeTime(state.lastBackupAt)}`}</T> : null}
       <TextField
         label="Mật khẩu sao lưu"
         value={pw}

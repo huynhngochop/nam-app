@@ -23,33 +23,35 @@ import { byCategory, useQuery, useTxVersion } from '../src/db';
 import { periodOf, useVi } from '../src/store';
 import { aiRewrite, buildSummary, MonthSummary } from '../src/summary';
 
-/** VG-23 · Tổng kết kỳ. Mẫu trên máy; AI (nếu bật trong Cài đặt) chỉ nhận số tổng theo danh mục. */
+/** Tổng kết kỳ. Mẫu trên máy; AI (nếu bật trong Cài đặt) chỉ nhận số tổng theo danh mục. */
 export default function Summary() {
   const { c } = useTheme();
   const toast = useToast();
   const online = useOnline();
-  const s = useVi();
+  const state = useVi();
   const [offset, setOffset] = useState(-1);
-  const v = useTxVersion((x) => x.v);
+  const version = useTxVersion((x) => x.v);
   const base = useQuery(
-    () => buildSummary(offset, { cats: s.categories, startDay: s.monthStartDay, budgets: s.budgets }),
-    [offset, s.categories, s.budgets],
+    () => buildSummary(offset, { cats: state.categories, startDay: state.monthStartDay, budgets: state.budgets }),
+    [offset, state.categories, state.budgets],
     null as MonthSummary | null,
   );
   const [sum, setSum] = useState<MonthSummary | null>(base);
 
   useEffect(() => {
     setSum(base);
-    if (!base || !s.aiSummary || !online || !base.count) return;
+    if (!base || !state.aiSummary || !online || !base.count) return;
     let alive = true;
-    const p = periodOf(s.monthStartDay, offset);
-    aiRewrite(base, s.categories, byCategory(p.from, p.to)).then((r) => {
+    const period = periodOf(state.monthStartDay, offset);
+    aiRewrite(base, state.categories, byCategory(period.from, period.to)).then((r) => {
       if (alive) setSum(r);
     });
     return () => {
       alive = false;
     };
-  }, [base, v, s.aiSummary, online]); // eslint-disable-line react-hooks/exhaustive-deps
+    // Danh mục và ngày đầu kỳ đã nằm trong `base`; thêm chúng vào đây chỉ gọi AI thêm lần thừa.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [base, version, state.aiSummary, online]);
 
   if (!sum) return null;
   const share = () => {
@@ -101,7 +103,7 @@ export default function Summary() {
                 title="Đặt hạn mức"
                 size="sm"
                 onPress={() => {
-                  s.set({ budgets: { ...s.budgets, [sum.suggestion!.categoryId]: sum.suggestion!.limit } });
+                  state.set({ budgets: { ...state.budgets, [sum.suggestion!.categoryId]: sum.suggestion!.limit } });
                   track('summary_budget_applied');
                   toast('Đã đặt hạn mức', { tone: 'success' });
                 }}

@@ -9,7 +9,7 @@ const PROMISES: { icon: IconName; t: string; s: string }[] = [
   { icon: 'eye-off', t: 'Không cần mật khẩu ngân hàng', s: 'Ví Gọn không kết nối hay đăng nhập ngân hàng.' },
 ];
 
-/** VG-02 · Cam kết riêng tư (1/3). */
+/** Cam kết riêng tư (1/3). */
 export default function Privacy() {
   const { c } = useTheme();
   return (

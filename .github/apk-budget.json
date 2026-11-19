@@ -1,10 +1,10 @@
 {
-  "_doc": "Ngân sách dung lượng APK release arm64 (KB) cho mỗi app — CI (android-native.yml) báo lỗi nếu vượt. Đặt ≈ dung lượng đo được + 8%. Xem docs/lean-app.md trước khi nâng.",
-  "default": 26000,
+  "_doc": "Ngân sách dung lượng APK release arm64 (KB) cho mỗi app — CI (android-native.yml) báo lỗi nếu vượt. Đặt ≈ dung lượng đo được + 8%. Xem docs/lean-app.md trước khi nâng. 11/2026: +~2,4 MB cho quảng cáo Google (AdMob), có lý do trong docs/lean-app.md.",
+  "default": 28700,
   "apps": {
-    "vi-gon": 26000,
-    "hen-dep": 26800,
-    "nhip": 27700,
-    "meo-nha": 26000
+    "vi-gon": 28700,
+    "hen-dep": 29500,
+    "nhip": 30300,
+    "meo-nha": 28800
   }
 }

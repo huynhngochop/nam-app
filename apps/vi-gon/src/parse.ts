@@ -20,7 +20,7 @@ export type Parsed = {
 
 // Dấu +/− không được đứng ngay sau chữ số (phần đuôi số tài khoản, ngày). Sau chữ thì được: "PS-50,000", "GD-50,000".
 const MONEY = /(?:^|[^0-9])([+\-−–])\s*([\d]{1,3}(?:[.,]\d{3})+|\d+)(?:[.,]00)?\s*(?:VND|VNĐ|đ|d\b|dong)?/i;
-// Ngày (29-10-2026, 29/10/26, 30-10) và giờ (08:12:05) — bỏ đi trước khi tìm số tiền (lỗi V1).
+// Ngày (29-10-2026, 29/10/26, 30-10) và giờ (08:12:05) — bỏ đi trước khi tìm số tiền.
 // (?![.,]\d): không nuốt phần đầu của số tiền liền sau ("29-10-50,000").
 const DATES = /\b\d{1,2}[/-]\d{1,2}(?:[/-]\d{2,4})?\b(?![.,]\d)/g;
 const TIMES = /\b\d{1,2}:\d{2}(?::\d{2})?\b/g;
@@ -30,54 +30,56 @@ const toNumber = (s: string) => Number(s.replace(/[.,](?=\d{3}\b)/g, '').replace
 
 export function parseBankText(text: string, now = new Date()): Parsed | null {
   if (!text || text.length < 8) return null;
-  const t = text.replace(/\s+/g, ' ').trim();
+  const cleaned = text.replace(/\s+/g, ' ').trim();
 
   // Bỏ phần số dư trước khi tìm số tiền giao dịch (số dư không có dấu +/− nhưng tránh nhầm).
-  const balM = t.match(BAL);
-  const withoutBal = (balM ? t.replace(balM[0], ' ') : t).replace(DATES, ' ').replace(TIMES, ' ');
-  const m = withoutBal.match(MONEY);
+  const balanceMatch = cleaned.match(BAL);
+  const withoutBal = (balanceMatch ? cleaned.replace(balanceMatch[0], ' ') : cleaned)
+    .replace(DATES, ' ')
+    .replace(TIMES, ' ');
+  const moneyMatch = withoutBal.match(MONEY);
   let amount: number | null = null;
   let kind: Parsed['kind'] = 'expense';
-  if (m) {
-    amount = toNumber(m[2]);
-    kind = m[1] === '+' ? 'income' : 'expense';
+  if (moneyMatch) {
+    amount = toNumber(moneyMatch[2]);
+    kind = moneyMatch[1] === '+' ? 'income' : 'expense';
   } else {
     // Dạng không dấu: "Giao dich: 50,000 VND" + từ khóa ghi nợ/ghi có
-    const n = withoutBal.match(/(?:GD|giao dich|so tien|PS)\s*[:.]?\s*([\d.,]{4,})\s*(?:VND|đ)/i);
-    if (n) {
-      amount = toNumber(n[1]);
-      kind = /ghi co|nhan|\bcredit\b|\+/i.test(fold(t)) ? 'income' : 'expense';
+    const amountMatch = withoutBal.match(/(?:GD|giao dich|so tien|PS)\s*[:.]?\s*([\d.,]{4,})\s*(?:VND|đ)/i);
+    if (amountMatch) {
+      amount = toNumber(amountMatch[1]);
+      kind = /ghi co|nhan|\bcredit\b|\+/i.test(fold(cleaned)) ? 'income' : 'expense';
     }
   }
   if (!amount || !Number.isFinite(amount) || amount <= 0 || amount > 50_000_000_000) return null;
 
   // Thời gian
   let at: number | null = null;
-  const time = t.match(/(\d{1,2}):(\d{2})(?::\d{2})?/);
-  const date = t.match(/(\d{1,2})[/-](\d{1,2})(?:[/-](\d{2,4}))?/);
+  const time = cleaned.match(/(\d{1,2}):(\d{2})(?::\d{2})?/);
+  const date = cleaned.match(/(\d{1,2})[/-](\d{1,2})(?:[/-](\d{2,4}))?/);
   if (time || date) {
-    const d = new Date(now);
+    const when = new Date(now);
     if (date) {
       const day = Number(date[1]);
       const mon = Number(date[2]) - 1;
       let yr = date[3] ? Number(date[3]) : now.getFullYear();
       if (yr < 100) yr += 2000;
-      if (day >= 1 && day <= 31 && mon >= 0 && mon <= 11) d.setFullYear(yr, mon, day);
+      if (day >= 1 && day <= 31 && mon >= 0 && mon <= 11) when.setFullYear(yr, mon, day);
     }
-    if (time) d.setHours(Number(time[1]), Number(time[2]), 0, 0);
-    at = d.getTime() > now.getTime() + 3600000 ? now.getTime() : d.getTime();
+    if (time) when.setHours(Number(time[1]), Number(time[2]), 0, 0);
+    at = when.getTime() > now.getTime() + 3600000 ? now.getTime() : when.getTime();
   }
 
   // Tài khoản: lấy 4 số cuối
-  const acc = t.match(/(?:TK|tai khoan|tài khoản|account|A\/C)\s*[:.]?\s*[A-Z]*\s*\*?([\dx*]{3,})/i);
+  const acc = cleaned.match(/(?:TK|tai khoan|tài khoản|account|A\/C)\s*[:.]?\s*[A-Z]*\s*\*?([\dx*]{3,})/i);
   const account = acc ? acc[1].replace(/[^\d]/g, '').slice(-4) || null : null;
 
   // Nội dung
   let merchant = '';
-  const nd = t.match(/\b(?:ND|N[ộo]i dung|noi dung|Ref|ndck|Desc)\s*[:.]?\s*(.+)$/i);
+  const nd = cleaned.match(/\b(?:ND|N[ộo]i dung|noi dung|Ref|ndck|Desc)\s*[:.]?\s*(.+)$/i);
   if (nd) merchant = cleanMerchant(nd[1]);
 
-  return { amount, kind, at, account, merchant, balance: balM ? toNumber(balM[1]) : null };
+  return { amount, kind, at, account, merchant, balance: balanceMatch ? toNumber(balanceMatch[1]) : null };
 }
 
 /** "MBVCB.12345.COM TAM BA GHIEN.CT tu 0011..." → "Com tam ba ghien" */
@@ -119,16 +121,16 @@ export function categorize(
   kind: 'expense' | 'income',
   rules: Rule[],
 ): { categoryId: string; confident: boolean } {
-  const f = ` ${fold(merchant)} `;
+  const folded = ` ${fold(merchant)} `;
   const up = merchant.toUpperCase();
-  const r = rules.find(
-    (x) => up.includes(x.keyword) || f.includes(` ${fold(x.keyword)} `) || f.includes(fold(x.keyword)),
+  const rule = rules.find(
+    (x) => up.includes(x.keyword) || folded.includes(` ${fold(x.keyword)} `) || folded.includes(fold(x.keyword)),
   );
-  if (r) return { categoryId: r.categoryId, confident: true };
-  const b = BUILTIN.find((x) => x.re.test(f));
-  if (b) {
-    const isIncomeCat = b.cat === 'salary' || b.cat === 'bonus';
-    if (isIncomeCat === (kind === 'income')) return { categoryId: b.cat, confident: false };
+  if (rule) return { categoryId: rule.categoryId, confident: true };
+  const builtin = BUILTIN.find((x) => x.re.test(folded));
+  if (builtin) {
+    const isIncomeCat = builtin.cat === 'salary' || builtin.cat === 'bonus';
+    if (isIncomeCat === (kind === 'income')) return { categoryId: builtin.cat, confident: false };
   }
   return { categoryId: kind === 'income' ? 'in_other' : 'other', confident: false };
 }
@@ -138,7 +140,7 @@ export function ruleKeyword(merchant: string) {
   return fold(merchant).toUpperCase().split(' ').filter(Boolean).slice(0, 2).join(' ');
 }
 
-/** Nhận diện dấu hiệu định dạng (VG-18): các từ không phải số ở đầu thông báo. */
+/** Nhận diện dấu hiệu định dạng: các từ không phải số ở đầu thông báo. */
 export function signatureOf(text: string) {
   return fold(text)
     .replace(/[\d.,:+\-−/]+/g, '#')

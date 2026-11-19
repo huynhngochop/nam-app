@@ -56,7 +56,7 @@ export const TxRow = React.memo(function TxRow({
 });
 
 /**
- * Khóa ứng dụng (VG-15). Khóa khi mở app và khi quay lại sau > 30 giây.
+ * Khóa ứng dụng. Khóa khi mở app và khi quay lại sau > 30 giây.
  * Cho phép mật mã máy làm phương án dự phòng, nên người dùng không bao giờ bị khóa ngoài vĩnh viễn.
  */
 export function LockGate({ children }: { children: React.ReactNode }) {
@@ -70,13 +70,13 @@ export function LockGate({ children }: { children: React.ReactNode }) {
   const unlock = useCallback(async () => {
     setErr(null);
     try {
-      const r = await LocalAuthentication.authenticateAsync({
+      const auth = await LocalAuthentication.authenticateAsync({
         promptMessage: 'Mở khóa Ví Gọn',
         cancelLabel: 'Hủy',
         disableDeviceFallback: false,
       });
-      if (r.success) setLocked(false);
-      else if (r.error !== 'user_cancel' && r.error !== 'system_cancel')
+      if (auth.success) setLocked(false);
+      else if (auth.error !== 'user_cancel' && auth.error !== 'system_cancel')
         setErr('Chưa xác thực được. Thử lại hoặc dùng mật mã máy.');
     } catch {
       setErr('Máy không hỗ trợ xác thực. Tắt khóa trong Cài đặt máy nếu cần.');
@@ -86,7 +86,9 @@ export function LockGate({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (hydrated && enabled && locked) unlock();
     if (hydrated && !enabled) setLocked(false);
-  }, [hydrated, enabled]); // eslint-disable-line react-hooks/exhaustive-deps
+    // Chỉ hỏi vân tay khi vừa nạp xong dữ liệu hoặc khi bật/tắt khóa; không hỏi lại mỗi lần `locked` đổi.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hydrated, enabled]);
   useEffect(() => {
     const sub = AppState.addEventListener('change', (st) => {
       if (st === 'background') bgAt.current = Date.now();

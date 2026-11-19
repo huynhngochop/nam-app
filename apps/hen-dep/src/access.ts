@@ -1,5 +1,5 @@
 /**
- * Phân quyền theo route (lỗi W3). Ẩn tab chưa đủ: nhân viên vẫn mở được màn của chủ tiệm bằng đường dẫn / deep link.
+ * Phân quyền theo route. Ẩn tab chưa đủ: nhân viên vẫn mở được màn của chủ tiệm bằng đường dẫn / deep link.
  * Trả về đường dẫn cần chuyển tới, hoặc null nếu được phép.
  */
 export type Role = 'owner' | 'staff';

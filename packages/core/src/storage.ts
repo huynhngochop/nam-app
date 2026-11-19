@@ -19,9 +19,9 @@ export const kvStorage = createJSONStorage(() => kv());
  * nên không mất thay đổi nếu hệ điều hành dừng app.
  */
 export function bigKvStorage<S>(delayMs = 400) {
-  const s = createDebouncedStorage<S>(kv, delayMs);
+  const storage = createDebouncedStorage<S>(kv, delayMs);
   AppState.addEventListener('change', (st) => {
-    if (st !== 'active') s.flush();
+    if (st !== 'active') storage.flush();
   });
-  return s;
+  return storage;
 }

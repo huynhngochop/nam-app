@@ -43,20 +43,20 @@ const ICONS: IconName[] = [
   'sun',
 ];
 
-/** VG-12 · Danh mục & quy tắc tự xếp. Lưới danh mục tự tăng số cột trên tablet. */
+/** Danh mục & quy tắc tự xếp. Lưới danh mục tự tăng số cột trên tablet. */
 export default function Categories() {
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const toast = useToast();
-  const s = useVi();
+  const state = useVi();
   const [kind, setKind] = useState<'expense' | 'income'>('expense');
   const [edit, setEdit] = useState<{ id?: string; name: string; icon: IconName } | null>(null);
   const [rule, setRule] = useState<{ keyword: string; categoryId: string } | null>(null);
   const [delCat, setDelCat] = useState<string | null>(null);
-  const list = s.categories.filter((x) => x.kind === kind);
-  const cols = L.columns(4);
-  const nE = s.categories.filter((x) => x.kind === 'expense').length;
-  const nI = s.categories.length - nE;
+  const list = state.categories.filter((x) => x.kind === kind);
+  const cols = layout.columns(4);
+  const nE = state.categories.filter((x) => x.kind === 'expense').length;
+  const nI = state.categories.length - nE;
 
   return (
     <Screen scroll edges={['top', 'bottom']}>
@@ -95,29 +95,29 @@ export default function Categories() {
         action="+ Thêm"
         onAction={() => setRule({ keyword: '', categoryId: 'food' })}
       />
-      {!s.rules.length ? (
+      {!state.rules.length ? (
         <EmptyState
           icon="zap"
           title="Chưa có quy tắc"
           body="Khi bạn đổi danh mục một giao dịch, Ví Gọn gợi ý tạo quy tắc."
         />
       ) : (
-        s.rules.map((r) => (
+        state.rules.map((r) => (
           <ListItem
             key={r.id}
             title={`Nội dung có “${r.keyword}”`}
-            right={<Chip label={catOf(r.categoryId, s.categories).name} />}
+            right={<Chip label={catOf(r.categoryId, state.categories).name} />}
             onPress={() => setRule(r)}
             onLongPress={() => {
-              s.removeRule(r.id);
+              state.removeRule(r.id);
               toast('Đã xóa quy tắc', {
-                action: { label: 'Hoàn tác', onPress: () => s.addRule(r.keyword, r.categoryId) },
+                action: { label: 'Hoàn tác', onPress: () => state.addRule(r.keyword, r.categoryId) },
               });
             }}
           />
         ))
       )}
-      {s.rules.length ? (
+      {state.rules.length ? (
         <T v="caption" muted>
           Nhấn giữ quy tắc để xóa.
         </T>
@@ -132,12 +132,12 @@ export default function Categories() {
             title="Lưu"
             disabled={!edit || edit.name.trim().length < 2}
             onPress={() => {
-              s.upsertCategory({
+              state.upsertCategory({
                 id: edit!.id,
                 name: edit!.name.trim(),
                 icon: edit!.icon,
-                kind: edit!.id ? catOf(edit!.id, s.categories).kind : kind,
-                builtin: edit!.id ? catOf(edit!.id, s.categories).builtin : false,
+                kind: edit!.id ? catOf(edit!.id, state.categories).kind : kind,
+                builtin: edit!.id ? catOf(edit!.id, state.categories).builtin : false,
               });
               setEdit(null);
             }}
@@ -176,7 +176,7 @@ export default function Categories() {
             title="Lưu"
             disabled={!rule || rule.keyword.trim().length < 2}
             onPress={() => {
-              s.addRule(rule!.keyword, rule!.categoryId);
+              state.addRule(rule!.keyword, rule!.categoryId);
               setRule(null);
               toast('Đã lưu quy tắc');
             }}
@@ -193,7 +193,7 @@ export default function Categories() {
               placeholder="Ví dụ: GRAB"
             />
             <Chips>
-              {s.categories.map((x) => (
+              {state.categories.map((x) => (
                 <Chip
                   key={x.id}
                   label={x.name}
@@ -213,7 +213,7 @@ export default function Categories() {
         destructive
         onCancel={() => setDelCat(null)}
         onConfirm={() => {
-          s.removeCategory(delCat!);
+          state.removeCategory(delCat!);
           setDelCat(null);
         }}
       />

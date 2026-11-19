@@ -5,7 +5,7 @@ import { AppBar, Badge, Button, Card, Icon, PricePlaceholder, Radio, Row, Screen
 
 export type Plan = { id: string; label: string; priceKey: string; price?: string | null; sub?: string; tag?: string };
 
-/** Màn trả phí dùng chung (MN-16, NH-16, VG-16). Giá chưa chốt → ô khóa giá. */
+/** Màn trả phí dùng chung. Giá chưa chốt → ô khóa giá. */
 export function Paywall({
   title,
   reason,

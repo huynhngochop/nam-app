@@ -24,18 +24,18 @@ import { track } from '@nam/core';
 import { CATEGORIES, CategoryId, Tip } from '../src/data/tips';
 import { useMeo } from '../src/store';
 import { looksLikeQuestion, searchTips, SortKey, suggestions, TRENDING } from '../src/lib/search';
-import { AdNative, TipRow } from '../src/components';
+import { FeedAd, TipRow } from '../src/components';
 
 const SORTS: { key: SortKey; label: string }[] = [
   { key: 'popular', label: 'Phổ biến' },
   { key: 'new', label: 'Mới nhất' },
 ];
 
-/** MN-05 Tìm kiếm + MN-06 Kết quả trên cùng một màn: gõ → gợi ý; nhấn Tìm → kết quả. */
+/** Tìm kiếm + Kết quả trên cùng một màn: gõ → gợi ý; nhấn Tìm → kết quả. */
 export default function Search() {
   const { c } = useTheme();
-  const L = useLayout();
-  const s = useMeo();
+  const layout = useLayout();
+  const state = useMeo();
   const [q, setQ] = useState('');
   const [submitted, setSubmitted] = useState('');
   const [cat, setCat] = useState<CategoryId | 'all'>('all');
@@ -53,12 +53,12 @@ export default function Search() {
   );
 
   const run = (term: string) => {
-    const t = term.trim();
-    if (!t) return;
-    setQ(t);
-    setSubmitted(t);
-    s.addSearch(t);
-    track('search_performed', { query: t });
+    const trimmed = term.trim();
+    if (!trimmed) return;
+    setQ(trimmed);
+    setSubmitted(trimmed);
+    state.addSearch(trimmed);
+    track('search_performed', { query: trimmed });
   };
 
   const ask = looksLikeQuestion(q);
@@ -70,7 +70,7 @@ export default function Search() {
 
   return (
     <Screen padded={false}>
-      <View style={{ paddingHorizontal: L.gutter, gap: 12, paddingTop: 8 }}>
+      <View style={{ paddingHorizontal: layout.gutter, gap: 12, paddingTop: 8 }}>
         <Row>
           <IconButton icon="chevron-left" label="Quay lại" onPress={() => router.back()} />
           <View style={{ flex: 1 }}>
@@ -91,7 +91,7 @@ export default function Search() {
         <FlashList
           data={[0]}
           keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{ paddingHorizontal: L.gutter }}
+          contentContainerStyle={{ paddingHorizontal: layout.gutter }}
           renderItem={() => (
             <View>
               {q.length >= 2 && ask ? (
@@ -120,21 +120,21 @@ export default function Search() {
               ) : null}
               {q.length < 2 ? (
                 <>
-                  {s.recentSearches.length ? (
+                  {state.recentSearches.length ? (
                     <SectionHeader
                       title="Tìm gần đây"
                       action="Xóa hết"
-                      onAction={() => s.set({ recentSearches: [] })}
+                      onAction={() => state.set({ recentSearches: [] })}
                     />
                   ) : null}
-                  {s.recentSearches.slice(0, 5).map((r) => (
+                  {state.recentSearches.slice(0, 5).map((r) => (
                     <ListItem
                       key={r}
                       strong={false}
                       left={<Thumb icon="clock" bg={c.surface2} color={c.inkMuted} size={32} />}
                       title={r}
                       onPress={() => run(r)}
-                      right={<IconButton soft={false} icon="x" label="Xóa" onPress={() => s.removeSearch(r)} />}
+                      right={<IconButton soft={false} icon="x" label="Xóa" onPress={() => state.removeSearch(r)} />}
                     />
                   ))}
                   <SectionHeader title="Đang được tìm nhiều" />
@@ -153,7 +153,7 @@ export default function Search() {
           data={rows}
           keyExtractor={(r, i) => (r === 'ad' ? `ad${i}` : r.id)}
           getItemType={(r) => (r === 'ad' ? 'ad' : 'tip')}
-          contentContainerStyle={{ paddingHorizontal: L.gutter, paddingBottom: 24 }}
+          contentContainerStyle={{ paddingHorizontal: layout.gutter, paddingBottom: 24 }}
           ListHeaderComponent={
             <View style={{ gap: 10, paddingVertical: 10 }}>
               <Chips scroll>
@@ -188,7 +188,7 @@ export default function Search() {
           renderItem={({ item }) =>
             item === 'ad' ? (
               <View style={{ paddingVertical: 8 }}>
-                <AdNative />
+                <FeedAd />
               </View>
             ) : (
               <TipRow tip={item} />

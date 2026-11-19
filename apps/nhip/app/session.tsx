@@ -15,13 +15,13 @@ import { cancelPhaseEnd, schedulePhaseEnd } from '../src/notify';
 
 const GREEN = '#5cc48e';
 
-/** NH-04 Phiên đang chạy · NH-05 Nghỉ giải lao. Luôn nền tối, không quảng cáo. */
+/** Phiên đang chạy · Nghỉ giải lao. Luôn nền tối, không quảng cáo. */
 export default function SessionScreen() {
   const theme = ringTheme(useNhip((x) => x.ringTheme));
-  const L = useLayout();
+  const layout = useLayout();
   const toast = useToast();
-  const s = useNhip();
-  const sess = s.session;
+  const state = useNhip();
+  const sess = state.session;
   const running = sess?.status === 'running';
   const now = useNow(!!sess && running);
   const [stopAsk, setStopAsk] = useState(false);
@@ -38,7 +38,7 @@ export default function SessionScreen() {
         : Math.max(0, Math.round((sess.endAt - now) / 1000))
     : 0;
   const progress = sess && sess.mode === 'pomodoro' && sess.plannedSec ? 1 - remaining / sess.plannedSec : 0;
-  const mix = s.mixes.find((m) => m.id === s.mixId);
+  const mix = state.mixes.find((m) => m.id === state.mixId);
 
   // Âm thanh nền chỉ phát trong phiên tập trung.
   useEffect(() => {
@@ -52,18 +52,18 @@ export default function SessionScreen() {
   );
   // Giữ sáng màn hình nếu người dùng bật.
   useEffect(() => {
-    if (!s.settings.keepAwake) return;
+    if (!state.settings.keepAwake) return;
     // Có thể bị từ chối (trình duyệt không cho, máy tiết kiệm pin): bỏ qua, phiên vẫn chạy.
     activateKeepAwakeAsync('nhip-session').catch(() => {});
     return () => {
       deactivateKeepAwake('nhip-session').catch(() => {});
     };
-  }, [s.settings.keepAwake]);
-  // Nhịp ghi mỗi 30 giây để khôi phục khi app bị tắt (NH-17).
+  }, [state.settings.keepAwake]);
+  // Nhịp ghi mỗi 30 giây để khôi phục khi app bị tắt.
   useEffect(() => {
     if (!running) return;
-    const t = setInterval(() => useNhip.getState().heartbeat(), 30_000);
-    return () => clearInterval(t);
+    const ticker = setInterval(() => useNhip.getState().heartbeat(), 30_000);
+    return () => clearInterval(ticker);
   }, [running]);
   // Chế độ nghiêm: rời app > 10 giây trong phiên tập trung = bỏ phiên.
   useEffect(() => {
@@ -74,9 +74,14 @@ export default function SessionScreen() {
       }
       const away = bgAt.current ? Date.now() - bgAt.current : 0;
       bgAt.current = null;
-      const cur = useNhip.getState();
-      if (cur.settings.strict && cur.session?.phase === 'focus' && cur.session.status === 'running' && away > 10_000) {
-        cur.endSession('violated', focusedSecOf(cur.session));
+      const latest = useNhip.getState();
+      if (
+        latest.settings.strict &&
+        latest.session?.phase === 'focus' &&
+        latest.session.status === 'running' &&
+        away > 10_000
+      ) {
+        latest.endSession('violated', focusedSecOf(latest.session));
         cancelPhaseEnd();
         track('strict_violation');
         toast('Phiên bị tính là bỏ vì đã rời app', { tone: 'error' });
@@ -89,14 +94,15 @@ export default function SessionScreen() {
   useEffect(() => {
     if (!sess || sess.mode !== 'pomodoro' || !running || remaining > 0 || ended.current) return;
     ended.current = true;
-    if (s.settings.vibrate) Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    if (state.settings.vibrate) Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     if (isFocus) {
-      s.endSession('completed');
+      state.endSession('completed');
       track('session_completed', { focusMin: Math.round(sess.plannedSec / 60) });
       router.replace({ pathname: '/done', params: { cycle: String(sess.cycleIndex + 1) } });
-    } else if (s.settings.autoNext) {
+    } else if (state.settings.autoNext) {
       startFocus();
     }
+    // Chỉ xét kết thúc phiên khi đồng hồ chạy hoặc dừng; `ended` chặn chạy hai lần.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [remaining, running]);
 
@@ -104,20 +110,20 @@ export default function SessionScreen() {
 
   function startFocus() {
     ended.current = false;
-    const n = useNhip.getState().startPhase('focus', { cycleIndex: sess!.cycleIndex });
-    schedulePhaseEnd(n.endAt, 'Hết phiên!', 'Nghỉ một chút nhé.');
+    const next = useNhip.getState().startPhase('focus', { cycleIndex: sess!.cycleIndex });
+    schedulePhaseEnd(next.endAt, 'Hết phiên!', 'Nghỉ một chút nhé.');
   }
   const togglePause = () => {
     if (running) {
-      s.pause();
+      state.pause();
       cancelPhaseEnd();
       track('session_paused');
     } else {
-      s.resume();
-      const cur = useNhip.getState().session!;
-      if (cur.mode === 'pomodoro')
+      state.resume();
+      const activeSession = useNhip.getState().session!;
+      if (activeSession.mode === 'pomodoro')
         schedulePhaseEnd(
-          cur.endAt,
+          activeSession.endAt,
           isFocus ? 'Hết phiên!' : 'Hết giờ nghỉ',
           isFocus ? 'Nghỉ một chút nhé.' : 'Vào phiên tiếp nào.',
         );
@@ -125,15 +131,15 @@ export default function SessionScreen() {
   };
   const stop = () => {
     const sec = focusedSecOf(sess);
-    if (isFocus) s.endSession(sess.mode === 'countup' ? 'completed' : 'stopped', sec);
-    else s.set({ session: null });
+    if (isFocus) state.endSession(sess.mode === 'countup' ? 'completed' : 'stopped', sec);
+    else state.set({ session: null });
     cancelPhaseEnd();
     track('session_stopped', { elapsedSec: sec });
     router.replace('/(tabs)/timer');
   };
 
-  const task = s.tasks.find((t) => t.id === sess.taskId);
-  const ringSize = Math.min(L.width - 64, L.height * (L.landscape ? 0.62 : 0.42), 340);
+  const task = state.tasks.find((t) => t.id === sess.taskId);
+  const ringSize = Math.min(layout.width - 64, layout.height * (layout.landscape ? 0.62 : 0.42), 340);
   const breakDone = !isFocus && remaining <= 0;
   const tips = [0, 1, 2].map((k) => BREAK_TIPS[(tipIdx.current + k) % BREAK_TIPS.length]);
   const content = isFocus ? (
@@ -150,12 +156,12 @@ export default function SessionScreen() {
               label={x.name}
               icon={x.icon}
               selected={on}
-              onPress={() => s.setLayer(x.id, on ? null : 0.6)}
+              onPress={() => state.setLayer(x.id, on ? null : 0.6)}
             />
           );
         })}
       </Row>
-      {s.settings.strict ? (
+      {state.settings.strict ? (
         <T v="caption" color={night.inkMuted} center>
           Chế độ nghiêm: thoát app sẽ bị tính là bỏ phiên
         </T>
@@ -184,7 +190,7 @@ export default function SessionScreen() {
       <View
         style={{
           flex: 1,
-          paddingHorizontal: L.gutter,
+          paddingHorizontal: layout.gutter,
           paddingBottom: 12,
           width: '100%',
           maxWidth: 960,
@@ -202,7 +208,7 @@ export default function SessionScreen() {
           </View>
           {!isFocus ? (
             <IconButton icon="skip-forward" label="Bỏ nghỉ" bg={night.soft} color={night.ink} onPress={startFocus} />
-          ) : s.settings.strict ? (
+          ) : state.settings.strict ? (
             <IconButton
               icon="lock"
               label="Chế độ nghiêm"
@@ -215,7 +221,7 @@ export default function SessionScreen() {
         <View
           style={{
             flex: 1,
-            flexDirection: L.landscape && !L.isCompact ? 'row' : 'column',
+            flexDirection: layout.landscape && !layout.isCompact ? 'row' : 'column',
             alignItems: 'center',
             justifyContent: 'center',
             gap: 24,
@@ -234,7 +240,7 @@ export default function SessionScreen() {
               isFocus
                 ? sess.mode === 'countup'
                   ? 'Đếm lên'
-                  : `Phiên ${sess.cycleIndex + 1} / ${s.settings.longEvery} · Tập trung`
+                  : `Phiên ${sess.cycleIndex + 1} / ${state.settings.longEvery} · Tập trung`
                 : `Nghỉ · rồi vào phiên ${sess.cycleIndex + 1}`
             }
           />
@@ -254,7 +260,7 @@ export default function SessionScreen() {
                 style={{ backgroundColor: night.soft }}
                 onPress={() => setStopAsk(true)}
               />
-              {!(s.settings.strict && isFocus) ? (
+              {!(state.settings.strict && isFocus) ? (
                 <Button
                   title={running ? 'Tạm dừng' : 'Tiếp tục'}
                   icon={running ? 'pause' : 'play'}
@@ -271,7 +277,7 @@ export default function SessionScreen() {
               variant="text"
               textColor={night.inkMuted}
               onPress={() => {
-                s.set({ session: null });
+                state.set({ session: null });
                 cancelPhaseEnd();
                 router.replace('/(tabs)/timer');
               }}

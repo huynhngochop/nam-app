@@ -8,6 +8,6 @@ export function useOnline(): boolean {
   return online;
 }
 export async function isOnline(): Promise<boolean> {
-  const s = await NetInfo.fetch();
-  return !!s.isConnected && s.isInternetReachable !== false;
+  const netState = await NetInfo.fetch();
+  return !!netState.isConnected && netState.isInternetReachable !== false;
 }

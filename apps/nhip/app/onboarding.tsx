@@ -13,14 +13,14 @@ const GOALS = [
 ];
 const PURPOSES = ['Học', 'Làm việc', 'Viết', 'Đọc sách'];
 
-/** NH-02 Mục tiêu hằng ngày + bước 2 xin quyền thông báo. */
+/** Mục tiêu hằng ngày + bước 2 xin quyền thông báo. */
 export default function Onboarding() {
-  const s = useNhip();
+  const state = useNhip();
   const [step, setStep] = useState(0);
   const [goal, setGoal] = useState(120);
   const [purposes, setPurposes] = useState<string[]>([]);
   const finish = () => {
-    s.set({ onboarded: true, goalMin: goal, purposes });
+    state.set({ onboarded: true, goalMin: goal, purposes });
     track('onboarding_goal_set', { minutes: goal });
     router.replace('/(tabs)/timer');
   };

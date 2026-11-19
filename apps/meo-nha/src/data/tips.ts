@@ -1,7 +1,7 @@
 /**
  * Kho mẹo có sẵn trên máy (chạy không cần mạng). Nội dung viết ở `./tipdata/<danh mục>.ts` dạng văn bản gọn,
  * đọc một lần khi mở app — thêm mẹo chỉ cần thêm vài dòng, không sửa code. Cú pháp: xem `parseTips`.
- * Mẹo có hóa chất tẩy rửa, điện, gas, độ cao phải có dòng an toàn `+` (MN-20; kiểm tra ở `validateTips`).
+ * Mẹo có hóa chất tẩy rửa, điện, gas, độ cao phải có dòng an toàn `+` (kiểm tra ở `validateTips`).
  */
 import { fold } from '@nam/core';
 import kitchen from './tipdata/kitchen';
@@ -32,7 +32,6 @@ export type Tip = {
   steps: string[];
   caution?: string;
   safety?: string[];
-  product?: { name: string; url: string };
   /** Từ khóa thêm, đã bỏ dấu. */
   keywords: string;
   childSafe?: boolean;
@@ -86,48 +85,44 @@ export function tipMeta(t: Tip): string {
  *   ! Lưu ý (một dòng)
  *   + Cảnh báo an toàn (mỗi dòng một ý)
  *   ~ từ khóa thêm để tìm (tên gọi khác, vùng miền)
- *   @ Tên sản phẩm | https://…
  * Id mặc định lấy từ tên mẹo bỏ dấu — đừng đổi tên mẹo đã phát hành nếu không giữ lại id cũ bằng id=…
  */
 export function parseTips(categoryId: CategoryId, src: string, start = 0): Tip[] {
   const out: Tip[] = [];
   let sub: string | undefined;
-  let cur: Tip | null = null;
+  let current: Tip | null = null;
   for (const raw of src.split('\n')) {
     const line = raw.trim();
     if (!line) {
-      cur = null;
+      current = null;
       continue;
     }
     const mark = line[0];
     const rest = line.slice(1).trim();
     if (mark === '#') sub = rest;
-    else if (cur && mark === '-') cur.steps.push(rest);
-    else if (cur && mark === '!') cur.caution = rest;
-    else if (cur && mark === '+') (cur.safety ??= []).push(rest);
-    else if (cur && mark === '~') cur.keywords = `${cur.keywords} ${fold(rest)}`.trim();
-    else if (cur && mark === '@') {
-      const [name, url] = rest.split('|').map((s) => s.trim());
-      cur.product = { name, url };
-    } else {
+    else if (current && mark === '-') current.steps.push(rest);
+    else if (current && mark === '!') current.caution = rest;
+    else if (current && mark === '+') (current.safety ??= []).push(rest);
+    else if (current && mark === '~') current.keywords = `${current.keywords} ${fold(rest)}`.trim();
+    else {
       const [title, summary, meta = ''] = line.split('|').map((s) => s.trim());
       const tokens = meta.split(/\s+/);
-      const d = tokens[1];
+      const difficultyCode = tokens[1];
       const id = tokens.find((x) => x.startsWith('id='))?.slice(3);
-      cur = {
+      current = {
         id: id ?? slug(title),
         title,
         summary: summary ?? '',
         categoryId,
         sub,
         minutes: Number(tokens[0]) || 5,
-        difficulty: d === 'h' ? 'hard' : d === 'm' ? 'medium' : 'easy',
+        difficulty: difficultyCode === 'h' ? 'hard' : difficultyCode === 'm' ? 'medium' : 'easy',
         order: start + out.length,
         steps: [],
         keywords: '',
         childSafe: tokens.includes('child') || undefined,
       };
-      out.push(cur);
+      out.push(current);
     }
   }
   return out;
@@ -160,17 +155,17 @@ const RISKY =
 export function validateTips(list: Tip[]): string[] {
   const errs: string[] = [];
   const ids = new Set<string>();
-  for (const t of list) {
-    const where = `${t.categoryId}/${t.id}`;
-    if (ids.has(t.id)) errs.push(`${where}: trùng id`);
-    ids.add(t.id);
-    const cat = CATEGORIES.find((c) => c.id === t.categoryId);
-    if (!t.sub || !cat?.subs.includes(t.sub)) errs.push(`${where}: nhóm con "${t.sub}" không có trong danh mục`);
-    if (!t.summary) errs.push(`${where}: thiếu tóm tắt`);
-    if (t.steps.length < 2 || t.steps.length > 6) errs.push(`${where}: cần 2–6 bước (đang ${t.steps.length})`);
-    if (t.title.length > 60) errs.push(`${where}: tên dài quá 60 ký tự`);
-    const text = fold(`${t.title} ${t.summary} ${t.steps.join(' ')}`);
-    if (RISKY.test(text) && !t.safety?.length)
+  for (const tip of list) {
+    const where = `${tip.categoryId}/${tip.id}`;
+    if (ids.has(tip.id)) errs.push(`${where}: trùng id`);
+    ids.add(tip.id);
+    const cat = CATEGORIES.find((c) => c.id === tip.categoryId);
+    if (!tip.sub || !cat?.subs.includes(tip.sub)) errs.push(`${where}: nhóm con "${tip.sub}" không có trong danh mục`);
+    if (!tip.summary) errs.push(`${where}: thiếu tóm tắt`);
+    if (tip.steps.length < 2 || tip.steps.length > 6) errs.push(`${where}: cần 2–6 bước (đang ${tip.steps.length})`);
+    if (tip.title.length > 60) errs.push(`${where}: tên dài quá 60 ký tự`);
+    const text = fold(`${tip.title} ${tip.summary} ${tip.steps.join(' ')}`);
+    if (RISKY.test(text) && !tip.safety?.length)
       errs.push(`${where}: đụng hóa chất/gas/điện/độ cao mà thiếu dòng an toàn +`);
   }
   return errs;

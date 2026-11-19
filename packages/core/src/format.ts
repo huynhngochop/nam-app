@@ -1,7 +1,7 @@
 /** Định dạng tiếng Việt theo Chuẩn spec › 7. Tiền luôn là số nguyên VND. */
 export function groupDigits(n: number): string {
-  const s = Math.round(Math.abs(n)).toString();
-  return s.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  const digits = Math.round(Math.abs(n)).toString();
+  return digits.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
 /** 180000 → "180.000đ"; signed → "−85.000đ" / "+18.500.000đ" */
 export function vnd(n: number, opts: { signed?: boolean } = {}): string {
@@ -10,13 +10,13 @@ export function vnd(n: number, opts: { signed?: boolean } = {}): string {
 }
 /** 3100000 → "3,1 tr"; 1250000000 → "1,25 tỷ"; 520000 → "520k" */
 export function shortMoney(n: number): string {
-  const a = Math.abs(n);
+  const absolute = Math.abs(n);
   const sign = n < 0 ? '−' : '';
   const dec = (x: number) => (Math.round(x * 100) / 100).toString().replace('.', ',');
-  if (a >= 1e9) return `${sign}${dec(a / 1e9)} tỷ`;
-  if (a >= 1e6) return `${sign}${dec(a / 1e6)} tr`;
-  if (a >= 1e3) return `${sign}${Math.round(a / 1e3)}k`;
-  return `${sign}${a}`;
+  if (absolute >= 1e9) return `${sign}${dec(absolute / 1e9)} tỷ`;
+  if (absolute >= 1e6) return `${sign}${dec(absolute / 1e6)} tr`;
+  if (absolute >= 1e3) return `${sign}${Math.round(absolute / 1e3)}k`;
+  return `${sign}${absolute}`;
 }
 export function decimalVi(n: number, digits = 1): string {
   return n.toFixed(digits).replace('.', ',');
@@ -44,28 +44,28 @@ export function addDays(d: Date, n: number) {
   return x;
 }
 export function minutesLabel(min: number) {
-  const h = Math.floor(min / 60);
-  const m = Math.round(min % 60);
-  if (h && m) return `${h} giờ ${m} phút`;
-  if (h) return `${h} giờ`;
-  return `${m} phút`;
+  const hours = Math.floor(min / 60);
+  const minutes = Math.round(min % 60);
+  if (hours && minutes) return `${hours} giờ ${minutes} phút`;
+  if (hours) return `${hours} giờ`;
+  return `${minutes} phút`;
 }
 export function relativeTime(iso: string | number, now = Date.now()) {
-  const t = typeof iso === 'number' ? iso : Date.parse(iso);
-  const s = Math.round((now - t) / 1000);
-  if (s < 60) return 'vừa xong';
-  if (s < 3600) return `${Math.floor(s / 60)} phút trước`;
-  if (s < 86400) return `${Math.floor(s / 3600)} giờ trước`;
-  const d = Math.floor(s / 86400);
-  if (d === 1) return 'hôm qua';
-  if (d < 7) return `${d} ngày trước`;
-  return dayMonth(new Date(t));
+  const ms = typeof iso === 'number' ? iso : Date.parse(iso);
+  const seconds = Math.round((now - ms) / 1000);
+  if (seconds < 60) return 'vừa xong';
+  if (seconds < 3600) return `${Math.floor(seconds / 60)} phút trước`;
+  if (seconds < 86400) return `${Math.floor(seconds / 3600)} giờ trước`;
+  const days = Math.floor(seconds / 86400);
+  if (days === 1) return 'hôm qua';
+  if (days < 7) return `${days} ngày trước`;
+  return dayMonth(new Date(ms));
 }
 /** Bỏ dấu tiếng Việt để tìm kiếm không phân biệt dấu. */
 export function fold(s: string): string {
   return s.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase().trim();
 }
 export function greeting(d = new Date()) {
-  const h = d.getHours();
-  return h >= 5 && h < 11 ? 'Chào buổi sáng' : h >= 11 && h < 18 ? 'Chào buổi chiều' : 'Chào buổi tối';
+  const hour = d.getHours();
+  return hour >= 5 && hour < 11 ? 'Chào buổi sáng' : hour >= 11 && hour < 18 ? 'Chào buổi chiều' : 'Chào buổi tối';
 }

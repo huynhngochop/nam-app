@@ -56,12 +56,12 @@ const slug = (s: string) =>
 /** HD-C02 · Thiết lập tiệm (4 bước). Bước 3 ưu tiên "Chụp bảng giá" (HD-C17). */
 export default function Setup() {
   const { c } = useTheme();
-  const s = useHen();
+  const state = useHen();
   const [step, setStep] = useState(0);
-  const [name, setName] = useState(s.shop.name === 'Salon Mây' ? '' : s.shop.name);
-  const [type, setType] = useState(s.shop.type);
+  const [name, setName] = useState(state.shop.name === 'Salon Mây' ? '' : state.shop.name);
+  const [type, setType] = useState(state.shop.type);
   const [address, setAddress] = useState('');
-  const [hours, setHours] = useState<Hours>(s.shop.hours);
+  const [hours, setHours] = useState<Hours>(state.shop.hours);
   const [same, setSame] = useState(true);
   const [picked, setPicked] = useState<number[]>([]);
   const [solo, setSolo] = useState(true);
@@ -71,13 +71,15 @@ export default function Setup() {
 
   const next = () => {
     track('setup_step_completed', { step });
-    if (step === 0) s.setShop({ name: name.trim(), type, address: address.trim(), slug: slug(name) || 'tiem-cua-toi' });
-    if (step === 1) s.setShop({ hours });
-    if (step === 2 && picked.length) s.addServices(picked.map((i) => ({ ...sugg[i], staffIds: [], visible: true })));
+    if (step === 0)
+      state.setShop({ name: name.trim(), type, address: address.trim(), slug: slug(name) || 'tiem-cua-toi' });
+    if (step === 1) state.setShop({ hours });
+    if (step === 2 && picked.length)
+      state.addServices(picked.map((i) => ({ ...sugg[i], staffIds: [], visible: true })));
     if (step === 3) {
       const names = solo ? ['Tôi'] : staffList;
       names.forEach((n) =>
-        s.upsertStaff({
+        state.upsertStaff({
           name: n,
           role: solo ? 'owner' : 'stylist',
           shiftFrom: '08:00',
@@ -110,7 +112,7 @@ export default function Setup() {
                 title="Chia sẻ link đặt lịch"
                 icon="share-2"
                 onPress={() => {
-                  s.set({ setupDone: true });
+                  state.set({ setupDone: true });
                   track('setup_finished');
                   router.replace('/link');
                 }}
@@ -120,7 +122,7 @@ export default function Setup() {
               title="Vào lịch"
               variant={hasServer() ? 'secondary' : 'primary'}
               onPress={() => {
-                s.set({ setupDone: true });
+                state.set({ setupDone: true });
                 router.replace('/(tabs)/calendar');
               }}
             />
@@ -143,8 +145,8 @@ export default function Setup() {
             size="sm"
             variant="secondary"
             onPress={() => {
-              s.loadDemo();
-              s.set({ setupDone: true });
+              state.loadDemo();
+              state.set({ setupDone: true });
               router.replace('/(tabs)/calendar');
             }}
           />
@@ -203,27 +205,33 @@ export default function Setup() {
             Khách chỉ đặt được trong giờ này.
           </T>
           {[1, 2, 3, 4, 5, 6, 0].map((d) => {
-            const h = hours.find((x) => x.day === d)!;
+            const dayHours = hours.find((x) => x.day === d)!;
             return (
               <ListItem
                 key={d}
                 strong={false}
                 title={DAYS[d]}
-                left={<Toggle label={`Mở cửa ${DAYS[d]}`} value={h.open} onChange={(v) => setDay(d, { open: v })} />}
+                left={
+                  <Toggle label={`Mở cửa ${DAYS[d]}`} value={dayHours.open} onChange={(v) => setDay(d, { open: v })} />
+                }
                 right={
-                  h.open ? (
+                  dayHours.open ? (
                     <Row gap={4}>
                       <Chip
-                        label={h.from}
+                        label={dayHours.from}
                         onPress={() =>
-                          setDay(d, { from: h.from === '08:00' ? '09:00' : h.from === '09:00' ? '07:00' : '08:00' })
+                          setDay(d, {
+                            from: dayHours.from === '08:00' ? '09:00' : dayHours.from === '09:00' ? '07:00' : '08:00',
+                          })
                         }
                       />
                       <T v="caption">–</T>
                       <Chip
-                        label={h.to}
+                        label={dayHours.to}
                         onPress={() =>
-                          setDay(d, { to: h.to === '20:00' ? '21:00' : h.to === '21:00' ? '19:00' : '20:00' })
+                          setDay(d, {
+                            to: dayHours.to === '20:00' ? '21:00' : dayHours.to === '21:00' ? '19:00' : '20:00',
+                          })
                         }
                       />
                     </Row>

@@ -16,41 +16,41 @@ export type MonthSummary = {
   count: number;
 };
 
-/** Tổng kết một kỳ (VG-23). Mặc định viết bằng mẫu trên máy; chỉ khi người dùng bật "AI viết nhận xét" mới gửi SỐ TỔNG theo danh mục. */
+/** Tổng kết một kỳ. Mặc định viết bằng mẫu trên máy; chỉ khi người dùng bật "AI viết nhận xét" mới gửi SỐ TỔNG theo danh mục. */
 export function buildSummary(
   offset: number,
   ctx: { cats: Category[]; startDay: number; budgets: Record<string, number> },
 ): MonthSummary {
-  const p = periodOf(ctx.startDay, offset);
+  const period = periodOf(ctx.startDay, offset);
   const prev = periodOf(ctx.startDay, offset - 1);
-  const t = totals(p.from, p.to);
-  const cats = byCategory(p.from, p.to);
+  const periodTotal = totals(period.from, period.to);
+  const cats = byCategory(period.from, period.to);
   const prevCats = byCategory(prev.from, prev.to);
   const hist = Array.from({ length: 6 }, (_, k) => {
-    const q = periodOf(ctx.startDay, offset - 1 - k);
-    const x = totals(q.from, q.to);
+    const period = periodOf(ctx.startDay, offset - 1 - k);
+    const x = totals(period.from, period.to);
     return x.count ? x.income - x.expense : null;
   }).filter((x): x is number => x != null);
   const avgSaved = hist.length ? hist.reduce((a, b) => a + b, 0) / hist.length : 0;
 
   const insights: Insight[] = [];
-  for (const c of cats.slice(0, 4)) {
-    const before = prevCats.find((x) => x.categoryId === c.categoryId)?.total ?? 0;
-    const name = catOf(c.categoryId, ctx.cats).name;
-    const limit = ctx.budgets[c.categoryId];
-    if (limit && c.total > limit)
-      insights.push({ icon: 'alert-triangle', text: `${name} vượt ngân sách ${vnd(c.total - limit)}.` });
-    else if (before && c.total > before * 1.1)
+  for (const category of cats.slice(0, 4)) {
+    const before = prevCats.find((x) => x.categoryId === category.categoryId)?.total ?? 0;
+    const name = catOf(category.categoryId, ctx.cats).name;
+    const limit = ctx.budgets[category.categoryId];
+    if (limit && category.total > limit)
+      insights.push({ icon: 'alert-triangle', text: `${name} vượt ngân sách ${vnd(category.total - limit)}.` });
+    else if (before && category.total > before * 1.1)
       insights.push({
         icon: 'trending-up',
-        text: `${name} tăng ${Math.round(((c.total - before) / before) * 100)}% (${shortMoney(before)} → ${shortMoney(c.total)}).`,
+        text: `${name} tăng ${Math.round(((category.total - before) / before) * 100)}% (${shortMoney(before)} → ${shortMoney(category.total)}).`,
       });
-    else if (before && c.total < before * 0.9)
+    else if (before && category.total < before * 0.9)
       insights.push({
         icon: 'trending-down',
-        text: `${name} giảm ${Math.round(((before - c.total) / before) * 100)}%.`,
+        text: `${name} giảm ${Math.round(((before - category.total) / before) * 100)}%.`,
       });
-    else insights.push({ icon: 'check-circle', text: `${name} ổn định: ${shortMoney(c.total)}.` });
+    else insights.push({ icon: 'check-circle', text: `${name} ổn định: ${shortMoney(category.total)}.` });
   }
 
   const over = cats
@@ -66,15 +66,15 @@ export function buildSummary(
     : null;
 
   return {
-    label: p.label,
-    income: t.income,
-    expense: t.expense,
-    saved: t.income - t.expense,
+    label: period.label,
+    income: periodTotal.income,
+    expense: periodTotal.expense,
+    saved: periodTotal.income - periodTotal.expense,
     avgSaved,
     insights,
     suggestion,
     viaAi: false,
-    count: t.count,
+    count: periodTotal.count,
   };
 }
 
@@ -84,7 +84,7 @@ export async function aiRewrite(
   raw: { categoryId: string; total: number }[],
 ): Promise<MonthSummary> {
   try {
-    const r = await callAi<{ insights: string[]; suggestion?: string }>(
+    const result = await callAi<{ insights: string[]; suggestion?: string }>(
       'finance-summary',
       {
         period: s.label,
@@ -100,14 +100,14 @@ export async function aiRewrite(
       },
       { timeoutMs: 12000 },
     );
-    if (!Array.isArray(r.insights) || !r.insights.length) return s;
+    if (!Array.isArray(result.insights) || !result.insights.length) return s;
     return {
       ...s,
-      insights: r.insights.slice(0, 4).map((text) => ({ icon: 'check-circle', text: String(text).slice(0, 160) })),
+      insights: result.insights.slice(0, 4).map((text) => ({ icon: 'check-circle', text: String(text).slice(0, 160) })),
       viaAi: true,
     };
-  } catch (e) {
-    if (e instanceof AiUnavailableError) return s;
+  } catch (error) {
+    if (error instanceof AiUnavailableError) return s;
     return s;
   }
 }

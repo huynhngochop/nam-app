@@ -5,8 +5,8 @@ export async function callAi<T>(_f: string, _p: unknown, _o?: unknown): Promise<
   throw new AiUnavailableError();
 }
 export const track = (_e: string, _p?: unknown) => {};
-let n = 0;
-export const uid = () => `id${++n}`;
+let counter = 0;
+export const uid = () => `id${++counter}`;
 
 /* Bộ lưu và hàng chờ giả cho test import thẳng store của app (không cần SQLite). */
 export function createOutbox(_name: string) {

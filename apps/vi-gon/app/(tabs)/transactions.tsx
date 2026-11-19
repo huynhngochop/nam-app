@@ -13,33 +13,38 @@ import { TxDetail } from '../../src/TxDetail';
 
 type Item = { type: 'header'; key: string; label: string; net: number } | { type: 'tx'; key: string; tx: Tx };
 
-/** VG-07 · Giao dịch theo ngày. Tablet / máy gập mở: danh sách trái, chi tiết phải. Nhận ?from&to&categoryId&kind từ "Hỏi Ví Gọn". */
+/** Giao dịch theo ngày. Tablet / máy gập mở: danh sách trái, chi tiết phải. Nhận ?from&to&categoryId&kind từ "Hỏi Ví Gọn". */
 export default function Transactions() {
   const { c } = useTheme();
-  const L = useLayout();
-  const s = useVi();
-  const p = useLocalSearchParams<{ from?: string; to?: string; categoryId?: string; kind?: 'expense' | 'income' }>();
+  const layout = useLayout();
+  const state = useVi();
+  const params = useLocalSearchParams<{
+    from?: string;
+    to?: string;
+    categoryId?: string;
+    kind?: 'expense' | 'income';
+  }>();
   const [q, setQ] = useState('');
   // Truy vấn SQLite chạy đồng bộ trên luồng JS: gõ liền nhiều phím chỉ truy vấn một lần (sau 200 ms).
   const [dq, setDq] = useState('');
   useEffect(() => {
-    const t = setTimeout(() => setDq(q.trim()), 200);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setDq(q.trim()), 200);
+    return () => clearTimeout(timer);
   }, [q]);
   const [offset, setOffset] = useState(0);
-  const [kind, setKind] = useState<'all' | 'expense' | 'income'>(p.kind || 'all');
+  const [kind, setKind] = useState<'all' | 'expense' | 'income'>(params.kind || 'all');
   const [onlyPending, setOnlyPending] = useState(false);
-  const [cat, setCat] = useState<string | undefined>(p.categoryId || undefined);
+  const [cat, setCat] = useState<string | undefined>(params.categoryId || undefined);
   // Tab đã mở sẵn: khi "Hỏi Ví Gọn" đẩy bộ lọc mới thì áp dụng lại.
   useEffect(() => {
-    setKind(p.kind || 'all');
-    setCat(p.categoryId || undefined);
+    setKind(params.kind || 'all');
+    setCat(params.categoryId || undefined);
     setOffset(0);
-  }, [p.from, p.to, p.kind, p.categoryId]);
+  }, [params.from, params.to, params.kind, params.categoryId]);
   const [sel, setSel] = useState<string | null>(null);
-  const period = periodOf(s.monthStartDay, offset);
-  const from = p.from && offset === 0 ? Number(p.from) : period.from;
-  const to = p.to && offset === 0 ? Number(p.to) : period.to;
+  const period = periodOf(state.monthStartDay, offset);
+  const from = params.from && offset === 0 ? Number(params.from) : period.from;
+  const to = params.to && offset === 0 ? Number(params.to) : period.to;
 
   const list = useQuery(
     () =>
@@ -61,18 +66,18 @@ export default function Transactions() {
     let day = -1;
     let header: Extract<Item, { type: 'header' }> | null = null;
     for (const tx of list) {
-      const d = startOfDay(new Date(tx.at)).getTime();
-      if (d !== day) {
-        day = d;
-        const dt = new Date(d);
+      const dayStart = startOfDay(new Date(tx.at)).getTime();
+      if (dayStart !== day) {
+        day = dayStart;
+        const dt = new Date(dayStart);
         const today = startOfDay(new Date()).getTime();
         header = {
           type: 'header',
-          key: `h${d}`,
+          key: `h${dayStart}`,
           label:
-            d === today
+            dayStart === today
               ? `Hôm nay · ${dayMonth(dt)}`
-              : d === today - 86400000
+              : dayStart === today - 86400000
                 ? `Hôm qua · ${dayMonth(dt)}`
                 : `${weekdayLong(dt)} · ${dayMonth(dt)}`,
           net: 0,
@@ -86,12 +91,12 @@ export default function Transactions() {
     return out;
   }, [list]);
 
-  const open = (id: string) => (L.twoPane ? setSel(id) : router.push(`/tx/${id}`));
-  const hide = s.hideAmounts;
+  const open = (id: string) => (layout.twoPane ? setSel(id) : router.push(`/tx/${id}`));
+  const hide = state.hideAmounts;
 
   const main = (
     <View style={{ flex: 1 }}>
-      <View style={{ paddingHorizontal: L.gutter, gap: 10, paddingTop: 8 }}>
+      <View style={{ paddingHorizontal: layout.gutter, gap: 10, paddingTop: 8 }}>
         <Row between>
           <T v="display" accessibilityRole="header" style={{ flex: 1 }}>
             Giao dịch
@@ -102,7 +107,7 @@ export default function Transactions() {
         <SearchField value={q} onChangeText={setQ} placeholder="Tìm nơi chi, ghi chú, số tiền" />
         <Chips scroll>
           <Chip label="‹" onPress={() => setOffset((o) => o - 1)} />
-          <Chip label={offset === 0 && p.from ? 'Kỳ đã chọn' : period.label} selected />
+          <Chip label={offset === 0 && params.from ? 'Kỳ đã chọn' : period.label} selected />
           {offset < 0 ? <Chip label="›" onPress={() => setOffset((o) => o + 1)} /> : null}
           <Chip
             label="Chi"
@@ -121,7 +126,7 @@ export default function Transactions() {
               onPress={() => setOnlyPending((x) => !x)}
             />
           ) : null}
-          {cat ? <Chip label={catOf(cat, s.categories).name} selected onRemove={() => setCat(undefined)} /> : null}
+          {cat ? <Chip label={catOf(cat, state.categories).name} selected onRemove={() => setCat(undefined)} /> : null}
         </Chips>
       </View>
       {!items.length ? (
@@ -139,7 +144,7 @@ export default function Transactions() {
           data={items}
           keyExtractor={(i) => i.key}
           getItemType={(i) => i.type}
-          contentContainerStyle={{ paddingHorizontal: L.gutter, paddingBottom: 32 }}
+          contentContainerStyle={{ paddingHorizontal: layout.gutter, paddingBottom: 32 }}
           renderItem={({ item }) =>
             item.type === 'header' ? (
               <Row between style={{ paddingTop: 16, paddingBottom: 4 }}>

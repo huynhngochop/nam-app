@@ -26,34 +26,37 @@ import { STATUS_LABEL } from './types';
 export function CustomerDetail({ id, embedded }: { id: string; embedded?: boolean }) {
   const { c } = useTheme();
   const toast = useToast();
-  const s = useHen();
-  const cu = s.customers.find((x) => x.id === id);
+  const state = useHen();
+  const customer = state.customers.find((x) => x.id === id);
   const isNew = id === 'new';
   const [edit, setEdit] = useState(isNew);
-  const [name, setName] = useState(cu?.name ?? '');
-  const [phone, setPhone] = useState(cu?.phone ?? '');
-  const [birthday, setBirthday] = useState(cu?.birthday ?? '');
-  const [note, setNote] = useState(cu?.note ?? '');
-  const [consent, setConsent] = useState(cu?.marketingConsent ?? false);
+  const [name, setName] = useState(customer?.name ?? '');
+  const [phone, setPhone] = useState(customer?.phone ?? '');
+  const [birthday, setBirthday] = useState(customer?.birthday ?? '');
+  const [note, setNote] = useState(customer?.note ?? '');
+  const [consent, setConsent] = useState(customer?.marketingConsent ?? false);
   const [confirmDel, setConfirmDel] = useState(false);
 
   useEffect(() => {
-    setName(cu?.name ?? '');
-    setPhone(cu?.phone ?? '');
-    setBirthday(cu?.birthday ?? '');
-    setNote(cu?.note ?? '');
-    setConsent(cu?.marketingConsent ?? false);
+    setName(customer?.name ?? '');
+    setPhone(customer?.phone ?? '');
+    setBirthday(customer?.birthday ?? '');
+    setNote(customer?.note ?? '');
+    setConsent(customer?.marketingConsent ?? false);
     setEdit(isNew);
-  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
+    // Chỉ nạp lại ô nhập khi chuyển sang khách khác; dữ liệu khách đổi trong lúc đang sửa không được ghi đè chữ đang gõ.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
-  if (!cu && !isNew) return <EmptyState icon="user-x" title="Không tìm thấy khách" />;
+  if (!customer && !isNew) return <EmptyState icon="user-x" title="Không tìm thấy khách" />;
   const phoneClean = phone.replace(/\s/g, '');
-  const phoneErr = phoneClean && !/^0\d{9,10}$/.test(phoneClean) ? 'SĐT gồm 10–11 số, bắt đầu bằng 0' : undefined;
-  const bdErr = birthday && !/^\d{1,2}\/\d{1,2}$/.test(birthday) ? 'Nhập dạng ngày/tháng, ví dụ 24/12' : undefined;
-  const dup = phoneClean ? s.customers.find((x) => x.phone === phoneClean && x.id !== id) : undefined;
+  const phoneError = phoneClean && !/^0\d{9,10}$/.test(phoneClean) ? 'SĐT gồm 10–11 số, bắt đầu bằng 0' : undefined;
+  const birthdayError =
+    birthday && !/^\d{1,2}\/\d{1,2}$/.test(birthday) ? 'Nhập dạng ngày/tháng, ví dụ 24/12' : undefined;
+  const duplicate = phoneClean ? state.customers.find((x) => x.phone === phoneClean && x.id !== id) : undefined;
 
   const save = () => {
-    const nid = s.upsertCustomer({
+    const newId = state.upsertCustomer({
       id: isNew ? undefined : id,
       name: name.trim(),
       phone: phoneClean || undefined,
@@ -63,7 +66,7 @@ export function CustomerDetail({ id, embedded }: { id: string; embedded?: boolea
     });
     track(isNew ? 'customer_created' : 'customer_updated');
     toast('Đã lưu', { tone: 'success' });
-    if (isNew) router.replace(`/customer/${nid}`);
+    if (isNew) router.replace(`/customer/${newId}`);
     else setEdit(false);
   };
 
@@ -77,14 +80,14 @@ export function CustomerDetail({ id, embedded }: { id: string; embedded?: boolea
           value={phone}
           onChangeText={setPhone}
           keyboardType="phone-pad"
-          error={phoneErr ?? (dup ? `Trùng SĐT với ${dup.name}` : undefined)}
+          error={phoneError ?? (duplicate ? `Trùng SĐT với ${duplicate.name}` : undefined)}
         />
         <TextField
           label="Sinh nhật (ngày/tháng)"
           value={birthday}
           onChangeText={setBirthday}
           placeholder="24/12"
-          error={bdErr}
+          error={birthdayError}
         />
         <TextField
           label="Ghi chú"
@@ -100,22 +103,28 @@ export function CustomerDetail({ id, embedded }: { id: string; embedded?: boolea
             Khách đồng ý nhận tin ưu đãi
           </T>
         </Row>
-        <Button title="Lưu" disabled={name.trim().length < 2 || !!phoneErr || !!bdErr || !!dup} onPress={save} />
+        <Button
+          title="Lưu"
+          disabled={name.trim().length < 2 || !!phoneError || !!birthdayError || !!duplicate}
+          onPress={save}
+        />
         <Button title="Hủy" variant="text" onPress={() => (isNew ? router.back() : setEdit(false))} />
       </View>
     );
   }
 
-  const st = customerStats(cu!.id, s.bookings, s.services);
-  const vip = st.visits >= s.shop.settings.vipVisits || st.spend >= s.shop.settings.vipSpend;
+  // Chỉ còn lại trường hợp xem khách đã có (khách mới luôn ở chế độ sửa).
+  if (!customer) return null;
+  const stats = customerStats(customer.id, state.bookings, state.services);
+  const vip = stats.visits >= state.shop.settings.vipVisits || stats.spend >= state.shop.settings.vipSpend;
   const content = (
     <View style={{ gap: 12 }}>
       <Row gap={12}>
-        <Avatar name={cu!.name} size={56} soft />
+        <Avatar name={customer.name} size={56} soft />
         <View style={{ flex: 1 }}>
-          <T v="title">{cu!.name}</T>
+          <T v="title">{customer.name}</T>
           <T v="caption" muted>
-            {cu!.phone ?? 'Chưa có SĐT'}
+            {customer.phone ?? 'Chưa có SĐT'}
           </T>
         </View>
         {vip ? <Badge label="VIP" tone="pro" /> : null}
@@ -125,20 +134,20 @@ export function CustomerDetail({ id, embedded }: { id: string; embedded?: boolea
           <T v="caption" muted>
             Số lần
           </T>
-          <T v="title">{String(st.visits)}</T>
+          <T v="title">{String(stats.visits)}</T>
         </Card>
         <Card variant="fill">
           <T v="caption" muted>
             Đã chi
           </T>
-          <T v="title">{shortMoney(st.spend)}</T>
+          <T v="title">{shortMoney(stats.spend)}</T>
         </Card>
         <Card variant="fill">
           <T v="caption" muted>
             Bỏ hẹn
           </T>
-          <T v="title" color={st.noShows ? c.negative : undefined}>
-            {String(st.noShows)}
+          <T v="title" color={stats.noShows ? c.negative : undefined}>
+            {String(stats.noShows)}
           </T>
         </Card>
       </Grid>
@@ -147,53 +156,55 @@ export function CustomerDetail({ id, embedded }: { id: string; embedded?: boolea
           title="Đặt lịch"
           size="sm"
           icon="calendar"
-          onPress={() => router.push({ pathname: '/booking/new', params: { customerId: cu!.id } })}
+          onPress={() => router.push({ pathname: '/booking/new', params: { customerId: customer.id } })}
         />
-        {cu!.phone ? (
+        {customer.phone ? (
           <Button
             title="Gọi"
             size="sm"
             variant="secondary"
             icon="phone"
-            onPress={() => Linking.openURL(`tel:${cu!.phone}`).catch(() => toast('Máy không gọi được'))}
+            onPress={() => Linking.openURL(`tel:${customer.phone}`).catch(() => toast('Máy không gọi được'))}
           />
         ) : null}
-        {cu!.phone ? (
+        {customer.phone ? (
           <Button
             title="Zalo"
             size="sm"
             variant="secondary"
             icon="message-circle"
-            onPress={() => Linking.openURL(`https://zalo.me/${cu!.phone}`).catch(() => toast('Không mở được Zalo'))}
+            onPress={() =>
+              Linking.openURL(`https://zalo.me/${customer.phone}`).catch(() => toast('Không mở được Zalo'))
+            }
           />
         ) : null}
         <Button title="Sửa" size="sm" variant="text" icon="edit-2" onPress={() => setEdit(true)} />
       </Row>
-      {cu!.note ? (
+      {customer.note ? (
         <Card variant="tint">
           <T v="caption" muted weight="semibold">
             Ghi chú
           </T>
-          <T v="body">{cu!.note}</T>
+          <T v="body">{customer.note}</T>
         </Card>
       ) : null}
-      {cu!.birthday ? <T v="caption" muted>{`Sinh nhật: ${cu!.birthday}`}</T> : null}
-      {!cu!.marketingConsent ? (
+      {customer.birthday ? <T v="caption" muted>{`Sinh nhật: ${customer.birthday}`}</T> : null}
+      {!customer.marketingConsent ? (
         <T v="caption" muted>
           Khách chưa đồng ý nhận tin ưu đãi — không có trong chiến dịch.
         </T>
       ) : null}
       <SectionHeader title="Lịch sử" />
-      {st.history.length ? (
-        st.history.slice(0, 30).map((b) => (
+      {stats.history.length ? (
+        stats.history.slice(0, 30).map((b) => (
           <ListItem
             key={b.id}
             title={
-              svcOf(b.serviceIds, s.services)
+              svcOf(b.serviceIds, state.services)
                 .map((x) => x.name)
                 .join(', ') || 'Dịch vụ đã xóa'
             }
-            subtitle={`${shortDate(new Date(b.startAt))} · ${s.staff.find((x) => x.id === b.staffId)?.name ?? ''}`}
+            subtitle={`${shortDate(new Date(b.startAt))} · ${state.staff.find((x) => x.id === b.staffId)?.name ?? ''}`}
             right={
               <T v="caption" color={b.status === 'no_show' || b.status === 'cancelled' ? c.negative : c.inkMuted}>
                 {STATUS_LABEL[b.status]}
@@ -217,7 +228,7 @@ export function CustomerDetail({ id, embedded }: { id: string; embedded?: boolea
         onCancel={() => setConfirmDel(false)}
         onConfirm={() => {
           setConfirmDel(false);
-          s.removeCustomer(cu!.id);
+          state.removeCustomer(customer.id);
           toast('Đã xóa khách');
           if (!embedded) router.back();
         }}

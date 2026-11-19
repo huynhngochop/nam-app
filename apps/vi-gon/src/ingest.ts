@@ -8,16 +8,16 @@ export type IngestResult = { status: 'saved' | 'pending' | 'unparsed' | 'duplica
 
 /**
  * Một thông báo / tin nhắn ngân hàng đi vào app (từ bộ lắng nghe Android, Phím tắt iOS qua deep link, hoặc dán tay).
- * Mọi xử lý ở trên máy. Không đọc được → xếp vào "Chưa đọc được" (VG-18) thay vì bỏ mất.
+ * Mọi xử lý ở trên máy. Không đọc được → xếp vào "Chưa đọc được" thay vì bỏ mất.
  */
 export function ingestText(
   text: string,
   opts: { app?: string | null; source?: Tx['source']; postedAt?: number } = {},
 ): IngestResult {
-  const s = useVi.getState();
+  const state = useVi.getState();
   const parsed = parseBankText(text, new Date(opts.postedAt ?? Date.now()));
   if (!parsed) {
-    s.addUnparsed({ text, app: opts.app ?? null, at: opts.postedAt ?? Date.now() });
+    state.addUnparsed({ text, app: opts.app ?? null, at: opts.postedAt ?? Date.now() });
     track('tx_unparsed', { app: opts.app ?? 'paste' });
     return { status: 'unparsed' };
   }
@@ -27,7 +27,7 @@ export function ingestText(
   const same = near(parsed.amount, at, 120000).find((x) => x.raw === text);
   if (same) return { status: 'duplicate', tx: same };
 
-  const { categoryId, confident } = categorize(parsed.merchant, parsed.kind, s.rules);
+  const { categoryId, confident } = categorize(parsed.merchant, parsed.kind, state.rules);
   const tx: Tx = {
     id: uid(),
     amount: parsed.amount,
@@ -38,7 +38,7 @@ export function ingestText(
     at,
     account: parsed.account,
     source: opts.source ?? 'auto',
-    status: s.askBeforeSave || !confident ? 'pending' : 'confirmed',
+    status: state.askBeforeSave || !confident ? 'pending' : 'confirmed',
     raw: text,
     fundId: null,
     flag: null,
@@ -46,7 +46,7 @@ export function ingestText(
     createdAt: Date.now(),
   };
 
-  // VG-19: cùng số tiền trong 3 phút từ nguồn khác → nghi trùng; ngược chiều trong 10 phút, khác tài khoản → nghi chuyển nội bộ.
+  // cùng số tiền trong 3 phút từ nguồn khác → nghi trùng; ngược chiều trong 10 phút, khác tài khoản → nghi chuyển nội bộ.
   const around = near(parsed.amount, at, 10 * 60000);
   const dup = around.find((x) => x.kind === tx.kind && Math.abs(x.at - at) <= 180000 && x.raw !== text);
   const pair = around.find(
@@ -64,8 +64,8 @@ export function ingestText(
   }
 
   insertTx(tx);
-  if (opts.app && !s.learned.some((l) => l.sig === signatureOf(text)))
-    s.set({ learned: [...s.learned, { sig: signatureOf(text), app: opts.app }].slice(-100) });
+  if (opts.app && !state.learned.some((l) => l.sig === signatureOf(text)))
+    state.set({ learned: [...state.learned, { sig: signatureOf(text), app: opts.app }].slice(-100) });
   track('tx_ingested', { status: tx.status, flag: tx.flag ?? 'none' });
   return { status: tx.status === 'confirmed' ? 'saved' : 'pending', tx };
 }
@@ -77,7 +77,7 @@ export function ingestMany(block: string): { saved: number; pending: number; unp
     .flatMap((p) => (p.split('\n').filter((l) => /[+\-−]\s*\d/.test(l)).length > 1 ? p.split('\n') : [p]))
     .map((x) => x.trim())
     .filter(Boolean);
-  const r = { saved: 0, pending: 0, unparsed: 0, duplicate: 0 };
-  for (const p of parts.slice(0, 200)) r[ingestText(p, { source: 'import' }).status]++;
-  return r;
+  const summary = { saved: 0, pending: 0, unparsed: 0, duplicate: 0 };
+  for (const part of parts.slice(0, 200)) summary[ingestText(part, { source: 'import' }).status]++;
+  return summary;
 }

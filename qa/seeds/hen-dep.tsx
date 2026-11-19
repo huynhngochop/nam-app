@@ -1,4 +1,4 @@
-// Seed QA (chỉ chép vào bản build trong CI thành app/qa-seed.tsx): một tiệm đông khách chạy 12 tháng.
+// Dữ liệu thử cho kiểm thử trên máy ảo (CI chép vào bản build thành app/qa-seed.tsx): một tiệm đông khách chạy 12 tháng.
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text } from 'react-native';
 import Storage from 'expo-sqlite/kv-store';
@@ -163,31 +163,31 @@ async function run(log: (s: string) => void) {
   const bookings: Booking[] = [];
   let code = 3000;
   const regulars = customers.slice(0, 600);
-  for (let d = -365; d <= 14; d++) {
-    const day = new Date(now + d * 86400000);
+  for (let dayOffset = -365; dayOffset <= 14; dayOffset++) {
+    const day = new Date(now + dayOffset * 86400000);
     if (day.getDay() === 0 && rnd() < 0.7) continue;
     for (const st of staff) {
       if (st.role === 'assistant') continue;
       const [fh] = st.shiftFrom.split(':').map(Number);
       const [th] = st.shiftTo.split(':').map(Number);
-      let t = new Date(day);
-      t.setHours(fh, 0, 0, 0);
+      let date = new Date(day);
+      date.setHours(fh, 0, 0, 0);
       const end = new Date(day);
       end.setHours(th, 0, 0, 0);
-      const busy = d < 0 ? 0.62 : d === 0 ? 0.7 : Math.max(0.15, 0.6 - d * 0.04);
-      while (t.getTime() < end.getTime()) {
+      const busy = dayOffset < 0 ? 0.62 : dayOffset === 0 ? 0.7 : Math.max(0.15, 0.6 - dayOffset * 0.04);
+      while (date.getTime() < end.getTime()) {
         const svc = services.filter((s) => s.staffIds.includes(st.id));
         const sv = pick(svc.length ? svc : services);
         const dur = sv.durationMin;
-        if (rnd() < busy && t.getTime() + dur * 60000 <= end.getTime()) {
-          const start = t.getTime();
+        if (rnd() < busy && date.getTime() + dur * 60000 <= end.getTime()) {
+          const start = date.getTime();
           const past = start + dur * 60000 < now;
           let status: BookingStatus = 'confirmed';
           if (past) {
-            const r = rnd();
-            status = r < 0.86 ? 'completed' : r < 0.92 ? 'no_show' : 'cancelled';
+            const roll = rnd();
+            status = roll < 0.86 ? 'completed' : roll < 0.92 ? 'no_show' : 'cancelled';
           } else if (start < now) status = 'in_service';
-          else if (d === 0 && start - now < 1800000) status = rnd() < 0.5 ? 'checked_in' : 'confirmed';
+          else if (dayOffset === 0 && start - now < 1800000) status = rnd() < 0.5 ? 'checked_in' : 'confirmed';
           const extra = rnd() < 0.2 ? [pick(services).id] : [];
           const cu = rnd() < 0.7 ? pick(regulars) : pick(customers);
           const price = [sv, ...services.filter((s) => extra.includes(s.id))].reduce((a, s) => a + s.price, 0);
@@ -208,8 +208,8 @@ async function run(log: (s: string) => void) {
                 : undefined,
             synced: true,
           });
-          t = new Date(start + (dur + 15) * 60000);
-        } else t = new Date(t.getTime() + 30 * 60000);
+          date = new Date(start + (dur + 15) * 60000);
+        } else date = new Date(date.getTime() + 30 * 60000);
       }
     }
   }

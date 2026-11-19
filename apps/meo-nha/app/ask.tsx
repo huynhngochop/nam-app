@@ -26,17 +26,17 @@ import { ask, AskAnswer, POPULAR_QUESTIONS } from '../src/lib/ask';
 
 type Turn = { q: string; a?: AskAnswer; loading?: boolean; error?: boolean };
 
-/** MN-21 Hỏi · MN-22 Trả lời · MN-23 Từ chối an toàn. Không quảng cáo. */
+/** Hỏi · Trả lời · Từ chối an toàn. Không quảng cáo. */
 export default function Ask() {
   const { c } = useTheme();
   const toast = useToast();
   const params = useLocalSearchParams<{ q?: string }>();
-  const s = useMeo();
+  const state = useMeo();
   const [input, setInput] = useState('');
   const [turns, setTurns] = useState<Turn[]>([]);
   const scroll = useRef<ScrollView>(null);
-  const limit = getLimit(s.noAds ? 'AI_ASK_DAILY_NOADS' : 'AI_ASK_DAILY_FREE', 5);
-  const left = quotaLeft(s.askQuota, limit);
+  const limit = getLimit(state.noAds ? 'AI_ASK_DAILY_NOADS' : 'AI_ASK_DAILY_FREE', 5);
+  const left = quotaLeft(state.askQuota, limit);
 
   const send = async (q: string, popular = false) => {
     const text = q.trim();
@@ -48,20 +48,22 @@ export default function Ask() {
     setInput('');
     setTurns((t) => [...t, { q: text, loading: true }]);
     try {
-      const a = await ask(
+      const reply = await ask(
         text,
         turns.map((t) => t.q),
       );
       // Câu từ chối / chưa có mẹo / câu phổ biến không trừ lượt.
-      if (!popular && a.kind === 'answer') s.consumeAsk(text);
-      setTurns((t) => t.map((x, i) => (i === t.length - 1 ? { q: text, a } : x)));
-      track(a.kind === 'answer' ? 'ask_answered' : 'ask_refused', { reason: a.kind });
+      if (!popular && reply.kind === 'answer') state.consumeAsk(text);
+      setTurns((t) => t.map((x, i) => (i === t.length - 1 ? { q: text, a: reply } : x)));
+      track(reply.kind === 'answer' ? 'ask_answered' : 'ask_refused', { reason: reply.kind });
     } catch {
       setTurns((t) => t.map((x, i) => (i === t.length - 1 ? { q: text, error: true } : x)));
     }
   };
+  // Câu hỏi truyền qua đường dẫn (?q=) chỉ gửi một lần khi mở màn, không gửi lại mỗi lần `send` đổi.
   useEffect(() => {
-    if (params.q) send(String(params.q)); /* eslint-disable-next-line react-hooks/exhaustive-deps */
+    if (params.q) send(String(params.q));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     setTimeout(() => scroll.current?.scrollToEnd({ animated: true }), 50);
@@ -148,7 +150,7 @@ export default function Ask() {
           <T v="caption" muted center>
             {left > 0 ? `Còn ${left}/${limit} câu hỏi hôm nay` : 'Hết lượt hôm nay · làm mới lúc 00:00'}
           </T>
-          {left <= 0 && !s.noAds ? (
+          {left <= 0 && !state.noAds ? (
             <Button
               title="Bỏ quảng cáo để có thêm lượt"
               variant="text"

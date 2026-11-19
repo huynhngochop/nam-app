@@ -15,14 +15,14 @@ Notifications.setNotificationHandler({
 });
 
 export async function requestNotify(): Promise<boolean> {
-  const cur = await Notifications.getPermissionsAsync();
-  if (cur.granted) return true;
-  if (!cur.canAskAgain) return false;
-  const r = await Notifications.requestPermissionsAsync();
-  return r.granted;
+  const currentPermission = await Notifications.getPermissionsAsync();
+  if (currentPermission.granted) return true;
+  if (!currentPermission.canAskAgain) return false;
+  const permission = await Notifications.requestPermissionsAsync();
+  return permission.granted;
 }
 
-/** Lên lịch "Mẹo hôm nay" theo giờ người dùng chọn; mở mẹo khi chạm (MN-03, MN-15). */
+/** Lên lịch "Mẹo hôm nay" theo giờ người dùng chọn; mở mẹo khi chạm. */
 export async function scheduleDailyTip(time: string, enabled: boolean, title: string) {
   await Notifications.cancelScheduledNotificationAsync('daily-tip').catch(() => {});
   if (!enabled) return;

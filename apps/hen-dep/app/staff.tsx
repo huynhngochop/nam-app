@@ -33,12 +33,12 @@ const SHIFT_END = ['16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'
 /** HD-C04 · Nhân viên: ca làm, hoa hồng, nghỉ hôm nay, mã mời. */
 export default function StaffScreen() {
   const toast = useToast();
-  const s = useHen();
+  const state = useHen();
   const [edit, setEdit] = useState<Partial<Staff> | null>(null);
   const [del, setDel] = useState<Staff | null>(null);
   const valid = !!edit && (edit.name ?? '').trim().length >= 1;
   const upcoming = (id: string) =>
-    s.bookings.filter((b) => b.staffId === id && b.startAt > Date.now() && b.status === 'confirmed').length;
+    state.bookings.filter((b) => b.staffId === id && b.startAt > Date.now() && b.status === 'confirmed').length;
 
   return (
     <Screen
@@ -61,7 +61,7 @@ export default function StaffScreen() {
       }
     >
       <AppBar title="Nhân viên" onBack={() => router.back()} />
-      {!s.staff.length ? (
+      {!state.staff.length ? (
         <EmptyState
           icon="users"
           title="Chưa có nhân viên"
@@ -78,7 +78,7 @@ export default function StaffScreen() {
           }
         />
       ) : null}
-      {s.staff.map((st) => (
+      {state.staff.map((st) => (
         <ListItem
           key={st.id}
           left={<Avatar name={st.name} soft />}
@@ -97,7 +97,7 @@ export default function StaffScreen() {
           <T
             v="title"
             style={{ letterSpacing: 4 }}
-          >{`${s.shop.slug.slice(0, 3).toUpperCase()}-${String(s.staff.length * 137 + 4021).slice(-4)}`}</T>
+          >{`${state.shop.slug.slice(0, 3).toUpperCase()}-${String(state.staff.length * 137 + 4021).slice(-4)}`}</T>
           <Button
             title="Sao chép"
             size="sm"
@@ -105,7 +105,7 @@ export default function StaffScreen() {
             icon="copy"
             onPress={async () => {
               await Clipboard.setStringAsync(
-                `${s.shop.slug.slice(0, 3).toUpperCase()}-${String(s.staff.length * 137 + 4021).slice(-4)}`,
+                `${state.shop.slug.slice(0, 3).toUpperCase()}-${String(state.staff.length * 137 + 4021).slice(-4)}`,
               );
               toast('Đã sao chép mã mời');
             }}
@@ -123,7 +123,7 @@ export default function StaffScreen() {
               title="Lưu"
               disabled={!valid}
               onPress={() => {
-                s.upsertStaff({
+                state.upsertStaff({
                   id: edit!.id,
                   name: edit!.name!.trim(),
                   phone: edit!.phone,
@@ -255,7 +255,7 @@ export default function StaffScreen() {
           useHen.setState((x) => ({
             services: x.services.map((sv) => ({ ...sv, staffIds: sv.staffIds.filter((i) => i !== del!.id) })),
           }));
-          s.removeStaff(del!.id);
+          state.removeStaff(del!.id);
           setDel(null);
           toast('Đã xóa');
         }}

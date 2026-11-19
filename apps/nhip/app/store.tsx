@@ -21,14 +21,14 @@ import { PACKS } from '../src/data';
 import { RING_THEMES } from '../src/themes';
 import { useNhip } from '../src/store';
 
-/** NH-10 · Cửa hàng gói âm thanh. Giá chưa chốt → ô khóa giá. */
+/** Cửa hàng gói âm thanh. Giá chưa chốt → ô khóa giá. */
 export default function Store() {
   const { c } = useTheme();
   const toast = useToast();
-  const s = useNhip();
+  const state = useNhip();
   const [tab, setTab] = useState<'packs' | 'themes'>('packs');
   const featured = PACKS.find((p) => p.featured)!;
-  const has = (id: string) => s.isPro || s.ownedPacks.includes(id);
+  const has = (id: string) => state.isPro || state.ownedPacks.includes(id);
   return (
     <Screen scroll>
       <AppBar
@@ -41,7 +41,7 @@ export default function Store() {
             onPress={async () => {
               const ids = await restorePurchases();
               const packs = PACKS.filter((p) => ids.includes(p.productId)).map((p) => p.id);
-              if (packs.length) s.set({ ownedPacks: Array.from(new Set([...s.ownedPacks, ...packs])) });
+              if (packs.length) state.set({ ownedPacks: Array.from(new Set([...state.ownedPacks, ...packs])) });
               toast(packs.length ? 'Đã khôi phục' : 'Không tìm thấy giao dịch cũ');
             }}
           />
@@ -99,12 +99,12 @@ export default function Store() {
       ) : (
         <Grid min={2} gap={10}>
           {RING_THEMES.map((t) => {
-            const on = s.ringTheme === t.id;
+            const on = state.ringTheme === t.id;
             return (
               <Card
                 key={t.id}
                 onPress={() => {
-                  s.set({ ringTheme: t.id });
+                  state.set({ ringTheme: t.id });
                   track('ring_theme_set', { theme: t.id });
                 }}
                 accessibilityLabel={`Giao diện ${t.name}${on ? ', đang dùng' : ''}`}

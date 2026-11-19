@@ -9,18 +9,18 @@ import { Money } from '../src/ui';
 
 const SRC: Record<Tx['source'], string> = { auto: 'thông báo', manual: 'nhập tay', import: 'dán tin' };
 
-/** VG-19 · Trùng & chuyển nội bộ: không tính chi tiêu hai lần. */
+/** Trùng & chuyển nội bộ: không tính chi tiêu hai lần. */
 export default function Review() {
   const toast = useToast();
   const flagged = useQuery(() => listTx({ flagged: true, limit: 200 }), [], []);
   const pairs: [Tx, Tx | null][] = [];
   const seen = new Set<string>();
-  for (const t of flagged) {
-    if (seen.has(t.id)) continue;
-    seen.add(t.id);
-    const other = t.pairId ? getTx(t.pairId) : null;
+  for (const tx of flagged) {
+    if (seen.has(tx.id)) continue;
+    seen.add(tx.id);
+    const other = tx.pairId ? getTx(tx.pairId) : null;
     if (other) seen.add(other.id);
-    pairs.push([t, other]);
+    pairs.push([tx, other]);
   }
 
   const clear = (a: Tx, b: Tx | null) => {

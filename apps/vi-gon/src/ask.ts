@@ -2,7 +2,7 @@ import { AiUnavailableError, callAi, fold } from '@nam/core';
 import { Category, Fund } from './types';
 
 /**
- * Hỏi Ví Gọn (VG-21/22). Hiểu câu hỏi bằng quy tắc trên máy; chỉ khi không hiểu mới gửi CÂU HỎI (không kèm số liệu) lên cổng AI
+ * Hỏi Ví Gọn. Hiểu câu hỏi bằng quy tắc trên máy; chỉ khi không hiểu mới gửi CÂU HỎI (không kèm số liệu) lên cổng AI
  * để nhận lại "cách hiểu" dạng JSON. Mọi con số luôn tính trên máy.
  */
 export type Metric = 'sum' | 'count' | 'top' | 'change' | 'average' | 'fund_eta' | 'left';
@@ -53,31 +53,32 @@ const NOT_TOPIC =
 // Không gồm "còn lại" / "còn được" đứng riêng: "chi cho con lại tăng" vẫn phải hiểu là Gia đình.
 
 export function parseIntent(q: string, cats: Category[], funds: Fund[], now = new Date()): Intent | null {
-  const f = ` ${fold(q).replace(/[?!.,]/g, ' ')} `.replace(/\s+/g, ' ');
+  const folded = ` ${fold(q).replace(/[?!.,]/g, ' ')} `.replace(/\s+/g, ' ');
   let period: PeriodKey = 'this_month';
-  if (/ thang truoc | thang roi /.test(f)) period = 'last_month';
-  else if (/ tuan nay | 7 ngay /.test(f)) period = 'this_week';
-  else if (/ hom nay /.test(f)) period = 'today';
-  else if (/ hom qua /.test(f)) period = 'yesterday';
-  else if (/ nam nay | ca nam /.test(f)) period = 'this_year';
+  if (/ thang truoc | thang roi /.test(folded)) period = 'last_month';
+  else if (/ tuan nay | 7 ngay /.test(folded)) period = 'this_week';
+  else if (/ hom nay /.test(folded)) period = 'today';
+  else if (/ hom qua /.test(folded)) period = 'yesterday';
+  else if (/ nam nay | ca nam /.test(folded)) period = 'this_year';
   else {
-    const m = f.match(/ thang (\d{1,2}) /);
-    if (m && Number(m[1]) >= 1 && Number(m[1]) <= 12) period = `month_${Number(m[1])}`;
+    const monthMatch = folded.match(/ thang (\d{1,2}) /);
+    if (monthMatch && Number(monthMatch[1]) >= 1 && Number(monthMatch[1]) <= 12)
+      period = `month_${Number(monthMatch[1])}`;
   }
 
   const fund = funds.find(
     (x) =>
-      f.includes(` ${fold(x.name)} `) ||
+      folded.includes(` ${fold(x.name)} `) ||
       fold(x.name)
         .split(' ')
-        .some((w) => w.length > 3 && f.includes(` ${w} `)),
+        .some((w) => w.length > 3 && folded.includes(` ${w} `)),
   );
-  if (fund && / quy | bao lau | khi nao | bao gio | du /.test(f))
+  if (fund && / quy | bao lau | khi nao | bao gio | du /.test(folded))
     return { metric: 'fund_eta', kind: 'expense', categoryId: null, period, fundId: fund.id, merchant: null };
 
-  // Bỏ cụm chỉ thời gian, thứ trong tuần và "còn bao nhiêu" trước khi dò danh mục / thu-chi (lỗi V2):
+  // Bỏ cụm chỉ thời gian, thứ trong tuần và "còn bao nhiêu" trước khi dò danh mục / thu-chi:
   // "hôm qua" chứa "qua" (Quà), "còn bao nhiêu" chứa "con" (Gia đình), "thứ hai" chứa "thu" (khoản thu).
-  const fc = f.replace(NOT_TOPIC, ' ').replace(/\s+/g, ' ');
+  const fc = folded.replace(NOT_TOPIC, ' ').replace(/\s+/g, ' ');
 
   // Danh mục: tên người dùng đặt trước, rồi từ khóa (cụm dài trước)
   let categoryId: string | null = null;
@@ -86,9 +87,9 @@ export function parseIntent(q: string, cats: Category[], funds: Fund[], now = ne
   else {
     let best = 0;
     for (const [id, words] of Object.entries(CAT_WORDS))
-      for (const w of words)
-        if (fc.includes(` ${w} `) && w.length > best) {
-          best = w.length;
+      for (const word of words)
+        if (fc.includes(` ${word} `) && word.length > best) {
+          best = word.length;
           categoryId = id;
         }
   }
@@ -97,12 +98,12 @@ export function parseIntent(q: string, cats: Category[], funds: Fund[], now = ne
   if (categoryId === 'salary') categoryId = kind === 'income' ? 'salary' : null;
 
   let metric: Metric | null = null;
-  if (/ con (lai )?bao nhieu | con duoc | duoc chi them /.test(f)) metric = 'left';
-  else if (/ tang | giam | so voi /.test(f)) metric = 'change';
-  else if (/ nhieu nhat | lon nhat | top | ton nhat /.test(f)) metric = 'top';
-  else if (/ trung binh | moi ngay /.test(f)) metric = 'average';
-  else if (/ bao nhieu lan | may lan | so lan /.test(f)) metric = 'count';
-  else if (/ bao nhieu | tong | het | chi | tieu | ton /.test(f) || categoryId) metric = 'sum';
+  if (/ con (lai )?bao nhieu | con duoc | duoc chi them /.test(folded)) metric = 'left';
+  else if (/ tang | giam | so voi /.test(folded)) metric = 'change';
+  else if (/ nhieu nhat | lon nhat | top | ton nhat /.test(folded)) metric = 'top';
+  else if (/ trung binh | moi ngay /.test(folded)) metric = 'average';
+  else if (/ bao nhieu lan | may lan | so lan /.test(folded)) metric = 'count';
+  else if (/ bao nhieu | tong | het | chi | tieu | ton /.test(folded) || categoryId) metric = 'sum';
   if (!metric) return null;
   return { metric, kind, categoryId, period, fundId: null, merchant: null };
 }
@@ -117,52 +118,52 @@ export function periodRange(
   const day = 86400000;
   const month = (offset: number) => {
     const y = now.getFullYear();
-    let m = now.getMonth();
-    if (now.getDate() < startDay) m -= 1;
-    m += offset;
-    return { from: new Date(y, m, startDay).getTime(), to: new Date(y, m + 1, startDay).getTime() };
+    let monthIndex = now.getMonth();
+    if (now.getDate() < startDay) monthIndex -= 1;
+    monthIndex += offset;
+    return { from: new Date(y, monthIndex, startDay).getTime(), to: new Date(y, monthIndex + 1, startDay).getTime() };
   };
   if (p === 'today')
     return { from: d0.getTime(), to: d0.getTime() + day, prevFrom: d0.getTime() - day, prevTo: d0.getTime() };
   if (p === 'yesterday')
     return { from: d0.getTime() - day, to: d0.getTime(), prevFrom: d0.getTime() - 2 * day, prevTo: d0.getTime() - day };
   if (p === 'this_week') {
-    const s = d0.getTime() - ((d0.getDay() + 6) % 7) * day;
-    return { from: s, to: s + 7 * day, prevFrom: s - 7 * day, prevTo: s };
+    const weekStart = d0.getTime() - ((d0.getDay() + 6) % 7) * day;
+    return { from: weekStart, to: weekStart + 7 * day, prevFrom: weekStart - 7 * day, prevTo: weekStart };
   }
   if (p === 'this_year') {
-    const s = new Date(now.getFullYear(), 0, 1).getTime();
+    const date = new Date(now.getFullYear(), 0, 1).getTime();
     return {
-      from: s,
+      from: date,
       to: new Date(now.getFullYear() + 1, 0, 1).getTime(),
       prevFrom: new Date(now.getFullYear() - 1, 0, 1).getTime(),
-      prevTo: s,
+      prevTo: date,
     };
   }
   if (p === 'last_month') {
-    const a = month(-1);
-    const b = month(-2);
-    return { ...a, prevFrom: b.from, prevTo: b.to };
+    const lastMonth = month(-1);
+    const monthBefore = month(-2);
+    return { ...lastMonth, prevFrom: monthBefore.from, prevTo: monthBefore.to };
   }
   if (p.startsWith('month_')) {
-    const m = Number(p.split('_')[1]) - 1;
-    const y = m > now.getMonth() ? now.getFullYear() - 1 : now.getFullYear();
+    const value = Number(p.split('_')[1]) - 1;
+    const y = value > now.getMonth() ? now.getFullYear() - 1 : now.getFullYear();
     return {
-      from: new Date(y, m, startDay).getTime(),
-      to: new Date(y, m + 1, startDay).getTime(),
-      prevFrom: new Date(y, m - 1, startDay).getTime(),
-      prevTo: new Date(y, m, startDay).getTime(),
+      from: new Date(y, value, startDay).getTime(),
+      to: new Date(y, value + 1, startDay).getTime(),
+      prevFrom: new Date(y, value - 1, startDay).getTime(),
+      prevTo: new Date(y, value, startDay).getTime(),
     };
   }
-  const a = month(0);
-  const b = month(-1);
-  return { ...a, prevFrom: b.from, prevTo: b.to };
+  const thisMonth = month(0);
+  const previousMonth = month(-1);
+  return { ...thisMonth, prevFrom: previousMonth.from, prevTo: previousMonth.to };
 }
 
 /** Không hiểu bằng quy tắc → nhờ AI hiểu câu hỏi. Chỉ gửi câu hỏi + danh sách TÊN danh mục/quỹ, không gửi số liệu. */
 export async function intentViaAi(q: string, cats: Category[], funds: Fund[]): Promise<Intent | null> {
   try {
-    const r = await callAi<Partial<Intent>>(
+    const result = await callAi<Partial<Intent>>(
       'finance-intent',
       {
         question: q.slice(0, 200),
@@ -172,20 +173,20 @@ export async function intentViaAi(q: string, cats: Category[], funds: Fund[]): P
       { timeoutMs: 8000 },
     );
     const metrics: Metric[] = ['sum', 'count', 'top', 'change', 'average', 'fund_eta', 'left'];
-    if (!r.metric || !metrics.includes(r.metric)) return null;
+    if (!result.metric || !metrics.includes(result.metric)) return null;
     return {
-      metric: r.metric,
-      kind: r.kind === 'income' ? 'income' : 'expense',
-      categoryId: cats.some((c) => c.id === r.categoryId) ? r.categoryId! : null,
-      period: (typeof r.period === 'string' &&
-      /^(this_month|last_month|this_week|today|yesterday|this_year|month_\d{1,2})$/.test(r.period)
-        ? r.period
+      metric: result.metric,
+      kind: result.kind === 'income' ? 'income' : 'expense',
+      categoryId: cats.some((c) => c.id === result.categoryId) ? result.categoryId! : null,
+      period: (typeof result.period === 'string' &&
+      /^(this_month|last_month|this_week|today|yesterday|this_year|month_\d{1,2})$/.test(result.period)
+        ? result.period
         : 'this_month') as PeriodKey,
-      fundId: funds.some((x) => x.id === r.fundId) ? r.fundId! : null,
+      fundId: funds.some((x) => x.id === result.fundId) ? result.fundId! : null,
       merchant: null,
     };
-  } catch (e) {
-    if (e instanceof AiUnavailableError) return null;
+  } catch (error) {
+    if (error instanceof AiUnavailableError) return null;
     return null;
   }
 }

@@ -1,4 +1,4 @@
-// Seed QA (chỉ chép vào bản build trong CI thành app/qa-seed.tsx): một năm dùng Nhịp mỗi ngày.
+// Dữ liệu thử cho kiểm thử trên máy ảo (CI chép vào bản build thành app/qa-seed.tsx): một năm dùng Nhịp mỗi ngày.
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text } from 'react-native';
 import Storage from 'expo-sqlite/kv-store';
@@ -43,16 +43,16 @@ async function run(log: (s: string) => void) {
   });
   const logs: FocusLog[] = [];
   const daily: Record<string, number> = {};
-  for (let d = 365; d >= 0; d--) {
-    const day = new Date(now - d * 86400000);
+  for (let dayOffset = 365; dayOffset >= 0; dayOffset--) {
+    const day = new Date(now - dayOffset * 86400000);
     if (rnd() < 0.08) continue;
-    const n = int(1, 9);
-    for (let i = 0; i < n; i++) {
+    const count = int(1, 9);
+    for (let i = 0; i < count; i++) {
       const at = new Date(day);
       at.setHours(int(7, 22), int(0, 59), 0, 0);
       if (at.getTime() > now) continue;
-      const r = rnd();
-      const status: FocusLog['status'] = r < 0.85 ? 'completed' : r < 0.97 ? 'stopped' : 'violated';
+      const roll = rnd();
+      const status: FocusLog['status'] = roll < 0.85 ? 'completed' : roll < 0.97 ? 'stopped' : 'violated';
       const minutes = status === 'completed' ? pick([25, 25, 25, 45, 50]) : int(3, 20);
       logs.push({
         id: `l${logs.length}`,

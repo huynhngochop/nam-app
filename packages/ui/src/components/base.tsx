@@ -36,7 +36,7 @@ type TProps = TextProps & {
 };
 /**
  * Màu chữ mặc định khi nằm trên nền màu nhấn (Card variant="fill"). Không có giá trị = nền thường.
- * Lỗi W1: chữ màu ink/accent trên nền màu nhấn gần như không đọc được, nhất là ở giao diện tối.
+ * chữ màu ink/accent trên nền màu nhấn gần như không đọc được, nhất là ở giao diện tối.
  */
 const OnFillCtx = React.createContext<string | null>(null);
 /** Màu chữ cần dùng khi đang nằm trong thẻ nền màu nhấn, hoặc null. */
@@ -48,14 +48,14 @@ export function T({ v = 'body', color, muted, accent, center, weight, style, ...
   const { c } = useTheme();
   const onFill = useOnFill();
   // Trên nền màu nhấn: mọi biến thể (thường / muted / accent) dùng màu onAccent; muted giảm độ đậm.
-  const col = color ?? onFill ?? (accent ? c.a : muted ? c.inkMuted : c.ink);
+  const textColor = color ?? onFill ?? (accent ? c.a : muted ? c.inkMuted : c.ink);
   const fade = onFill && !color && muted ? { opacity: 0.8 } : null;
   return (
     <Text
       maxFontSizeMultiplier={v === 'numeral' || v === 'display' ? 1.3 : 2}
       style={[
         typeScale[v] as TextStyle,
-        { color: col },
+        { color: textColor },
         fade,
         center && { textAlign: 'center' },
         weight && { fontFamily: fonts[weight] },
@@ -109,12 +109,12 @@ export function Screen({
   contentStyle,
 }: ScreenProps) {
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const inner: ViewStyle = {
     width: '100%',
-    maxWidth: readable ? L.readableWidth : undefined,
+    maxWidth: readable ? layout.readableWidth : undefined,
     alignSelf: 'center',
-    paddingHorizontal: padded ? L.gutter : 0,
+    paddingHorizontal: padded ? layout.gutter : 0,
     gap: 12,
   };
   return (
@@ -204,7 +204,7 @@ export const Button = memo(function Button({
   ...rest
 }: BtnProps) {
   const { c } = useTheme();
-  const h = size === 'lg' ? 52 : size === 'md' ? 44 : 36;
+  const buttonHeight = size === 'lg' ? 52 : size === 'md' ? 44 : 36;
   const bg = variant === 'primary' ? (color ?? c.a) : variant === 'secondary' ? c.surface2 : 'transparent';
   const fg =
     textColor ??
@@ -217,7 +217,7 @@ export const Button = memo(function Button({
       disabled={disabled || loading}
       style={({ pressed }) => [
         {
-          height: h,
+          height: buttonHeight,
           minWidth: 44,
           paddingHorizontal: size === 'sm' ? 14 : 18,
           borderRadius: size === 'sm' ? radius.sm : radius.md,
@@ -457,7 +457,7 @@ export function Card({
   accessibilityLabel?: string;
 }) {
   const { c } = useTheme();
-  const s: ViewStyle = {
+  const cardStyle: ViewStyle = {
     backgroundColor:
       variant === 'tint' ? c.at : variant === 'fill' ? c.surface2 : variant === 'accent' ? c.a : c.surface,
     borderWidth: variant === 'outlineAccent' ? 2 : variant === 'danger' ? 1.5 : 1,
@@ -480,13 +480,13 @@ export function Card({
         accessibilityRole="button"
         accessibilityLabel={accessibilityLabel}
         onPress={onPress}
-        style={({ pressed }) => [s, { opacity: pressed ? 0.85 : 1 }, style]}
+        style={({ pressed }) => [cardStyle, { opacity: pressed ? 0.85 : 1 }, style]}
       >
         {body}
       </Pressable>
     );
   }
-  return <View style={[s, style]}>{body}</View>;
+  return <View style={[cardStyle, style]}>{body}</View>;
 }
 
 export function Thumb({ icon, color, bg, size = 40 }: { icon: IconName; color?: string; bg?: string; size?: number }) {
@@ -630,8 +630,8 @@ export function Row({
 
 /** Lưới thích ứng: số cột tăng theo cỡ màn (điện thoại → máy gập → tablet). */
 export function Grid({ children, min = 1, gap = 12 }: { children: ReactNode; min?: number; gap?: number }) {
-  const L = useLayout();
-  const cols = L.columns(min);
+  const layout = useLayout();
+  const cols = layout.columns(min);
   const items = React.Children.toArray(children);
   return (
     <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -gap / 2 }}>
@@ -657,15 +657,15 @@ export function ProgressBar({
   track?: string;
 }) {
   const { c } = useTheme();
-  const v = Math.max(0, Math.min(1, value));
+  const clamped = Math.max(0, Math.min(1, value));
   return (
     <View
       accessibilityRole="progressbar"
-      accessibilityValue={{ now: Math.round(v * 100), min: 0, max: 100 }}
+      accessibilityValue={{ now: Math.round(clamped * 100), min: 0, max: 100 }}
       style={{ height, borderRadius: radius.pill, backgroundColor: track ?? c.surface2, overflow: 'hidden' }}
     >
       <View
-        style={{ width: `${v * 100}%`, height: '100%', backgroundColor: color ?? c.a, borderRadius: radius.pill }}
+        style={{ width: `${clamped * 100}%`, height: '100%', backgroundColor: color ?? c.a, borderRadius: radius.pill }}
       />
     </View>
   );
@@ -963,7 +963,7 @@ export function Banner({
   onPress?: () => void;
 }) {
   const { c } = useTheme();
-  const col = tone === 'negative' ? c.negative : tone === 'ok' ? c.positive : c.warning;
+  const toneColor = tone === 'negative' ? c.negative : tone === 'ok' ? c.positive : c.warning;
   return (
     <Pressable
       disabled={!onPress}
@@ -982,9 +982,9 @@ export function Banner({
       <Feather
         name={icon ?? (tone === 'ok' ? 'check-circle' : tone === 'negative' ? 'alert-circle' : 'wifi-off')}
         size={15}
-        color={col}
+        color={toneColor}
       />
-      <T v="caption" color={col} weight="semibold" style={{ flex: 1 }}>
+      <T v="caption" color={toneColor} weight="semibold" style={{ flex: 1 }}>
         {text}
       </T>
     </Pressable>

@@ -2,7 +2,7 @@ import { AiUnavailableError, callAi, fold } from '@nam/core';
 import { Tip, TIPS, tipById } from '../data/tips';
 import { scoreTip } from './search';
 
-/** Hỏi Mẹo Nhà (MN-21…23). Chỉ trả lời từ kho mẹo đã kiểm chứng; câu nguy hiểm bị chặn bằng quy tắc TRƯỚC khi gọi AI. */
+/** Hỏi Mẹo Nhà. Chỉ trả lời từ kho mẹo đã kiểm chứng; câu nguy hiểm bị chặn bằng quy tắc TRƯỚC khi gọi AI. */
 export type AskAnswer =
   | { kind: 'answer'; text: string; steps: string[]; sources: Tip[]; safety: string[]; viaAi: boolean }
   | { kind: 'danger'; text: string; sources: Tip[] }
@@ -28,10 +28,11 @@ const OUT_OF_SCOPE =
   /(bi sot|sot cao|uong thuoc|thuoc gi|dau bung|mang thai|phap ly|kien tung|dau tu|chung khoan|vay tien|benh vien|kham benh)/;
 
 export function preCheck(q: string): AskAnswer | null {
-  const f = fold(q);
-  for (const d of DANGER)
-    if (d.re.test(f)) return { kind: 'danger', text: d.text, sources: d.tip ? [tipById(d.tip)!] : [] };
-  if (OUT_OF_SCOPE.test(f)) return { kind: 'out_of_scope' };
+  const folded = fold(q);
+  for (const dangerRule of DANGER)
+    if (dangerRule.re.test(folded))
+      return { kind: 'danger', text: dangerRule.text, sources: dangerRule.tip ? [tipById(dangerRule.tip)!] : [] };
+  if (OUT_OF_SCOPE.test(folded)) return { kind: 'out_of_scope' };
   return null;
 }
 
@@ -77,9 +78,9 @@ export async function ask(q: string, history: string[] = []): Promise<AskAnswer>
     if (!sources.length || out.confidence < 0.6) return { kind: 'no_tip' };
     const safety = sources.flatMap((s) => s.safety ?? []);
     return { kind: 'answer', text: out.answer, steps: out.steps.slice(0, 5), sources, safety, viaAi: true };
-  } catch (e) {
-    if (e instanceof AiUnavailableError) return localAnswer(top);
-    throw e;
+  } catch (error) {
+    if (error instanceof AiUnavailableError) return localAnswer(top);
+    throw error;
   }
 }
 

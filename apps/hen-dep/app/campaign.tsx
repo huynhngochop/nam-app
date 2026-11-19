@@ -34,44 +34,44 @@ export default function Campaign() {
   const { c } = useTheme();
   const toast = useToast();
   const online = useOnline();
-  const p = useLocalSearchParams<{ window?: string; message?: string }>();
-  const s = useHen();
-  const link = bookingContact(s.shop);
+  const routeParams = useLocalSearchParams<{ window?: string; message?: string }>();
+  const state = useHen();
+  const link = bookingContact(state.shop);
   const [aud, setAud] = useState<Aud>('lapsed');
   const [picked, setPicked] = useState<string[]>([]);
   const [q, setQ] = useState('');
   const [msg, setMsg] = useState(
-    p.message ??
+    routeParams.message ??
       templateVariants({
-        shopName: s.shop.name,
+        shopName: state.shop.name,
         link,
-        goal: p.window ? 'lunch' : 'lapsed',
+        goal: routeParams.window ? 'lunch' : 'lapsed',
         tone: 'friendly',
         offerPct: 10,
-        window: p.window,
+        window: routeParams.window,
       })[0],
   );
   const [confirm, setConfirm] = useState(false);
   useEffect(() => {
-    if (p.message) setMsg(p.message);
-  }, [p.message]);
+    if (routeParams.message) setMsg(routeParams.message);
+  }, [routeParams.message]);
 
-  const index = useMemo(() => customerIndex(s.bookings, s.services), [s.bookings, s.services]);
+  const index = useMemo(() => customerIndex(state.bookings, state.services), [state.bookings, state.services]);
   const people = useMemo(() => {
     const now = Date.now();
-    return s.customers
+    return state.customers
       .filter((cu) => cu.marketingConsent && cu.phone)
       .map((cu) => ({ cu, st: index.get(cu.id) }))
       .filter(({ cu, st }) =>
         aud === 'custom'
           ? true
           : aud === 'vip'
-            ? st.visits >= s.shop.settings.vipVisits || st.spend >= s.shop.settings.vipSpend
+            ? st.visits >= state.shop.settings.vipVisits || st.spend >= state.shop.settings.vipSpend
             : st.lastAt
               ? now - st.lastAt > 45 * 86400000
               : now - cu.createdAt > 45 * 86400000,
       );
-  }, [s.customers, index, aud, s.shop.settings]);
+  }, [state.customers, index, aud, state.shop.settings]);
   const pickedSet = useMemo(() => new Set(picked), [picked]);
   const targets = aud === 'custom' ? people.filter((x) => pickedSet.has(x.cu.id)) : people;
   const shown = useMemo(() => {
@@ -89,14 +89,14 @@ export default function Campaign() {
         Number(pickedSet.has(b.cu.id)) - Number(pickedSet.has(a.cu.id)) || (b.st.lastAt ?? 0) - (a.st.lastAt ?? 0),
     );
   }, [aud, people, q, pickedSet]);
-  const noConsent = s.customers.filter((x) => !x.marketingConsent).length;
+  const noConsent = state.customers.filter((x) => !x.marketingConsent).length;
   const missingLink = !!link && !msg.includes(link);
 
-  // H5: chưa có máy chủ thì không có gì gửi đi được — không báo "đang gửi", chỉ cho chia sẻ để tự gửi.
+  // Chưa có máy chủ thì không có gì gửi đi được — không báo "đang gửi", chỉ cho chia sẻ để tự gửi.
   const canSend = !!getConfig().apiBaseUrl;
   const send = () => {
     setConfirm(false);
-    s.addCampaign({ audience: aud, count: targets.length, message: msg });
+    state.addCampaign({ audience: aud, count: targets.length, message: msg });
     track('campaign_sent', { audience: aud, count: targets.length });
     toast(
       online ? `Đang gửi cho ${targets.length} khách` : `Ngoại tuyến — sẽ gửi cho ${targets.length} khách khi có mạng`,
@@ -146,9 +146,9 @@ export default function Campaign() {
           <T v="body">Bản này chưa gửi tin tự động qua Zalo. Chia sẻ nội dung để tự gửi cho khách bên dưới.</T>
         </Card>
       ) : null}
-      {p.window ? (
+      {routeParams.window ? (
         <Card variant="tint">
-          <T v="body">{`Lấp khung trống ${p.window} hôm nay`}</T>
+          <T v="body">{`Lấp khung trống ${routeParams.window} hôm nay`}</T>
         </Card>
       ) : null}
       <SectionHeader title="Gửi cho ai" />
@@ -187,7 +187,7 @@ export default function Campaign() {
           size="sm"
           variant="text"
           icon="zap"
-          onPress={() => router.push({ pathname: '/campaign-ai', params: { window: p.window ?? '' } })}
+          onPress={() => router.push({ pathname: '/campaign-ai', params: { window: routeParams.window ?? '' } })}
         />
       </Row>
       <TextField
@@ -206,10 +206,10 @@ export default function Campaign() {
         }
       />
       <T v="caption" muted>{`${msg.length}/300 ký tự`}</T>
-      {s.campaigns.length ? (
+      {state.campaigns.length ? (
         <>
           <SectionHeader title="Đã gửi" />
-          {s.campaigns.slice(0, 5).map((x) => (
+          {state.campaigns.slice(0, 5).map((x) => (
             <ListItem key={x.id} title={x.message} subtitle={`${x.count} khách · ${relativeTime(x.sentAt)}`} />
           ))}
         </>

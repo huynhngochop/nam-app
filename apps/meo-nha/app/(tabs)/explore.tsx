@@ -21,32 +21,32 @@ import { getConfig, greeting, track, useOnline } from '@nam/core';
 import { CATEGORIES, Tip, tipById } from '../../src/data/tips';
 import { useMeo } from '../../src/store';
 import { dailyTip, feedFor, warmSearchIndex } from '../../src/lib/search';
-import { AdNative, TipDetail, TipRow } from '../../src/components';
+import { FeedAd, TipDetail, TipRow } from '../../src/components';
 
 type FeedRow = { kind: 'tip'; tip: Tip } | { kind: 'ad'; key: string };
 
-/** MN-04 · Khám phá (+ MN-17 khi ngoại tuyến). Tablet/máy gập mở ngang: danh sách + chi tiết cạnh nhau. */
+/** Tab Khám phá: mẹo hôm nay, danh mục, bảng tin (vẫn dùng được khi mất mạng). Tablet/máy gập mở ngang: danh sách + chi tiết cạnh nhau. */
 export default function Explore() {
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const online = useOnline();
   const interests = useMeo((s) => s.interests);
   const name = useMeo((s) => s.name);
   const hidden = useMeo((s) => s.hiddenTips);
   const [selected, setSelected] = useState<string | null>(null);
   useEffect(() => {
-    const h = InteractionManager.runAfterInteractions(warmSearchIndex);
-    return () => h.cancel();
+    const task = InteractionManager.runAfterInteractions(warmSearchIndex);
+    return () => task.cancel();
   }, []);
 
   const today = useMemo(() => dailyTip(interests), [interests, hidden]);
   const rows = useMemo<FeedRow[]>(() => {
     const src = feedFor(interests);
-    const n = getConfig().adEveryN;
+    const adEvery = getConfig().adEveryN;
     const out: FeedRow[] = [];
     src.forEach((t, i) => {
       out.push({ kind: 'tip', tip: t });
-      if (online && (i + 1) % n === 0) out.push({ kind: 'ad', key: `ad${i}` });
+      if (online && (i + 1) % adEvery === 0) out.push({ kind: 'ad', key: `ad${i}` });
     });
     return out;
   }, [interests, online, hidden]);
@@ -54,10 +54,10 @@ export default function Explore() {
   const open = useCallback(
     (id: string) => {
       track('feed_tip_opened', { tipId: id });
-      if (L.twoPane) setSelected(id);
+      if (layout.twoPane) setSelected(id);
       else router.push(`/tip/${id}`);
     },
-    [L.twoPane],
+    [layout.twoPane],
   );
 
   const header = (
@@ -128,13 +128,13 @@ export default function Explore() {
       renderItem={({ item }) =>
         item.kind === 'ad' ? (
           <View style={{ paddingVertical: 8 }}>
-            <AdNative />
+            <FeedAd />
           </View>
         ) : (
           <TipRow tip={item.tip} onPress={() => open(item.tip.id)} />
         )
       }
-      contentContainerStyle={{ paddingHorizontal: L.gutter }}
+      contentContainerStyle={{ paddingHorizontal: layout.gutter }}
     />
   );
 

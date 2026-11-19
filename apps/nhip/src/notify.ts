@@ -13,12 +13,12 @@ Notifications.setNotificationHandler({
 const PHASE_ID = 'phase-end';
 
 export async function notifyStatus(): Promise<'granted' | 'denied' | 'undetermined'> {
-  const p = await Notifications.getPermissionsAsync();
-  return p.granted ? 'granted' : p.canAskAgain ? 'undetermined' : 'denied';
+  const permission = await Notifications.getPermissionsAsync();
+  return permission.granted ? 'granted' : permission.canAskAgain ? 'undetermined' : 'denied';
 }
 export async function requestNotify(): Promise<boolean> {
-  const r = await Notifications.requestPermissionsAsync();
-  return r.granted;
+  const permission = await Notifications.requestPermissionsAsync();
+  return permission.granted;
 }
 
 /** Thông báo cục bộ lúc hết phiên/hết nghỉ — hệ điều hành báo đúng giờ kể cả khi Nhịp bị tắt. */
@@ -39,7 +39,7 @@ export async function schedulePhaseEnd(endAt: number, title: string, body: strin
       trigger: { type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL, seconds, channelId: 'timer' },
     });
   } catch {
-    /* chưa có quyền: vẫn đếm trong app (NH-18) */
+    /* chưa có quyền: vẫn đếm trong app */
   }
 }
 export async function cancelPhaseEnd() {

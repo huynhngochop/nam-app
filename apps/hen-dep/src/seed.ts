@@ -2,10 +2,10 @@ import { Booking, Customer, Service, Shop, Staff } from './types';
 
 /** Dữ liệu mẫu để thử app ngay sau khi thiết lập (có thể xóa trong Cài đặt). */
 const at = (h: number, m = 0, dayOffset = 0) => {
-  const d = new Date();
-  d.setDate(d.getDate() + dayOffset);
-  d.setHours(h, m, 0, 0);
-  return d.getTime();
+  const date = new Date();
+  date.setDate(date.getDate() + dayOffset);
+  date.setHours(h, m, 0, 0);
+  return date.getTime();
 };
 
 export const DEFAULT_SHOP: Shop = {
@@ -139,8 +139,8 @@ export const SEED_CUSTOMERS: Customer[] = [
   { id: 'c5', name: 'Lê Vy', phone: '0909000111', createdAt: at(10, 0, -90), marketingConsent: true },
 ];
 
-let n = 2400;
-const b = (
+let bookingCount = 2400;
+const makeBooking = (
   customerId: string,
   staffId: string,
   serviceIds: string[],
@@ -150,8 +150,8 @@ const b = (
   source: Booking['source'],
   paid?: number,
 ): Booking => ({
-  id: `b${++n}`,
-  code: `HD-${n}`,
+  id: `b${++bookingCount}`,
+  code: `HD-${bookingCount}`,
   customerId,
   staffId,
   serviceIds,
@@ -165,17 +165,17 @@ const b = (
 
 export function seedBookings(): Booking[] {
   return [
-    b('c1', 's1', ['v1'], at(9, 0), 45, 'completed', 'zalo', 180000),
-    b('c2', 's1', ['v3'], at(10, 0), 120, 'in_service', 'facebook'),
-    b('c5', 's2', ['v5'], at(12, 30), 60, 'confirmed', 'maps'),
-    b('c3', 's3', ['v6'], at(9, 30), 60, 'completed', 'qr', 200000),
-    b('c4', 's2', ['v2'], at(15, 0), 30, 'confirmed', 'web'),
-    b('c3', 's1', ['v1'], at(14, 30), 45, 'confirmed', 'manual'),
-    b('c1', 's1', ['v3'], at(10, 0, -55), 120, 'completed', 'zalo', 650000),
-    b('c3', 's3', ['v6'], at(11, 0, -62), 60, 'completed', 'qr', 200000),
-    b('c5', 's2', ['v1'], at(16, 0, -7), 45, 'completed', 'maps', 180000),
-    b('c2', 's1', ['v1'], at(9, 0, -1), 45, 'completed', 'facebook', 180000),
-    b('c5', 's2', ['v4'], at(13, 0, -1), 150, 'completed', 'maps', 800000),
-    b('c4', 's2', ['v2'], at(17, 0, -1), 30, 'no_show', 'web'),
+    makeBooking('c1', 's1', ['v1'], at(9, 0), 45, 'completed', 'zalo', 180000),
+    makeBooking('c2', 's1', ['v3'], at(10, 0), 120, 'in_service', 'facebook'),
+    makeBooking('c5', 's2', ['v5'], at(12, 30), 60, 'confirmed', 'maps'),
+    makeBooking('c3', 's3', ['v6'], at(9, 30), 60, 'completed', 'qr', 200000),
+    makeBooking('c4', 's2', ['v2'], at(15, 0), 30, 'confirmed', 'web'),
+    makeBooking('c3', 's1', ['v1'], at(14, 30), 45, 'confirmed', 'manual'),
+    makeBooking('c1', 's1', ['v3'], at(10, 0, -55), 120, 'completed', 'zalo', 650000),
+    makeBooking('c3', 's3', ['v6'], at(11, 0, -62), 60, 'completed', 'qr', 200000),
+    makeBooking('c5', 's2', ['v1'], at(16, 0, -7), 45, 'completed', 'maps', 180000),
+    makeBooking('c2', 's1', ['v1'], at(9, 0, -1), 45, 'completed', 'facebook', 180000),
+    makeBooking('c5', 's2', ['v4'], at(13, 0, -1), 150, 'completed', 'maps', 800000),
+    makeBooking('c4', 's2', ['v2'], at(17, 0, -1), 30, 'no_show', 'web'),
   ];
 }

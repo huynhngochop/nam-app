@@ -29,15 +29,15 @@ export async function syncMix(layers: { id: SoundId; vol: number }[], playing: b
     }
   }
   for (const [id, vol] of want) {
-    let p = players.get(id);
-    if (!p) {
-      p = createAudioPlayer(soundById(id).file!);
-      p.loop = true;
-      players.set(id, p);
+    let player = players.get(id);
+    if (!player) {
+      player = createAudioPlayer(soundById(id).file!);
+      player.loop = true;
+      players.set(id, player);
     }
-    p.volume = vol;
-    if (playing && !p.playing) p.play();
-    if (!playing && p.playing) p.pause();
+    player.volume = vol;
+    if (playing && !player.playing) player.play();
+    if (!playing && player.playing) player.pause();
   }
 }
 

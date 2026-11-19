@@ -14,20 +14,20 @@ type Input = { shopName: string; link: string; goal: PromoGoal; tone: PromoTone;
 
 /** Bản nháp theo mẫu (không cần AI) — luôn có link đặt lịch, ≤ 160 ký tự. */
 export function templateVariants(i: Input): string[] {
-  const w = i.window ?? '12h–14h';
+  const timeWindow = i.window ?? '12h–14h';
   const off = `${i.offerPct}%`;
-  const T: Record<PromoGoal, Record<PromoTone, string[]>> = {
+  const templates: Record<PromoGoal, Record<PromoTone, string[]>> = {
     lunch: {
       friendly: [
-        `${i.shopName} nhớ bạn! Tuần này đặt lịch ${w} giảm ${off}. Đặt nhanh: ${i.link}`,
-        `Trưa rảnh ghé ${i.shopName} nhé — giảm ${off} mọi dịch vụ ${w}, chỉ tuần này. ${i.link}`,
+        `${i.shopName} nhớ bạn! Tuần này đặt lịch ${timeWindow} giảm ${off}. Đặt nhanh: ${i.link}`,
+        `Trưa rảnh ghé ${i.shopName} nhé — giảm ${off} mọi dịch vụ ${timeWindow}, chỉ tuần này. ${i.link}`,
       ],
       polite: [
-        `${i.shopName} trân trọng gửi ưu đãi giảm ${off} cho lịch hẹn ${w} trong tuần này. Đặt lịch: ${i.link}`,
-        `Quý khách đặt lịch khung ${w} tuần này được giảm ${off}. Đặt tại: ${i.link}`,
+        `${i.shopName} trân trọng gửi ưu đãi giảm ${off} cho lịch hẹn ${timeWindow} trong tuần này. Đặt lịch: ${i.link}`,
+        `Quý khách đặt lịch khung ${timeWindow} tuần này được giảm ${off}. Đặt tại: ${i.link}`,
       ],
       fun: [
-        `Giờ trưa = giờ làm đẹp! Giảm ${off} khung ${w} tại ${i.shopName}. Chốt lịch: ${i.link}`,
+        `Giờ trưa = giờ làm đẹp! Giảm ${off} khung ${timeWindow} tại ${i.shopName}. Chốt lịch: ${i.link}`,
         `Trưa nay đi đâu? Ghé ${i.shopName} giảm ${off} nè! ${i.link}`,
       ],
     },
@@ -74,13 +74,13 @@ export function templateVariants(i: Input): string[] {
       ],
     },
   };
-  return T[i.goal][i.tone].map((x) => x.slice(0, 160));
+  return templates[i.goal][i.tone].map((x) => x.slice(0, 160));
 }
 
 /** AI soạn (HD-C19). Kiểm tra: phải có link, đúng % ưu đãi đã nhập; sai → dùng mẫu. */
 export async function generatePromo(i: Input): Promise<{ variants: string[]; viaAi: boolean }> {
   try {
-    const r = await callAi<{ variants: string[] }>('promo', {
+    const result = await callAi<{ variants: string[] }>('promo', {
       goal: i.goal,
       tone: i.tone,
       offer: i.offerPct,
@@ -88,10 +88,10 @@ export async function generatePromo(i: Input): Promise<{ variants: string[]; via
       shop: i.shopName,
       link: i.link,
     });
-    const ok = r.variants.filter((v) => v.includes(i.link) && v.includes(`${i.offerPct}%`) && v.length <= 200);
+    const ok = result.variants.filter((v) => v.includes(i.link) && v.includes(`${i.offerPct}%`) && v.length <= 200);
     if (ok.length) return { variants: ok.slice(0, 3), viaAi: true };
-  } catch (e) {
-    if (!(e instanceof AiUnavailableError)) throw e;
+  } catch (error) {
+    if (!(error instanceof AiUnavailableError)) throw error;
   }
   return { variants: templateVariants(i), viaAi: false };
 }

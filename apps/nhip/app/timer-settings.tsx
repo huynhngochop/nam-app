@@ -4,13 +4,13 @@ import { AppBar, Dialog, ListItem, Screen, SectionHeader, Stepper, Toggle } from
 import { track } from '@nam/core';
 import { TimerSettings, useNhip } from '../src/store';
 
-/** NH-14 · Cài đặt hẹn giờ. Lưu ngay khi đổi. */
+/** Cài đặt hẹn giờ. Lưu ngay khi đổi. */
 export default function TimerSettingsScreen() {
-  const s = useNhip();
-  const st = s.settings;
+  const state = useNhip();
+  const timer = state.settings;
   const [strictAsk, setStrictAsk] = useState(false);
   const set = (p: Partial<TimerSettings>) => {
-    s.setSettings(p);
+    state.setSettings(p);
     const [k, v] = Object.entries(p)[0];
     track('timer_setting_changed', { key: k, value: v as number | boolean });
   };
@@ -24,7 +24,7 @@ export default function TimerSettingsScreen() {
         strong={false}
         right={
           <Stepper
-            value={st.focusMin}
+            value={timer.focusMin}
             onChange={(v) => set({ focusMin: v })}
             min={5}
             max={90}
@@ -36,14 +36,16 @@ export default function TimerSettingsScreen() {
       <ListItem
         title="Nghỉ ngắn"
         strong={false}
-        right={<Stepper value={st.shortMin} onChange={(v) => set({ shortMin: v })} min={1} max={30} format={minutes} />}
+        right={
+          <Stepper value={timer.shortMin} onChange={(v) => set({ shortMin: v })} min={1} max={30} format={minutes} />
+        }
       />
       <ListItem
         title="Nghỉ dài"
         strong={false}
         right={
           <Stepper
-            value={st.longMin}
+            value={timer.longMin}
             onChange={(v) => set({ longMin: v })}
             min={5}
             max={60}
@@ -57,7 +59,7 @@ export default function TimerSettingsScreen() {
         strong={false}
         right={
           <Stepper
-            value={st.longEvery}
+            value={timer.longEvery}
             onChange={(v) => set({ longEvery: v })}
             min={2}
             max={8}
@@ -69,12 +71,12 @@ export default function TimerSettingsScreen() {
       <ListItem
         title="Tự vào giờ nghỉ"
         strong={false}
-        right={<Toggle label="Tự vào giờ nghỉ" value={st.autoBreak} onChange={(v) => set({ autoBreak: v })} />}
+        right={<Toggle label="Tự vào giờ nghỉ" value={timer.autoBreak} onChange={(v) => set({ autoBreak: v })} />}
       />
       <ListItem
         title="Tự vào phiên tiếp"
         strong={false}
-        right={<Toggle label="Tự vào phiên tiếp" value={st.autoNext} onChange={(v) => set({ autoNext: v })} />}
+        right={<Toggle label="Tự vào phiên tiếp" value={timer.autoNext} onChange={(v) => set({ autoNext: v })} />}
       />
       <ListItem
         title="Chế độ nghiêm"
@@ -83,7 +85,7 @@ export default function TimerSettingsScreen() {
         right={
           <Toggle
             label="Chế độ nghiêm"
-            value={st.strict}
+            value={timer.strict}
             onChange={(v) => (v ? setStrictAsk(true) : set({ strict: false }))}
           />
         }
@@ -91,13 +93,13 @@ export default function TimerSettingsScreen() {
       <ListItem
         title="Rung khi hết giờ"
         strong={false}
-        right={<Toggle label="Rung khi hết giờ" value={st.vibrate} onChange={(v) => set({ vibrate: v })} />}
+        right={<Toggle label="Rung khi hết giờ" value={timer.vibrate} onChange={(v) => set({ vibrate: v })} />}
       />
       <ListItem
         title="Giữ màn hình sáng khi tập trung"
         strong={false}
         divider={false}
-        right={<Toggle label="Giữ màn hình sáng" value={st.keepAwake} onChange={(v) => set({ keepAwake: v })} />}
+        right={<Toggle label="Giữ màn hình sáng" value={timer.keepAwake} onChange={(v) => set({ keepAwake: v })} />}
       />
       <Dialog
         visible={strictAsk}

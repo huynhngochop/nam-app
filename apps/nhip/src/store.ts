@@ -145,9 +145,9 @@ export const useNhip = create<State>()(
       set: (p) => set(p),
       setSettings: (p) => set((s) => ({ settings: { ...s.settings, ...p } })),
       startPhase: (phase, opts) => {
-        const st = get().settings;
+        const timerSettings = get().settings;
         const mode = opts?.mode ?? 'pomodoro';
-        const plannedSec = mode === 'countup' ? 0 : phaseMinutes(st, phase) * 60;
+        const plannedSec = mode === 'countup' ? 0 : phaseMinutes(timerSettings, phase) * 60;
         const now = Date.now();
         const sess: Session = {
           id: uid(),
@@ -245,17 +245,17 @@ export const useNhip = create<State>()(
         })),
       logHabit: (habitId, delta) =>
         set((s) => {
-          const d = dateKey(new Date());
-          const day = { ...(s.habitLogs[d] ?? {}) };
+          const todayKey = dateKey(new Date());
+          const day = { ...(s.habitLogs[todayKey] ?? {}) };
           day[habitId] = Math.max(0, (day[habitId] ?? 0) + delta);
-          return { habitLogs: { ...s.habitLogs, [d]: day } };
+          return { habitLogs: { ...s.habitLogs, [todayKey]: day } };
         }),
       addHabit: (h) => set((s) => ({ habits: [...s.habits, { ...h, id: uid() }] })),
       saveMix: (name) =>
         set((s) => {
-          const cur = s.mixes.find((m) => m.id === s.mixId);
-          const m: Mix = { id: uid(), name: name.trim().slice(0, 30), layers: cur?.layers ?? [] };
-          return { mixes: [...s.mixes, m], mixId: m.id };
+          const currentMix = s.mixes.find((m) => m.id === s.mixId);
+          const mix: Mix = { id: uid(), name: name.trim().slice(0, 30), layers: currentMix?.layers ?? [] };
+          return { mixes: [...s.mixes, mix], mixId: mix.id };
         }),
       setLayer: (id, vol) =>
         set((s) => ({
@@ -285,23 +285,23 @@ export function focusedSecOf(s: Session, now = Date.now()): number {
 
 /** Chuỗi ngày: ngày đạt mục tiêu liên tiếp tính đến hôm nay (hôm nay chưa đạt thì tính đến hôm qua). Ngày nghỉ phép giữ chuỗi. */
 export function streakOf(daily: Record<string, number>, goal: number, restDays: string[], today = new Date()): number {
-  let n = 0;
-  const d = new Date(today);
-  if ((daily[dateKey(d)] ?? 0) < goal) d.setDate(d.getDate() - 1);
+  let count = 0;
+  const date = new Date(today);
+  if ((daily[dateKey(date)] ?? 0) < goal) date.setDate(date.getDate() - 1);
   for (;;) {
-    const k = dateKey(d);
+    const k = dateKey(date);
     if ((daily[k] ?? 0) >= goal || restDays.includes(k)) {
-      n += 1;
-      d.setDate(d.getDate() - 1);
+      count += 1;
+      date.setDate(date.getDate() - 1);
     } else break;
-    if (n > 3650) break;
+    if (count > 3650) break;
   }
-  return n;
+  return count;
 }
 
 /**
  * Chỉ tiêu của thói quen. Thói quen "Phiên tập trung" tự tính theo mục tiêu hằng ngày (mục tiêu 1 giờ, phiên 25 phút
- * → 2 phiên), khớp với "x/2 phiên hôm nay" ở màn Hẹn giờ thay vì số cố định 4 (UAT N3).
+ * → 2 phiên), khớp với "x/2 phiên hôm nay" ở màn Hẹn giờ thay vì số cố định 4.
  */
 export function habitTarget(h: Habit, s: { goalMin: number; settings: { focusMin: number } }) {
   return h.auto === 'focus_sessions' ? Math.max(1, Math.round(s.goalMin / s.settings.focusMin)) : h.target;

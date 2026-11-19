@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
 import {
+  AdBanner,
   Badge,
   BarChart,
   Card,
@@ -21,37 +22,40 @@ import { habitTarget, streakOf, useNhip } from '../../src/store';
 
 type Range = 'day' | 'week' | 'month';
 
-/** NH-12 · Thống kê. Tổng theo ngày tính sẵn trong store nên mở nhanh dù có nhiều phiên. */
+/** Thống kê. Tổng theo ngày tính sẵn trong store nên mở nhanh dù có nhiều phiên. */
 export default function Stats() {
   const { c } = useTheme();
-  const s = useNhip();
+  const state = useNhip();
   const [range, setRange] = useState<Range>('week');
   const today = new Date();
-  const streak = streakOf(s.daily, s.goalMin, s.restDays);
+  const streak = streakOf(state.daily, state.goalMin, state.restDays);
 
   const { data, total, prevTotal } = useMemo(() => {
     const days = range === 'day' ? 1 : range === 'week' ? 7 : 30;
     const pts = Array.from({ length: days }, (_, i) => {
-      const d = addDays(today, i - days + 1);
-      return { label: days === 7 ? weekdayShort(d) : String(d.getDate()), value: s.daily[dateKey(d)] ?? 0 };
+      const day = addDays(today, i - days + 1);
+      return { label: days === 7 ? weekdayShort(day) : String(day.getDate()), value: state.daily[dateKey(day)] ?? 0 };
     });
-    const prev = Array.from({ length: days }, (_, i) => s.daily[dateKey(addDays(today, i - 2 * days + 1))] ?? 0).reduce(
-      (a, b) => a + b,
-      0,
-    );
+    const prev = Array.from(
+      { length: days },
+      (_, i) => state.daily[dateKey(addDays(today, i - 2 * days + 1))] ?? 0,
+    ).reduce((a, b) => a + b, 0);
     return { data: pts, total: pts.reduce((a, p) => a + p.value, 0), prevTotal: prev };
+    // `today` và `days` suy ra từ `range` và ngày hiện tại, không cần nằm trong danh sách.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [s.daily, range]);
+  }, [state.daily, range]);
   const delta = prevTotal ? Math.round(((total - prevTotal) / prevTotal) * 100) : null;
   const todayKey = dateKey(today);
-  const sessionsToday = s.logs.filter((l) => l.status === 'completed' && dateKey(new Date(l.at)) === todayKey).length;
+  const sessionsToday = state.logs.filter(
+    (l) => l.status === 'completed' && dateKey(new Date(l.at)) === todayKey,
+  ).length;
   const byTask = useMemo(() => {
-    const m = new Map<string, number>();
-    s.logs.forEach((l) => {
-      if (l.taskId) m.set(l.taskId, (m.get(l.taskId) ?? 0) + l.minutes);
+    const byId = new Map<string, number>();
+    state.logs.forEach((l) => {
+      if (l.taskId) byId.set(l.taskId, (byId.get(l.taskId) ?? 0) + l.minutes);
     });
-    return [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
-  }, [s.logs]);
+    return [...byId.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
+  }, [state.logs]);
 
   return (
     <Screen scroll>
@@ -85,12 +89,12 @@ export default function Stats() {
       {range !== 'day' ? (
         <BarChart data={data} highlight={data.length - 1} format={(v) => minutesLabel(v)} />
       ) : (
-        <ProgressBar value={total / s.goalMin} height={10} />
+        <ProgressBar value={total / state.goalMin} height={10} />
       )}
       <SectionHeader title="Thói quen hôm nay" action="Xem tất cả" onAction={() => router.push('/habits')} />
-      {s.habits.slice(0, 2).map((h) => {
-        const val = h.auto === 'focus_sessions' ? sessionsToday : (s.habitLogs[todayKey]?.[h.id] ?? 0);
-        const full = val >= habitTarget(h, s);
+      {state.habits.slice(0, 2).map((h) => {
+        const val = h.auto === 'focus_sessions' ? sessionsToday : (state.habitLogs[todayKey]?.[h.id] ?? 0);
+        const full = val >= habitTarget(h, state);
         return (
           <ListItem
             key={h.id}
@@ -98,17 +102,17 @@ export default function Stats() {
               full ? <Thumb icon="check" bg={c.a} color={c.onAccent} size={36} /> : <Thumb icon="circle" size={36} />
             }
             title={h.name}
-            right={<T v="caption" muted>{`${val}/${habitTarget(h, s)} ${h.unit}`}</T>}
+            right={<T v="caption" muted>{`${val}/${habitTarget(h, state)} ${h.unit}`}</T>}
             onPress={() => router.push('/habits')}
           />
         );
       })}
       <SectionHeader title="Theo việc" />
-      {s.isPro ? (
+      {state.isPro ? (
         byTask.map(([id, min]) => (
           <ListItem
             key={id}
-            title={s.tasks.find((t) => t.id === id)?.title ?? 'Việc đã xóa'}
+            title={state.tasks.find((t) => t.id === id)?.title ?? 'Việc đã xóa'}
             strong={false}
             right={<T v="caption">{minutesLabel(min)}</T>}
           />
@@ -124,24 +128,7 @@ export default function Stats() {
           </Row>
         </Card>
       )}
-      {!s.isPro ? (
-        <View
-          style={{
-            minHeight: 50,
-            borderWidth: 1,
-            borderStyle: 'dashed',
-            borderColor: c.line,
-            borderRadius: 12,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginTop: 8,
-          }}
-        >
-          <T v="caption" muted>
-            Banner quảng cáo 320×50 — chỉ ở màn này
-          </T>
-        </View>
-      ) : null}
+      <AdBanner hidden={state.isPro} />
     </Screen>
   );
 }

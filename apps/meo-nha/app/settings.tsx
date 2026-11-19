@@ -24,10 +24,10 @@ import { requestNotify } from '../src/lib/notify';
 
 const TIMES = ['06:00', '06:30', '07:00', '07:30', '08:00', '12:00', '19:00', '21:00'];
 
-/** MN-15 · Cài đặt. */
+/** Cài đặt: giờ "Mẹo hôm nay", giao diện, quyền riêng tư, thoát app. */
 export default function Settings() {
   const { c } = useTheme();
-  const s = useMeo();
+  const state = useMeo();
   const toast = useToast();
   const [pick, setPick] = useState(false);
   const [del, setDel] = useState(false);
@@ -38,18 +38,18 @@ export default function Settings() {
       <ListItem
         left={<Thumb icon="bell" bg={c.surface2} color={c.ink} size={32} />}
         title="Mẹo mỗi sáng"
-        subtitle={s.notifyTime}
+        subtitle={state.notifyTime}
         onPress={() => setPick(true)}
         right={
           <Toggle
             label="Mẹo mỗi sáng"
-            value={s.dailyTipOn}
+            value={state.dailyTipOn}
             onChange={async (v) => {
               if (v && !(await requestNotify())) {
                 toast('Thông báo đang tắt trong Cài đặt của máy', { tone: 'error' });
                 return;
               }
-              s.set({ dailyTipOn: v });
+              state.set({ dailyTipOn: v });
               track('setting_changed', { key: 'dailyTip', value: v });
             }}
           />
@@ -59,12 +59,12 @@ export default function Settings() {
         left={<Thumb icon="calendar" bg={c.surface2} color={c.ink} size={32} />}
         title="Nhắc theo mùa"
         subtitle="Nồm ẩm, dọn Tết…"
-        right={<Toggle label="Nhắc theo mùa" value={s.seasonalOn} onChange={(v) => s.set({ seasonalOn: v })} />}
+        right={<Toggle label="Nhắc theo mùa" value={state.seasonalOn} onChange={(v) => state.set({ seasonalOn: v })} />}
       />
       <SectionHeader title="Hiển thị" />
       <Segmented
-        value={s.theme}
-        onChange={(v) => s.set({ theme: v })}
+        value={state.theme}
+        onChange={(v) => state.set({ theme: v })}
         options={[
           { key: 'system', label: 'Hệ thống' },
           { key: 'light', label: 'Sáng' },
@@ -79,7 +79,11 @@ export default function Settings() {
         left={<Thumb icon="eye" bg={c.surface2} color={c.ink} size={32} />}
         title="Quảng cáo cá nhân hóa"
         right={
-          <Toggle label="Quảng cáo cá nhân hóa" value={s.personalAds} onChange={(v) => s.set({ personalAds: v })} />
+          <Toggle
+            label="Quảng cáo cá nhân hóa"
+            value={state.personalAds}
+            onChange={(v) => state.set({ personalAds: v })}
+          />
         }
       />
       <ListItem
@@ -112,9 +116,9 @@ export default function Settings() {
             <Chip
               key={t}
               label={t}
-              selected={t === s.notifyTime}
+              selected={t === state.notifyTime}
               onPress={() => {
-                s.set({ notifyTime: t });
+                state.set({ notifyTime: t });
                 setPick(false);
               }}
             />
@@ -131,7 +135,14 @@ export default function Settings() {
         onCancel={() => setDel(false)}
         onConfirm={() => {
           useMeo.persist.clearStorage();
-          s.set({ onboarded: false, savedTips: [], doneTips: {}, collections: [], recentSearches: [], askHistory: [] });
+          state.set({
+            onboarded: false,
+            savedTips: [],
+            doneTips: {},
+            collections: [],
+            recentSearches: [],
+            askHistory: [],
+          });
           setDel(false);
           track('account_deleted');
           router.replace('/');

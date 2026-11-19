@@ -36,7 +36,7 @@ const SAMPLE =
 export default function Scan() {
   const { c } = useTheme();
   const toast = useToast();
-  const s = useHen();
+  const state = useHen();
   const [uri, setUri] = useState<string | null>(null);
   const [text, setText] = useState('');
   const [busy, setBusy] = useState(false);
@@ -55,20 +55,20 @@ export default function Scan() {
         toast(camera ? 'Cần quyền máy ảnh. Mở Cài đặt để cấp quyền.' : 'Cần quyền truy cập ảnh.');
         return;
       }
-      const r = camera
+      const pickerResult = camera
         ? await ImagePicker.launchCameraAsync({ mediaTypes: ['images'], quality: 0.6 })
         : await ImagePicker.launchImageLibraryAsync({ mediaTypes: ['images'], quality: 0.6 });
-      if (r.canceled || !r.assets[0]) return;
-      const picked = r.assets[0].uri;
+      if (pickerResult.canceled || !pickerResult.assets[0]) return;
+      const picked = pickerResult.assets[0].uri;
       setUri(picked);
       if (!ocrAvailable) return;
       setReading(true);
       try {
-        const t = await recognizeText(picked);
-        if (t.length < 5) toast('Không thấy chữ trên ảnh. Chụp gần, đủ sáng hơn hoặc dán chữ vào ô.');
+        const recognized = await recognizeText(picked);
+        if (recognized.length < 5) toast('Không thấy chữ trên ảnh. Chụp gần, đủ sáng hơn hoặc dán chữ vào ô.');
         else {
-          setText(t);
-          track('price_board_ocr', { chars: t.length });
+          setText(recognized);
+          track('price_board_ocr', { chars: recognized.length });
           toast('Đã đọc chữ trên ảnh. Sửa nếu sai rồi bấm Đọc bảng giá.', { tone: 'success' });
         }
       } catch {
@@ -82,23 +82,27 @@ export default function Scan() {
   };
 
   const quota = getLimit(
-    s.plan.code === 'chain' ? 'AI_QUOTA_CHAIN' : s.plan.code === 'standard' ? 'AI_QUOTA_STANDARD' : 'AI_QUOTA_BASIC',
+    state.plan.code === 'chain'
+      ? 'AI_QUOTA_CHAIN'
+      : state.plan.code === 'standard'
+        ? 'AI_QUOTA_STANDARD'
+        : 'AI_QUOTA_BASIC',
     10,
   );
   const month = new Date().toISOString().slice(0, 7);
-  const used = s.aiUsed.month === month ? s.aiUsed.count : 0;
+  const used = state.aiUsed.month === month ? state.aiUsed.count : 0;
 
   const run = async () => {
     setBusy(true);
     try {
-      const r = used < quota ? await parsePriceBoard(text) : { services: parseLocally(text), viaAi: false };
-      if (r.viaAi) s.consumeAi();
-      setViaAi(r.viaAi);
-      setRows(r.services.map((x) => ({ ...x, keep: true })));
-      track('price_board_parsed', { count: r.services.length, viaAi: r.viaAi });
-    } catch (e) {
+      const parsed = used < quota ? await parsePriceBoard(text) : { services: parseLocally(text), viaAi: false };
+      if (parsed.viaAi) state.consumeAi();
+      setViaAi(parsed.viaAi);
+      setRows(parsed.services.map((x) => ({ ...x, keep: true })));
+      track('price_board_parsed', { count: parsed.services.length, viaAi: parsed.viaAi });
+    } catch (error) {
       toast(
-        e instanceof AiQuotaError
+        error instanceof AiQuotaError
           ? 'Hết lượt AI tháng này — đã dùng bộ đọc trên máy.'
           : 'Không đọc được. Kiểm tra lại chữ đã dán.',
       );
@@ -119,13 +123,13 @@ export default function Scan() {
             title={`Lưu ${keep.length} dịch vụ`}
             disabled={!keep.length}
             onPress={() => {
-              s.addServices(
+              state.addServices(
                 keep.map((r) => ({
                   name: r.name,
                   price: r.price!,
                   durationMin: r.durationMin,
                   group: r.group,
-                  staffIds: s.staff.map((x) => x.id),
+                  staffIds: state.staff.map((x) => x.id),
                   visible: true,
                 })),
               );
@@ -183,8 +187,8 @@ export default function Scan() {
             <Button
               title="Xong"
               onPress={() => {
-                const p = parsePrice(priceText) ?? (/^\d+$/.test(priceText) ? Number(priceText) : null);
-                setRows(rows.map((x, j) => (j === editing ? { ...x, price: p } : x)));
+                const parsedPrice = parsePrice(priceText) ?? (/^\d+$/.test(priceText) ? Number(priceText) : null);
+                setRows(rows.map((x, j) => (j === editing ? { ...x, price: parsedPrice } : x)));
                 setEditing(null);
               }}
             />

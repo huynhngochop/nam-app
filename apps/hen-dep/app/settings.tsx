@@ -33,15 +33,15 @@ const TO = ['18:00', '19:00', '20:00', '21:00', '22:00'];
 export default function Settings() {
   const server = hasServer();
   const toast = useToast();
-  const s = useHen();
+  const state = useHen();
   const pending = useOutbox((o) => o.items.length);
-  const st = s.shop.settings;
-  const [name, setName] = useState(s.shop.name);
-  const [address, setAddress] = useState(s.shop.address);
-  const [phone, setPhone] = useState(s.shop.phone);
+  const shopSettings = state.shop.settings;
+  const [name, setName] = useState(state.shop.name);
+  const [address, setAddress] = useState(state.shop.address);
+  const [phone, setPhone] = useState(state.shop.phone);
   const [ask, setAsk] = useState<null | 'clear' | 'logout' | 'demo'>(null);
-  const setSt = (p: Partial<typeof st>) => s.setShop({ settings: { ...st, ...p } });
-  const dirty = name !== s.shop.name || address !== s.shop.address || phone !== s.shop.phone;
+  const setSt = (p: Partial<typeof shopSettings>) => state.setShop({ settings: { ...shopSettings, ...p } });
+  const dirty = name !== state.shop.name || address !== state.shop.address || phone !== state.shop.phone;
 
   return (
     <Screen scroll edges={['top', 'bottom']}>
@@ -56,21 +56,23 @@ export default function Settings() {
           size="md"
           disabled={name.trim().length < 2}
           onPress={() => {
-            s.setShop({ name: name.trim(), address: address.trim(), phone: phone.trim() });
+            state.setShop({ name: name.trim(), address: address.trim(), phone: phone.trim() });
             toast('Đã lưu', { tone: 'success' });
           }}
         />
       ) : null}
 
       <SectionHeader title="Giờ mở cửa" />
-      {s.shop.hours.map((h) => (
+      {state.shop.hours.map((h) => (
         <Card key={h.day} variant="fill">
           <Row between>
             <T v="headline">{DAYS[h.day]}</T>
             <Toggle
               label={`Mở cửa ${DAYS[h.day]}`}
               value={h.open}
-              onChange={(v) => s.setShop({ hours: s.shop.hours.map((x) => (x.day === h.day ? { ...x, open: v } : x)) })}
+              onChange={(v) =>
+                state.setShop({ hours: state.shop.hours.map((x) => (x.day === h.day ? { ...x, open: v } : x)) })
+              }
             />
           </Row>
           {h.open ? (
@@ -82,7 +84,7 @@ export default function Settings() {
                     label={`Mở ${t}`}
                     selected={h.from === t}
                     onPress={() =>
-                      s.setShop({ hours: s.shop.hours.map((x) => (x.day === h.day ? { ...x, from: t } : x)) })
+                      state.setShop({ hours: state.shop.hours.map((x) => (x.day === h.day ? { ...x, from: t } : x)) })
                     }
                   />
                 ))}
@@ -94,7 +96,7 @@ export default function Settings() {
                     label={`Đóng ${t}`}
                     selected={h.to === t}
                     onPress={() =>
-                      s.setShop({ hours: s.shop.hours.map((x) => (x.day === h.day ? { ...x, to: t } : x)) })
+                      state.setShop({ hours: state.shop.hours.map((x) => (x.day === h.day ? { ...x, to: t } : x)) })
                     }
                   />
                 ))}
@@ -109,14 +111,20 @@ export default function Settings() {
         <>
           <ListItem
             title="Cho khách tự đặt qua link"
-            right={<Toggle label="Khách tự đặt" value={st.selfBooking} onChange={(v) => setSt({ selfBooking: v })} />}
+            right={
+              <Toggle
+                label="Khách tự đặt"
+                value={shopSettings.selfBooking}
+                onChange={(v) => setSt({ selfBooking: v })}
+              />
+            }
           />
           <Row between>
             <T v="body" style={{ flex: 1 }}>
               Đặt trước ít nhất
             </T>
             <Stepper
-              value={st.minLeadMin}
+              value={shopSettings.minLeadMin}
               min={0}
               max={1440}
               step={30}
@@ -129,7 +137,7 @@ export default function Settings() {
               Hủy trước
             </T>
             <Stepper
-              value={st.cancelBeforeH}
+              value={shopSettings.cancelBeforeH}
               min={0}
               max={48}
               onChange={(n) => setSt({ cancelBeforeH: n })}
@@ -152,7 +160,7 @@ export default function Settings() {
           Nghỉ giữa 2 khách
         </T>
         <Stepper
-          value={st.bufferMin}
+          value={shopSettings.bufferMin}
           min={0}
           max={60}
           step={5}
@@ -169,7 +177,7 @@ export default function Settings() {
             { key: '15', label: '15p' },
             { key: '30', label: '30p' },
           ]}
-          value={String(st.slotStepMin) as '15' | '30'}
+          value={String(shopSettings.slotStepMin) as '15' | '30'}
           onChange={(k) => setSt({ slotStepMin: Number(k) })}
         />
       </Row>
@@ -178,16 +186,16 @@ export default function Settings() {
       <ListItem
         title="Nhắc khách trước 24 giờ"
         subtitle="Máy báo bạn đúng giờ, bấm vào để gửi tin nhắc"
-        right={<Toggle label="Nhắc 24 giờ" value={st.remind24h} onChange={(v) => setSt({ remind24h: v })} />}
+        right={<Toggle label="Nhắc 24 giờ" value={shopSettings.remind24h} onChange={(v) => setSt({ remind24h: v })} />}
       />
       <ListItem
         title="Nhắc khách trước 2 giờ"
-        right={<Toggle label="Nhắc 2 giờ" value={st.remind2h} onChange={(v) => setSt({ remind2h: v })} />}
+        right={<Toggle label="Nhắc 2 giờ" value={shopSettings.remind2h} onChange={(v) => setSt({ remind2h: v })} />}
       />
       <ListItem
         title="Xin đánh giá sau khi xong"
         subtitle="Hiện nút gửi tin cảm ơn ở lịch hẹn đã hoàn thành"
-        right={<Toggle label="Xin đánh giá" value={st.askReview} onChange={(v) => setSt({ askReview: v })} />}
+        right={<Toggle label="Xin đánh giá" value={shopSettings.askReview} onChange={(v) => setSt({ askReview: v })} />}
       />
       {server ? (
         <ListItem
@@ -196,7 +204,7 @@ export default function Settings() {
           right={
             <Toggle
               label="Cọc chống bỏ hẹn"
-              value={st.depositForNoShow}
+              value={shopSettings.depositForNoShow}
               onChange={(v) => setSt({ depositForNoShow: v })}
             />
           }
@@ -208,14 +216,14 @@ export default function Settings() {
         <T v="body" style={{ flex: 1 }}>
           Từ số lần
         </T>
-        <Stepper value={st.vipVisits} min={1} max={50} onChange={(n) => setSt({ vipVisits: n })} />
+        <Stepper value={shopSettings.vipVisits} min={1} max={50} onChange={(n) => setSt({ vipVisits: n })} />
       </Row>
       <Row between>
         <T v="body" style={{ flex: 1 }}>
           Hoặc đã chi từ
         </T>
         <Stepper
-          value={st.vipSpend}
+          value={shopSettings.vipSpend}
           min={500000}
           max={20000000}
           step={500000}
@@ -231,8 +239,8 @@ export default function Settings() {
           { key: 'light', label: 'Sáng' },
           { key: 'dark', label: 'Tối' },
         ]}
-        value={s.theme}
-        onChange={(k) => s.set({ theme: k })}
+        value={state.theme}
+        onChange={(k) => state.set({ theme: k })}
       />
 
       <SectionHeader title="Dữ liệu" />
@@ -254,7 +262,7 @@ export default function Settings() {
         confirm="Nạp"
         onCancel={() => setAsk(null)}
         onConfirm={() => {
-          s.loadDemo();
+          state.loadDemo();
           setAsk(null);
           toast('Đã nạp dữ liệu mẫu');
         }}
@@ -267,7 +275,7 @@ export default function Settings() {
         destructive
         onCancel={() => setAsk(null)}
         onConfirm={() => {
-          s.clearAll();
+          state.clearAll();
           setAsk(null);
           toast('Đã xóa dữ liệu');
         }}
@@ -285,7 +293,7 @@ export default function Settings() {
         onCancel={() => setAsk(null)}
         onConfirm={() => {
           setAsk(null);
-          s.set({ auth: null });
+          state.set({ auth: null });
           router.replace('/auth');
         }}
       />

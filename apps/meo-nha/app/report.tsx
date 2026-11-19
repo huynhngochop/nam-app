@@ -8,7 +8,7 @@ import { useMeo } from '../src/store';
 const REASONS = ['Mẹo không hiệu quả', 'Sai thông tin', 'Có thể nguy hiểm', 'Khác'];
 
 /**
- * Báo mẹo sai (MN-20). Trên máy: ẩn mẹo khỏi danh sách của người báo. Lý do gửi qua analytics (track) để đội
+ * Báo mẹo sai. Trên máy: ẩn mẹo khỏi danh sách của người báo. Lý do gửi qua analytics (track) để đội
  * nội dung xem; khi có máy chủ, ≥ 3 báo "nguy hiểm" sẽ tự ẩn mẹo với mọi người.
  */
 export default function Report() {

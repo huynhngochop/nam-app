@@ -28,10 +28,10 @@ export async function callAi<T>(
   const key = uid();
   const delays = [0, 1000, 4000];
   let lastErr: unknown;
-  for (const d of delays) {
-    if (d) await sleep(d + Math.random() * 300);
+  for (const data of delays) {
+    if (data) await sleep(data + Math.random() * 300);
     const ctrl = new AbortController();
-    const t = setTimeout(() => ctrl.abort(), opts.timeoutMs ?? 15000);
+    const timer = setTimeout(() => ctrl.abort(), opts.timeoutMs ?? 15000);
     try {
       const res = await fetch(`${base}/${feature}`, {
         method: 'POST',
@@ -50,11 +50,11 @@ export async function callAi<T>(
       }
       if (!res.ok) throw new AiUnavailableError(`AI ${res.status}`);
       return (await res.json()) as T;
-    } catch (e) {
-      if (e instanceof AiQuotaError || e instanceof AiUnavailableError) throw e;
-      lastErr = e;
+    } catch (error) {
+      if (error instanceof AiQuotaError || error instanceof AiUnavailableError) throw error;
+      lastErr = error;
     } finally {
-      clearTimeout(t);
+      clearTimeout(timer);
     }
   }
   throw lastErr instanceof Error ? new AiUnavailableError(lastErr.message) : new AiUnavailableError();

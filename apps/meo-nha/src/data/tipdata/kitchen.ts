@@ -6,7 +6,6 @@ Tẩy dầu mỡ trên mặt bếp | Baking soda và giấm làm mềm lớp d�
 - Thoa lên vết dầu, để 5 phút.
 - Lau bằng khăn ẩm, lau khô lại.
 ! Không dùng trên mặt đá tự nhiên (giấm làm mờ đá).
-@ Bình xịt chia tỉ lệ | https://example.com/aff/binh-xit
 ~ lau chui mat bep
 
 Làm sạch máy hút mùi | Ngâm lưới lọc trong nước nóng pha baking soda. | 20 m id=t4

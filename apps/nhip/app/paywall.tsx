@@ -4,7 +4,7 @@ import { Paywall, useToast } from '@nam/ui';
 import { buy, getPrice, PURCHASE_MESSAGES, restorePurchases, track } from '@nam/core';
 import { useNhip } from '../src/store';
 
-/** NH-16 Nhịp Pro · NH-20 Mua chưa hoàn tất (nói rõ đã/chưa trừ tiền). */
+/** Nhịp Pro · Mua chưa hoàn tất (nói rõ đã/chưa trừ tiền). */
 export default function NhipPaywall() {
   const set = useNhip((s) => s.set);
   const toast = useToast();
@@ -52,16 +52,16 @@ export default function NhipPaywall() {
         setBusy(true);
         setError(null);
         track('purchase_started', { productId: p.id });
-        const r = await buy(p.id);
+        const result = await buy(p.id);
         setBusy(false);
-        if (r.status === 'success') {
+        if (result.status === 'success') {
           set({ isPro: true });
           track('purchase_completed', { productId: p.id });
           toast(PURCHASE_MESSAGES.success, { tone: 'success' });
           router.back();
-        } else if (r.status !== 'cancelled') {
-          setError(`${PURCHASE_MESSAGES[r.status]}${r.code ? ` (Mã: ${r.code})` : ''}`);
-          track('purchase_failed', { code: r.code });
+        } else if (result.status !== 'cancelled') {
+          setError(`${PURCHASE_MESSAGES[result.status]}${result.code ? ` (Mã: ${result.code})` : ''}`);
+          track('purchase_failed', { code: result.code });
         }
       }}
     />

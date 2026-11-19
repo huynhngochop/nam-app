@@ -28,13 +28,13 @@ import { Money } from './ui';
 
 const SOURCE_LABEL: Record<Tx['source'], string> = { auto: 'Tự động', manual: 'Nhập tay', import: 'Dán tin' };
 
-/** VG-09 · Chi tiết giao dịch: đổi danh mục (kèm tạo quy tắc), ghi chú, tách, xóa có hoàn tác. */
+/** Chi tiết giao dịch: đổi danh mục (kèm tạo quy tắc), ghi chú, tách, xóa có hoàn tác. */
 export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) {
   const { c } = useTheme();
   const toast = useToast();
-  const s = useVi();
+  const state = useVi();
   const tx = useQuery(() => getTx(id), [id], null);
-  // Chân kia của cặp chuyển nội bộ (V4). Qua useQuery: không đọc SQLite mỗi lần render, lỗi CSDL không làm sập màn.
+  // Chân kia của cặp chuyển nội bộ. Qua useQuery: không đọc SQLite mỗi lần render, lỗi CSDL không làm sập màn.
   const pairTx = useQuery(
     () => (tx?.kind === 'transfer' && tx.pairId ? getTx(tx.pairId) : null),
     [tx?.kind, tx?.pairId],
@@ -42,14 +42,16 @@ export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) 
   );
   const [note, setNote] = useState(tx?.note ?? '');
   const [confirmDel, setConfirmDel] = useState(false);
-  // Sửa số tiền / nơi chi khi nhập nhầm hay ngân hàng đọc sai (UAT V8: trước đây chỉ xóa rồi nhập lại được).
+  // Sửa số tiền / nơi chi khi nhập nhầm hay ngân hàng đọc sai (trước đây chỉ xóa rồi nhập lại được).
   const [editAmt, setEditAmt] = useState<null | { amount: string; merchant: string }>(null);
   const [split, setSplit] = useState(false);
   const [parts, setParts] = useState<{ categoryId: string; amount: string }[]>([]);
   useEffect(() => {
     setNote(tx?.note ?? '');
-  }, [tx?.id]); // eslint-disable-line react-hooks/exhaustive-deps
-  // Lưu ghi chú cả khi rời màn lúc ô ghi chú còn đang gõ (bấm Quay lại ngay, onBlur không kịp chạy) — UAT V8.
+    // Chỉ nạp lại ghi chú khi mở giao dịch khác, không ghi đè chữ đang gõ khi giao dịch được lưu lại.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tx?.id]);
+  // Lưu ghi chú cả khi rời màn lúc ô ghi chú còn đang gõ (bấm Quay lại ngay, onBlur không kịp chạy).
   const latest = useRef({ note, tx });
   latest.current = { note, tx };
   useEffect(
@@ -61,19 +63,19 @@ export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) 
   );
 
   if (!tx) return <EmptyState icon="file" title="Không tìm thấy giao dịch" body="Có thể đã bị xóa." />;
-  const cat = catOf(tx.categoryId, s.categories);
-  const cats = s.categories.filter((x) => x.kind === (tx.kind === 'income' ? 'income' : 'expense'));
+  const cat = catOf(tx.categoryId, state.categories);
+  const cats = state.categories.filter((x) => x.kind === (tx.kind === 'income' ? 'income' : 'expense'));
 
   const setCat = (categoryId: string) => {
     updateTx(tx.id, { categoryId, status: 'confirmed' });
     if (tx.merchant && tx.source !== 'manual') {
       const kw = ruleKeyword(tx.merchant);
-      toast(`Đã đổi sang ${catOf(categoryId, s.categories).name}`, {
+      toast(`Đã đổi sang ${catOf(categoryId, state.categories).name}`, {
         action: kw
           ? {
               label: `Luôn xếp “${kw}”`,
               onPress: () => {
-                s.addRule(kw, categoryId);
+                state.addRule(kw, categoryId);
                 toast('Đã tạo quy tắc');
               },
             }
@@ -81,7 +83,7 @@ export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) 
       });
     }
   };
-  // V4: trả lại đúng chiều thu/chi cho giao dịch này và chân kia của cặp chuyển khoản.
+  // trả lại đúng chiều thu/chi cho giao dịch này và chân kia của cặp chuyển khoản.
   const untransfer = tx.kind === 'transfer' ? untransferKinds(tx, pairTx) : { self: null, pair: null };
   // Hai chân của một lần chuyển khoản luôn ngược chiều, nên chân kia lấy chiều ngược với chân này.
   const undoTransfer = (kind: 'expense' | 'income') => {
@@ -109,12 +111,12 @@ export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) 
     const rest = tx.amount - partsTotal;
     if (rest < 0 || !parts.length) return;
     parts.forEach((p) => {
-      const a = Number(p.amount.replace(/\D/g, ''));
-      if (a > 0)
+      const value = Number(p.amount.replace(/\D/g, ''));
+      if (value > 0)
         insertTx({
           ...tx,
           id: uid(),
-          amount: a,
+          amount: value,
           categoryId: p.categoryId,
           status: 'confirmed',
           flag: null,
@@ -288,8 +290,8 @@ export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) 
               keyboardType="number-pad"
               autoFocus
               onChangeText={(v) => {
-                const n = Number(v.replace(/\D/g, ''));
-                setEditAmt({ ...editAmt, amount: n ? n.toLocaleString('vi-VN') : '' });
+                const value = Number(v.replace(/\D/g, ''));
+                setEditAmt({ ...editAmt, amount: value ? value.toLocaleString('vi-VN') : '' });
               }}
             />
             <TextField

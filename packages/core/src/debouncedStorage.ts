@@ -21,8 +21,8 @@ export function createDebouncedStorage<S>(backing: () => Backing, delayMs = 400)
   const flush = () => {
     if (timer) clearTimeout(timer);
     timer = null;
-    const b = backing();
-    for (const [k, v] of pending) b.setItem(k, JSON.stringify(v));
+    const storage = backing();
+    for (const [k, v] of pending) storage.setItem(k, JSON.stringify(v));
     pending.clear();
   };
 
@@ -30,8 +30,8 @@ export function createDebouncedStorage<S>(backing: () => Backing, delayMs = 400)
     flush,
     getItem: async (name: string): Promise<PersistValue<S> | null> => {
       // Đọc lại ngay sau khi ghi (chưa kịp xả) vẫn thấy giá trị mới nhất.
-      const p = pending.get(name);
-      if (p) return p;
+      const entry = pending.get(name);
+      if (entry) return entry;
       const raw = await backing().getItem(name);
       if (raw == null) return null;
       // Dữ liệu hỏng (ví dụ máy tắt giữa lúc ghi) thì bắt đầu lại từ mặc định thay vì kẹt ở màn chờ.

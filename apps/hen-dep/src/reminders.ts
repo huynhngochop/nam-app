@@ -36,16 +36,16 @@ Notifications.setNotificationHandler({
 
 /** Hỏi quyền thông báo khi người dùng vừa thao tác (tạo lịch, bật nhắc), không hỏi lúc mở app. */
 async function canNotify(ask: boolean) {
-  const p = await Notifications.getPermissionsAsync();
-  if (p.granted) return true;
-  if (!ask || !p.canAskAgain) return false;
+  const permission = await Notifications.getPermissionsAsync();
+  if (permission.granted) return true;
+  if (!ask || !permission.canAskAgain) return false;
   return (await Notifications.requestPermissionsAsync()).granted;
 }
 
 export async function syncReminders({ ask = false, now = Date.now() } = {}) {
   if (Platform.OS === 'web') return;
-  const s = useHen.getState();
-  const { remind24h, remind2h } = s.shop.settings;
+  const state = useHen.getState();
+  const { remind24h, remind2h } = state.shop.settings;
 
   const scheduled = await Notifications.getAllScheduledNotificationsAsync();
   await Promise.all(
@@ -57,18 +57,18 @@ export async function syncReminders({ ask = false, now = Date.now() } = {}) {
 
   const offsets = [remind24h ? 24 : 0, remind2h ? 2 : 0].filter(Boolean);
   const jobs: { at: number; bookingId: string; title: string; body: string }[] = [];
-  for (const b of s.bookings) {
-    if (b.status !== 'confirmed' || b.startAt <= now || b.startAt > now + HORIZON) continue;
-    const cust = s.customers.find((x) => x.id === b.customerId);
+  for (const booking of state.bookings) {
+    if (booking.status !== 'confirmed' || booking.startAt <= now || booking.startAt > now + HORIZON) continue;
+    const cust = state.customers.find((x) => x.id === booking.customerId);
     if (!cust?.phone) continue;
-    for (const h of offsets) {
-      const at = b.startAt - h * 3600000;
+    for (const hoursBefore of offsets) {
+      const at = booking.startAt - hoursBefore * 3600000;
       if (at <= now + 60000) continue;
       jobs.push({
         at,
-        bookingId: b.id,
-        title: `Nhắc ${cust.name} · ${h === 24 ? 'ngày mai' : 'sau 2 giờ'}`,
-        body: `Hẹn ${hhmm(new Date(b.startAt))} ${shortDate(new Date(b.startAt))}. Bấm để gửi tin nhắc khách.`,
+        bookingId: booking.id,
+        title: `Nhắc ${cust.name} · ${hoursBefore === 24 ? 'ngày mai' : 'sau 2 giờ'}`,
+        body: `Hẹn ${hhmm(new Date(booking.startAt))} ${shortDate(new Date(booking.startAt))}. Bấm để gửi tin nhắc khách.`,
       });
     }
   }
@@ -85,10 +85,10 @@ export async function syncReminders({ ask = false, now = Date.now() } = {}) {
 
 /** Đồng bộ lại (gộp 2 giây) khi lịch hẹn, khách hay cài đặt nhắc đổi. Trả về hàm hủy. */
 export function watchReminders() {
-  let t: ReturnType<typeof setTimeout> | null = null;
+  let timer: ReturnType<typeof setTimeout> | null = null;
   const run = (ask: boolean) => {
-    if (t) clearTimeout(t);
-    t = setTimeout(() => syncReminders({ ask }).catch(() => {}), 2000);
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => syncReminders({ ask }).catch(() => {}), 2000);
   };
   run(false);
   const unsub = useHen.subscribe((st, prev) => {
@@ -96,7 +96,7 @@ export function watchReminders() {
       run(true);
   });
   return () => {
-    if (t) clearTimeout(t);
+    if (timer) clearTimeout(timer);
     unsub();
   };
 }
@@ -104,8 +104,8 @@ export function watchReminders() {
 /** Bấm vào thông báo nhắc → mở lịch hẹn. */
 export function onReminderTap(open: (bookingId: string) => void) {
   const sub = Notifications.addNotificationResponseReceivedListener((r) => {
-    const d = r.notification.request.content.data as { kind?: string; bookingId?: string } | undefined;
-    if (d?.kind === KIND && d.bookingId) open(d.bookingId);
+    const payload = r.notification.request.content.data as { kind?: string; bookingId?: string } | undefined;
+    if (payload?.kind === KIND && payload.bookingId) open(payload.bookingId);
   });
   return () => sub.remove();
 }

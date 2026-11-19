@@ -1,5 +1,5 @@
 /**
- * Tải gói âm thanh sau khi mua (NH-19). Tệp nằm trên máy chủ nội dung (EXPO_PUBLIC_CONTENT_URL), tải từng tệp,
+ * Tải gói âm thanh sau khi mua. Tệp nằm trên máy chủ nội dung (EXPO_PUBLIC_CONTENT_URL), tải từng tệp,
  * tiếp tục được khi rớt mạng. Khi chưa cấu hình máy chủ nội dung, trả lỗi rõ ràng để màn hiển thị và cho thử lại.
  */
 export class PackDownloadError extends Error {

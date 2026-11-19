@@ -1,7 +1,7 @@
 import { Redirect } from 'expo-router';
 import { useNhip } from '../src/store';
 
-/** NH-01: splash hệ thống; sau đó vào onboarding, phiên đang chạy, hoặc màn Hẹn giờ. */
+/** Màn khởi động: sau splash thì vào giới thiệu, phiên đang chạy dở, hoặc màn Hẹn giờ. */
 export default function Index() {
   const onboarded = useNhip((s) => s.onboarded);
   const session = useNhip((s) => s.session);

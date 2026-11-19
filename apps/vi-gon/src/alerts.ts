@@ -8,19 +8,24 @@ import { catOf, periodOf, useVi } from './store';
  * Nội dung thông báo không ghi số tiền chi tiết của giao dịch, chỉ tỉ lệ ngân sách.
  */
 export async function checkBudgets() {
-  const s = useVi.getState();
-  const p = periodOf(s.monthStartDay);
+  const state = useVi.getState();
+  const period = periodOf(state.monthStartDay);
   const items: { key: string; limit: number; spent: number; name: string }[] = [];
-  if (s.monthlyBudget)
-    items.push({ key: 'total', limit: s.monthlyBudget, spent: totals(p.from, p.to).expense, name: 'tháng' });
-  const cats = byCategory(p.from, p.to);
-  for (const [id, limit] of Object.entries(s.budgets))
+  if (state.monthlyBudget)
+    items.push({
+      key: 'total',
+      limit: state.monthlyBudget,
+      spent: totals(period.from, period.to).expense,
+      name: 'tháng',
+    });
+  const cats = byCategory(period.from, period.to);
+  for (const [id, limit] of Object.entries(state.budgets))
     if (limit)
       items.push({
         key: id,
         limit,
         spent: cats.find((x) => x.categoryId === id)?.total ?? 0,
-        name: catOf(id, s.categories).name,
+        name: catOf(id, state.categories).name,
       });
 
   const fresh: string[] = [];
@@ -28,8 +33,8 @@ export async function checkBudgets() {
     const pct = it.spent / it.limit;
     const level = pct >= 1 ? 100 : pct >= 0.8 ? 80 : 0;
     if (!level) continue;
-    const k = `${p.from}:${it.key}:${level}`;
-    if (s.alerted.includes(k)) continue;
+    const k = `${period.from}:${it.key}:${level}`;
+    if (state.alerted.includes(k)) continue;
     fresh.push(k);
     try {
       const perm = await Notifications.getPermissionsAsync();
@@ -49,13 +54,14 @@ export async function checkBudgets() {
       /* thông báo là phụ — không chặn luồng chính */
     }
   }
-  if (fresh.length) s.set({ alerted: [...s.alerted.filter((k) => k.startsWith(String(p.from))), ...fresh] });
+  if (fresh.length)
+    state.set({ alerted: [...state.alerted.filter((k) => k.startsWith(String(period.from))), ...fresh] });
 }
 
 /** Nhắc góp quỹ vào ngày bắt đầu tháng (ngày lương), 9:05 sáng. Gộp mọi quỹ bật nhắc vào một thông báo. */
 export async function syncFundReminder() {
-  const s = useVi.getState();
-  const names = s.funds.filter((f) => f.remindPayday && f.saved < f.goal).map((f) => f.name);
+  const state = useVi.getState();
+  const names = state.funds.filter((f) => f.remindPayday && f.saved < f.goal).map((f) => f.name);
   await Notifications.cancelScheduledNotificationAsync('fund-payday').catch(() => {});
   if (!names.length) return;
   try {
@@ -71,7 +77,12 @@ export async function syncFundReminder() {
             : `Góp cho ${names.length} quỹ: ${names.slice(0, 3).join(', ')}.`,
         data: { url: '/(tabs)/funds' },
       },
-      trigger: { type: Notifications.SchedulableTriggerInputTypes.MONTHLY, day: s.monthStartDay, hour: 9, minute: 5 },
+      trigger: {
+        type: Notifications.SchedulableTriggerInputTypes.MONTHLY,
+        day: state.monthStartDay,
+        hour: 9,
+        minute: 5,
+      },
     });
   } catch {
     /* không chặn luồng chính */

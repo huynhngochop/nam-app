@@ -21,7 +21,7 @@ import { useVi } from '../src/store';
 
 const MAX_TRIES = 5;
 
-/** VG-20 · Khôi phục sao lưu: sai mật khẩu (đếm lượt, khóa 30 giây), quên mật khẩu. */
+/** Khôi phục sao lưu: sai mật khẩu (đếm lượt, khóa 30 giây), quên mật khẩu. */
 export default function Restore() {
   const { c } = useTheme();
   const toast = useToast();
@@ -37,19 +37,23 @@ export default function Restore() {
   const [confirm, setConfirm] = useState(false);
   useEffect(() => {
     if (waitUntil <= now) return;
-    const t = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(t);
+    const ticker = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(ticker);
   }, [waitUntil, now]);
   const locked = waitUntil > now;
 
   const pick = async () => {
     setErr(null);
     try {
-      const r = await DocumentPicker.getDocumentAsync({ type: '*/*', copyToCacheDirectory: true, multiple: false });
-      if (r.canceled || !r.assets?.[0]) return;
-      const m = readMeta(r.assets[0].uri);
-      setUri(r.assets[0].uri);
-      setMeta(m);
+      const picked = await DocumentPicker.getDocumentAsync({
+        type: '*/*',
+        copyToCacheDirectory: true,
+        multiple: false,
+      });
+      if (picked.canceled || !picked.assets?.[0]) return;
+      const meta = readMeta(picked.assets[0].uri);
+      setUri(picked.assets[0].uri);
+      setMeta(meta);
       setTries(0);
       setPw('');
     } catch {
@@ -62,20 +66,20 @@ export default function Restore() {
     setBusy(true);
     setErr(null);
     try {
-      const r = await restoreBackup(uri, pw);
-      track('backup_restored', { tx: r.txCount });
-      toast(`Đã khôi phục ${r.txCount} giao dịch`, { tone: 'success' });
+      const result = await restoreBackup(uri, pw);
+      track('backup_restored', { tx: result.txCount });
+      toast(`Đã khôi phục ${result.txCount} giao dịch`, { tone: 'success' });
       router.replace('/(tabs)/home');
-    } catch (e) {
-      if (e instanceof Error && e.message === 'WRONG_PASSWORD') {
-        const n = tries + 1;
-        setTries(n);
-        if (n >= MAX_TRIES) {
+    } catch (error) {
+      if (error instanceof Error && error.message === 'WRONG_PASSWORD') {
+        const attempts = tries + 1;
+        setTries(attempts);
+        if (attempts >= MAX_TRIES) {
           setWaitUntil(Date.now() + 30000);
           setNow(Date.now());
           setTries(0);
           setErr('Sai quá nhiều lần. Thử lại sau 30 giây.');
-        } else setErr(`Mật khẩu chưa đúng · còn ${MAX_TRIES - n} lần thử`);
+        } else setErr(`Mật khẩu chưa đúng · còn ${MAX_TRIES - attempts} lần thử`);
       } else setErr('Không khôi phục được. Dữ liệu hiện tại vẫn giữ nguyên.');
     } finally {
       setBusy(false);

@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 import { Button, Icon, Screen, T, useTheme } from '@nam/ui';
 import { track } from '@nam/core';
 
-/** VG-01 · Chào mừng. */
+/** Chào mừng. */
 export default function Welcome() {
   const { c } = useTheme();
   return (

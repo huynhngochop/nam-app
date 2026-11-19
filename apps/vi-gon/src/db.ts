@@ -114,14 +114,14 @@ export function insertTx(t: Tx) {
 export const INSERT_ROWS_PER_STMT = 60;
 
 export function insertMany(list: Tx[], opts: { replaceAll?: boolean } = {}) {
-  const d = getDb();
+  const db = getDb();
   // Một giao dịch SQLite: lỗi giữa chừng thì không mất dữ liệu cũ.
   // Ghi nhiều dòng mỗi câu lệnh: khôi phục 12 nghìn giao dịch chỉ còn ~200 lần gọi thay vì 12 nghìn (IT6).
-  d.withTransactionSync(() => {
-    if (opts.replaceAll) d.runSync('DELETE FROM tx');
+  db.withTransactionSync(() => {
+    if (opts.replaceAll) db.runSync('DELETE FROM tx');
     for (let i = 0; i < list.length; i += INSERT_ROWS_PER_STMT) {
       const part = list.slice(i, i + INSERT_ROWS_PER_STMT);
-      d.runSync(
+      db.runSync(
         `INSERT OR REPLACE INTO tx (id, amount, kind, category_id, merchant, note, at, account, source, status, raw, fund_id, flag, pair_id, created_at)
          VALUES ${part.map(() => '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').join(', ')}`,
         part.flatMap(txArgs),
@@ -162,8 +162,8 @@ export function deleteTx(id: string) {
 }
 
 export function getTx(id: string): Tx | null {
-  const r = getDb().getFirstSync<Row>('SELECT * FROM tx WHERE id = ?', [id]);
-  return r ? toTx(r) : null;
+  const row = getDb().getFirstSync<Row>('SELECT * FROM tx WHERE id = ?', [id]);
+  return row ? toTx(row) : null;
 }
 
 export type TxFilter = {
@@ -212,12 +212,12 @@ export function listTx(f: TxFilter = {}): Tx[] {
 
 /** Tổng chi/thu (đã xác nhận) trong khoảng [from, to). Chuyển nội bộ không tính. */
 export function totals(from: number, to: number) {
-  const r = getDb().getFirstSync<{ exp: number | null; inc: number | null; n: number }>(
+  const row = getDb().getFirstSync<{ exp: number | null; inc: number | null; n: number }>(
     `SELECT SUM(CASE WHEN kind = 'expense' THEN amount END) AS exp, SUM(CASE WHEN kind = 'income' THEN amount END) AS inc, COUNT(*) AS n
      FROM tx WHERE status = 'confirmed' AND at >= ? AND at < ?`,
     [from, to],
   );
-  return { expense: r?.exp ?? 0, income: r?.inc ?? 0, count: r?.n ?? 0 };
+  return { expense: row?.exp ?? 0, income: row?.inc ?? 0, count: row?.n ?? 0 };
 }
 
 export function byCategory(from: number, to: number, kind: 'expense' | 'income' = 'expense') {
@@ -258,19 +258,19 @@ export const EXPORT_PAGE = 1000;
  * kết quả của SQLite bản web ("offset is out of bounds") và giữ luồng JS quá lâu trên máy yếu.
  */
 export function allTx(pageSize = EXPORT_PAGE): Tx[] {
-  const d = getDb();
+  const db = getDb();
   const out: Tx[] = [];
   let last: { at: number; id: string } | null = null;
   for (;;) {
     const rows: Row[] = last
-      ? d.getAllSync<Row>('SELECT * FROM tx WHERE at > ? OR (at = ? AND id > ?) ORDER BY at, id LIMIT ?', [
+      ? db.getAllSync<Row>('SELECT * FROM tx WHERE at > ? OR (at = ? AND id > ?) ORDER BY at, id LIMIT ?', [
           last.at,
           last.at,
           last.id,
           pageSize,
         ])
-      : d.getAllSync<Row>('SELECT * FROM tx ORDER BY at, id LIMIT ?', [pageSize]);
-    for (const r of rows) out.push(toTx(r));
+      : db.getAllSync<Row>('SELECT * FROM tx ORDER BY at, id LIMIT ?', [pageSize]);
+    for (const result of rows) out.push(toTx(result));
     if (rows.length < pageSize) return out;
     const tail = rows[rows.length - 1];
     last = { at: tail.at, id: tail.id };
@@ -283,7 +283,7 @@ export function wipeTx() {
 
 /** Chạy lại truy vấn mỗi khi dữ liệu đổi. Lỗi CSDL → trả giá trị mặc định thay vì làm sập màn hình. */
 export function useQuery<T>(fn: () => T, deps: unknown[], fallback: T): T {
-  const v = useTxVersion((s) => s.v);
+  const version = useTxVersion((s) => s.v);
   const [val, setVal] = useState<T>(() => {
     try {
       return fn();
@@ -294,10 +294,12 @@ export function useQuery<T>(fn: () => T, deps: unknown[], fallback: T): T {
   useEffect(() => {
     try {
       setVal(fn());
-    } catch (e) {
-      console.warn('[vigon] query failed', e);
+    } catch (error) {
+      if (__DEV__) console.warn('[vigon] query failed', error);
       setVal(fallback);
     }
-  }, [v, ...deps]); // eslint-disable-line react-hooks/exhaustive-deps
+    // `fn` là hàm truy vấn mới mỗi lần render; chạy lại khi bảng giao dịch đổi (v) hoặc khi tham số người gọi truyền vào đổi.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [version, ...deps]);
   return val;
 }

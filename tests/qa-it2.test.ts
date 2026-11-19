@@ -34,7 +34,7 @@ function reference(cId: string) {
   };
 }
 
-test('IT2: customerIndex cho cùng kết quả với cách tính từng khách', () => {
+test('customerIndex cho cùng kết quả với cách tính từng khách', () => {
   const idx = customerIndex(bookings, services);
   for (let i = 0; i < 37; i++) {
     const got = idx.get(`c${i}`);
@@ -43,20 +43,20 @@ test('IT2: customerIndex cho cùng kết quả với cách tính từng khách',
   assert.deepEqual(idx.get('khong-co'), { visits: 0, spend: 0, noShows: 0 });
 });
 
-test('IT2: 2.500 khách × 10 nghìn lịch hẹn tính dưới 100 ms', () => {
+test('2.500 khách × 10 nghìn lịch hẹn tính dưới 100 ms', () => {
   const big = Array.from({ length: 10_000 }, (_, i) => ({
     ...bookings[i % 600],
     id: `x${i}`,
     customerId: `c${i % 2500}`,
   }));
-  const t = performance.now();
+  const startedAt = performance.now();
   const idx = customerIndex(big, services);
   for (let i = 0; i < 2500; i++) idx.get(`c${i}`);
-  assert.ok(performance.now() - t < 100, `mất ${Math.round(performance.now() - t)} ms`);
+  assert.ok(performance.now() - startedAt < 100, `mất ${Math.round(performance.now() - startedAt)} ms`);
 });
 
 /* ---------------- IT3 · Lưu store lớn: gom các lần ghi ---------------- */
-test('IT3: nhiều lần setItem liền nhau chỉ ghi một lần, giá trị mới nhất; flush ghi ngay', async () => {
+test('nhiều lần setItem liền nhau chỉ ghi một lần, giá trị mới nhất; flush ghi ngay', async () => {
   const writes: [string, string][] = [];
   const mem = new Map<string, string>();
   const backing = () => ({
@@ -67,27 +67,27 @@ test('IT3: nhiều lần setItem liền nhau chỉ ghi một lần, giá trị m
     },
     removeItem: (k: string) => mem.delete(k),
   });
-  const s = createDebouncedStorage<{ n: number }>(backing, 30);
-  for (let n = 1; n <= 50; n++) s.setItem('hen', { state: { n }, version: 0 });
+  const storage = createDebouncedStorage<{ n: number }>(backing, 30);
+  for (let n = 1; n <= 50; n++) storage.setItem('hen', { state: { n }, version: 0 });
   assert.equal(writes.length, 0, 'chưa ghi khi còn đang thay đổi');
-  assert.deepEqual(await s.getItem('hen'), { state: { n: 50 }, version: 0 }, 'đọc ngay vẫn thấy giá trị mới');
+  assert.deepEqual(await storage.getItem('hen'), { state: { n: 50 }, version: 0 }, 'đọc ngay vẫn thấy giá trị mới');
   await new Promise((r) => setTimeout(r, 60));
   assert.equal(writes.length, 1);
   assert.deepEqual(JSON.parse(writes[0][1]), { state: { n: 50 }, version: 0 });
 
-  s.setItem('hen', { state: { n: 51 } });
-  s.flush();
+  storage.setItem('hen', { state: { n: 51 } });
+  storage.flush();
   assert.equal(writes.length, 2, 'flush (app chuyển nền) ghi ngay');
   await new Promise((r) => setTimeout(r, 60));
   assert.equal(writes.length, 2, 'không ghi lại lần nữa sau flush');
 
-  s.setItem('hen', { state: { n: 52 } });
-  await s.removeItem('hen');
+  storage.setItem('hen', { state: { n: 52 } });
+  await storage.removeItem('hen');
   await new Promise((r) => setTimeout(r, 60));
   assert.equal(mem.has('hen'), false, 'xóa thì bỏ cả lần ghi đang chờ');
 });
 
-/* ---------------- Vòng 3 (UAT) · Hẹn Đẹp ---------------- */
+/* ---------------- Hẹn Đẹp: lịch, giờ mở cửa, khách ---------------- */
 test('UAT H2: thêm lại cùng dịch vụ (quay lại bước thiết lập) không nhân đôi bảng giá', async () => {
   const { useHen } = await import('../apps/hen-dep/src/store');
   useHen.setState({ services: [] });
@@ -112,9 +112,9 @@ test('UAT H3: ngày tiệm nghỉ không gợi ý lấp chỗ trống; không g�
   const staff = [{ id: 's1', name: 'Tôi', shiftFrom: '08:00', shiftTo: '20:00', onlineToday: true }] as never[];
   const hours = [0, 1, 2, 3, 4, 5, 6].map((day) => ({ day, open: day !== 0, from: '08:00', to: '19:00' }));
   assert.equal(findGap(staff, [], sunday, hours), null, 'CN nghỉ');
-  const g = findGap(staff, [], monday, hours);
-  assert.ok(g, 'T2 có chỗ trống');
-  assert.equal(new Date(g!.to).getHours(), 19, 'kết thúc ở giờ đóng cửa 19:00, không phải hết ca 20:00');
+  const gap = findGap(staff, [], monday, hours);
+  assert.ok(gap, 'T2 có chỗ trống');
+  assert.equal(new Date(gap!.to).getHours(), 19, 'kết thúc ở giờ đóng cửa 19:00, không phải hết ca 20:00');
   // Không truyền giờ mở cửa: giữ cách cũ (theo ca thợ).
   assert.equal(new Date(findGap(staff, [], monday)!.to).getHours(), 20);
 });

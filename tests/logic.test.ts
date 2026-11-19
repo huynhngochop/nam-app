@@ -40,9 +40,9 @@ test('Ví Gọn: còn được chi bao nhiêu', () => {
   assert.equal(parseIntent('Tháng này còn được chi bao nhiêu?', DEFAULT_CATEGORIES, funds)!.metric, 'left');
 });
 test('Ví Gọn: tuần này đi lại / tháng 9 / thu nhập', () => {
-  const a = parseIntent('Tuần này đi lại hết bao nhiêu', DEFAULT_CATEGORIES, funds)!;
-  assert.equal(a.categoryId, 'move');
-  assert.equal(a.period, 'this_week');
+  const parsed = parseIntent('Tuần này đi lại hết bao nhiêu', DEFAULT_CATEGORIES, funds)!;
+  assert.equal(parsed.categoryId, 'move');
+  assert.equal(parsed.period, 'this_week');
   assert.equal(parseIntent('tháng 9 tiền điện bao nhiêu', DEFAULT_CATEGORIES, funds)!.period, 'month_9');
   const inc = parseIntent('Tháng này lương được bao nhiêu', DEFAULT_CATEGORIES, funds)!;
   assert.equal(inc.kind, 'income');
@@ -58,12 +58,12 @@ test('Ví Gọn: câu không liên quan → null (để nhờ AI hiểu)', () =>
 });
 test('Ví Gọn: kỳ theo ngày lương', () => {
   const now = new Date(2026, 9, 5); // 5/10, lương ngày 10 → kỳ 10/9–10/10
-  const r = periodRange('this_month', 10, now);
-  assert.equal(new Date(r.from).getDate(), 10);
-  assert.equal(new Date(r.from).getMonth(), 8);
-  assert.equal(new Date(r.to).getMonth(), 9);
-  const w = periodRange('this_week', 1, new Date(2026, 9, 29)); // thứ Năm
-  assert.equal(new Date(w.from).getDay(), 1);
+  const period = periodRange('this_month', 10, now);
+  assert.equal(new Date(period.from).getDate(), 10);
+  assert.equal(new Date(period.from).getMonth(), 8);
+  assert.equal(new Date(period.to).getMonth(), 9);
+  const range = periodRange('this_week', 1, new Date(2026, 9, 29)); // thứ Năm
+  assert.equal(new Date(range.from).getDay(), 1);
 });
 test('Ví Gọn: số cần góp mỗi tháng', () => {
   const now = new Date(2026, 9, 1).getTime();
@@ -81,17 +81,17 @@ test('Hẹn Đẹp: parsePrice các dạng', () => {
   assert.equal(parsePrice('abc'), null);
 });
 test('Hẹn Đẹp: parseLocally bảng giá dán', () => {
-  const r = parseLocally(
+  const parsed = parseLocally(
     'BẢNG GIÁ\nCắt + gội + sấy ........ 180K\nNhuộm thời trang 650k\nUốn lạnh 800K 150 phút\nGội dưỡng sinh',
   );
-  assert.equal(r.length, 4);
-  assert.equal(r[0].price, 180000);
-  assert.equal(r[1].group, 'Tóc');
-  assert.equal(r[1].durationMin, 120);
-  assert.ok(r[1].durationGuessed);
-  assert.equal(r[2].durationMin, 150);
-  assert.equal(r[2].durationGuessed, false);
-  assert.equal(r[3].price, null);
+  assert.equal(parsed.length, 4);
+  assert.equal(parsed[0].price, 180000);
+  assert.equal(parsed[1].group, 'Tóc');
+  assert.equal(parsed[1].durationMin, 120);
+  assert.ok(parsed[1].durationGuessed);
+  assert.equal(parsed[2].durationMin, 150);
+  assert.equal(parsed[2].durationGuessed, false);
+  assert.equal(parsed[3].price, null);
 });
 test('Hẹn Đẹp: mẫu tin ưu đãi luôn có link và % và ≤160 ký tự', () => {
   for (const goal of ['lunch', 'lapsed', 'birthday', 'new_service'] as const)
@@ -131,7 +131,7 @@ test('Mẹo Nhà: kho mẹo đủ, đúng cú pháp, mẹo rủi ro có cảnh b
   for (let i = 1; i <= 20; i++) assert.ok(tipById(`t${i}`), `mất mẹo t${i}`);
 });
 test('Mẹo Nhà: tìm được các vấn đề thường gặp', () => {
-  for (const q of [
+  for (const question of [
     'tac bon cau',
     'vết máu trên áo',
     'mùi gas',
@@ -143,7 +143,7 @@ test('Mẹo Nhà: tìm được các vấn đề thường gặp', () => {
     'mèo cào sofa',
     'cửa kẹt',
   ])
-    assert.ok(searchTips(q).length > 0, `không ra kết quả: ${q}`);
+    assert.ok(searchTips(question).length > 0, `không ra kết quả: ${question}`);
   assert.equal(searchTips('mùi gas')[0].categoryId, 'safety');
 });
 test('Mẹo Nhà: bảng tin đủ mẹo, danh mục quan tâm lên đầu, xen kẽ danh mục', () => {

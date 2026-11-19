@@ -19,10 +19,10 @@ export function Slider({
   const last = useRef(value);
   const set = (x: number) => {
     if (!w) return;
-    const v = Math.max(0, Math.min(1, Math.round(x / w / step) * step));
-    if (v !== last.current) {
-      last.current = v;
-      onChange(v);
+    const clamped = Math.max(0, Math.min(1, Math.round(x / w / step) * step));
+    if (clamped !== last.current) {
+      last.current = clamped;
+      onChange(clamped);
     }
   };
   const onEv = (e: GestureResponderEvent) => set(e.nativeEvent.locationX);

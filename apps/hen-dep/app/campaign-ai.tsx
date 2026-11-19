@@ -9,27 +9,31 @@ import { generatePromo, GOAL_LABEL, PromoGoal, PromoTone, templateVariants, TONE
 /** HD-C19 · AI soạn tin ưu đãi. Hết lượt / không có mạng → mẫu soạn sẵn trên máy. */
 export default function CampaignAi() {
   const toast = useToast();
-  const p = useLocalSearchParams<{ window?: string }>();
-  const s = useHen();
-  const [goal, setGoal] = useState<PromoGoal>(p.window ? 'lunch' : 'lapsed');
+  const routeParams = useLocalSearchParams<{ window?: string }>();
+  const state = useHen();
+  const [goal, setGoal] = useState<PromoGoal>(routeParams.window ? 'lunch' : 'lapsed');
   const [tone, setTone] = useState<PromoTone>('friendly');
   const [offer, setOffer] = useState(10);
   const [busy, setBusy] = useState(false);
   const [variants, setVariants] = useState<string[] | null>(null);
   const [viaAi, setViaAi] = useState(false);
   const quota = getLimit(
-    s.plan.code === 'chain' ? 'AI_QUOTA_CHAIN' : s.plan.code === 'standard' ? 'AI_QUOTA_STANDARD' : 'AI_QUOTA_BASIC',
+    state.plan.code === 'chain'
+      ? 'AI_QUOTA_CHAIN'
+      : state.plan.code === 'standard'
+        ? 'AI_QUOTA_STANDARD'
+        : 'AI_QUOTA_BASIC',
     10,
   );
   const month = new Date().toISOString().slice(0, 7);
-  const used = s.aiUsed.month === month ? s.aiUsed.count : 0;
+  const used = state.aiUsed.month === month ? state.aiUsed.count : 0;
   const input = {
-    shopName: s.shop.name,
-    link: bookingContact(s.shop),
+    shopName: state.shop.name,
+    link: bookingContact(state.shop),
     goal,
     tone,
     offerPct: offer,
-    window: p.window || undefined,
+    window: routeParams.window || undefined,
   };
 
   const run = async () => {
@@ -40,15 +44,15 @@ export default function CampaignAi() {
         setViaAi(false);
         return;
       }
-      const r = await generatePromo(input);
-      if (r.viaAi) s.consumeAi();
-      setVariants(r.variants);
-      setViaAi(r.viaAi);
-      track('promo_generated', { goal, tone, viaAi: r.viaAi });
-    } catch (e) {
+      const promo = await generatePromo(input);
+      if (promo.viaAi) state.consumeAi();
+      setVariants(promo.variants);
+      setViaAi(promo.viaAi);
+      track('promo_generated', { goal, tone, viaAi: promo.viaAi });
+    } catch (error) {
       setVariants(templateVariants(input));
       setViaAi(false);
-      if (e instanceof AiQuotaError) toast('Máy chủ AI đang hết lượt — dùng mẫu soạn sẵn.');
+      if (error instanceof AiQuotaError) toast('Máy chủ AI đang hết lượt — dùng mẫu soạn sẵn.');
     } finally {
       setBusy(false);
     }
@@ -91,7 +95,7 @@ export default function CampaignAi() {
             <Card
               key={i}
               onPress={() =>
-                router.dismissTo({ pathname: '/campaign', params: { message: v, window: p.window ?? '' } })
+                router.dismissTo({ pathname: '/campaign', params: { message: v, window: routeParams.window ?? '' } })
               }
               accessibilityLabel={`Chọn mẫu ${i + 1}`}
             >

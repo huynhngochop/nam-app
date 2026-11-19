@@ -6,7 +6,7 @@ import { track } from '@nam/core';
 import { CATEGORIES, CategoryId } from '../../src/data/tips';
 import { useMeo } from '../../src/store';
 
-/** MN-02 · Chọn mối quan tâm (cũng dùng để sửa từ MN-14 với ?edit=1). */
+/** Chọn mối quan tâm lúc mới cài; mở với ?edit=1 từ tab Tôi để sửa lại. */
 export default function Interests() {
   const { c } = useTheme();
   const { edit } = useLocalSearchParams<{ edit?: string }>();

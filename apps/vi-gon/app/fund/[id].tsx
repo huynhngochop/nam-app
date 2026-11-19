@@ -30,13 +30,13 @@ import { FUND_ICON_NAMES, FUND_ICONS } from '../../src/types';
 const digits = (s: string) => Number(s.replace(/\D/g, '')) || 0;
 const money = (n: number) => (n ? n.toLocaleString('vi-VN') : '');
 
-/** VG-14 Quỹ mới (id = "new") · Chi tiết quỹ: góp / rút (ghi là chuyển quỹ, không tính vào chi tiêu). */
+/** Quỹ mới (id = "new") · Chi tiết quỹ: góp / rút (ghi là chuyển quỹ, không tính vào chi tiêu). */
 export default function FundScreen() {
   const { c } = useTheme();
   const toast = useToast();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const s = useVi();
-  const fund = s.funds.find((f) => f.id === id);
+  const state = useVi();
+  const fund = state.funds.find((f) => f.id === id);
   const isNew = id === 'new';
   const [name, setName] = useState(fund?.name ?? '');
   const [icon, setIcon] = useState(fund?.icon ?? FUND_ICONS[0]);
@@ -55,13 +55,13 @@ export default function FundScreen() {
   const avg = useQuery(
     () => {
       const arr = Array.from({ length: 3 }, (_, k) => {
-        const p = periodOf(s.monthStartDay, -1 - k);
-        const t = totals(p.from, p.to);
-        return t.income - t.expense;
+        const period = periodOf(state.monthStartDay, -1 - k);
+        const total = totals(period.from, period.to);
+        return total.income - total.expense;
       }).filter((x) => x > 0);
       return arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
     },
-    [s.monthStartDay],
+    [state.monthStartDay],
     0,
   );
 
@@ -88,7 +88,7 @@ export default function FundScreen() {
             title={isNew ? 'Tạo quỹ' : 'Lưu'}
             disabled={name.trim().length < 2 || digits(goal) < 10000}
             onPress={() => {
-              const fid = s.upsertFund({
+              const fid = state.upsertFund({
                 id: isNew ? undefined : id,
                 name: name.trim(),
                 icon,
@@ -154,43 +154,44 @@ export default function FundScreen() {
           </Card>
         ) : null}
         <Row between>
-          <T v="body" style={{ flex: 1 }}>{`Nhắc góp vào ngày ${s.monthStartDay} hằng tháng`}</T>
+          <T v="body" style={{ flex: 1 }}>{`Nhắc góp vào ngày ${state.monthStartDay} hằng tháng`}</T>
           <Toggle label="Nhắc ngày lương" value={remind} onChange={setRemind} />
         </Row>
       </Screen>
     );
   }
 
-  const f = fund!;
-  const pct = f.goal ? Math.min(1, f.saved / f.goal) : 0;
-  const n = monthlyNeed(f);
+  const current = fund!;
+  const pct = current.goal ? Math.min(1, current.saved / current.goal) : 0;
+  const monthly = monthlyNeed(current);
   const doMove = () => {
-    const a = digits(amount);
-    if (!a) return;
-    if (move === 'out' && a > f.saved) {
+    const value = digits(amount);
+    if (!value) return;
+    if (move === 'out' && value > current.saved) {
       toast('Số tiền rút lớn hơn số trong quỹ');
       return;
     }
-    s.moveFund(f.id, move === 'in' ? a : -a);
+    state.moveFund(current.id, move === 'in' ? value : -value);
     insertTx({
       id: uid(),
-      amount: a,
+      amount: value,
       kind: 'transfer',
       categoryId: null,
-      merchant: move === 'in' ? `Góp quỹ ${f.name}` : `Rút quỹ ${f.name}`,
+      merchant: move === 'in' ? `Góp quỹ ${current.name}` : `Rút quỹ ${current.name}`,
       note: '',
       at: Date.now(),
       account: null,
       source: 'manual',
       status: 'confirmed',
       raw: null,
-      fundId: f.id,
+      fundId: current.id,
       flag: null,
       pairId: null,
       createdAt: Date.now(),
     });
-    toast(move === 'in' ? `Đã góp ${vnd(a)}` : `Đã rút ${vnd(a)}`, { tone: 'success' });
-    if (move === 'in' && f.saved + a >= f.goal) toast(`Chúc mừng! Quỹ ${f.name} đã đủ mục tiêu`, { tone: 'success' });
+    toast(move === 'in' ? `Đã góp ${vnd(value)}` : `Đã rút ${vnd(value)}`, { tone: 'success' });
+    if (move === 'in' && current.saved + value >= current.goal)
+      toast(`Chúc mừng! Quỹ ${current.name} đã đủ mục tiêu`, { tone: 'success' });
     setMove(null);
     setAmount('');
   };
@@ -202,7 +203,7 @@ export default function FundScreen() {
       footer={
         <Row>
           <View style={{ flex: 1 }}>
-            <Button title="Rút" variant="secondary" disabled={!f.saved} onPress={() => setMove('out')} />
+            <Button title="Rút" variant="secondary" disabled={!current.saved} onPress={() => setMove('out')} />
           </View>
           <View style={{ flex: 2 }}>
             <Button title="Góp vào quỹ" icon="plus" onPress={() => setMove('in')} />
@@ -211,16 +212,16 @@ export default function FundScreen() {
       }
     >
       <AppBar
-        title={f.name}
+        title={current.name}
         onBack={() => router.back()}
         right={<Button title="Sửa" size="sm" variant="text" onPress={() => setEdit(true)} />}
       />
       <Card variant="tint">
-        <T v="display">{vnd(f.saved)}</T>
-        <T v="caption">{`/ ${vnd(f.goal)} · ${Math.round(pct * 100)}%`}</T>
+        <T v="display">{vnd(current.saved)}</T>
+        <T v="caption">{`/ ${vnd(current.goal)} · ${Math.round(pct * 100)}%`}</T>
         <ProgressBar value={pct} color={pct >= 1 ? c.positive : c.a} height={10} />
-        {f.deadline ? (
-          <T v="caption">{`Hạn ${shortDate(new Date(f.deadline))}${n ? ` · cần ${vnd(n)}/tháng` : ''}`}</T>
+        {current.deadline ? (
+          <T v="caption">{`Hạn ${shortDate(new Date(current.deadline))}${monthly ? ` · cần ${vnd(monthly)}/tháng` : ''}`}</T>
         ) : null}
       </Card>
       <Button title="Xóa quỹ" variant="danger" size="md" onPress={() => setDel(true)} />
@@ -246,8 +247,8 @@ export default function FundScreen() {
             keyboardType="number-pad"
             autoFocus
           />
-          {n && move === 'in' ? (
-            <Chip label={`Góp ${vnd(n)} (đủ tiến độ)`} onPress={() => setAmount(money(n))} />
+          {monthly && move === 'in' ? (
+            <Chip label={`Góp ${vnd(monthly)} (đủ tiến độ)`} onPress={() => setAmount(money(monthly))} />
           ) : null}
           <T v="caption" muted>
             Ghi là chuyển quỹ — không tính vào chi tiêu.
@@ -256,17 +257,17 @@ export default function FundScreen() {
       </Sheet>
       <Dialog
         visible={del}
-        title={`Xóa quỹ ${f.name}?`}
+        title={`Xóa quỹ ${current.name}?`}
         body={
-          f.saved
-            ? `Quỹ đang có ${vnd(f.saved)}. Số tiền chỉ là con số theo dõi, không ảnh hưởng tài khoản ngân hàng.`
+          current.saved
+            ? `Quỹ đang có ${vnd(current.saved)}. Số tiền chỉ là con số theo dõi, không ảnh hưởng tài khoản ngân hàng.`
             : undefined
         }
         confirm="Xóa"
         destructive
         onCancel={() => setDel(false)}
         onConfirm={() => {
-          s.removeFund(f.id);
+          state.removeFund(current.id);
           setDel(false);
           router.back();
           toast('Đã xóa quỹ');

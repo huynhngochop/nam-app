@@ -26,29 +26,29 @@ import { catOf, periodOf, useVi } from '../src/store';
 const digits = (s: string) => Number(s.replace(/\D/g, '')) || 0;
 const fmt = (n: number) => (n ? n.toLocaleString('vi-VN') : '');
 
-/** VG-10 · Ngân sách tổng và theo danh mục, cảnh báo 80% / vượt. */
+/** Ngân sách tổng và theo danh mục, cảnh báo 80% / vượt. */
 export default function Budgets() {
   const { c } = useTheme();
   const toast = useToast();
-  const s = useVi();
-  const p = periodOf(s.monthStartDay);
-  const spentTotal = useQuery(() => totals(p.from, p.to).expense, [p.from], 0);
-  const spent = useQuery(() => byCategory(p.from, p.to), [p.from], []);
+  const state = useVi();
+  const period = periodOf(state.monthStartDay);
+  const spentTotal = useQuery(() => totals(period.from, period.to).expense, [period.from], 0);
+  const spent = useQuery(() => byCategory(period.from, period.to), [period.from], []);
   const [edit, setEdit] = useState<string | null>(null);
   const [val, setVal] = useState('');
   const [del, setDel] = useState<string | null>(null);
-  const ids = Object.keys(s.budgets).filter((k) => s.budgets[k]);
-  const sumCats = ids.reduce((a, k) => a + s.budgets[k], 0);
-  const pct = s.monthlyBudget ? spentTotal / s.monthlyBudget : 0;
+  const ids = Object.keys(state.budgets).filter((k) => state.budgets[k]);
+  const sumCats = ids.reduce((a, k) => a + state.budgets[k], 0);
+  const pct = state.monthlyBudget ? spentTotal / state.monthlyBudget : 0;
 
   const open = (id: string) => {
     setEdit(id);
-    setVal(fmt(id === 'total' ? s.monthlyBudget : (s.budgets[id] ?? 0)));
+    setVal(fmt(id === 'total' ? state.monthlyBudget : (state.budgets[id] ?? 0)));
   };
   const save = () => {
-    const n = digits(val);
-    if (edit === 'total') s.set({ monthlyBudget: n });
-    else if (edit) s.set({ budgets: { ...s.budgets, [edit]: n } });
+    const amount = digits(val);
+    if (edit === 'total') state.set({ monthlyBudget: amount });
+    else if (edit) state.set({ budgets: { ...state.budgets, [edit]: amount } });
     setEdit(null);
     toast('Đã lưu ngân sách', { tone: 'success' });
   };
@@ -56,13 +56,15 @@ export default function Budgets() {
 
   return (
     <Screen scroll edges={['top', 'bottom']}>
-      <AppBar title={`Ngân sách ${p.label.toLowerCase()}`} onBack={() => router.back()} />
+      <AppBar title={`Ngân sách ${period.label.toLowerCase()}`} onBack={() => router.back()} />
       <Card variant="accent" onPress={() => open('total')} accessibilityLabel="Sửa ngân sách tổng">
         <T v="caption">Tổng ngân sách</T>
         <T v="title">
-          {s.monthlyBudget ? `${shortMoney(spentTotal)} / ${shortMoney(s.monthlyBudget)}` : 'Chưa đặt — chạm để đặt'}
+          {state.monthlyBudget
+            ? `${shortMoney(spentTotal)} / ${shortMoney(state.monthlyBudget)}`
+            : 'Chưa đặt — chạm để đặt'}
         </T>
-        {s.monthlyBudget ? (
+        {state.monthlyBudget ? (
           <ProgressBar
             value={Math.min(1, pct)}
             color={pct >= 1 ? c.negative : c.onAccent}
@@ -70,17 +72,17 @@ export default function Budgets() {
           />
         ) : null}
       </Card>
-      {sumCats > s.monthlyBudget && s.monthlyBudget ? (
+      {sumCats > state.monthlyBudget && state.monthlyBudget ? (
         <T
           v="caption"
           color={c.warning}
         >{`Tổng ngân sách danh mục (${shortMoney(sumCats)}) lớn hơn ngân sách tháng.`}</T>
       ) : null}
       {ids.map((id) => {
-        const cat = catOf(id, s.categories);
+        const cat = catOf(id, state.categories);
         const used = spent.find((x) => x.categoryId === id)?.total ?? 0;
-        const limit = s.budgets[id];
-        const r = used / limit;
+        const limit = state.budgets[id];
+        const ratio = used / limit;
         return (
           <ListItem
             key={id}
@@ -89,15 +91,18 @@ export default function Budgets() {
             onLongPress={() => setDel(id)}
             title={cat.name}
             subtitle={
-              r >= 1
+              ratio >= 1
                 ? `Vượt ${vnd(used - limit)}`
-                : r >= 0.8
-                  ? `Đã dùng ${Math.round(r * 100)}%`
+                : ratio >= 0.8
+                  ? `Đã dùng ${Math.round(ratio * 100)}%`
                   : `${shortMoney(used)} / ${shortMoney(limit)}`
             }
             right={
               <View style={{ width: 96 }}>
-                <ProgressBar value={Math.min(1, r)} color={r >= 1 ? c.negative : r >= 0.8 ? c.warning : c.a} />
+                <ProgressBar
+                  value={Math.min(1, ratio)}
+                  color={ratio >= 1 ? c.negative : ratio >= 0.8 ? c.warning : c.a}
+                />
               </View>
             }
           />
@@ -108,8 +113,8 @@ export default function Budgets() {
       </T>
       <T v="headline">Thêm ngân sách danh mục</T>
       <Chips>
-        {s.categories
-          .filter((x) => x.kind === 'expense' && !s.budgets[x.id])
+        {state.categories
+          .filter((x) => x.kind === 'expense' && !state.budgets[x.id])
           .map((x) => (
             <Chip key={x.id} label={x.name} icon="plus" onPress={() => open(x.id)} />
           ))}
@@ -118,7 +123,7 @@ export default function Budgets() {
       <Sheet
         visible={!!edit}
         onClose={() => setEdit(null)}
-        title={edit === 'total' ? 'Ngân sách tháng' : `Ngân sách ${edit ? catOf(edit, s.categories).name : ''}`}
+        title={edit === 'total' ? 'Ngân sách tháng' : `Ngân sách ${edit ? catOf(edit, state.categories).name : ''}`}
         footer={<Button title="Lưu" disabled={!digits(val)} onPress={save} />}
       >
         <View style={{ gap: 12 }}>
@@ -149,9 +154,9 @@ export default function Budgets() {
         destructive
         onCancel={() => setDel(null)}
         onConfirm={() => {
-          const b = { ...s.budgets };
-          delete b[del!];
-          s.set({ budgets: b });
+          const nextBudgets = { ...state.budgets };
+          delete nextBudgets[del!];
+          state.set({ budgets: nextBudgets });
           setDel(null);
         }}
       />

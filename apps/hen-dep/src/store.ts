@@ -78,7 +78,7 @@ export const useHen = create<State>()(
       },
       addServices: (list) => {
         // Bỏ dịch vụ trùng (cùng tên, giá, thời lượng) với cái đã có: quay lại bước "Dịch vụ chính" khi thiết lập
-        // tiệm rồi bấm Tiếp tục, hay chụp lại cùng bảng giá, không làm nhân đôi bảng giá (UAT H2).
+        // tiệm rồi bấm Tiếp tục, hay chụp lại cùng bảng giá, không làm nhân đôi bảng giá.
         const key = (x: { name: string; price: number; durationMin: number }) =>
           `${x.name.trim().toLowerCase()}|${x.price}|${x.durationMin}`;
         const seen = new Set(get().services.map(key));
@@ -122,10 +122,16 @@ export const useHen = create<State>()(
       },
       createBooking: (bk) => {
         const next = nextBookingCode(get().bookings, get().lastBookingCode);
-        const b: Booking = { ...bk, status: bk.status ?? 'confirmed', id: uid(), code: next.code, synced: false };
-        set((s) => ({ bookings: [...s.bookings, b], lastBookingCode: next.n }));
-        enqueue('booking.create', b);
-        return b;
+        const newBooking: Booking = {
+          ...bk,
+          status: bk.status ?? 'confirmed',
+          id: uid(),
+          code: next.code,
+          synced: false,
+        };
+        set((s) => ({ bookings: [...s.bookings, newBooking], lastBookingCode: next.n }));
+        enqueue('booking.create', newBooking);
+        return newBooking;
       },
       updateBooking: (id, p) => {
         set((s) => ({ bookings: s.bookings.map((x) => (x.id === id ? { ...x, ...p, synced: false } : x)) }));
@@ -137,8 +143,8 @@ export const useHen = create<State>()(
       },
       consumeAi: () =>
         set((s) => {
-          const m = new Date().toISOString().slice(0, 7);
-          return { aiUsed: { month: m, count: s.aiUsed.month === m ? s.aiUsed.count + 1 : 1 } };
+          const date = new Date().toISOString().slice(0, 7);
+          return { aiUsed: { month: date, count: s.aiUsed.month === date ? s.aiUsed.count + 1 : 1 } };
         }),
       loadDemo: () =>
         set({ staff: SEED_STAFF, services: SEED_SERVICES, customers: SEED_CUSTOMERS, bookings: seedBookings() }),
@@ -186,25 +192,25 @@ export function findGap(
   hours?: Hours,
 ): { staffId: string; from: number; to: number } | null {
   const horizon = now + 4 * 3600000;
-  // Giờ mở cửa của tiệm hôm nay: ngày nghỉ thì không gợi ý; không gợi ý ngoài giờ mở cửa (UAT H3).
+  // Giờ mở cửa của tiệm hôm nay: ngày nghỉ thì không gợi ý; không gợi ý ngoài giờ mở cửa.
   const today = hours?.find((h) => h.day === new Date(now).getDay());
   if (today && !today.open) return null;
   const at = (hhmm: string) => {
     const [h, m] = hhmm.split(':').map(Number);
-    const d = new Date(now);
-    d.setHours(h, m, 0, 0);
-    return d.getTime();
+    const date = new Date(now);
+    date.setHours(h, m, 0, 0);
+    return date.getTime();
   };
-  for (const st of staff.filter((s) => s.onlineToday)) {
-    const end = Math.min(at(st.shiftTo), today ? at(today.to) : Infinity);
-    const start = Math.max(at(st.shiftFrom), today ? at(today.from) : -Infinity);
+  for (const member of staff.filter((s) => s.onlineToday)) {
+    const end = Math.min(at(member.shiftTo), today ? at(today.to) : Infinity);
+    const start = Math.max(at(member.shiftFrom), today ? at(today.from) : -Infinity);
     const busy = bookings
-      .filter((b) => b.staffId === st.id && isActive(b) && b.endAt > now && b.startAt < horizon)
+      .filter((b) => b.staffId === member.id && isActive(b) && b.endAt > now && b.startAt < horizon)
       .sort((a, b) => a.startAt - b.startAt);
     let cursor = Math.max(Math.ceil(now / 900000) * 900000, start);
-    for (const b of [...busy, { startAt: Math.min(horizon, end), endAt: Infinity } as Booking]) {
-      if (b.startAt - cursor >= 3600000) return { staffId: st.id, from: cursor, to: b.startAt };
-      cursor = Math.max(cursor, b.endAt);
+    for (const booking of [...busy, { startAt: Math.min(horizon, end), endAt: Infinity } as Booking]) {
+      if (booking.startAt - cursor >= 3600000) return { staffId: member.id, from: cursor, to: booking.startAt };
+      cursor = Math.max(cursor, booking.endAt);
     }
   }
   return null;

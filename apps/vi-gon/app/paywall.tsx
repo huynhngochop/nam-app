@@ -4,7 +4,7 @@ import { Paywall, useToast } from '@nam/ui';
 import { buy, getPrice, PURCHASE_MESSAGES, restorePurchases, track } from '@nam/core';
 import { useVi } from '../src/store';
 
-/** VG-16 · Ví Gọn Pro. Giá chốt sau (PRICE_*). Mua chưa xong → nói rõ đã/chưa trừ tiền. */
+/** Ví Gọn Pro. Giá chốt sau (PRICE_*). Mua chưa xong → nói rõ đã/chưa trừ tiền. */
 export default function ViPaywall() {
   const set = useVi((s) => s.set);
   const toast = useToast();
@@ -46,14 +46,14 @@ export default function ViPaywall() {
         setBusy(true);
         setError(null);
         track('purchase_started', { productId: p.id });
-        const r = await buy(p.id);
+        const result = await buy(p.id);
         setBusy(false);
-        if (r.status === 'success') {
+        if (result.status === 'success') {
           set({ isPro: true });
           toast(PURCHASE_MESSAGES.success, { tone: 'success' });
           router.back();
-        } else if (r.status !== 'cancelled')
-          setError(`${PURCHASE_MESSAGES[r.status]}${r.code ? ` (Mã: ${r.code})` : ''}`);
+        } else if (result.status !== 'cancelled')
+          setError(`${PURCHASE_MESSAGES[result.status]}${result.code ? ` (Mã: ${result.code})` : ''}`);
       }}
     />
   );

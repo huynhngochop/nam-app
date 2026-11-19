@@ -30,30 +30,30 @@ const NEXT: Partial<Record<Booking['status'], { label: string; to: Booking['stat
 export function BookingDetail({ booking, onClose }: { booking: Booking; onClose?: () => void }) {
   const { c } = useTheme();
   const toast = useToast();
-  const s = useHen();
+  const state = useHen();
   const [pay, setPay] = useState(false);
-  const [amount, setAmount] = useState(String(priceOf(booking, s.services)));
+  const [amount, setAmount] = useState(String(priceOf(booking, state.services)));
   const [method, setMethod] = useState<'cash' | 'transfer' | 'card'>('cash');
   const [cancelAsk, setCancelAsk] = useState(false);
-  const cust = s.customers.find((x) => x.id === booking.customerId);
-  const staff = s.staff.find((x) => x.id === booking.staffId);
-  const stats = customerStats(booking.customerId, s.bookings, s.services);
-  const svcs = svcOf(booking.serviceIds, s.services);
+  const cust = state.customers.find((x) => x.id === booking.customerId);
+  const staff = state.staff.find((x) => x.id === booking.staffId);
+  const stats = customerStats(booking.customerId, state.bookings, state.services);
+  const svcs = svcOf(booking.serviceIds, state.services);
   const late = Date.now() > booking.startAt + 10 * 60000;
   const next = NEXT[booking.status];
   const steps: Booking['status'][] = ['checked_in', 'in_service', 'completed'];
   const stepIdx = steps.indexOf(booking.status);
 
   const setStatus = (to: Booking['status']) => {
-    s.updateBooking(booking.id, { status: to });
+    state.updateBooking(booking.id, { status: to });
     track(`booking_${to}`);
   };
   const finish = () => {
-    const n = Number(amount.replace(/\D/g, '')) || 0;
-    s.updateBooking(booking.id, { status: 'completed', payment: { amount: n, method, paidAt: Date.now() } });
+    const value = Number(amount.replace(/\D/g, '')) || 0;
+    state.updateBooking(booking.id, { status: 'completed', payment: { amount: value, method, paidAt: Date.now() } });
     setPay(false);
-    toast(`Đã thu ${vnd(n)}`, { tone: 'success' });
-    track('booking_completed', { amount: n, method });
+    toast(`Đã thu ${vnd(value)}`, { tone: 'success' });
+    track('booking_completed', { amount: value, method });
   };
 
   return (
@@ -103,7 +103,7 @@ export function BookingDetail({ booking, onClose }: { booking: Booking; onClose?
           ],
           ['Thợ', staff?.name ?? '—'],
           ['Nguồn', SOURCE_LABEL[booking.source]],
-          ['Tạm tính', vnd(priceOf(booking, s.services))],
+          ['Tạm tính', vnd(priceOf(booking, state.services))],
         ].map(([k, v]) => (
           <Row key={k} between>
             <T v="caption" muted>
@@ -153,19 +153,21 @@ export function BookingDetail({ booking, onClose }: { booking: Booking; onClose?
           icon="message-circle"
           variant="secondary"
           onPress={() =>
-            openSms(cust.phone!, reminderText(s.shop, cust, booking)).catch(() => toast('Không mở được Tin nhắn'))
+            openSms(cust.phone!, reminderText(state.shop, cust, booking)).catch(() => toast('Không mở được Tin nhắn'))
           }
         />
       ) : null}
       {booking.status === 'in_service' ? (
         <Button title="Hoàn thành & thu tiền" icon="check" onPress={() => setPay(true)} />
       ) : null}
-      {booking.status === 'completed' && s.shop.settings.askReview && cust?.phone ? (
+      {booking.status === 'completed' && state.shop.settings.askReview && cust?.phone ? (
         <Button
           title="Gửi tin cảm ơn & xin góp ý"
           icon="heart"
           variant="secondary"
-          onPress={() => openSms(cust.phone!, thanksText(s.shop, cust)).catch(() => toast('Không mở được Tin nhắn'))}
+          onPress={() =>
+            openSms(cust.phone!, thanksText(state.shop, cust)).catch(() => toast('Không mở được Tin nhắn'))
+          }
         />
       ) : null}
       {booking.payment ? (
