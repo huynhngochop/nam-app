@@ -49,8 +49,8 @@ export function parseLocally(text: string): ParsedService[] {
     const trimmed = line.trim();
     if (trimmed.length < 3) continue;
     // Tách thời lượng ra trước, vì nó có thể đứng sau giá ("Uốn lạnh 800K 150 phút") — lỗi H2.
-    const dur = trimmed.match(DURATION);
-    const rest = (dur ? trimmed.replace(dur[0], ' ') : trimmed).replace(/[\s\-–:.…]+$/, '').trim();
+    const durationMatch = trimmed.match(DURATION);
+    const rest = (durationMatch ? trimmed.replace(durationMatch[0], ' ') : trimmed).replace(/[\s\-–:.…]+$/, '').trim();
     const priceMatch = rest.match(/^(.*?)[\s.:\-–…]*((?:\d[\d.,]*\s*(?:k|K|đ|d|vnd|VND|tr|triệu)?)(?:\s*\d+)?)\s*$/);
     const name = (priceMatch ? priceMatch[1] : rest)
       .replace(/[.:\-–…]+$/, '')
@@ -62,8 +62,8 @@ export function parseLocally(text: string): ParsedService[] {
     out.push({
       name: name.charAt(0).toUpperCase() + name.slice(1).toLowerCase(),
       price,
-      durationMin: dur ? Number(dur[1]) : (guess?.min ?? 45),
-      durationGuessed: !dur,
+      durationMin: durationMatch ? Number(durationMatch[1]) : (guess?.min ?? 45),
+      durationGuessed: !durationMatch,
       group: guess?.group ?? 'Khác',
     });
   }

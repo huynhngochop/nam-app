@@ -42,22 +42,22 @@ export default function Revenue() {
       range === 'month'
         ? Array.from({ length: 5 }, (_, i) => {
             const end = addDays(today, 1 - i * 7).getTime();
-            const st = end - 7 * 86400000;
+            const weekStart = end - 7 * 86400000;
             return {
-              label: dayMonth(new Date(st)),
+              label: dayMonth(new Date(weekStart)),
               value: done
-                .filter((b) => b.startAt >= st && b.startAt < end)
+                .filter((b) => b.startAt >= weekStart && b.startAt < end)
                 .reduce((a, b) => a + priceOf(b, state.services), 0),
             };
           }).reverse()
         : Array.from({ length: range === 'today' ? 1 : 7 }, (_, i) => {
             const day = addDays(today, -i);
-            const st = day.getTime();
-            const end = st + 86400000;
+            const dayStart = day.getTime();
+            const end = dayStart + 86400000;
             return {
               label: range === 'today' ? 'Hôm nay' : weekdayShort(day),
               value: done
-                .filter((b) => b.startAt >= st && b.startAt < end)
+                .filter((b) => b.startAt >= dayStart && b.startAt < end)
                 .reduce((a, b) => a + priceOf(b, state.services), 0),
             };
           }).reverse();

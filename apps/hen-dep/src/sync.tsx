@@ -13,7 +13,7 @@ const CHOICES = ['Chuyển sang thợ khác đang rảnh', 'Dời sang giờ tr�
  */
 async function resolve(b: Booking, choice: number): Promise<string | null> {
   const state = useHen.getState();
-  const dur = b.endAt - b.startAt;
+  const duration = b.endAt - b.startAt;
   const others = state.bookings.filter((x) => x.id !== b.id);
   if (choice === 0) {
     const free = state.staff.find(
@@ -37,9 +37,9 @@ async function resolve(b: Booking, choice: number): Promise<string | null> {
       const [ch, cm] = (dayHours?.to ?? '21:00').split(':').map(Number);
       const close = new Date(date).setHours(ch, cm, 0, 0);
       if (dayHours && !dayHours.open) continue;
-      if (slotStart + dur > close) continue;
-      if (!overlaps(others, b.staffId, slotStart, slotStart + dur)) {
-        state.updateBooking(b.id, { startAt: slotStart, endAt: slotStart + dur });
+      if (slotStart + duration > close) continue;
+      if (!overlaps(others, b.staffId, slotStart, slotStart + duration)) {
+        state.updateBooking(b.id, { startAt: slotStart, endAt: slotStart + duration });
         return `Đã dời sang ${hhmm(date)}`;
       }
     }
@@ -117,8 +117,8 @@ export function SyncBar() {
           confirm="Áp dụng"
           onConfirm={async () => {
             const remote = c0.payload as Booking;
-            const cur = useHen.getState().bookings.find((x) => x.id === remote?.id);
-            const msg = cur ? await resolve(cur, choice).catch(() => null) : null;
+            const local = useHen.getState().bookings.find((x) => x.id === remote?.id);
+            const msg = local ? await resolve(local, choice).catch(() => null) : null;
             if (!msg) {
               toast(choice === 2 ? 'Khách không có số điện thoại' : 'Không tìm được chỗ trống — chọn cách khác');
               return;

@@ -108,20 +108,20 @@ export function computeAnswer(
     };
   }
 
-  const cur = sumOf(range.from, range.to);
+  const currentSum = sumOf(range.from, range.to);
   const prev = sumOf(range.prevFrom, range.prevTo);
   const txCount = countOf(range.from, range.to);
   const filter = { from: range.from, to: range.to, categoryId: cat?.id, kind: i.kind };
   const changeTxt = prev
-    ? ` · ${cur >= prev ? '▲' : '▼'} ${Math.abs(Math.round(((cur - prev) / prev) * 100))}% so với kỳ trước`
+    ? ` · ${currentSum >= prev ? '▲' : '▼'} ${Math.abs(Math.round(((currentSum - prev) / prev) * 100))}% so với kỳ trước`
     : '';
   if (i.metric === 'count')
-    return { headline: `${txCount} lần`, detail: `${what} ${pl} · ${vnd(cur)}`, txFilter: filter };
+    return { headline: `${txCount} lần`, detail: `${what} ${pl} · ${vnd(currentSum)}`, txFilter: filter };
   if (i.metric === 'average') {
     const days = Math.max(1, Math.ceil((Math.min(Date.now(), range.to) - range.from) / 86400000));
     return {
-      headline: `${vnd(Math.round(cur / days))}/ngày`,
-      detail: `${what} ${pl}: ${vnd(cur)} trong ${days} ngày`,
+      headline: `${vnd(Math.round(currentSum / days))}/ngày`,
+      detail: `${what} ${pl}: ${vnd(currentSum)} trong ${days} ngày`,
       txFilter: filter,
     };
   }
@@ -136,7 +136,7 @@ export function computeAnswer(
     return { label: `T${period.month}`, value: spent };
   });
   return {
-    headline: vnd(cur),
+    headline: vnd(currentSum),
     detail: `${what} · ${pl} · ${txCount} giao dịch${changeTxt}`,
     bars: i.period.includes('month') ? bars : undefined,
     txFilter: filter,

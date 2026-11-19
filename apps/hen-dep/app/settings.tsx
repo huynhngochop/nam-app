@@ -35,12 +35,12 @@ export default function Settings() {
   const toast = useToast();
   const state = useHen();
   const pending = useOutbox((o) => o.items.length);
-  const st = state.shop.settings;
+  const shopSettings = state.shop.settings;
   const [name, setName] = useState(state.shop.name);
   const [address, setAddress] = useState(state.shop.address);
   const [phone, setPhone] = useState(state.shop.phone);
   const [ask, setAsk] = useState<null | 'clear' | 'logout' | 'demo'>(null);
-  const setSt = (p: Partial<typeof st>) => state.setShop({ settings: { ...st, ...p } });
+  const setSt = (p: Partial<typeof shopSettings>) => state.setShop({ settings: { ...shopSettings, ...p } });
   const dirty = name !== state.shop.name || address !== state.shop.address || phone !== state.shop.phone;
 
   return (
@@ -111,14 +111,20 @@ export default function Settings() {
         <>
           <ListItem
             title="Cho khách tự đặt qua link"
-            right={<Toggle label="Khách tự đặt" value={st.selfBooking} onChange={(v) => setSt({ selfBooking: v })} />}
+            right={
+              <Toggle
+                label="Khách tự đặt"
+                value={shopSettings.selfBooking}
+                onChange={(v) => setSt({ selfBooking: v })}
+              />
+            }
           />
           <Row between>
             <T v="body" style={{ flex: 1 }}>
               Đặt trước ít nhất
             </T>
             <Stepper
-              value={st.minLeadMin}
+              value={shopSettings.minLeadMin}
               min={0}
               max={1440}
               step={30}
@@ -131,7 +137,7 @@ export default function Settings() {
               Hủy trước
             </T>
             <Stepper
-              value={st.cancelBeforeH}
+              value={shopSettings.cancelBeforeH}
               min={0}
               max={48}
               onChange={(n) => setSt({ cancelBeforeH: n })}
@@ -154,7 +160,7 @@ export default function Settings() {
           Nghỉ giữa 2 khách
         </T>
         <Stepper
-          value={st.bufferMin}
+          value={shopSettings.bufferMin}
           min={0}
           max={60}
           step={5}
@@ -171,7 +177,7 @@ export default function Settings() {
             { key: '15', label: '15p' },
             { key: '30', label: '30p' },
           ]}
-          value={String(st.slotStepMin) as '15' | '30'}
+          value={String(shopSettings.slotStepMin) as '15' | '30'}
           onChange={(k) => setSt({ slotStepMin: Number(k) })}
         />
       </Row>
@@ -180,16 +186,16 @@ export default function Settings() {
       <ListItem
         title="Nhắc khách trước 24 giờ"
         subtitle="Máy báo bạn đúng giờ, bấm vào để gửi tin nhắc"
-        right={<Toggle label="Nhắc 24 giờ" value={st.remind24h} onChange={(v) => setSt({ remind24h: v })} />}
+        right={<Toggle label="Nhắc 24 giờ" value={shopSettings.remind24h} onChange={(v) => setSt({ remind24h: v })} />}
       />
       <ListItem
         title="Nhắc khách trước 2 giờ"
-        right={<Toggle label="Nhắc 2 giờ" value={st.remind2h} onChange={(v) => setSt({ remind2h: v })} />}
+        right={<Toggle label="Nhắc 2 giờ" value={shopSettings.remind2h} onChange={(v) => setSt({ remind2h: v })} />}
       />
       <ListItem
         title="Xin đánh giá sau khi xong"
         subtitle="Hiện nút gửi tin cảm ơn ở lịch hẹn đã hoàn thành"
-        right={<Toggle label="Xin đánh giá" value={st.askReview} onChange={(v) => setSt({ askReview: v })} />}
+        right={<Toggle label="Xin đánh giá" value={shopSettings.askReview} onChange={(v) => setSt({ askReview: v })} />}
       />
       {server ? (
         <ListItem
@@ -198,7 +204,7 @@ export default function Settings() {
           right={
             <Toggle
               label="Cọc chống bỏ hẹn"
-              value={st.depositForNoShow}
+              value={shopSettings.depositForNoShow}
               onChange={(v) => setSt({ depositForNoShow: v })}
             />
           }
@@ -210,14 +216,14 @@ export default function Settings() {
         <T v="body" style={{ flex: 1 }}>
           Từ số lần
         </T>
-        <Stepper value={st.vipVisits} min={1} max={50} onChange={(n) => setSt({ vipVisits: n })} />
+        <Stepper value={shopSettings.vipVisits} min={1} max={50} onChange={(n) => setSt({ vipVisits: n })} />
       </Row>
       <Row between>
         <T v="body" style={{ flex: 1 }}>
           Hoặc đã chi từ
         </T>
         <Stepper
-          value={st.vipSpend}
+          value={shopSettings.vipSpend}
           min={500000}
           max={20000000}
           step={500000}

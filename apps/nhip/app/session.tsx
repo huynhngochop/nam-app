@@ -74,9 +74,14 @@ export default function SessionScreen() {
       }
       const away = bgAt.current ? Date.now() - bgAt.current : 0;
       bgAt.current = null;
-      const cur = useNhip.getState();
-      if (cur.settings.strict && cur.session?.phase === 'focus' && cur.session.status === 'running' && away > 10_000) {
-        cur.endSession('violated', focusedSecOf(cur.session));
+      const latest = useNhip.getState();
+      if (
+        latest.settings.strict &&
+        latest.session?.phase === 'focus' &&
+        latest.session.status === 'running' &&
+        away > 10_000
+      ) {
+        latest.endSession('violated', focusedSecOf(latest.session));
         cancelPhaseEnd();
         track('strict_violation');
         toast('Phiên bị tính là bỏ vì đã rời app', { tone: 'error' });
@@ -115,10 +120,10 @@ export default function SessionScreen() {
       track('session_paused');
     } else {
       state.resume();
-      const cur = useNhip.getState().session!;
-      if (cur.mode === 'pomodoro')
+      const activeSession = useNhip.getState().session!;
+      if (activeSession.mode === 'pomodoro')
         schedulePhaseEnd(
-          cur.endAt,
+          activeSession.endAt,
           isFocus ? 'Hết phiên!' : 'Hết giờ nghỉ',
           isFocus ? 'Nghỉ một chút nhé.' : 'Vào phiên tiếp nào.',
         );

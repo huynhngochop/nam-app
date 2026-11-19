@@ -53,7 +53,7 @@ export default function NewBooking() {
     [q, state.customers],
   );
   const cust = state.customers.find((x) => x.id === customerId);
-  const dur = durationOf(svcIds, state.services) || 30;
+  const duration = durationOf(svcIds, state.services) || 30;
   const day = addDays(new Date(), dayOff);
   // Ô giờ theo giờ mở cửa của ngày đã chọn, chỉ những giờ làm xong trước giờ đóng cửa.
   const dayHours = state.shop.hours.find((h) => h.day === day.getDay());
@@ -68,7 +68,7 @@ export default function NewBooking() {
   const step = state.shop.settings.slotStepMin || 15;
   const times = closed
     ? []
-    : Array.from({ length: Math.max(0, Math.floor((closeMin - dur - openMin) / step) + 1) }, (_, i) => {
+    : Array.from({ length: Math.max(0, Math.floor((closeMin - duration - openMin) / step) + 1) }, (_, i) => {
         const minute = openMin + i * step;
         return `${String(Math.floor(minute / 60)).padStart(2, '0')}:${String(minute % 60).padStart(2, '0')}`;
       });
@@ -79,7 +79,7 @@ export default function NewBooking() {
   const [hh, mm] = time.split(':').map(Number);
   const start = new Date(day);
   start.setHours(hh, mm, 0, 0);
-  const end = start.getTime() + dur * 60000;
+  const end = start.getTime() + duration * 60000;
   // Tính cả thời gian nghỉ giữa 2 khách (Cài đặt → Lịch hẹn).
   const gapMs = state.shop.settings.bufferMin * 60000;
   const clash = staffId ? overlaps(state.bookings, staffId, start.getTime() - gapMs, end + gapMs) : undefined;
@@ -113,10 +113,12 @@ export default function NewBooking() {
     toast(`Đã tạo lịch ${hhmm(start)}`, { tone: 'success' });
     router.back();
     // Xác nhận cho khách: mở app Tin nhắn soạn sẵn, chủ tiệm bấm gửi (chưa có máy chủ gửi Zalo tự động).
-    const st = useHen.getState();
-    const who = st.customers.find((x) => x.id === cid);
+    const latest = useHen.getState();
+    const who = latest.customers.find((x) => x.id === cid);
     if (notify && who?.phone)
-      openSms(who.phone, confirmText(st.shop, who, booking, st.services)).catch(() => toast('Không mở được Tin nhắn'));
+      openSms(who.phone, confirmText(latest.shop, who, booking, latest.services)).catch(() =>
+        toast('Không mở được Tin nhắn'),
+      );
   };
 
   return (
@@ -206,7 +208,7 @@ export default function NewBooking() {
         </>
       ) : (
         <Card variant="tint">
-          <T v="body">{`Dịch vụ dài ${dur} phút, không vừa giờ mở cửa ngày này.`}</T>
+          <T v="body">{`Dịch vụ dài ${duration} phút, không vừa giờ mở cửa ngày này.`}</T>
         </Card>
       )}
       {clash ? (
@@ -226,7 +228,7 @@ export default function NewBooking() {
           </Row>
         </Pressable>
       ) : null}
-      <T v="caption" muted>{`Thời lượng ${dur} phút`}</T>
+      <T v="caption" muted>{`Thời lượng ${duration} phút`}</T>
       <View style={{ height: 1, backgroundColor: c.line }} />
     </Screen>
   );

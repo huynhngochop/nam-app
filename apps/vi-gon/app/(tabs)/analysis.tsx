@@ -28,7 +28,7 @@ export default function Analysis() {
   const { c } = useTheme();
   const state = useVi();
   const [months, setMonths] = useState(6);
-  const cur = periodOf(state.monthStartDay);
+  const currentPeriod = periodOf(state.monthStartDay);
 
   const series = useQuery(
     () =>
@@ -40,14 +40,14 @@ export default function Analysis() {
     [months, state.monthStartDay],
     [],
   );
-  const cats = useQuery(() => byCategory(cur.from, cur.to), [cur.from], []);
+  const cats = useQuery(() => byCategory(currentPeriod.from, currentPeriod.to), [currentPeriod.from], []);
   const totalExp = cats.reduce((a, x) => a + x.total, 0);
   const withData = series.filter((x) => x.income || x.expense);
   const avgSaved = withData.length ? withData.reduce((a, x) => a + x.income - x.expense, 0) / withData.length : 0;
 
   // Dự báo cuối kỳ: tốc độ chi trung bình/ngày × số ngày của kỳ (chỉ Pro).
-  const elapsed = Math.max(1, (Date.now() - cur.from) / 86400000);
-  const lengthDays = (cur.to - cur.from) / 86400000;
+  const elapsed = Math.max(1, (Date.now() - currentPeriod.from) / 86400000);
+  const lengthDays = (currentPeriod.to - currentPeriod.from) / 86400000;
   const spent = series[series.length - 1]?.expense ?? 0;
   const forecast = Math.round((spent / elapsed) * lengthDays);
 
@@ -105,7 +105,7 @@ export default function Analysis() {
         </Card>
         <Card>
           <Row between>
-            <T v="headline">{`Chi theo danh mục · ${cur.label}`}</T>
+            <T v="headline">{`Chi theo danh mục · ${currentPeriod.label}`}</T>
           </Row>
           {cats.length ? (
             cats.slice(0, 8).map((x) => {

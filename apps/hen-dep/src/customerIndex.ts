@@ -11,13 +11,13 @@ export function customerIndex(bookings: Booking[], services: Service[]) {
   const priceById = new Map(services.map((s) => [s.id, s.price]));
   const byId = new Map<string, CustomerSummary>();
   for (const booking of bookings) {
-    let st = byId.get(booking.customerId);
-    if (!st) byId.set(booking.customerId, (st = { visits: 0, spend: 0, noShows: 0 }));
+    let summary = byId.get(booking.customerId);
+    if (!summary) byId.set(booking.customerId, (summary = { visits: 0, spend: 0, noShows: 0 }));
     if (booking.status === 'completed') {
-      st.visits++;
-      st.spend += booking.payment?.amount ?? booking.serviceIds.reduce((a, id) => a + (priceById.get(id) ?? 0), 0);
-      if (st.lastAt === undefined || booking.startAt > st.lastAt) st.lastAt = booking.startAt;
-    } else if (booking.status === 'no_show') st.noShows++;
+      summary.visits++;
+      summary.spend += booking.payment?.amount ?? booking.serviceIds.reduce((a, id) => a + (priceById.get(id) ?? 0), 0);
+      if (summary.lastAt === undefined || booking.startAt > summary.lastAt) summary.lastAt = booking.startAt;
+    } else if (booking.status === 'no_show') summary.noShows++;
   }
   return { get: (id: string) => byId.get(id) ?? EMPTY_SUMMARY };
 }

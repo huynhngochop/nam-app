@@ -33,8 +33,10 @@ export function parseBankText(text: string, now = new Date()): Parsed | null {
   const cleaned = text.replace(/\s+/g, ' ').trim();
 
   // Bỏ phần số dư trước khi tìm số tiền giao dịch (số dư không có dấu +/− nhưng tránh nhầm).
-  const balM = cleaned.match(BAL);
-  const withoutBal = (balM ? cleaned.replace(balM[0], ' ') : cleaned).replace(DATES, ' ').replace(TIMES, ' ');
+  const balanceMatch = cleaned.match(BAL);
+  const withoutBal = (balanceMatch ? cleaned.replace(balanceMatch[0], ' ') : cleaned)
+    .replace(DATES, ' ')
+    .replace(TIMES, ' ');
   const moneyMatch = withoutBal.match(MONEY);
   let amount: number | null = null;
   let kind: Parsed['kind'] = 'expense';
@@ -77,7 +79,7 @@ export function parseBankText(text: string, now = new Date()): Parsed | null {
   const nd = cleaned.match(/\b(?:ND|N[ộo]i dung|noi dung|Ref|ndck|Desc)\s*[:.]?\s*(.+)$/i);
   if (nd) merchant = cleanMerchant(nd[1]);
 
-  return { amount, kind, at, account, merchant, balance: balM ? toNumber(balM[1]) : null };
+  return { amount, kind, at, account, merchant, balance: balanceMatch ? toNumber(balanceMatch[1]) : null };
 }
 
 /** "MBVCB.12345.COM TAM BA GHIEN.CT tu 0011..." → "Com tam ba ghien" */

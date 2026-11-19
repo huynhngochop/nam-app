@@ -90,26 +90,26 @@ export function tipMeta(t: Tip): string {
 export function parseTips(categoryId: CategoryId, src: string, start = 0): Tip[] {
   const out: Tip[] = [];
   let sub: string | undefined;
-  let cur: Tip | null = null;
+  let current: Tip | null = null;
   for (const raw of src.split('\n')) {
     const line = raw.trim();
     if (!line) {
-      cur = null;
+      current = null;
       continue;
     }
     const mark = line[0];
     const rest = line.slice(1).trim();
     if (mark === '#') sub = rest;
-    else if (cur && mark === '-') cur.steps.push(rest);
-    else if (cur && mark === '!') cur.caution = rest;
-    else if (cur && mark === '+') (cur.safety ??= []).push(rest);
-    else if (cur && mark === '~') cur.keywords = `${cur.keywords} ${fold(rest)}`.trim();
+    else if (current && mark === '-') current.steps.push(rest);
+    else if (current && mark === '!') current.caution = rest;
+    else if (current && mark === '+') (current.safety ??= []).push(rest);
+    else if (current && mark === '~') current.keywords = `${current.keywords} ${fold(rest)}`.trim();
     else {
       const [title, summary, meta = ''] = line.split('|').map((s) => s.trim());
       const tokens = meta.split(/\s+/);
       const difficultyCode = tokens[1];
       const id = tokens.find((x) => x.startsWith('id='))?.slice(3);
-      cur = {
+      current = {
         id: id ?? slug(title),
         title,
         summary: summary ?? '',
@@ -122,7 +122,7 @@ export function parseTips(categoryId: CategoryId, src: string, start = 0): Tip[]
         keywords: '',
         childSafe: tokens.includes('child') || undefined,
       };
-      out.push(cur);
+      out.push(current);
     }
   }
   return out;

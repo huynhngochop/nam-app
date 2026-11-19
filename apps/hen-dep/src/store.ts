@@ -201,15 +201,15 @@ export function findGap(
     date.setHours(h, m, 0, 0);
     return date.getTime();
   };
-  for (const st of staff.filter((s) => s.onlineToday)) {
-    const end = Math.min(at(st.shiftTo), today ? at(today.to) : Infinity);
-    const start = Math.max(at(st.shiftFrom), today ? at(today.from) : -Infinity);
+  for (const member of staff.filter((s) => s.onlineToday)) {
+    const end = Math.min(at(member.shiftTo), today ? at(today.to) : Infinity);
+    const start = Math.max(at(member.shiftFrom), today ? at(today.from) : -Infinity);
     const busy = bookings
-      .filter((b) => b.staffId === st.id && isActive(b) && b.endAt > now && b.startAt < horizon)
+      .filter((b) => b.staffId === member.id && isActive(b) && b.endAt > now && b.startAt < horizon)
       .sort((a, b) => a.startAt - b.startAt);
     let cursor = Math.max(Math.ceil(now / 900000) * 900000, start);
     for (const booking of [...busy, { startAt: Math.min(horizon, end), endAt: Infinity } as Booking]) {
-      if (booking.startAt - cursor >= 3600000) return { staffId: st.id, from: cursor, to: booking.startAt };
+      if (booking.startAt - cursor >= 3600000) return { staffId: member.id, from: cursor, to: booking.startAt };
       cursor = Math.max(cursor, booking.endAt);
     }
   }

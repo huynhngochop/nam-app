@@ -84,7 +84,7 @@ export const Timeline = memo(function Timeline({
                 const strong = b.status === 'in_service';
                 const faded = b.status === 'completed';
                 const cust = customers.find((x) => x.id === b.customerId);
-                const sel = selectedId === b.id;
+                const isSelected = selectedId === b.id;
                 return (
                   <Pressable
                     key={b.id}
@@ -101,7 +101,7 @@ export const Timeline = memo(function Timeline({
                       overflow: 'hidden',
                       backgroundColor: b.status === 'no_show' ? c.surface2 : strong ? c.a : c.at,
                       opacity: faded ? 0.55 : 1,
-                      borderWidth: !b.synced ? 1.5 : sel ? 2 : 0,
+                      borderWidth: !b.synced ? 1.5 : isSelected ? 2 : 0,
                       borderStyle: !b.synced ? 'dashed' : 'solid',
                       borderColor: !b.synced ? c.warning : c.ink,
                     }}

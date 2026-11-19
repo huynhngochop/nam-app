@@ -48,14 +48,14 @@ export function T({ v = 'body', color, muted, accent, center, weight, style, ...
   const { c } = useTheme();
   const onFill = useOnFill();
   // Trên nền màu nhấn: mọi biến thể (thường / muted / accent) dùng màu onAccent; muted giảm độ đậm.
-  const col = color ?? onFill ?? (accent ? c.a : muted ? c.inkMuted : c.ink);
+  const textColor = color ?? onFill ?? (accent ? c.a : muted ? c.inkMuted : c.ink);
   const fade = onFill && !color && muted ? { opacity: 0.8 } : null;
   return (
     <Text
       maxFontSizeMultiplier={v === 'numeral' || v === 'display' ? 1.3 : 2}
       style={[
         typeScale[v] as TextStyle,
-        { color: col },
+        { color: textColor },
         fade,
         center && { textAlign: 'center' },
         weight && { fontFamily: fonts[weight] },
@@ -963,7 +963,7 @@ export function Banner({
   onPress?: () => void;
 }) {
   const { c } = useTheme();
-  const col = tone === 'negative' ? c.negative : tone === 'ok' ? c.positive : c.warning;
+  const toneColor = tone === 'negative' ? c.negative : tone === 'ok' ? c.positive : c.warning;
   return (
     <Pressable
       disabled={!onPress}
@@ -982,9 +982,9 @@ export function Banner({
       <Feather
         name={icon ?? (tone === 'ok' ? 'check-circle' : tone === 'negative' ? 'alert-circle' : 'wifi-off')}
         size={15}
-        color={col}
+        color={toneColor}
       />
-      <T v="caption" color={col} weight="semibold" style={{ flex: 1 }}>
+      <T v="caption" color={toneColor} weight="semibold" style={{ flex: 1 }}>
         {text}
       </T>
     </Pressable>

@@ -8,10 +8,19 @@ const MAP = {
   'apps/hen-dep/src/Timeline.tsx': [['sel', 'selectedId ===', 'isSelected']],
   'apps/hen-dep/src/customerIndex.ts': [['st', 'byId.get', 'summary']],
   'apps/hen-dep/src/store.ts': [['st', '', 'member']],
-  'apps/hen-dep/src/sync.tsx': [['dur', 'b.endAt', 'duration'], ['cur', 'useHen.getState()', 'local']],
+  'apps/hen-dep/src/sync.tsx': [
+    ['dur', 'b.endAt', 'duration'],
+    ['cur', 'useHen.getState()', 'local'],
+  ],
   'apps/hen-dep/app/settings.tsx': [['st', 'state.shop.settings', 'shopSettings']],
-  'apps/hen-dep/app/(tabs)/revenue.tsx': [['st', 'end - 7', 'weekStart'], ['st', 'day.getTime()', 'dayStart']],
-  'apps/hen-dep/app/booking/new.tsx': [['dur', 'durationOf(', 'duration'], ['st', 'useHen.getState()', 'latest']],
+  'apps/hen-dep/app/(tabs)/revenue.tsx': [
+    ['st', 'end - 7', 'weekStart'],
+    ['st', 'day.getTime()', 'dayStart'],
+  ],
+  'apps/hen-dep/app/booking/new.tsx': [
+    ['dur', 'durationOf(', 'duration'],
+    ['st', 'useHen.getState()', 'latest'],
+  ],
   'apps/meo-nha/src/data/tips.ts': [['cur', 'null', 'current']],
   'apps/meo-nha/src/lib/notify.ts': [['cur', 'await Notifications', 'permission']],
   'apps/vi-gon/src/parse.ts': [['balM', 'cleaned.match', 'balanceMatch']],
@@ -24,8 +33,14 @@ const MAP = {
     ['cur', 'useNhip.getState().session', 'activeSession'],
     ['cur', 'useNhip.getState()', 'latest'],
   ],
-  'apps/nhip/src/store.ts': [['st', 'get().settings', 'settings'], ['cur', 's.mixes.find', 'currentMix']],
-  'packages/ui/src/components/base.tsx': [['col', 'color ??', 'textColor'], ['col', "tone === 'negative'", 'toneColor']],
+  'apps/nhip/src/store.ts': [
+    ['st', 'get().settings', 'settings'],
+    ['cur', 's.mixes.find', 'currentMix'],
+  ],
+  'packages/ui/src/components/base.tsx': [
+    ['col', 'color ??', 'textColor'],
+    ['col', "tone === 'negative'", 'toneColor'],
+  ],
 };
 
 const project = new Project({ compilerOptions: { jsx: 4, strict: true }, skipAddingFilesFromTsConfig: true });

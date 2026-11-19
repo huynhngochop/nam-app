@@ -253,8 +253,8 @@ export const useNhip = create<State>()(
       addHabit: (h) => set((s) => ({ habits: [...s.habits, { ...h, id: uid() }] })),
       saveMix: (name) =>
         set((s) => {
-          const cur = s.mixes.find((m) => m.id === s.mixId);
-          const mix: Mix = { id: uid(), name: name.trim().slice(0, 30), layers: cur?.layers ?? [] };
+          const currentMix = s.mixes.find((m) => m.id === s.mixId);
+          const mix: Mix = { id: uid(), name: name.trim().slice(0, 30), layers: currentMix?.layers ?? [] };
           return { mixes: [...s.mixes, mix], mixId: mix.id };
         }),
       setLayer: (id, vol) =>
