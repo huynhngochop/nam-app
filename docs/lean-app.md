@@ -24,6 +24,12 @@ Trước đây APK cài thử gộp hai loại chip nên nặng 52–56 MB.
 
 Khoảng 15 MB là lõi React Native, Hermes và Expo, phần này không giảm được nếu vẫn dùng React Native. Phần còn lại là mã và tài nguyên của app: tối ưu ở đó.
 
+Lần nâng ngân sách 11/2026: thêm quảng cáo Google (`react-native-google-mobile-ads` 15.x, SDK 24.x) làm mỗi APK nặng thêm khoảng 2,4 MB (24,1–25,7 MB → 26,6–28,1 MB).
+- **Lý do giữ:** đây là nguồn doanh thu của bản miễn phí.
+- **Đã giảm thiệt hại:** SDK chỉ khởi động sau khi màn đầu vẽ xong, người mua bản không quảng cáo không tải banner nào.
+- **Không chọn mạng quảng cáo khác:** chỉ dùng một mạng, không thêm SDK trung gian (mediation).
+- **Phiên bản:** bản 16 (SDK 25) chưa dùng được vì cần Kotlin 2.3, Expo SDK 54 mới có Kotlin 2.1.
+
 Muốn nâng ngân sách: ghi lý do trong PR (tính năng gì, nặng bao nhiêu, đã thử cách nhẹ hơn chưa) rồi mới sửa `apk-budget.json`.
 
 ## Dung lượng
