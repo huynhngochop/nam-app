@@ -1,15 +1,2 @@
-Lượt 2: đổi 99 biến.
-apps/hen-dep/app/scan.tsx:190  p → price (trùng tên, giữ nguyên)
-apps/hen-dep/src/reminders.ts:107  d → data (trùng tên, giữ nguyên)
-apps/hen-dep/src/store.ts:125  b → booking (trùng tên, giữ nguyên)
-apps/hen-dep/src/Timeline.tsx:83  h → height (trùng tên, giữ nguyên)
-apps/meo-nha/app/ask.tsx:51  a → answer (trùng tên, giữ nguyên)
-apps/meo-nha/app/search.tsx:56  t → query (trùng tên, giữ nguyên)
-apps/nhip/app/habits.tsx:108  v → value (trùng tên, giữ nguyên)
-apps/vi-gon/src/answer.ts:113  n → count (trùng tên, giữ nguyên)
-apps/vi-gon/src/answer.ts:130  v → value (trùng tên, giữ nguyên)
-apps/vi-gon/src/ask.ts:158  b → lastMonth (trùng tên, giữ nguyên)
-apps/vi-gon/src/store.ts:126  m → month (trùng tên, giữ nguyên)
-apps/hen-dep/app/booking/[id].tsx:10  b → booking (trùng tên, giữ nguyên)
-apps/meo-nha/src/lib/ask.ts:32  d → danger (trùng tên, giữ nguyên)
-apps/nhip/app/(tabs)/timer.tsx:39  s → store (trùng tên, giữ nguyên)
+Lượt 2: đổi 14 biến.
+

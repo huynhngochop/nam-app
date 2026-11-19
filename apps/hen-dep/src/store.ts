@@ -122,10 +122,16 @@ export const useHen = create<State>()(
       },
       createBooking: (bk) => {
         const next = nextBookingCode(get().bookings, get().lastBookingCode);
-        const b: Booking = { ...bk, status: bk.status ?? 'confirmed', id: uid(), code: next.code, synced: false };
-        set((s) => ({ bookings: [...s.bookings, b], lastBookingCode: next.n }));
-        enqueue('booking.create', b);
-        return b;
+        const newBooking: Booking = {
+          ...bk,
+          status: bk.status ?? 'confirmed',
+          id: uid(),
+          code: next.code,
+          synced: false,
+        };
+        set((s) => ({ bookings: [...s.bookings, newBooking], lastBookingCode: next.n }));
+        enqueue('booking.create', newBooking);
+        return newBooking;
       },
       updateBooking: (id, p) => {
         set((s) => ({ bookings: s.bookings.map((x) => (x.id === id ? { ...x, ...p, synced: false } : x)) }));

@@ -123,11 +123,11 @@ export const catOf = (id: string | null | undefined, cats: Category[]) =>
 /** Kỳ chi tiêu hiện tại theo ngày bắt đầu tháng (ví dụ lương ngày 10 → 10/10–9/11). */
 export function periodOf(startDay: number, offset = 0, now = new Date()) {
   const y = now.getFullYear();
-  let m = now.getMonth();
-  if (now.getDate() < startDay) m -= 1;
-  m += offset;
-  const from = new Date(y, m, startDay, 0, 0, 0, 0);
-  const to = new Date(y, m + 1, startDay, 0, 0, 0, 0);
+  let currentMonth = now.getMonth();
+  if (now.getDate() < startDay) currentMonth -= 1;
+  currentMonth += offset;
+  const from = new Date(y, currentMonth, startDay, 0, 0, 0, 0);
+  const to = new Date(y, currentMonth + 1, startDay, 0, 0, 0, 0);
   return {
     from: from.getTime(),
     to: to.getTime(),

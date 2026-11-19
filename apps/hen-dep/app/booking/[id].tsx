@@ -7,8 +7,8 @@ import { BookingDetail } from '../../src/BookingDetail';
 /** HD-C06 trên điện thoại / màn hẹp. */
 export default function BookingScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const b = useHen((s) => s.bookings.find((x) => x.id === id));
-  if (!b)
+  const found = useHen((s) => s.bookings.find((x) => x.id === id));
+  if (!found)
     return (
       <Screen>
         <EmptyState
@@ -21,7 +21,7 @@ export default function BookingScreen() {
     );
   return (
     <Screen scroll>
-      <BookingDetail booking={b} onClose={() => router.back()} />
+      <BookingDetail booking={found} onClose={() => router.back()} />
     </Screen>
   );
 }

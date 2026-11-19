@@ -48,14 +48,14 @@ export default function Ask() {
     setInput('');
     setTurns((t) => [...t, { q: text, loading: true }]);
     try {
-      const a = await ask(
+      const reply = await ask(
         text,
         turns.map((t) => t.q),
       );
       // Câu từ chối / chưa có mẹo / câu phổ biến không trừ lượt.
-      if (!popular && a.kind === 'answer') state.consumeAsk(text);
-      setTurns((t) => t.map((x, i) => (i === t.length - 1 ? { q: text, a } : x)));
-      track(a.kind === 'answer' ? 'ask_answered' : 'ask_refused', { reason: a.kind });
+      if (!popular && reply.kind === 'answer') state.consumeAsk(text);
+      setTurns((t) => t.map((x, i) => (i === t.length - 1 ? { q: text, a: reply } : x)));
+      track(reply.kind === 'answer' ? 'ask_answered' : 'ask_refused', { reason: reply.kind });
     } catch {
       setTurns((t) => t.map((x, i) => (i === t.length - 1 ? { q: text, error: true } : x)));
     }

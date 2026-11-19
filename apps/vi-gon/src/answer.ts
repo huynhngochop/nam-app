@@ -110,12 +110,13 @@ export function computeAnswer(
 
   const cur = sumOf(range.from, range.to);
   const prev = sumOf(range.prevFrom, range.prevTo);
-  const n = countOf(range.from, range.to);
+  const txCount = countOf(range.from, range.to);
   const filter = { from: range.from, to: range.to, categoryId: cat?.id, kind: i.kind };
   const changeTxt = prev
     ? ` · ${cur >= prev ? '▲' : '▼'} ${Math.abs(Math.round(((cur - prev) / prev) * 100))}% so với kỳ trước`
     : '';
-  if (i.metric === 'count') return { headline: `${n} lần`, detail: `${what} ${pl} · ${vnd(cur)}`, txFilter: filter };
+  if (i.metric === 'count')
+    return { headline: `${txCount} lần`, detail: `${what} ${pl} · ${vnd(cur)}`, txFilter: filter };
   if (i.metric === 'average') {
     const days = Math.max(1, Math.ceil((Math.min(Date.now(), range.to) - range.from) / 86400000));
     return {
@@ -127,16 +128,16 @@ export function computeAnswer(
   // 6 kỳ gần nhất cho biểu đồ (theo tháng)
   const bars = Array.from({ length: 6 }, (_, k) => {
     const period = periodOf(ctx.startDay, k - 5);
-    const v = cat
+    const spent = cat
       ? (byCategory(period.from, period.to, i.kind).find((x) => x.categoryId === cat.id)?.total ?? 0)
       : i.kind === 'income'
         ? totals(period.from, period.to).income
         : totals(period.from, period.to).expense;
-    return { label: `T${period.month}`, value: v };
+    return { label: `T${period.month}`, value: spent };
   });
   return {
     headline: vnd(cur),
-    detail: `${what} · ${pl} · ${n} giao dịch${changeTxt}`,
+    detail: `${what} · ${pl} · ${txCount} giao dịch${changeTxt}`,
     bars: i.period.includes('month') ? bars : undefined,
     txFilter: filter,
   };

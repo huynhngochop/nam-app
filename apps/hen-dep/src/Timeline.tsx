@@ -80,7 +80,7 @@ export const Timeline = memo(function Timeline({
               .filter((b) => b.staffId === st.id && b.status !== 'cancelled')
               .map((b) => {
                 const top = ((b.startAt - base) / 3600000) * HOUR;
-                const h = Math.max(28, ((b.endAt - b.startAt) / 3600000) * HOUR - 2);
+                const blockHeight = Math.max(28, ((b.endAt - b.startAt) / 3600000) * HOUR - 2);
                 const strong = b.status === 'in_service';
                 const faded = b.status === 'completed';
                 const cust = customers.find((x) => x.id === b.customerId);
@@ -95,7 +95,7 @@ export const Timeline = memo(function Timeline({
                       top,
                       left: 2,
                       right: 2,
-                      height: h,
+                      height: blockHeight,
                       borderRadius: 8,
                       padding: 6,
                       overflow: 'hidden',

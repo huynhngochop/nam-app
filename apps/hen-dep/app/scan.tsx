@@ -187,8 +187,8 @@ export default function Scan() {
             <Button
               title="Xong"
               onPress={() => {
-                const p = parsePrice(priceText) ?? (/^\d+$/.test(priceText) ? Number(priceText) : null);
-                setRows(rows.map((x, j) => (j === editing ? { ...x, price: p } : x)));
+                const parsedPrice = parsePrice(priceText) ?? (/^\d+$/.test(priceText) ? Number(priceText) : null);
+                setRows(rows.map((x, j) => (j === editing ? { ...x, price: parsedPrice } : x)));
                 setEditing(null);
               }}
             />

@@ -156,8 +156,8 @@ export function periodRange(
     };
   }
   const thisMonth = month(0);
-  const b = month(-1);
-  return { ...thisMonth, prevFrom: b.from, prevTo: b.to };
+  const previousMonth = month(-1);
+  return { ...thisMonth, prevFrom: previousMonth.from, prevTo: previousMonth.to };
 }
 
 /** Không hiểu bằng quy tắc → nhờ AI hiểu câu hỏi. Chỉ gửi câu hỏi + danh sách TÊN danh mục/quỹ, không gửi số liệu. */

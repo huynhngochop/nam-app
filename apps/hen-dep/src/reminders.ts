@@ -104,8 +104,8 @@ export function watchReminders() {
 /** Bấm vào thông báo nhắc → mở lịch hẹn. */
 export function onReminderTap(open: (bookingId: string) => void) {
   const sub = Notifications.addNotificationResponseReceivedListener((r) => {
-    const d = r.notification.request.content.data as { kind?: string; bookingId?: string } | undefined;
-    if (d?.kind === KIND && d.bookingId) open(d.bookingId);
+    const payload = r.notification.request.content.data as { kind?: string; bookingId?: string } | undefined;
+    if (payload?.kind === KIND && payload.bookingId) open(payload.bookingId);
   });
   return () => sub.remove();
 }

@@ -105,8 +105,8 @@ export default function Habits() {
         })}
       </Row>
       {state.habits.map((h) => {
-        const v = valueOf(h.id, day);
-        const full = v >= habitTarget(h, state);
+        const dayValue = valueOf(h.id, day);
+        const full = dayValue >= habitTarget(h, state);
         return (
           <Card
             key={h.id}
@@ -124,9 +124,9 @@ export default function Habits() {
               <View style={{ flex: 1, gap: 6 }}>
                 <Row between>
                   <T v="headline">{h.name}</T>
-                  <T v="caption" muted>{`${v}/${habitTarget(h, state)} ${h.unit}`}</T>
+                  <T v="caption" muted>{`${dayValue}/${habitTarget(h, state)} ${h.unit}`}</T>
                 </Row>
-                <ProgressBar value={v / habitTarget(h, state)} />
+                <ProgressBar value={dayValue / habitTarget(h, state)} />
               </View>
               {!h.auto && day === dateKey(new Date()) ? (
                 <IconButton icon="minus" label="Bớt" onPress={() => state.logHabit(h.id, -1)} />

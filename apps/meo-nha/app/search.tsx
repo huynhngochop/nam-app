@@ -53,12 +53,12 @@ export default function Search() {
   );
 
   const run = (term: string) => {
-    const t = term.trim();
-    if (!t) return;
-    setQ(t);
-    setSubmitted(t);
-    state.addSearch(t);
-    track('search_performed', { query: t });
+    const trimmed = term.trim();
+    if (!trimmed) return;
+    setQ(trimmed);
+    setSubmitted(trimmed);
+    state.addSearch(trimmed);
+    track('search_performed', { query: trimmed });
   };
 
   const ask = looksLikeQuestion(q);

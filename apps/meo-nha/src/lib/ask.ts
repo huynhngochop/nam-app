@@ -29,8 +29,9 @@ const OUT_OF_SCOPE =
 
 export function preCheck(q: string): AskAnswer | null {
   const folded = fold(q);
-  for (const d of DANGER)
-    if (d.re.test(folded)) return { kind: 'danger', text: d.text, sources: d.tip ? [tipById(d.tip)!] : [] };
+  for (const dangerRule of DANGER)
+    if (dangerRule.re.test(folded))
+      return { kind: 'danger', text: dangerRule.text, sources: dangerRule.tip ? [tipById(dangerRule.tip)!] : [] };
   if (OUT_OF_SCOPE.test(folded)) return { kind: 'out_of_scope' };
   return null;
 }
