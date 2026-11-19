@@ -14,10 +14,10 @@ export function ingestText(
   text: string,
   opts: { app?: string | null; source?: Tx['source']; postedAt?: number } = {},
 ): IngestResult {
-  const s = useVi.getState();
+  const state = useVi.getState();
   const parsed = parseBankText(text, new Date(opts.postedAt ?? Date.now()));
   if (!parsed) {
-    s.addUnparsed({ text, app: opts.app ?? null, at: opts.postedAt ?? Date.now() });
+    state.addUnparsed({ text, app: opts.app ?? null, at: opts.postedAt ?? Date.now() });
     track('tx_unparsed', { app: opts.app ?? 'paste' });
     return { status: 'unparsed' };
   }
@@ -27,7 +27,7 @@ export function ingestText(
   const same = near(parsed.amount, at, 120000).find((x) => x.raw === text);
   if (same) return { status: 'duplicate', tx: same };
 
-  const { categoryId, confident } = categorize(parsed.merchant, parsed.kind, s.rules);
+  const { categoryId, confident } = categorize(parsed.merchant, parsed.kind, state.rules);
   const tx: Tx = {
     id: uid(),
     amount: parsed.amount,
@@ -38,7 +38,7 @@ export function ingestText(
     at,
     account: parsed.account,
     source: opts.source ?? 'auto',
-    status: s.askBeforeSave || !confident ? 'pending' : 'confirmed',
+    status: state.askBeforeSave || !confident ? 'pending' : 'confirmed',
     raw: text,
     fundId: null,
     flag: null,
@@ -64,8 +64,8 @@ export function ingestText(
   }
 
   insertTx(tx);
-  if (opts.app && !s.learned.some((l) => l.sig === signatureOf(text)))
-    s.set({ learned: [...s.learned, { sig: signatureOf(text), app: opts.app }].slice(-100) });
+  if (opts.app && !state.learned.some((l) => l.sig === signatureOf(text)))
+    state.set({ learned: [...state.learned, { sig: signatureOf(text), app: opts.app }].slice(-100) });
   track('tx_ingested', { status: tx.status, flag: tx.flag ?? 'none' });
   return { status: tx.status === 'confirmed' ? 'saved' : 'pending', tx };
 }

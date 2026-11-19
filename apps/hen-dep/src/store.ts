@@ -137,8 +137,8 @@ export const useHen = create<State>()(
       },
       consumeAi: () =>
         set((s) => {
-          const m = new Date().toISOString().slice(0, 7);
-          return { aiUsed: { month: m, count: s.aiUsed.month === m ? s.aiUsed.count + 1 : 1 } };
+          const date = new Date().toISOString().slice(0, 7);
+          return { aiUsed: { month: date, count: s.aiUsed.month === date ? s.aiUsed.count + 1 : 1 } };
         }),
       loadDemo: () =>
         set({ staff: SEED_STAFF, services: SEED_SERVICES, customers: SEED_CUSTOMERS, bookings: seedBookings() }),
@@ -191,9 +191,9 @@ export function findGap(
   if (today && !today.open) return null;
   const at = (hhmm: string) => {
     const [h, m] = hhmm.split(':').map(Number);
-    const d = new Date(now);
-    d.setHours(h, m, 0, 0);
-    return d.getTime();
+    const date = new Date(now);
+    date.setHours(h, m, 0, 0);
+    return date.getTime();
   };
   for (const st of staff.filter((s) => s.onlineToday)) {
     const end = Math.min(at(st.shiftTo), today ? at(today.to) : Infinity);

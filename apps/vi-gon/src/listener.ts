@@ -44,12 +44,12 @@ export function openPermissionSettings() {
 
 /** Gọi khi app mở / quay lại: cập nhật trạng thái quyền, ghi lại thời điểm mất quyền. */
 export async function refreshListenerState() {
-  const s = useVi.getState();
+  const state = useVi.getState();
   const st = await checkPermission();
-  if (st === 'lost' && s.listenerState === 'granted')
-    s.set({ listenerState: 'lost', lostSince: lastAutoAt() ?? Date.now() });
-  else if (st === 'granted') s.set({ listenerState: 'granted', lostSince: null });
-  else if (st === 'unsupported' && s.listenerState !== 'unsupported') s.set({ listenerState: 'unsupported' });
+  if (st === 'lost' && state.listenerState === 'granted')
+    state.set({ listenerState: 'lost', lostSince: lastAutoAt() ?? Date.now() });
+  else if (st === 'granted') state.set({ listenerState: 'granted', lostSince: null });
+  else if (st === 'unsupported' && state.listenerState !== 'unsupported') state.set({ listenerState: 'unsupported' });
 }
 
 const take = (e: Posted) => {

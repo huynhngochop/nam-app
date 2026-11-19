@@ -18,8 +18,8 @@ export async function requestNotify(): Promise<boolean> {
   const cur = await Notifications.getPermissionsAsync();
   if (cur.granted) return true;
   if (!cur.canAskAgain) return false;
-  const r = await Notifications.requestPermissionsAsync();
-  return r.granted;
+  const permission = await Notifications.requestPermissionsAsync();
+  return permission.granted;
 }
 
 /** Lên lịch "Mẹo hôm nay" theo giờ người dùng chọn; mở mẹo khi chạm. */

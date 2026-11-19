@@ -21,9 +21,9 @@ export function Sheet({
   footer?: ReactNode;
 }) {
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const insets = useSafeAreaInsets();
-  const centered = !L.isCompact;
+  const centered = !layout.isCompact;
   return (
     <Modal
       visible={visible}
@@ -262,8 +262,8 @@ export function TwoPane({
   emptyDetail?: ReactNode;
 }) {
   const { c } = useTheme();
-  const L = useLayout();
-  if (!L.twoPane) return <>{list}</>;
+  const layout = useLayout();
+  if (!layout.twoPane) return <>{list}</>;
   return (
     <View style={{ flex: 1, flexDirection: 'row' }}>
       <View style={{ width: `${listWidth * 100}%`, borderRightWidth: 1, borderColor: c.line }}>{list}</View>
@@ -279,19 +279,19 @@ export function TwoPane({
  */
 export function useAdaptiveTabOptions() {
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   return useMemo(
     () => ({
       headerShown: false,
       tabBarActiveTintColor: c.a,
       tabBarInactiveTintColor: c.inkMuted,
-      tabBarPosition: (L.rail ? 'left' : 'bottom') as 'left' | 'bottom',
-      tabBarVariant: (L.rail ? 'material' : 'uikit') as 'material' | 'uikit',
-      tabBarLabelPosition: (L.rail ? 'below-icon' : undefined) as 'below-icon' | undefined,
-      tabBarStyle: { backgroundColor: c.surface, borderColor: c.line, minWidth: L.rail ? 88 : undefined },
+      tabBarPosition: (layout.rail ? 'left' : 'bottom') as 'left' | 'bottom',
+      tabBarVariant: (layout.rail ? 'material' : 'uikit') as 'material' | 'uikit',
+      tabBarLabelPosition: (layout.rail ? 'below-icon' : undefined) as 'below-icon' | undefined,
+      tabBarStyle: { backgroundColor: c.surface, borderColor: c.line, minWidth: layout.rail ? 88 : undefined },
       tabBarLabelStyle: { fontFamily: 'BeVietnamPro_600SemiBold', fontSize: 11 },
       sceneStyle: { backgroundColor: c.bg },
     }),
-    [c, L.rail],
+    [c, layout.rail],
   );
 }

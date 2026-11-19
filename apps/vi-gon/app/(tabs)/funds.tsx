@@ -9,9 +9,9 @@ import { FREE_FUNDS, monthlyNeed } from '../../src/funds';
 /** Quỹ mục tiêu. Tablet: lưới 2–3 cột. */
 export default function Funds() {
   const { c } = useTheme();
-  const s = useVi();
-  const total = s.funds.reduce((a, f) => a + f.saved, 0);
-  const canAdd = s.isPro || s.funds.length < FREE_FUNDS;
+  const state = useVi();
+  const total = state.funds.reduce((a, f) => a + f.saved, 0);
+  const canAdd = state.isPro || state.funds.length < FREE_FUNDS;
   return (
     <Screen scroll>
       <Row between>
@@ -20,13 +20,13 @@ export default function Funds() {
         </T>
         <IconButton icon="plus" label="Tạo quỹ" onPress={() => router.push(canAdd ? '/fund/new' : '/paywall')} />
       </Row>
-      {s.funds.length ? (
+      {state.funds.length ? (
         <Card variant="fill">
           <T v="caption">Tổng trong các quỹ</T>
-          <T v="title">{s.hideAmounts ? '••••••' : vnd(total)}</T>
+          <T v="title">{state.hideAmounts ? '••••••' : vnd(total)}</T>
         </Card>
       ) : null}
-      {!s.funds.length ? (
+      {!state.funds.length ? (
         <EmptyState
           icon="target"
           title="Chưa có quỹ nào"
@@ -36,7 +36,7 @@ export default function Funds() {
         />
       ) : (
         <Grid min={1}>
-          {s.funds.map((f) => {
+          {state.funds.map((f) => {
             const pct = f.goal ? Math.min(1, f.saved / f.goal) : 0;
             const need = monthlyNeed(f);
             return (
@@ -57,14 +57,14 @@ export default function Funds() {
                 </Row>
                 <ProgressBar value={pct} color={pct >= 1 ? c.positive : c.a} />
                 <T v="caption" muted>
-                  {s.hideAmounts ? '•••' : `${shortMoney(f.saved)} / ${shortMoney(f.goal)}`}
+                  {state.hideAmounts ? '•••' : `${shortMoney(f.saved)} / ${shortMoney(f.goal)}`}
                 </T>
               </Card>
             );
           })}
         </Grid>
       )}
-      {!s.isPro ? (
+      {!state.isPro ? (
         <Card variant="fill">
           <T v="caption" center>{`Gói miễn phí: ${FREE_FUNDS} quỹ · Pro: không giới hạn`}</T>
         </Card>

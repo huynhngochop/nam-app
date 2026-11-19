@@ -36,16 +36,16 @@ Notifications.setNotificationHandler({
 
 /** Hỏi quyền thông báo khi người dùng vừa thao tác (tạo lịch, bật nhắc), không hỏi lúc mở app. */
 async function canNotify(ask: boolean) {
-  const p = await Notifications.getPermissionsAsync();
-  if (p.granted) return true;
-  if (!ask || !p.canAskAgain) return false;
+  const permission = await Notifications.getPermissionsAsync();
+  if (permission.granted) return true;
+  if (!ask || !permission.canAskAgain) return false;
   return (await Notifications.requestPermissionsAsync()).granted;
 }
 
 export async function syncReminders({ ask = false, now = Date.now() } = {}) {
   if (Platform.OS === 'web') return;
-  const s = useHen.getState();
-  const { remind24h, remind2h } = s.shop.settings;
+  const state = useHen.getState();
+  const { remind24h, remind2h } = state.shop.settings;
 
   const scheduled = await Notifications.getAllScheduledNotificationsAsync();
   await Promise.all(
@@ -57,9 +57,9 @@ export async function syncReminders({ ask = false, now = Date.now() } = {}) {
 
   const offsets = [remind24h ? 24 : 0, remind2h ? 2 : 0].filter(Boolean);
   const jobs: { at: number; bookingId: string; title: string; body: string }[] = [];
-  for (const b of s.bookings) {
+  for (const b of state.bookings) {
     if (b.status !== 'confirmed' || b.startAt <= now || b.startAt > now + HORIZON) continue;
-    const cust = s.customers.find((x) => x.id === b.customerId);
+    const cust = state.customers.find((x) => x.id === b.customerId);
     if (!cust?.phone) continue;
     for (const h of offsets) {
       const at = b.startAt - h * 3600000;

@@ -37,7 +37,7 @@ const SHORTCUT_URL = 'vigon://import?text=';
 export default function Permission() {
   const { c } = useTheme();
   const toast = useToast();
-  const s = useVi();
+  const state = useVi();
   const [granted, setGranted] = useState(false);
   const supported = listenerSupported();
 
@@ -169,20 +169,20 @@ export default function Permission() {
                 <Chip
                   key={a.id}
                   label={a.name}
-                  selected={s.allowedApps.includes(a.id)}
+                  selected={state.allowedApps.includes(a.id)}
                   onPress={() =>
-                    s.set({
-                      allowedApps: s.allowedApps.includes(a.id)
-                        ? s.allowedApps.filter((x) => x !== a.id)
-                        : [...s.allowedApps, a.id],
+                    state.set({
+                      allowedApps: state.allowedApps.includes(a.id)
+                        ? state.allowedApps.filter((x) => x !== a.id)
+                        : [...state.allowedApps, a.id],
                     })
                   }
                 />
               ))}
             </Chips>
             <T v="caption" muted>
-              {s.allowedApps.length
-                ? `${s.allowedApps.length} app được đọc`
+              {state.allowedApps.length
+                ? `${state.allowedApps.length} app được đọc`
                 : 'Chưa chọn = đọc mọi thông báo có số tiền'}
             </T>
           </Card>

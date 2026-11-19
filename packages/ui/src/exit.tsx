@@ -40,22 +40,22 @@ export function useExitOnBack(canGoBack?: () => boolean) {
   useEffect(() => {
     if (Platform.OS !== 'android' || !check.current) return;
     let sub: { remove(): void } | undefined;
-    const t = setTimeout(() => {
+    const timer = setTimeout(() => {
       sub = BackHandler.addEventListener('hardwareBackPress', () => {
         const now = Date.now();
-        const d = backDecision(now, last.current, !!check.current?.());
-        last.current = { at: now, prompted: d === 'prompt' };
-        if (d === 'exit') {
+        const decision = backDecision(now, last.current, !!check.current?.());
+        last.current = { at: now, prompted: decision === 'prompt' };
+        if (decision === 'exit') {
           BackHandler.exitApp();
           return true;
         }
-        if (d === 'back') return false;
+        if (decision === 'back') return false;
         toast('Bấm Quay lại lần nữa để thoát');
         return true;
       });
     }, 0);
     return () => {
-      clearTimeout(t);
+      clearTimeout(timer);
       sub?.remove();
     };
   }, [toast]);

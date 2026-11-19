@@ -43,10 +43,10 @@ export function createOutbox(name: string, enabled: () => boolean = () => !!getC
         flush: async (send) => {
           for (const it of [...get().items]) {
             try {
-              const r = await send(it);
+              const result = await send(it);
               set((s) => ({
                 items: s.items.filter((x) => x.id !== it.id),
-                conflicts: r === 'conflict' ? [...s.conflicts, it] : s.conflicts,
+                conflicts: result === 'conflict' ? [...s.conflicts, it] : s.conflicts,
               }));
             } catch (e) {
               set((s) => ({

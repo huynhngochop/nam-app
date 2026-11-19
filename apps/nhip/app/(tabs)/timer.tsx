@@ -35,7 +35,7 @@ let launchChecked = false;
 export default function Timer() {
   const { c } = useTheme();
   const toast = useToast();
-  const L = useLayout();
+  const layout = useLayout();
   const s = useNhip();
   const [mode, setMode] = useState<'pomodoro' | 'countup'>('pomodoro');
   const [quick, setQuick] = useState(false);
@@ -85,13 +85,13 @@ export default function Timer() {
     router.push('/session');
   };
 
-  const size = Math.min(L.width - 64, L.height * 0.34, 300);
+  const size = Math.min(layout.width - 64, layout.height * 0.34, 300);
   return (
     <Screen scroll padded={false} edges={['top']}>
       {notif !== 'granted' ? (
         <Banner tone="negative" icon="bell-off" text="Thông báo đang tắt — sẽ không báo hết giờ khi bạn ở app khác" />
       ) : null}
-      <View style={{ paddingHorizontal: L.gutter, gap: 14 }}>
+      <View style={{ paddingHorizontal: layout.gutter, gap: 14 }}>
         <Row between style={{ paddingTop: 8 }}>
           <View style={{ flex: 1 }}>
             <T v="caption" muted>{`${weekdayLong(new Date())} · ${doneToday}/${goalSessions} phiên hôm nay`}</T>

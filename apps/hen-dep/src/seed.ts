@@ -2,10 +2,10 @@ import { Booking, Customer, Service, Shop, Staff } from './types';
 
 /** Dữ liệu mẫu để thử app ngay sau khi thiết lập (có thể xóa trong Cài đặt). */
 const at = (h: number, m = 0, dayOffset = 0) => {
-  const d = new Date();
-  d.setDate(d.getDate() + dayOffset);
-  d.setHours(h, m, 0, 0);
-  return d.getTime();
+  const date = new Date();
+  date.setDate(date.getDate() + dayOffset);
+  date.setHours(h, m, 0, 0);
+  return date.getTime();
 };
 
 export const DEFAULT_SHOP: Shop = {

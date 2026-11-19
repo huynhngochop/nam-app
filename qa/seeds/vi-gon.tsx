@@ -38,8 +38,8 @@ const SPEND: [string, string, number, number, number][] = [
 ];
 const WSUM = SPEND.reduce((a, x) => a + x[4], 0);
 const pickSpend = () => {
-  let r = rnd() * WSUM;
-  for (const x of SPEND) if ((r -= x[4]) <= 0) return x;
+  let roll = rnd() * WSUM;
+  for (const x of SPEND) if ((roll -= x[4]) <= 0) return x;
   return SPEND[0];
 };
 // [ngày trong tháng, danh mục, nơi chi, thấp, cao]
@@ -78,8 +78,8 @@ async function run(log: (s: string) => void) {
     ...p,
   });
   const days = 1095; // 3 năm
-  for (let d = days; d >= 0; d--) {
-    const day = new Date(now - d * 86400000);
+  for (let dayOffset = days; dayOffset >= 0; dayOffset--) {
+    const day = new Date(now - dayOffset * 86400000);
     if (day.getDate() === startDay) {
       const at = new Date(day);
       at.setHours(9, 2, 0, 0);
@@ -106,8 +106,8 @@ async function run(log: (s: string) => void) {
         }),
       );
     const bills = BILLS.filter((x) => x[0] === day.getDate()).map(([, cat, m, lo, hi]) => [cat, m, lo, hi] as const);
-    const n = int(4, 11);
-    const todays = [...bills, ...Array.from({ length: n }, () => pickSpend())];
+    const count = int(4, 11);
+    const todays = [...bills, ...Array.from({ length: count }, () => pickSpend())];
     for (const [cat, m, lo, hi] of todays) {
       const at = new Date(day);
       at.setHours(int(6, 23), int(0, 59), 0, 0);

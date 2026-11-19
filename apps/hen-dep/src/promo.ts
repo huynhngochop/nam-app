@@ -80,7 +80,7 @@ export function templateVariants(i: Input): string[] {
 /** AI soạn (HD-C19). Kiểm tra: phải có link, đúng % ưu đãi đã nhập; sai → dùng mẫu. */
 export async function generatePromo(i: Input): Promise<{ variants: string[]; viaAi: boolean }> {
   try {
-    const r = await callAi<{ variants: string[] }>('promo', {
+    const result = await callAi<{ variants: string[] }>('promo', {
       goal: i.goal,
       tone: i.tone,
       offer: i.offerPct,
@@ -88,7 +88,7 @@ export async function generatePromo(i: Input): Promise<{ variants: string[]; via
       shop: i.shopName,
       link: i.link,
     });
-    const ok = r.variants.filter((v) => v.includes(i.link) && v.includes(`${i.offerPct}%`) && v.length <= 200);
+    const ok = result.variants.filter((v) => v.includes(i.link) && v.includes(`${i.offerPct}%`) && v.length <= 200);
     if (ok.length) return { variants: ok.slice(0, 3), viaAi: true };
   } catch (e) {
     if (!(e instanceof AiUnavailableError)) throw e;

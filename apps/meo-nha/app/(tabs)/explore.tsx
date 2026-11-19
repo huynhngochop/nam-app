@@ -28,7 +28,7 @@ type FeedRow = { kind: 'tip'; tip: Tip } | { kind: 'ad'; key: string };
 /** Tab Khám phá: mẹo hôm nay, danh mục, bảng tin (vẫn dùng được khi mất mạng). Tablet/máy gập mở ngang: danh sách + chi tiết cạnh nhau. */
 export default function Explore() {
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const online = useOnline();
   const interests = useMeo((s) => s.interests);
   const name = useMeo((s) => s.name);
@@ -54,10 +54,10 @@ export default function Explore() {
   const open = useCallback(
     (id: string) => {
       track('feed_tip_opened', { tipId: id });
-      if (L.twoPane) setSelected(id);
+      if (layout.twoPane) setSelected(id);
       else router.push(`/tip/${id}`);
     },
-    [L.twoPane],
+    [layout.twoPane],
   );
 
   const header = (
@@ -134,7 +134,7 @@ export default function Explore() {
           <TipRow tip={item.tip} onPress={() => open(item.tip.id)} />
         )
       }
-      contentContainerStyle={{ paddingHorizontal: L.gutter }}
+      contentContainerStyle={{ paddingHorizontal: layout.gutter }}
     />
   );
 

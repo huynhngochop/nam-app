@@ -26,13 +26,13 @@ import { syncMix } from '../../src/audio';
 /** Trộn âm thanh nền: bật từng tiếng, chỉnh âm lượng riêng, lưu thành bộ trộn. */
 export default function Sounds() {
   const { c } = useTheme();
-  const s = useNhip();
+  const state = useNhip();
   const [preview, setPreview] = useState(false);
   const [add, setAdd] = useState(false);
   const [saveOpen, setSaveOpen] = useState(false);
   const [name, setName] = useState('');
-  const mix = s.mixes.find((m) => m.id === s.mixId);
-  const owned = (packId?: string) => !packId || s.isPro || s.ownedPacks.includes(packId);
+  const mix = state.mixes.find((m) => m.id === state.mixId);
+  const owned = (packId?: string) => !packId || state.isPro || state.ownedPacks.includes(packId);
 
   useEffect(() => {
     syncMix(mix?.layers ?? [], preview).catch(() => {});
@@ -60,8 +60,8 @@ export default function Sounds() {
         />
       </Row>
       <Chips scroll>
-        {s.mixes.map((m) => (
-          <Chip key={m.id} label={m.name} selected={m.id === s.mixId} onPress={() => s.set({ mixId: m.id })} />
+        {state.mixes.map((m) => (
+          <Chip key={m.id} label={m.name} selected={m.id === state.mixId} onPress={() => state.set({ mixId: m.id })} />
         ))}
         <Chip label="Lưu" icon="plus" onPress={() => setSaveOpen(true)} />
       </Chips>
@@ -76,9 +76,9 @@ export default function Sounds() {
                   <T v="headline">{snd.name}</T>
                   <T v="caption" muted>{`${Math.round(l.vol * 100)}%`}</T>
                 </Row>
-                <Slider value={l.vol} onChange={(v) => s.setLayer(l.id, v)} label={`Âm lượng ${snd.name}`} />
+                <Slider value={l.vol} onChange={(v) => state.setLayer(l.id, v)} label={`Âm lượng ${snd.name}`} />
               </View>
-              <IconButton soft={false} icon="x" label={`Bỏ ${snd.name}`} onPress={() => s.setLayer(l.id, null)} />
+              <IconButton soft={false} icon="x" label={`Bỏ ${snd.name}`} onPress={() => state.setLayer(l.id, null)} />
             </Row>
           </Card>
         );
@@ -112,7 +112,7 @@ export default function Sounds() {
               key={x.id}
               onPress={() => {
                 if (ok) {
-                  s.setLayer(x.id, 0.6);
+                  state.setLayer(x.id, 0.6);
                   track('layer_added', { soundId: x.id });
                   setAdd(false);
                 } else {
@@ -141,7 +141,7 @@ export default function Sounds() {
             title="Lưu"
             disabled={!name.trim()}
             onPress={() => {
-              s.saveMix(name);
+              state.saveMix(name);
               track('mix_saved');
               setName('');
               setSaveOpen(false);

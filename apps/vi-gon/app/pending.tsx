@@ -12,7 +12,7 @@ import { Money } from '../src/ui';
 export default function Pending() {
   const { c } = useTheme();
   const toast = useToast();
-  const s = useVi();
+  const state = useVi();
   const list = useQuery(() => listTx({ status: 'pending', limit: 200 }), [], []);
   const tx = list[list.length - 1];
   const [cat, setCat] = useState<string | null>(null);
@@ -33,12 +33,12 @@ export default function Pending() {
     );
   }
   const chosen = cat ?? tx.categoryId ?? 'other';
-  const cats = s.categories.filter((x) => x.kind === (tx.kind === 'income' ? 'income' : 'expense'));
+  const cats = state.categories.filter((x) => x.kind === (tx.kind === 'income' ? 'income' : 'expense'));
   const kw = ruleKeyword(tx.merchant);
   const save = () => {
     updateTx(tx.id, { status: 'confirmed', categoryId: chosen });
-    if (learn && kw && chosen !== tx.categoryId) s.addRule(kw, chosen);
-    else if (learn && kw && !s.rules.some((r) => r.keyword === kw)) s.addRule(kw, chosen);
+    if (learn && kw && chosen !== tx.categoryId) state.addRule(kw, chosen);
+    else if (learn && kw && !state.rules.some((r) => r.keyword === kw)) state.addRule(kw, chosen);
     track('tx_confirmed', { changed: chosen !== tx.categoryId });
     setCat(null);
   };

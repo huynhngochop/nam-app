@@ -286,13 +286,13 @@ export function focusedSecOf(s: Session, now = Date.now()): number {
 /** Chuỗi ngày: ngày đạt mục tiêu liên tiếp tính đến hôm nay (hôm nay chưa đạt thì tính đến hôm qua). Ngày nghỉ phép giữ chuỗi. */
 export function streakOf(daily: Record<string, number>, goal: number, restDays: string[], today = new Date()): number {
   let n = 0;
-  const d = new Date(today);
-  if ((daily[dateKey(d)] ?? 0) < goal) d.setDate(d.getDate() - 1);
+  const date = new Date(today);
+  if ((daily[dateKey(date)] ?? 0) < goal) date.setDate(date.getDate() - 1);
   for (;;) {
-    const k = dateKey(d);
+    const k = dateKey(date);
     if ((daily[k] ?? 0) >= goal || restDays.includes(k)) {
       n += 1;
-      d.setDate(d.getDate() - 1);
+      date.setDate(date.getDate() - 1);
     } else break;
     if (n > 3650) break;
   }

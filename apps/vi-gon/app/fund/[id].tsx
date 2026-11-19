@@ -35,8 +35,8 @@ export default function FundScreen() {
   const { c } = useTheme();
   const toast = useToast();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const s = useVi();
-  const fund = s.funds.find((f) => f.id === id);
+  const state = useVi();
+  const fund = state.funds.find((f) => f.id === id);
   const isNew = id === 'new';
   const [name, setName] = useState(fund?.name ?? '');
   const [icon, setIcon] = useState(fund?.icon ?? FUND_ICONS[0]);
@@ -55,13 +55,13 @@ export default function FundScreen() {
   const avg = useQuery(
     () => {
       const arr = Array.from({ length: 3 }, (_, k) => {
-        const p = periodOf(s.monthStartDay, -1 - k);
-        const t = totals(p.from, p.to);
-        return t.income - t.expense;
+        const period = periodOf(state.monthStartDay, -1 - k);
+        const total = totals(period.from, period.to);
+        return total.income - total.expense;
       }).filter((x) => x > 0);
       return arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
     },
-    [s.monthStartDay],
+    [state.monthStartDay],
     0,
   );
 
@@ -88,7 +88,7 @@ export default function FundScreen() {
             title={isNew ? 'Tạo quỹ' : 'Lưu'}
             disabled={name.trim().length < 2 || digits(goal) < 10000}
             onPress={() => {
-              const fid = s.upsertFund({
+              const fid = state.upsertFund({
                 id: isNew ? undefined : id,
                 name: name.trim(),
                 icon,
@@ -154,7 +154,7 @@ export default function FundScreen() {
           </Card>
         ) : null}
         <Row between>
-          <T v="body" style={{ flex: 1 }}>{`Nhắc góp vào ngày ${s.monthStartDay} hằng tháng`}</T>
+          <T v="body" style={{ flex: 1 }}>{`Nhắc góp vào ngày ${state.monthStartDay} hằng tháng`}</T>
           <Toggle label="Nhắc ngày lương" value={remind} onChange={setRemind} />
         </Row>
       </Screen>
@@ -171,7 +171,7 @@ export default function FundScreen() {
       toast('Số tiền rút lớn hơn số trong quỹ');
       return;
     }
-    s.moveFund(f.id, move === 'in' ? a : -a);
+    state.moveFund(f.id, move === 'in' ? a : -a);
     insertTx({
       id: uid(),
       amount: a,
@@ -266,7 +266,7 @@ export default function FundScreen() {
         destructive
         onCancel={() => setDel(false)}
         onConfirm={() => {
-          s.removeFund(f.id);
+          state.removeFund(f.id);
           setDel(false);
           router.back();
           toast('Đã xóa quỹ');

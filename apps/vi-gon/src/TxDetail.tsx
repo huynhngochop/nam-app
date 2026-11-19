@@ -32,7 +32,7 @@ const SOURCE_LABEL: Record<Tx['source'], string> = { auto: 'Tự động', manua
 export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) {
   const { c } = useTheme();
   const toast = useToast();
-  const s = useVi();
+  const state = useVi();
   const tx = useQuery(() => getTx(id), [id], null);
   // Chân kia của cặp chuyển nội bộ. Qua useQuery: không đọc SQLite mỗi lần render, lỗi CSDL không làm sập màn.
   const pairTx = useQuery(
@@ -63,19 +63,19 @@ export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) 
   );
 
   if (!tx) return <EmptyState icon="file" title="Không tìm thấy giao dịch" body="Có thể đã bị xóa." />;
-  const cat = catOf(tx.categoryId, s.categories);
-  const cats = s.categories.filter((x) => x.kind === (tx.kind === 'income' ? 'income' : 'expense'));
+  const cat = catOf(tx.categoryId, state.categories);
+  const cats = state.categories.filter((x) => x.kind === (tx.kind === 'income' ? 'income' : 'expense'));
 
   const setCat = (categoryId: string) => {
     updateTx(tx.id, { categoryId, status: 'confirmed' });
     if (tx.merchant && tx.source !== 'manual') {
       const kw = ruleKeyword(tx.merchant);
-      toast(`Đã đổi sang ${catOf(categoryId, s.categories).name}`, {
+      toast(`Đã đổi sang ${catOf(categoryId, state.categories).name}`, {
         action: kw
           ? {
               label: `Luôn xếp “${kw}”`,
               onPress: () => {
-                s.addRule(kw, categoryId);
+                state.addRule(kw, categoryId);
                 toast('Đã tạo quy tắc');
               },
             }
@@ -111,12 +111,12 @@ export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) 
     const rest = tx.amount - partsTotal;
     if (rest < 0 || !parts.length) return;
     parts.forEach((p) => {
-      const a = Number(p.amount.replace(/\D/g, ''));
-      if (a > 0)
+      const value = Number(p.amount.replace(/\D/g, ''));
+      if (value > 0)
         insertTx({
           ...tx,
           id: uid(),
-          amount: a,
+          amount: value,
           categoryId: p.categoryId,
           status: 'confirmed',
           flag: null,
@@ -290,8 +290,8 @@ export function TxDetail({ id, onClose }: { id: string; onClose?: () => void }) 
               keyboardType="number-pad"
               autoFocus
               onChangeText={(v) => {
-                const n = Number(v.replace(/\D/g, ''));
-                setEditAmt({ ...editAmt, amount: n ? n.toLocaleString('vi-VN') : '' });
+                const value = Number(v.replace(/\D/g, ''));
+                setEditAmt({ ...editAmt, amount: value ? value.toLocaleString('vi-VN') : '' });
               }}
             />
             <TextField

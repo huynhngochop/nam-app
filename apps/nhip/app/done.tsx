@@ -16,36 +16,36 @@ const RATINGS: { v: 1 | 2 | 3; label: string }[] = [
 export default function Done() {
   const { c } = useTheme();
   const { cycle } = useLocalSearchParams<{ cycle?: string }>();
-  const s = useNhip();
-  const n = Number(cycle ?? 1);
-  const last = s.logs[0];
-  const task = s.tasks.find((t) => t.id === last?.taskId);
-  const isLong = n % s.settings.longEvery === 0;
-  const breakMin = isLong ? s.settings.longMin : s.settings.shortMin;
+  const state = useNhip();
+  const num = Number(cycle ?? 1);
+  const last = state.logs[0];
+  const task = state.tasks.find((t) => t.id === last?.taskId);
+  const isLong = num % state.settings.longEvery === 0;
+  const breakMin = isLong ? state.settings.longMin : state.settings.shortMin;
   const [rating, setRating] = useState<1 | 2 | 3 | null>(null);
   const [note, setNote] = useState('');
   const [markDone, setMarkDone] = useState(false);
-  const [auto, setAuto] = useState(s.settings.autoBreak ? 15 : -1);
+  const [auto, setAuto] = useState(state.settings.autoBreak ? 15 : -1);
 
   const save = () => {
     if (rating) {
-      s.rateLast(rating, note || undefined);
+      state.rateLast(rating, note || undefined);
       track('session_rated', { rating });
     }
     if (markDone && task) {
-      s.updateTask(task.id, { finished: true });
+      state.updateTask(task.id, { finished: true });
       track('task_completed');
     }
   };
   const toBreak = () => {
     save();
-    const sess = s.startPhase(isLong ? 'long' : 'short', { cycleIndex: isLong ? 0 : n });
+    const sess = state.startPhase(isLong ? 'long' : 'short', { cycleIndex: isLong ? 0 : num });
     schedulePhaseEnd(sess.endAt, 'Hết giờ nghỉ', 'Vào phiên tiếp nào.');
     router.replace('/session');
   };
   const home = () => {
     save();
-    s.set({ session: null });
+    state.set({ session: null });
     router.replace('/(tabs)/timer');
   };
 
@@ -55,8 +55,8 @@ export default function Done() {
       toBreak();
       return;
     }
-    const t = setTimeout(() => setAuto((x) => x - 1), 1000);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setAuto((x) => x - 1), 1000);
+    return () => clearTimeout(timer);
     // Đồng hồ đếm ngược chỉ phụ thuộc số giây còn lại; `toBreak` đổi mỗi lần render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auto]);
@@ -74,8 +74,8 @@ export default function Done() {
     >
       <EmptyState
         icon="check"
-        title={`Xong phiên ${n}!`}
-        body={`${last?.minutes ?? s.settings.focusMin} phút${task ? ` · ${task.title}` : ''}`}
+        title={`Xong phiên ${num}!`}
+        body={`${last?.minutes ?? state.settings.focusMin} phút${task ? ` · ${task.title}` : ''}`}
       />
       <T v="headline">Bạn tập trung thế nào?</T>
       <Grid min={3} gap={8}>

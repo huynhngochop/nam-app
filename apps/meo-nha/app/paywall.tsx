@@ -50,16 +50,16 @@ export default function MeoPaywall() {
         setBusy(true);
         setError(null);
         track('purchase_started', { productId: p.id });
-        const r = await buy(p.id);
+        const result = await buy(p.id);
         setBusy(false);
-        if (r.status === 'success') {
+        if (result.status === 'success') {
           set({ noAds: true });
           track('purchase_completed', { productId: p.id });
           toast(PURCHASE_MESSAGES.success, { tone: 'success' });
           router.back();
-        } else if (r.status !== 'cancelled') {
-          setError(PURCHASE_MESSAGES[r.status]);
-          track('purchase_failed', { code: r.code });
+        } else if (result.status !== 'cancelled') {
+          setError(PURCHASE_MESSAGES[result.status]);
+          track('purchase_failed', { code: result.code });
         }
       }}
     />

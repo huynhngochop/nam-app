@@ -1,0 +1,1 @@
+packages/core/src/outbox.ts(65,9): error TS2353: Object literal may only specify known properties, and 'merge' does not exist in type '{ name: string; storage?: any; partialize?: ((s: S) => any) | undefined; onRehydrateStorage?: ((s: S) => any) | undefined; version?: number | undefined; migrate?: any; }'.

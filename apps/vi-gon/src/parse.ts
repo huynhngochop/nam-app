@@ -56,16 +56,16 @@ export function parseBankText(text: string, now = new Date()): Parsed | null {
   const time = t.match(/(\d{1,2}):(\d{2})(?::\d{2})?/);
   const date = t.match(/(\d{1,2})[/-](\d{1,2})(?:[/-](\d{2,4}))?/);
   if (time || date) {
-    const d = new Date(now);
+    const when = new Date(now);
     if (date) {
       const day = Number(date[1]);
       const mon = Number(date[2]) - 1;
       let yr = date[3] ? Number(date[3]) : now.getFullYear();
       if (yr < 100) yr += 2000;
-      if (day >= 1 && day <= 31 && mon >= 0 && mon <= 11) d.setFullYear(yr, mon, day);
+      if (day >= 1 && day <= 31 && mon >= 0 && mon <= 11) when.setFullYear(yr, mon, day);
     }
-    if (time) d.setHours(Number(time[1]), Number(time[2]), 0, 0);
-    at = d.getTime() > now.getTime() + 3600000 ? now.getTime() : d.getTime();
+    if (time) when.setHours(Number(time[1]), Number(time[2]), 0, 0);
+    at = when.getTime() > now.getTime() + 3600000 ? now.getTime() : when.getTime();
   }
 
   // Tài khoản: lấy 4 số cuối
@@ -119,13 +119,13 @@ export function categorize(
   kind: 'expense' | 'income',
   rules: Rule[],
 ): { categoryId: string; confident: boolean } {
-  const f = ` ${fold(merchant)} `;
+  const folded = ` ${fold(merchant)} `;
   const up = merchant.toUpperCase();
   const r = rules.find(
-    (x) => up.includes(x.keyword) || f.includes(` ${fold(x.keyword)} `) || f.includes(fold(x.keyword)),
+    (x) => up.includes(x.keyword) || folded.includes(` ${fold(x.keyword)} `) || folded.includes(fold(x.keyword)),
   );
   if (r) return { categoryId: r.categoryId, confident: true };
-  const b = BUILTIN.find((x) => x.re.test(f));
+  const b = BUILTIN.find((x) => x.re.test(folded));
   if (b) {
     const isIncomeCat = b.cat === 'salary' || b.cat === 'bonus';
     if (isIncomeCat === (kind === 'income')) return { categoryId: b.cat, confident: false };

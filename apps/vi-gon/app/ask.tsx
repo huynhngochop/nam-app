@@ -31,38 +31,38 @@ const PERIODS: PeriodKey[] = ['today', 'yesterday', 'this_week', 'this_month', '
 /** Hỏi Ví Gọn · Câu trả lời (số liệu tính trên máy, cho sửa cách hiểu). */
 export default function Ask() {
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const online = useOnline();
-  const s = useVi();
+  const state = useVi();
   const [q, setQ] = useState('');
   const [turns, setTurns] = useState<Turn[]>([]);
   const [busy, setBusy] = useState(false);
   const [fix, setFix] = useState<number | null>(null);
   const scroll = useRef<ScrollView>(null);
   const input = useRef<TextInput>(null);
-  const limit = getLimit(s.isPro ? 'AI_FINANCE_DAILY_PRO' : 'AI_FINANCE_DAILY_FREE', 10);
-  const left = quotaLeft(s.askUsed, limit);
+  const limit = getLimit(state.isPro ? 'AI_FINANCE_DAILY_PRO' : 'AI_FINANCE_DAILY_FREE', 10);
+  const left = quotaLeft(state.askUsed, limit);
   const ctx = {
-    cats: s.categories,
-    funds: s.funds,
-    startDay: s.monthStartDay,
-    monthlyBudget: s.monthlyBudget,
-    budgets: s.budgets,
+    cats: state.categories,
+    funds: state.funds,
+    startDay: state.monthStartDay,
+    monthlyBudget: state.monthlyBudget,
+    budgets: state.budgets,
   };
 
   const ask = async (text: string) => {
     const question = text.trim();
     if (!question || busy) return;
     setQ('');
-    let intent = parseIntent(question, s.categories, s.funds);
+    let intent = parseIntent(question, state.categories, state.funds);
     let viaAi = false;
     if (!intent && online && left > 0) {
       setBusy(true);
-      intent = await intentViaAi(question, s.categories, s.funds);
+      intent = await intentViaAi(question, state.categories, state.funds);
       setBusy(false);
       if (intent) {
         viaAi = true;
-        s.set({ askUsed: quotaUse(s.askUsed) });
+        state.set({ askUsed: quotaUse(state.askUsed) });
       }
     }
     let answer: Answer | null = null;
@@ -86,18 +86,20 @@ export default function Ask() {
 
   return (
     <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1, backgroundColor: c.bg }}>
-      <View style={{ paddingHorizontal: L.gutter, width: '100%', maxWidth: L.readableWidth, alignSelf: 'center' }}>
+      <View
+        style={{ paddingHorizontal: layout.gutter, width: '100%', maxWidth: layout.readableWidth, alignSelf: 'center' }}
+      >
         <AppBar title="Hỏi Ví Gọn" onBack={() => router.back()} backIcon="x" />
       </View>
       <ScrollView
         ref={scroll}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
-          paddingHorizontal: L.gutter,
+          paddingHorizontal: layout.gutter,
           paddingBottom: 16,
           gap: 12,
           width: '100%',
-          maxWidth: L.readableWidth,
+          maxWidth: layout.readableWidth,
           alignSelf: 'center',
         }}
       >
@@ -153,7 +155,7 @@ export default function Ask() {
                     </T>
                   </Row>
                   <T v="display" accessibilityLiveRegion="polite">
-                    {s.hideAmounts && /đ/.test(t.answer.headline) ? '•••••• đ' : t.answer.headline}
+                    {state.hideAmounts && /đ/.test(t.answer.headline) ? '•••••• đ' : t.answer.headline}
                   </T>
                   <T v="caption" muted>
                     {t.answer.detail}
@@ -168,7 +170,7 @@ export default function Ask() {
                   ) : null}
                   <Card variant="fill" onPress={() => setFix(i)} accessibilityLabel="Sửa cách hiểu">
                     <T v="caption">
-                      {`Đã hiểu: ${t.intent.categoryId ? catOf(t.intent.categoryId, s.categories).name : t.intent.kind === 'income' ? 'tổng thu' : 'tổng chi'} · ${PERIOD_LABEL(t.intent.period)} · `}
+                      {`Đã hiểu: ${t.intent.categoryId ? catOf(t.intent.categoryId, state.categories).name : t.intent.kind === 'income' ? 'tổng thu' : 'tổng chi'} · ${PERIOD_LABEL(t.intent.period)} · `}
                       <T v="caption" color={c.a} weight="semibold">
                         Sửa
                       </T>
@@ -210,10 +212,10 @@ export default function Ask() {
       </ScrollView>
       <View
         style={{
-          paddingHorizontal: L.gutter,
+          paddingHorizontal: layout.gutter,
           paddingVertical: 8,
           width: '100%',
-          maxWidth: L.readableWidth,
+          maxWidth: layout.readableWidth,
           alignSelf: 'center',
           gap: 4,
         }}
@@ -254,7 +256,7 @@ export default function Ask() {
                 selected={!turns[fix].intent!.categoryId}
                 onPress={() => reinterpret(fix, { categoryId: null })}
               />
-              {s.categories
+              {state.categories
                 .filter((x) => x.kind === turns[fix].intent!.kind)
                 .map((x) => (
                   <Chip

@@ -26,17 +26,17 @@ import { confirmText, openSms } from '../../src/messages';
 export default function NewBooking() {
   const { c } = useTheme();
   const toast = useToast();
-  const p = useLocalSearchParams<{ staffId?: string; at?: string; customerId?: string }>();
-  const s = useHen();
-  const init = p.at
-    ? new Date(Math.ceil(Number(p.at) / 900000) * 900000)
+  const params = useLocalSearchParams<{ staffId?: string; at?: string; customerId?: string }>();
+  const state = useHen();
+  const init = params.at
+    ? new Date(Math.ceil(Number(params.at) / 900000) * 900000)
     : new Date(Math.ceil(Date.now() / 900000) * 900000);
   const [q, setQ] = useState('');
-  const [customerId, setCustomerId] = useState<string | null>(p.customerId ?? null);
+  const [customerId, setCustomerId] = useState<string | null>(params.customerId ?? null);
   const [walkIn, setWalkIn] = useState(false);
   const [newName, setNewName] = useState('');
-  const [svcIds, setSvcIds] = useState<string[]>(s.services.slice(0, 1).map((x) => x.id));
-  const [staffId, setStaffId] = useState(p.staffId ?? s.staff[0]?.id);
+  const [svcIds, setSvcIds] = useState<string[]>(state.services.slice(0, 1).map((x) => x.id));
+  const [staffId, setStaffId] = useState(params.staffId ?? state.staff[0]?.id);
   const [dayOff, setDayOff] = useState(
     Math.round((new Date(init).setHours(0, 0, 0, 0) - new Date().setHours(0, 0, 0, 0)) / 86400000),
   );
@@ -46,17 +46,17 @@ export default function NewBooking() {
   const matches = useMemo(
     () =>
       q.length >= 2
-        ? s.customers
+        ? state.customers
             .filter((x) => fold(x.name).includes(fold(q)) || (x.phone ?? '').includes(q.replace(/\s/g, '')))
             .slice(0, 5)
         : [],
-    [q, s.customers],
+    [q, state.customers],
   );
-  const cust = s.customers.find((x) => x.id === customerId);
-  const dur = durationOf(svcIds, s.services) || 30;
+  const cust = state.customers.find((x) => x.id === customerId);
+  const dur = durationOf(svcIds, state.services) || 30;
   const day = addDays(new Date(), dayOff);
   // Ô giờ theo giờ mở cửa của ngày đã chọn, chỉ những giờ làm xong trước giờ đóng cửa.
-  const dayHours = s.shop.hours.find((h) => h.day === day.getDay());
+  const dayHours = state.shop.hours.find((h) => h.day === day.getDay());
   const closed = !!dayHours && !dayHours.open;
   const toMin = (t: string) => {
     const [h, m] = t.split(':').map(Number);
@@ -65,7 +65,7 @@ export default function NewBooking() {
   const openMin = toMin(dayHours?.from ?? '08:00');
   const closeMin = toMin(dayHours?.to ?? '21:00');
   // Bước giờ theo cài đặt tiệm, mặc định 15 phút.
-  const step = s.shop.settings.slotStepMin || 15;
+  const step = state.shop.settings.slotStepMin || 15;
   const times = closed
     ? []
     : Array.from({ length: Math.max(0, Math.floor((closeMin - dur - openMin) / step) + 1) }, (_, i) => {
@@ -81,13 +81,13 @@ export default function NewBooking() {
   start.setHours(hh, mm, 0, 0);
   const end = start.getTime() + dur * 60000;
   // Tính cả thời gian nghỉ giữa 2 khách (Cài đặt → Lịch hẹn).
-  const gapMs = s.shop.settings.bufferMin * 60000;
-  const clash = staffId ? overlaps(s.bookings, staffId, start.getTime() - gapMs, end + gapMs) : undefined;
-  const clashName = clash ? s.customers.find((x) => x.id === clash.customerId)?.name : null;
+  const gapMs = state.shop.settings.bufferMin * 60000;
+  const clash = staffId ? overlaps(state.bookings, staffId, start.getTime() - gapMs, end + gapMs) : undefined;
+  const clashName = clash ? state.customers.find((x) => x.id === clash.customerId)?.name : null;
   const ok = (customerId || walkIn || newName.trim()) && svcIds.length && staffId && !closed && times.length > 0;
-  const eligibleStaff = s.staff.filter((st) =>
+  const eligibleStaff = state.staff.filter((st) =>
     svcIds.every((id) => {
-      const sv = s.services.find((x) => x.id === id);
+      const sv = state.services.find((x) => x.id === id);
       return !sv?.staffIds.length || sv.staffIds.includes(st.id);
     }),
   );
@@ -96,12 +96,12 @@ export default function NewBooking() {
   const create = () => {
     let cid = customerId;
     if (!cid)
-      cid = s.upsertCustomer({
+      cid = state.upsertCustomer({
         name: walkIn ? 'Khách lẻ' : newName.trim(),
         phone: typedPhone,
         marketingConsent: false,
       });
-    const b = s.createBooking({
+    const b = state.createBooking({
       customerId: cid,
       staffId: staffId!,
       serviceIds: svcIds,
@@ -165,7 +165,7 @@ export default function NewBooking() {
       )}
       <SectionHeader title="Dịch vụ" />
       <Chips>
-        {s.services.map((sv) => (
+        {state.services.map((sv) => (
           <Chip
             key={sv.id}
             label={`${sv.name} · ${vnd(sv.price)}`}

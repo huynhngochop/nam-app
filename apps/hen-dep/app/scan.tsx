@@ -36,7 +36,7 @@ const SAMPLE =
 export default function Scan() {
   const { c } = useTheme();
   const toast = useToast();
-  const s = useHen();
+  const state = useHen();
   const [uri, setUri] = useState<string | null>(null);
   const [text, setText] = useState('');
   const [busy, setBusy] = useState(false);
@@ -82,17 +82,21 @@ export default function Scan() {
   };
 
   const quota = getLimit(
-    s.plan.code === 'chain' ? 'AI_QUOTA_CHAIN' : s.plan.code === 'standard' ? 'AI_QUOTA_STANDARD' : 'AI_QUOTA_BASIC',
+    state.plan.code === 'chain'
+      ? 'AI_QUOTA_CHAIN'
+      : state.plan.code === 'standard'
+        ? 'AI_QUOTA_STANDARD'
+        : 'AI_QUOTA_BASIC',
     10,
   );
   const month = new Date().toISOString().slice(0, 7);
-  const used = s.aiUsed.month === month ? s.aiUsed.count : 0;
+  const used = state.aiUsed.month === month ? state.aiUsed.count : 0;
 
   const run = async () => {
     setBusy(true);
     try {
       const r = used < quota ? await parsePriceBoard(text) : { services: parseLocally(text), viaAi: false };
-      if (r.viaAi) s.consumeAi();
+      if (r.viaAi) state.consumeAi();
       setViaAi(r.viaAi);
       setRows(r.services.map((x) => ({ ...x, keep: true })));
       track('price_board_parsed', { count: r.services.length, viaAi: r.viaAi });
@@ -119,13 +123,13 @@ export default function Scan() {
             title={`Lưu ${keep.length} dịch vụ`}
             disabled={!keep.length}
             onPress={() => {
-              s.addServices(
+              state.addServices(
                 keep.map((r) => ({
                   name: r.name,
                   price: r.price!,
                   durationMin: r.durationMin,
                   group: r.group,
-                  staffIds: s.staff.map((x) => x.id),
+                  staffIds: state.staff.map((x) => x.id),
                   visible: true,
                 })),
               );

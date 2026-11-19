@@ -10,27 +10,31 @@ const PLAN_LABEL = { trial: 'Dùng thử', basic: 'Cơ bản', standard: 'Tiêu 
 /** Tab Tiệm · menu quản lý. Tablet: các nhóm xếp 2 cột. */
 export default function ShopTab() {
   const { c } = useTheme();
-  const s = useHen();
-  const trialDays = Math.max(0, Math.ceil((s.plan.trialEndsAt - Date.now()) / 86400000));
+  const state = useHen();
+  const trialDays = Math.max(0, Math.ceil((state.plan.trialEndsAt - Date.now()) / 86400000));
   const quota = getLimit(
-    s.plan.code === 'chain' ? 'AI_QUOTA_CHAIN' : s.plan.code === 'standard' ? 'AI_QUOTA_STANDARD' : 'AI_QUOTA_BASIC',
+    state.plan.code === 'chain'
+      ? 'AI_QUOTA_CHAIN'
+      : state.plan.code === 'standard'
+        ? 'AI_QUOTA_STANDARD'
+        : 'AI_QUOTA_BASIC',
     10,
   );
   const month = new Date().toISOString().slice(0, 7);
-  const used = s.aiUsed.month === month ? s.aiUsed.count : 0;
+  const used = state.aiUsed.month === month ? state.aiUsed.count : 0;
 
   return (
     <Screen scroll>
       <T v="caption" muted style={{ paddingTop: 8 }}>
-        {s.shop.type}
+        {state.shop.type}
       </T>
       <T v="display" accessibilityRole="header">
-        {s.shop.name}
+        {state.shop.name}
       </T>
       <Card variant="tint" onPress={() => router.push('/billing')} accessibilityLabel="Gói dịch vụ">
         <Row between>
-          <T v="headline">{`Gói ${PLAN_LABEL[s.plan.code]}`}</T>
-          {s.plan.code === 'trial' ? (
+          <T v="headline">{`Gói ${PLAN_LABEL[state.plan.code]}`}</T>
+          {state.plan.code === 'trial' ? (
             <Badge label={`Còn ${trialDays} ngày`} tone={trialDays <= 5 ? 'warning' : 'accent'} />
           ) : null}
         </Row>
@@ -43,7 +47,7 @@ export default function ShopTab() {
             <ListItem
               left={<Thumb icon="link" color={c.a} bg={c.at} />}
               title="Link & mã QR đặt lịch"
-              subtitle={`hendep.app/${s.shop.slug}`}
+              subtitle={`hendep.app/${state.shop.slug}`}
               chevron
               onPress={() => router.push('/link')}
             />
@@ -51,7 +55,7 @@ export default function ShopTab() {
           <ListItem
             left={<Thumb icon="send" color={c.a} bg={c.at} />}
             title="Gửi ưu đãi"
-            subtitle={`${s.campaigns.length} chiến dịch đã gửi`}
+            subtitle={`${state.campaigns.length} chiến dịch đã gửi`}
             chevron
             onPress={() => router.push('/campaign')}
             divider={false}
@@ -62,14 +66,14 @@ export default function ShopTab() {
           <ListItem
             left={<Thumb icon="scissors" color={c.a} bg={c.at} />}
             title="Dịch vụ & bảng giá"
-            subtitle={`${s.services.length} dịch vụ`}
+            subtitle={`${state.services.length} dịch vụ`}
             chevron
             onPress={() => router.push('/services')}
           />
           <ListItem
             left={<Thumb icon="users" color={c.a} bg={c.at} />}
             title="Nhân viên"
-            subtitle={`${s.staff.length} người`}
+            subtitle={`${state.staff.length} người`}
             chevron
             onPress={() => router.push('/staff')}
           />

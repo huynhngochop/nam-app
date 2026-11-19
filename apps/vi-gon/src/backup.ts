@@ -60,8 +60,8 @@ const SETTINGS_KEYS = [
 
 export async function createBackup(password: string, hint: string): Promise<{ uri: string; shared: boolean }> {
   if (password.length < 8) throw new Error('WEAK_PASSWORD');
-  const s = useVi.getState();
-  const settings = Object.fromEntries(SETTINGS_KEYS.map((k) => [k, s[k]]));
+  const state = useVi.getState();
+  const settings = Object.fromEntries(SETTINGS_KEYS.map((k) => [k, state[k]]));
   const tx = allTx();
   const salt = Crypto.getRandomBytes(16);
   const nonce = Crypto.getRandomBytes(24);
@@ -72,7 +72,7 @@ export async function createBackup(password: string, hint: string): Promise<{ ur
     app: 'vi-gon',
     createdAt: Date.now(),
     txCount: tx.length,
-    fundCount: s.funds.length,
+    fundCount: state.funds.length,
     hint: hint.slice(0, 60),
     kdf: 'pbkdf2-sha256',
     iter: ITER,
@@ -80,15 +80,15 @@ export async function createBackup(password: string, hint: string): Promise<{ ur
     nonce: b64(nonce),
     data: b64(cipher),
   };
-  const d = new Date();
+  const date = new Date();
   const f = new File(
     Paths.cache,
-    `ViGon-saoluu-${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}.vgb`,
+    `ViGon-saoluu-${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, '0')}${String(date.getDate()).padStart(2, '0')}.vgb`,
   );
   if (f.exists) f.delete();
   f.create();
   f.write(JSON.stringify(file));
-  s.set({ lastBackupAt: Date.now(), backupHint: hint });
+  state.set({ lastBackupAt: Date.now(), backupHint: hint });
   const can = await Sharing.isAvailableAsync();
   if (can)
     await Sharing.shareAsync(f.uri, {

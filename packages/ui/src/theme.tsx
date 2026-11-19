@@ -23,7 +23,7 @@ export function ThemeProvider({
 }
 
 export function useTheme(): ThemeCtx {
-  const v = useContext(Ctx);
-  if (!v) throw new Error('useTheme phải nằm trong ThemeProvider');
-  return v;
+  const theme = useContext(Ctx);
+  if (!theme) throw new Error('useTheme phải nằm trong ThemeProvider');
+  return theme;
 }

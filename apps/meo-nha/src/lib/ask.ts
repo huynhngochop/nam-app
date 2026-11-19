@@ -28,10 +28,10 @@ const OUT_OF_SCOPE =
   /(bi sot|sot cao|uong thuoc|thuoc gi|dau bung|mang thai|phap ly|kien tung|dau tu|chung khoan|vay tien|benh vien|kham benh)/;
 
 export function preCheck(q: string): AskAnswer | null {
-  const f = fold(q);
+  const folded = fold(q);
   for (const d of DANGER)
-    if (d.re.test(f)) return { kind: 'danger', text: d.text, sources: d.tip ? [tipById(d.tip)!] : [] };
-  if (OUT_OF_SCOPE.test(f)) return { kind: 'out_of_scope' };
+    if (d.re.test(folded)) return { kind: 'danger', text: d.text, sources: d.tip ? [tipById(d.tip)!] : [] };
+  if (OUT_OF_SCOPE.test(folded)) return { kind: 'out_of_scope' };
   return null;
 }
 

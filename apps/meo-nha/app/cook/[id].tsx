@@ -11,8 +11,8 @@ import { Recipe, RECIPES } from '../../src/data/recipes';
 /** Chế độ nấu: màn luôn sáng, chữ to, hẹn giờ từng bước (đếm theo thời điểm kết thúc, đúng cả khi app chạy nền). */
 export default function Cook() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const r = RECIPES.find((x) => x.id === id);
-  if (!r || !r.steps.length)
+  const recipe = RECIPES.find((x) => x.id === id);
+  if (!recipe || !recipe.steps.length)
     return (
       <Screen>
         <EmptyState
@@ -23,12 +23,12 @@ export default function Cook() {
         />
       </Screen>
     );
-  return <CookSteps r={r} />;
+  return <CookSteps r={recipe} />;
 }
 
 function CookSteps({ r }: { r: Recipe }) {
   useKeepAwake();
-  const L = useLayout();
+  const layout = useLayout();
   const toast = useToast();
   const [i, setI] = useState(0);
   const [endAt, setEndAt] = useState<number | null>(null);
@@ -40,8 +40,8 @@ function CookSteps({ r }: { r: Recipe }) {
 
   useEffect(() => {
     if (!endAt) return;
-    const t = setInterval(() => setNow(Date.now()), 500);
-    return () => clearInterval(t);
+    const ticker = setInterval(() => setNow(Date.now()), 500);
+    return () => clearInterval(ticker);
   }, [endAt]);
   useEffect(() => {
     if (endAt && now >= endAt) {
@@ -90,7 +90,7 @@ function CookSteps({ r }: { r: Recipe }) {
     toast('Ngon miệng nhé!', { tone: 'success' });
     router.back();
   };
-  const big = L.isCompact ? 24 : 32;
+  const big = layout.isCompact ? 24 : 32;
 
   return (
     <Screen

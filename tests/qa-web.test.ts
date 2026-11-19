@@ -56,9 +56,9 @@ test('phiên đã qua giờ kết thúc được tính là hoàn thành, kể c�
   assert.equal(classifySession(sess({ endAt: now - 1000 }), now, false), 'expired');
 });
 test('bấm Back khỏi màn phiên không bật hộp "phiên dở"; chỉ hỏi ở lần mở đầu sau khi app khởi động', () => {
-  const s = sess({ lastHeartbeatAt: now - 300_000 });
-  assert.equal(classifySession(s, now, false), 'active');
-  assert.equal(classifySession(s, now, true), 'stale');
+  const session = sess({ lastHeartbeatAt: now - 300_000 });
+  assert.equal(classifySession(session, now, false), 'active');
+  assert.equal(classifySession(session, now, true), 'stale');
 });
 test('phiên tạm dừng hoặc đếm lên không bao giờ bị coi là hết giờ', () => {
   assert.equal(

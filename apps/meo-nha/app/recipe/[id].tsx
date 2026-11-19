@@ -27,26 +27,26 @@ const fmtQty = (n: number) => (Number.isInteger(n) ? String(n) : n.toFixed(1).re
 export default function RecipeScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const toast = useToast();
-  const r = RECIPES.find((x) => x.id === id);
+  const recipe = RECIPES.find((x) => x.id === id);
   const pantry = useMeo((s) => s.pantry);
-  const saved = useMeo((s) => (r ? s.savedRecipes.includes(r.id) : false));
+  const saved = useMeo((s) => (recipe ? s.savedRecipes.includes(recipe.id) : false));
   const toggleSave = useMeo((s) => s.toggleSaveRecipe);
-  const [servings, setServings] = useState(r?.baseServings ?? 2);
+  const [servings, setServings] = useState(recipe?.baseServings ?? 2);
   const items = useMemo(
     () =>
-      r
-        ? r.ingredients.map((i) => ({
+      recipe
+        ? recipe.ingredients.map((i) => ({
             id: i.id,
             name: ingName(i.id),
-            qty: `${fmtQty((i.qty * servings) / r.baseServings)} ${i.unit}`,
+            qty: `${fmtQty((i.qty * servings) / recipe.baseServings)} ${i.unit}`,
             have: pantry.includes(i.id),
           }))
         : [],
-    [r, servings, pantry],
+    [recipe, servings, pantry],
   );
-  if (!r)
+  if (!recipe)
     return (
       <Screen>
         <EmptyState
@@ -61,7 +61,7 @@ export default function RecipeScreen() {
   const steps = (
     <View style={{ gap: 8 }}>
       <T v="headline">Các bước</T>
-      {r.steps.map((s, i) => (
+      {recipe.steps.map((s, i) => (
         <Row key={i} style={{ alignItems: 'flex-start' }} gap={10}>
           <T v="headline" accent style={{ width: 22 }}>
             {i + 1}
@@ -81,14 +81,14 @@ export default function RecipeScreen() {
   return (
     <Screen
       scroll
-      readable={!L.twoPane}
+      readable={!layout.twoPane}
       footer={
         <Button
           title="Bắt đầu nấu"
           icon="play"
           onPress={() => {
-            track('cook_started', { recipeId: r.id });
-            router.push(`/cook/${r.id}`);
+            track('cook_started', { recipeId: recipe.id });
+            router.push(`/cook/${recipe.id}`);
           }}
         />
       }
@@ -96,33 +96,33 @@ export default function RecipeScreen() {
       <View
         style={{
           height: 160,
-          marginHorizontal: -L.gutter,
+          marginHorizontal: -layout.gutter,
           backgroundColor: c.at,
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
         <Icon name="coffee" size={64} color={c.a} />
-        <View style={{ position: 'absolute', top: 12, left: L.gutter }}>
+        <View style={{ position: 'absolute', top: 12, left: layout.gutter }}>
           <IconButton icon="chevron-left" label="Quay lại" bg={c.surface} onPress={() => router.back()} />
         </View>
-        <View style={{ position: 'absolute', top: 12, right: L.gutter }}>
+        <View style={{ position: 'absolute', top: 12, right: layout.gutter }}>
           <IconButton
             icon="bookmark"
             label="Lưu"
             bg={c.surface}
             color={saved ? c.a : undefined}
-            onPress={() => toggleSave(r.id)}
+            onPress={() => toggleSave(recipe.id)}
           />
         </View>
       </View>
-      <T v="title">{r.title}</T>
+      <T v="title">{recipe.title}</T>
       <Chips>
-        <Chip label={`${r.minutes} phút`} icon="clock" disabled />
-        <Chip label={r.difficulty === 'easy' ? 'Dễ' : 'Vừa'} disabled />
-        {r.kcal ? <Chip label={`${r.kcal} kcal`} icon="zap" disabled /> : null}
+        <Chip label={`${recipe.minutes} phút`} icon="clock" disabled />
+        <Chip label={recipe.difficulty === 'easy' ? 'Dễ' : 'Vừa'} disabled />
+        {recipe.kcal ? <Chip label={`${recipe.kcal} kcal`} icon="zap" disabled /> : null}
       </Chips>
-      <View style={{ flexDirection: L.twoPane ? 'row' : 'column', gap: 24 }}>
+      <View style={{ flexDirection: layout.twoPane ? 'row' : 'column', gap: 24 }}>
         <View style={{ flex: 1, gap: 8 }}>
           <Row between wrap>
             <T v="headline">Nguyên liệu</T>
@@ -139,9 +139,9 @@ export default function RecipeScreen() {
             />
           ) : null}
         </View>
-        {L.twoPane ? <View style={{ flex: 1 }}>{steps}</View> : null}
+        {layout.twoPane ? <View style={{ flex: 1 }}>{steps}</View> : null}
       </View>
-      {!L.twoPane ? steps : null}
+      {!layout.twoPane ? steps : null}
     </Screen>
   );
 }

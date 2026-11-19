@@ -72,11 +72,11 @@ export function searchTips(q: string, opts: { category?: CategoryId | 'all'; sor
 }
 
 export function suggestions(q: string): string[] {
-  const f = fold(q);
-  if (f.length < 2) return [];
+  const folded = fold(q);
+  if (folded.length < 2) return [];
   const out: string[] = [];
   for (const t of pool()) {
-    if (index(t).title.includes(f) || t.keywords.includes(f)) out.push(t.title);
+    if (index(t).title.includes(folded) || t.keywords.includes(folded)) out.push(t.title);
     if (out.length === 5) break;
   }
   return out;
@@ -116,6 +116,6 @@ export function dailyTip(interests: CategoryId[], d = new Date()): Tip {
 }
 
 export function looksLikeQuestion(q: string): boolean {
-  const f = fold(q);
-  return /\?|sao|the nao|lam gi|co nen|bang cach nao|tai sao|cach nao/.test(f) || f.split(/\s+/).length >= 5;
+  const folded = fold(q);
+  return /\?|sao|the nao|lam gi|co nen|bang cach nao|tai sao|cach nao/.test(folded) || folded.split(/\s+/).length >= 5;
 }

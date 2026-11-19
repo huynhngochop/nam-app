@@ -25,24 +25,24 @@ type Kind = 'expense' | 'income' | 'fund';
 /** Thêm giao dịch nhanh bằng bàn phím số. Tablet ngang: bàn phím bên phải, chi tiết bên trái. */
 export default function Add() {
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const toast = useToast();
-  const s = useVi();
+  const state = useVi();
   const [kind, setKind] = useState<Kind>('expense');
   const [amount, setAmount] = useState(0);
   const [cat, setCat] = useState<string>('food');
-  const [fundId, setFundId] = useState<string | undefined>(s.funds[0]?.id);
+  const [fundId, setFundId] = useState<string | undefined>(state.funds[0]?.id);
   const [day, setDay] = useState(0);
   const [note, setNote] = useState('');
   const [merchant, setMerchant] = useState('');
-  const cats = s.categories.filter((x) => x.kind === (kind === 'income' ? 'income' : 'expense'));
+  const cats = state.categories.filter((x) => x.kind === (kind === 'income' ? 'income' : 'expense'));
 
   const onKey = (k: string) => {
     Haptics.selectionAsync().catch(() => {});
     setAmount((a) => {
       if (k === '⌫') return Math.floor(a / 10);
-      const n = Number(`${a || ''}${k}`);
-      return n > 9_999_999_999 ? a : n;
+      const value = Number(`${a || ''}${k}`);
+      return value > 9_999_999_999 ? a : value;
     });
   };
   const save = () => {
@@ -50,7 +50,7 @@ export default function Add() {
     const at = addDays(new Date(), -day);
     if (day) at.setHours(12, 0, 0, 0);
     else at.setTime(Date.now());
-    const fund = s.funds.find((f) => f.id === fundId);
+    const fund = state.funds.find((f) => f.id === fundId);
     insertTx({
       id: uid(),
       amount,
@@ -70,7 +70,7 @@ export default function Add() {
       pairId: null,
       createdAt: Date.now(),
     });
-    if (kind === 'fund' && fundId) s.moveFund(fundId, amount);
+    if (kind === 'fund' && fundId) state.moveFund(fundId, amount);
     track('tx_manual_added', { kind });
     toast(`Đã lưu ${vnd(amount)}`, { tone: 'success' });
     router.back();
@@ -98,9 +98,9 @@ export default function Add() {
         >{`${kind === 'income' ? '+' : kind === 'expense' ? '−' : ''}${vnd(amount)}`}</T>
       </View>
       {kind === 'fund' ? (
-        s.funds.length ? (
+        state.funds.length ? (
           <Chips>
-            {s.funds.map((f) => (
+            {state.funds.map((f) => (
               <Chip
                 key={f.id}
                 label={f.name}
@@ -147,11 +147,11 @@ export default function Add() {
     <Screen
       scroll
       edges={['top', 'bottom']}
-      readable={!L.twoPane}
+      readable={!layout.twoPane}
       footer={<Button title="Lưu" disabled={!amount || (kind === 'fund' && !fundId)} onPress={save} />}
     >
       <AppBar title="Thêm giao dịch" onBack={() => router.back()} backIcon="x" />
-      {L.twoPane ? (
+      {layout.twoPane ? (
         <View style={{ flexDirection: 'row', gap: 24 }}>
           <View style={{ flex: 1 }}>{details}</View>
           <View style={{ width: 360 }}>

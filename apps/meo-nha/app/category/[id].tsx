@@ -13,17 +13,17 @@ type Sort = 'popular' | 'new' | 'easy';
 export default function Category() {
   const { id } = useLocalSearchParams<{ id: CategoryId }>();
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const cat = CATEGORIES.find((x) => x.id === id) ?? CATEGORIES[0];
   const [sub, setSub] = useState<string | null>(null);
   const hidden = useMeo((s) => s.hiddenTips);
   const [sort, setSort] = useState<Sort>('popular');
   const list = useMemo(() => {
-    let l = TIPS.filter((t) => t.categoryId === cat.id && (!sub || t.sub === sub) && !hidden.includes(t.id));
-    l = [...l].sort((a, b) =>
+    let list = TIPS.filter((t) => t.categoryId === cat.id && (!sub || t.sub === sub) && !hidden.includes(t.id));
+    list = [...list].sort((a, b) =>
       sort === 'easy' ? a.minutes - b.minutes : sort === 'new' ? b.order - a.order : a.order - b.order,
     );
-    return l;
+    return list;
   }, [cat.id, sub, sort, hidden]);
   const count = useMemo(() => TIPS.filter((t) => t.categoryId === cat.id).length, [cat.id]);
   return (
@@ -31,7 +31,7 @@ export default function Category() {
       <FlashList
         data={list}
         keyExtractor={(t) => t.id}
-        contentContainerStyle={{ paddingHorizontal: L.gutter, paddingBottom: 24 }}
+        contentContainerStyle={{ paddingHorizontal: layout.gutter, paddingBottom: 24 }}
         ListHeaderComponent={
           <View style={{ gap: 12, paddingBottom: 8 }}>
             <AppBar

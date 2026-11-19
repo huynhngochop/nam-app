@@ -10,11 +10,11 @@ const TIMES = ['06:00', '06:30', '07:00', '07:30', '08:00', '12:00', '19:00', '2
 
 /** Bật thông báo: giải thích trước, rồi mới gọi hộp thoại của hệ điều hành. */
 export default function NotifyOnboarding() {
-  const s = useMeo();
+  const state = useMeo();
   const [pick, setPick] = useState(false);
   const [denied, setDenied] = useState(false);
   const done = () => {
-    s.set({ onboarded: true });
+    state.set({ onboarded: true });
     track('onboarding_completed');
     router.replace('/(tabs)/explore');
   };
@@ -26,7 +26,7 @@ export default function NotifyOnboarding() {
     const ok = await requestNotify();
     track('notification_permission_result', { granted: ok });
     if (ok) {
-      s.set({ dailyTipOn: true });
+      state.set({ dailyTipOn: true });
       done();
     } else setDenied(true);
   };
@@ -59,7 +59,7 @@ export default function NotifyOnboarding() {
           left={<Thumb icon="clock" />}
           title="Giờ nhận mẹo"
           subtitle="Có thể đổi trong Cài đặt"
-          right={<Chip label={s.notifyTime} selected onPress={() => setPick(true)} />}
+          right={<Chip label={state.notifyTime} selected onPress={() => setPick(true)} />}
         />
       </Card>
       <Sheet visible={pick} onClose={() => setPick(false)} title="Giờ nhận mẹo">
@@ -68,9 +68,9 @@ export default function NotifyOnboarding() {
             <Chip
               key={t}
               label={t}
-              selected={t === s.notifyTime}
+              selected={t === state.notifyTime}
               onPress={() => {
-                s.set({ notifyTime: t });
+                state.set({ notifyTime: t });
                 setPick(false);
               }}
             />

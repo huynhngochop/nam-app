@@ -16,7 +16,7 @@ export function computeAnswer(
   i: Intent,
   ctx: { cats: Category[]; funds: Fund[]; startDay: number; monthlyBudget: number; budgets: Record<string, number> },
 ): Answer {
-  const r = periodRange(i.period, ctx.startDay);
+  const range = periodRange(i.period, ctx.startDay);
   const pl = PERIOD_LABEL(i.period);
   const cat = i.categoryId ? catOf(i.categoryId, ctx.cats) : null;
   const sumOf = (from: number, to: number) =>
@@ -77,8 +77,8 @@ export function computeAnswer(
   }
 
   if (i.metric === 'top' || (i.metric === 'change' && !cat)) {
-    const now = byCategory(r.from, r.to, i.kind);
-    const prev = byCategory(r.prevFrom, r.prevTo, i.kind);
+    const now = byCategory(range.from, range.to, i.kind);
+    const prev = byCategory(range.prevFrom, range.prevTo, i.kind);
     if (i.metric === 'top') {
       if (!now.length)
         return {
@@ -89,7 +89,7 @@ export function computeAnswer(
         headline: `${catOf(now[0].categoryId, ctx.cats).name}: ${vnd(now[0].total)}`,
         detail: `Nhiều nhất ${pl} · ${now[0].count} giao dịch`,
         bars: now.slice(0, 6).map((x) => ({ label: catOf(x.categoryId, ctx.cats).name.split(' ')[0], value: x.total })),
-        txFilter: { from: r.from, to: r.to, categoryId: now[0].categoryId, kind: i.kind },
+        txFilter: { from: range.from, to: range.to, categoryId: now[0].categoryId, kind: i.kind },
       };
     }
     const diffs = now
@@ -104,20 +104,20 @@ export function computeAnswer(
       detail: before
         ? `▲ ${Math.round((top.diff / before) * 100)}% so với kỳ trước (${shortMoney(before)} → ${shortMoney(top.total)})`
         : `Kỳ trước chưa chi khoản này`,
-      txFilter: { from: r.from, to: r.to, categoryId: top.categoryId, kind: i.kind },
+      txFilter: { from: range.from, to: range.to, categoryId: top.categoryId, kind: i.kind },
     };
   }
 
-  const cur = sumOf(r.from, r.to);
-  const prev = sumOf(r.prevFrom, r.prevTo);
-  const n = countOf(r.from, r.to);
-  const filter = { from: r.from, to: r.to, categoryId: cat?.id, kind: i.kind };
+  const cur = sumOf(range.from, range.to);
+  const prev = sumOf(range.prevFrom, range.prevTo);
+  const n = countOf(range.from, range.to);
+  const filter = { from: range.from, to: range.to, categoryId: cat?.id, kind: i.kind };
   const changeTxt = prev
     ? ` · ${cur >= prev ? '▲' : '▼'} ${Math.abs(Math.round(((cur - prev) / prev) * 100))}% so với kỳ trước`
     : '';
   if (i.metric === 'count') return { headline: `${n} lần`, detail: `${what} ${pl} · ${vnd(cur)}`, txFilter: filter };
   if (i.metric === 'average') {
-    const days = Math.max(1, Math.ceil((Math.min(Date.now(), r.to) - r.from) / 86400000));
+    const days = Math.max(1, Math.ceil((Math.min(Date.now(), range.to) - range.from) / 86400000));
     return {
       headline: `${vnd(Math.round(cur / days))}/ngày`,
       detail: `${what} ${pl}: ${vnd(cur)} trong ${days} ngày`,
@@ -126,13 +126,13 @@ export function computeAnswer(
   }
   // 6 kỳ gần nhất cho biểu đồ (theo tháng)
   const bars = Array.from({ length: 6 }, (_, k) => {
-    const p = periodOf(ctx.startDay, k - 5);
+    const period = periodOf(ctx.startDay, k - 5);
     const v = cat
-      ? (byCategory(p.from, p.to, i.kind).find((x) => x.categoryId === cat.id)?.total ?? 0)
+      ? (byCategory(period.from, period.to, i.kind).find((x) => x.categoryId === cat.id)?.total ?? 0)
       : i.kind === 'income'
-        ? totals(p.from, p.to).income
-        : totals(p.from, p.to).expense;
-    return { label: `T${p.month}`, value: v };
+        ? totals(period.from, period.to).income
+        : totals(period.from, period.to).expense;
+    return { label: `T${period.month}`, value: v };
   });
   return {
     headline: vnd(cur),

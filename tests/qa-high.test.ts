@@ -13,11 +13,11 @@ const intent = (q: string) => parseIntent(q, DEFAULT_CATEGORIES, [], now);
 
 /* ---------------- V1 · ngày dạng 29-10-2026 không bị đọc thành số tiền ---------------- */
 test('ngày có gạch nối đứng trước số tiền', () => {
-  const p = parseBankText('VCB: 29-10-2026 08:12 TK 0011 -50,000VND. SD 2,345,000VND. ND: CA PHE', now)!;
-  assert.equal(p.amount, 50000);
-  assert.equal(p.kind, 'expense');
-  assert.equal(new Date(p.at!).getDate(), 29);
-  assert.equal(new Date(p.at!).getHours(), 8);
+  const parsed = parseBankText('VCB: 29-10-2026 08:12 TK 0011 -50,000VND. SD 2,345,000VND. ND: CA PHE', now)!;
+  assert.equal(parsed.amount, 50000);
+  assert.equal(parsed.kind, 'expense');
+  assert.equal(new Date(parsed.at!).getDate(), 29);
+  assert.equal(new Date(parsed.at!).getHours(), 8);
 });
 test('dấu − ngay sau chữ vẫn đọc được (PS-, GD-, VND-)', () => {
   assert.equal(parseBankText('Techcombank: TK 1903xxxx1234 PS-50,000 VND SD 1,000,000', now)!.amount, 50000);
@@ -68,11 +68,11 @@ test('vẫn hiểu quà, gia đình khi người dùng hỏi thật', () => {
 
 /* ---------------- V4 · bỏ đánh dấu chuyển nội bộ phải trả lại đúng chiều thu/chi ---------------- */
 test('chân tiền vào trả lại thành khoản thu, chân kia thành khoản chi', () => {
-  const r = untransferKinds(
+  const kinds = untransferKinds(
     { raw: 'TK 5678 +3,000,000VND ND: CHUYEN TIEN' },
     { raw: 'TK 1234 -3,000,000VND ND: CHUYEN TIEN' },
   );
-  assert.deepEqual(r, { self: 'income', pair: 'expense' });
+  assert.deepEqual(kinds, { self: 'income', pair: 'expense' });
 });
 test('không có tin gốc thì suy từ chân kia; không đoán được thì null (hỏi người dùng)', () => {
   assert.deepEqual(untransferKinds({ raw: null }, { raw: 'TK 1234 -500,000VND' }), { self: 'income', pair: 'expense' });

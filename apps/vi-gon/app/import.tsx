@@ -34,17 +34,17 @@ const digits = (s: string) => Number(s.replace(/\D/g, '')) || 0;
 export default function Import() {
   const { c } = useTheme();
   const toast = useToast();
-  const p = useLocalSearchParams<{ text?: string }>();
-  const s = useVi();
+  const params = useLocalSearchParams<{ text?: string }>();
+  const state = useVi();
   const [text, setText] = useState('');
   const [teach, setTeach] = useState<Unparsed | null>(null);
   const handled = useRef(false);
 
   // Deep link từ Phím tắt: xử lý ngay một lần rồi đưa sang màn xác nhận.
   useEffect(() => {
-    if (!p.text || handled.current) return;
+    if (!params.text || handled.current) return;
     handled.current = true;
-    let raw = String(p.text);
+    let raw = String(params.text);
     try {
       raw = decodeURIComponent(raw);
     } catch {
@@ -62,7 +62,7 @@ export default function Import() {
     }
     // Mỗi đoạn tin nhắn được chia sẻ vào chỉ xử lý một lần; `toast` và store không phải lý do để chạy lại.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [p.text]);
+  }, [params.text]);
 
   const run = () => {
     const r = ingestMany(text);
@@ -110,10 +110,10 @@ export default function Import() {
           else toast('Bộ nhớ tạm trống');
         }}
       />
-      {s.unparsed.length ? (
+      {state.unparsed.length ? (
         <>
-          <SectionHeader title={`Chưa đọc được (${s.unparsed.length})`} />
-          {s.unparsed.map((u) => (
+          <SectionHeader title={`Chưa đọc được (${state.unparsed.length})`} />
+          {state.unparsed.map((u) => (
             <ListItem key={u.id} title={u.text} subtitle={relativeTime(u.at)} chevron onPress={() => setTeach(u)} />
           ))}
         </>
@@ -125,14 +125,14 @@ export default function Import() {
 /** Người dùng dạy app một lần. Không gửi mẫu đi đâu ở bản này (chưa có máy chủ nhận mẫu). */
 function Teach({ item, onDone }: { item: Unparsed; onDone: () => void }) {
   const toast = useToast();
-  const s = useVi();
+  const state = useVi();
   const guess = item.text.match(/([\d]{1,3}(?:[.,]\d{3})+)/);
   const [amount, setAmount] = useState(guess ? digits(guess[1]).toLocaleString('vi-VN') : '');
   const [kind, setKind] = useState<'expense' | 'income'>(/\+/.test(item.text) ? 'income' : 'expense');
   const [merchant, setMerchant] = useState('');
-  const { categoryId } = categorize(merchant, kind, s.rules);
+  const { categoryId } = categorize(merchant, kind, state.rules);
   const [cat, setCat] = useState<string | null>(null);
-  const cats = s.categories.filter((x) => x.kind === kind);
+  const cats = state.categories.filter((x) => x.kind === kind);
   return (
     <Screen
       scroll
@@ -160,7 +160,7 @@ function Teach({ item, onDone }: { item: Unparsed; onDone: () => void }) {
                 pairId: null,
                 createdAt: Date.now(),
               });
-              s.dropUnparsed(item.id);
+              state.dropUnparsed(item.id);
               track('unparsed_taught');
               toast('Đã lưu', { tone: 'success' });
               onDone();
@@ -170,7 +170,7 @@ function Teach({ item, onDone }: { item: Unparsed; onDone: () => void }) {
             title="Không phải giao dịch — bỏ"
             variant="text"
             onPress={() => {
-              s.dropUnparsed(item.id);
+              state.dropUnparsed(item.id);
               onDone();
             }}
           />

@@ -29,9 +29,9 @@ import { DOWNLOAD_ERROR_TEXT, downloadPack, PackDownloadError } from '../../src/
 export default function PackScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const toast = useToast();
-  const s = useNhip();
+  const state = useNhip();
   const pack = PACKS.find((p) => p.id === id);
   const [busy, setBusy] = useState(false);
   const [buyErr, setBuyErr] = useState<string | null>(null);
@@ -43,7 +43,7 @@ export default function PackScreen() {
         <EmptyState icon="alert-circle" title="Không tìm thấy gói" action="Quay lại" onAction={() => router.back()} />
       </Screen>
     );
-  const owned = s.isPro || s.ownedPacks.includes(pack.id);
+  const owned = state.isPro || state.ownedPacks.includes(pack.id);
   const sounds = SOUNDS.filter((x) => x.packId === pack.id);
 
   const startDownload = async () => {
@@ -64,13 +64,13 @@ export default function PackScreen() {
     setBusy(true);
     setBuyErr(null);
     track('purchase_started', { productId: pack.productId });
-    const r = await buy(pack.productId);
+    const result = await buy(pack.productId);
     setBusy(false);
-    if (r.status === 'success') {
-      s.set({ ownedPacks: [...s.ownedPacks, pack.id] });
+    if (result.status === 'success') {
+      state.set({ ownedPacks: [...state.ownedPacks, pack.id] });
       track('purchase_completed', { productId: pack.productId });
       startDownload();
-    } else if (r.status !== 'cancelled') setBuyErr(PURCHASE_MESSAGES[r.status]);
+    } else if (result.status !== 'cancelled') setBuyErr(PURCHASE_MESSAGES[result.status]);
   };
 
   return (
@@ -97,8 +97,8 @@ export default function PackScreen() {
         )
       }
     >
-      <View style={{ height: 140, marginHorizontal: -L.gutter, backgroundColor: c.surface2 }}>
-        <View style={{ position: 'absolute', top: 12, left: L.gutter }}>
+      <View style={{ height: 140, marginHorizontal: -layout.gutter, backgroundColor: c.surface2 }}>
+        <View style={{ position: 'absolute', top: 12, left: layout.gutter }}>
           <IconButton icon="chevron-left" label="Quay lại" bg={c.surface} onPress={() => router.back()} />
         </View>
       </View>

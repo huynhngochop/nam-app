@@ -33,14 +33,14 @@ export const Timeline = memo(function Timeline({
   selectedId?: string | null;
 }) {
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const scroll = useRef<ScrollView>(null);
   const hours = Array.from({ length: Math.max(1, openTo - openFrom) }, (_, i) => openFrom + i);
-  const minCol = L.isCompact ? 104 : 140;
+  const minCol = layout.isCompact ? 104 : 140;
   const base = useMemo(() => {
-    const d = new Date(day);
-    d.setHours(openFrom, 0, 0, 0);
-    return d.getTime();
+    const date = new Date(day);
+    date.setHours(openFrom, 0, 0, 0);
+    return date.getTime();
   }, [day, openFrom]);
   const isToday = new Date().toDateString() === day.toDateString();
   const nowY = ((Date.now() - base) / 3600000) * HOUR;
@@ -133,7 +133,7 @@ export const Timeline = memo(function Timeline({
       ))}
     </View>
   );
-  const needsH = staff.length * minCol + TIME_COL > L.width - 32;
+  const needsH = staff.length * minCol + TIME_COL > layout.width - 32;
   return (
     <ScrollView ref={scroll} contentContainerStyle={{ paddingBottom: 96 }}>
       {needsH ? (

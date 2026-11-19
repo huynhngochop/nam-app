@@ -79,9 +79,12 @@ export function LineChart({
       {w > 0 ? (
         <Svg width={w} height={height}>
           {series.map((s, k) => {
-            const n = Math.max(1, s.values.length - 1);
+            const segments = Math.max(1, s.values.length - 1);
             const pts = s.values
-              .map((v, i) => `${(i / n) * (w - 8) + 4},${height - 6 - ((v - min) / (max - min || 1)) * (height - 12)}`)
+              .map(
+                (v, i) =>
+                  `${(i / segments) * (w - 8) + 4},${height - 6 - ((v - min) / (max - min || 1)) * (height - 12)}`,
+              )
               .join(' ');
             return (
               <Polyline
@@ -124,9 +127,9 @@ export function Ring({
   subColor?: string;
 }) {
   const { c } = useTheme();
-  const r = (size - stroke) / 2;
-  const circ = 2 * Math.PI * r;
-  const p = Math.max(0, Math.min(1, progress));
+  const radius = (size - stroke) / 2;
+  const circ = 2 * Math.PI * radius;
+  const clamped = Math.max(0, Math.min(1, progress));
   return (
     <View
       accessibilityRole="timer"
@@ -134,17 +137,17 @@ export function Ring({
       style={{ width: size, height: size, alignSelf: 'center' }}
     >
       <Svg width={size} height={size}>
-        <Circle cx={size / 2} cy={size / 2} r={r} stroke={track ?? c.surface2} strokeWidth={stroke} fill="none" />
+        <Circle cx={size / 2} cy={size / 2} r={radius} stroke={track ?? c.surface2} strokeWidth={stroke} fill="none" />
         <Circle
           cx={size / 2}
           cy={size / 2}
-          r={r}
+          r={radius}
           stroke={color ?? c.a}
           strokeWidth={stroke}
           fill="none"
           strokeLinecap="round"
           strokeDasharray={`${circ} ${circ}`}
-          strokeDashoffset={circ * (1 - p)}
+          strokeDashoffset={circ * (1 - clamped)}
           transform={`rotate(-90 ${size / 2} ${size / 2})`}
         />
         <SvgText

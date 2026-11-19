@@ -12,44 +12,44 @@ const CHOICES = ['Chuyển sang thợ khác đang rảnh', 'Dời sang giờ tr�
  * Trả về thông báo kết quả, hoặc null nếu không làm được.
  */
 async function resolve(b: Booking, choice: number): Promise<string | null> {
-  const s = useHen.getState();
+  const state = useHen.getState();
   const dur = b.endAt - b.startAt;
-  const others = s.bookings.filter((x) => x.id !== b.id);
+  const others = state.bookings.filter((x) => x.id !== b.id);
   if (choice === 0) {
-    const free = s.staff.find(
+    const free = state.staff.find(
       (st) =>
         st.id !== b.staffId &&
         b.serviceIds.every((id) => {
-          const sv = s.services.find((x) => x.id === id);
+          const sv = state.services.find((x) => x.id === id);
           return !sv?.staffIds.length || sv.staffIds.includes(st.id);
         }) &&
         !overlaps(others, st.id, b.startAt, b.endAt),
     );
     if (!free) return null;
-    s.updateBooking(b.id, { staffId: free.id });
+    state.updateBooking(b.id, { staffId: free.id });
     return `Đã chuyển sang ${free.name}`;
   }
   if (choice === 1) {
-    const step = (s.shop.settings.slotStepMin || 15) * 60000;
+    const step = (state.shop.settings.slotStepMin || 15) * 60000;
     for (let t = b.startAt + step; t < b.startAt + 12 * 3600000; t += step) {
-      const d = new Date(t);
-      const h = s.shop.hours.find((x) => x.day === d.getDay());
+      const date = new Date(t);
+      const h = state.shop.hours.find((x) => x.day === date.getDay());
       const [ch, cm] = (h?.to ?? '21:00').split(':').map(Number);
-      const close = new Date(d).setHours(ch, cm, 0, 0);
+      const close = new Date(date).setHours(ch, cm, 0, 0);
       if (h && !h.open) continue;
       if (t + dur > close) continue;
       if (!overlaps(others, b.staffId, t, t + dur)) {
-        s.updateBooking(b.id, { startAt: t, endAt: t + dur });
-        return `Đã dời sang ${hhmm(d)}`;
+        state.updateBooking(b.id, { startAt: t, endAt: t + dur });
+        return `Đã dời sang ${hhmm(date)}`;
       }
     }
     return null;
   }
-  const cust = s.customers.find((x) => x.id === b.customerId);
+  const cust = state.customers.find((x) => x.id === b.customerId);
   if (!cust?.phone) return null;
   await openSms(
     cust.phone,
-    `${s.shop.name} xin lỗi ${cust.name}: khung ${hhmm(new Date(b.startAt))} vừa kín lịch. Bạn chọn giờ khác giúp tiệm nhé!`,
+    `${state.shop.name} xin lỗi ${cust.name}: khung ${hhmm(new Date(b.startAt))} vừa kín lịch. Bạn chọn giờ khác giúp tiệm nhé!`,
   );
   return 'Đã mở Tin nhắn';
 }

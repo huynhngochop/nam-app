@@ -32,7 +32,7 @@ const SUGGEST = [
 export default function Habits() {
   const { c } = useTheme();
   const toast = useToast();
-  const s = useNhip();
+  const state = useNhip();
   const [day, setDay] = useState(dateKey(new Date()));
   const [add, setAdd] = useState(false);
   const [name, setName] = useState('');
@@ -42,21 +42,21 @@ export default function Habits() {
   const monday = addDays(new Date(), -((new Date().getDay() + 6) % 7));
   const week = Array.from({ length: 7 }, (_, i) => addDays(monday, i));
   const sessionsOn = (k: string) =>
-    s.logs.filter((l) => l.status === 'completed' && dateKey(new Date(l.at)) === k).length;
+    state.logs.filter((l) => l.status === 'completed' && dateKey(new Date(l.at)) === k).length;
   const valueOf = (hId: string, k: string) => {
-    const h = s.habits.find((x) => x.id === hId)!;
-    return h.auto ? sessionsOn(k) : (s.habitLogs[k]?.[hId] ?? 0);
+    const h = state.habits.find((x) => x.id === hId)!;
+    return h.auto ? sessionsOn(k) : (state.habitLogs[k]?.[hId] ?? 0);
   };
   const ratioOf = (k: string) => {
-    const r = s.habits.map((h) => Math.min(1, valueOf(h.id, k) / habitTarget(h, s)));
+    const r = state.habits.map((h) => Math.min(1, valueOf(h.id, k) / habitTarget(h, state)));
     return r.reduce((a, b) => a + b, 0) / Math.max(1, r.length);
   };
   const tryAdd = (h: { name: string; target: number; unit: string; icon: string }) => {
-    if (s.habits.length >= FREE_HABITS + 1 && !s.isPro) {
+    if (state.habits.length >= FREE_HABITS + 1 && !state.isPro) {
       router.push('/paywall');
       return;
     }
-    s.addHabit(h);
+    state.addHabit(h);
     track('habit_created');
     toast('Đã thêm thói quen');
   };
@@ -104,9 +104,9 @@ export default function Habits() {
           );
         })}
       </Row>
-      {s.habits.map((h) => {
+      {state.habits.map((h) => {
         const v = valueOf(h.id, day);
-        const full = v >= habitTarget(h, s);
+        const full = v >= habitTarget(h, state);
         return (
           <Card
             key={h.id}
@@ -114,7 +114,7 @@ export default function Habits() {
               h.auto || day !== dateKey(new Date())
                 ? undefined
                 : () => {
-                    s.logHabit(h.id, 1);
+                    state.logHabit(h.id, 1);
                     track('habit_checked', { habitId: h.id });
                   }
             }
@@ -124,12 +124,12 @@ export default function Habits() {
               <View style={{ flex: 1, gap: 6 }}>
                 <Row between>
                   <T v="headline">{h.name}</T>
-                  <T v="caption" muted>{`${v}/${habitTarget(h, s)} ${h.unit}`}</T>
+                  <T v="caption" muted>{`${v}/${habitTarget(h, state)} ${h.unit}`}</T>
                 </Row>
-                <ProgressBar value={v / habitTarget(h, s)} />
+                <ProgressBar value={v / habitTarget(h, state)} />
               </View>
               {!h.auto && day === dateKey(new Date()) ? (
-                <IconButton icon="minus" label="Bớt" onPress={() => s.logHabit(h.id, -1)} />
+                <IconButton icon="minus" label="Bớt" onPress={() => state.logHabit(h.id, -1)} />
               ) : null}
             </Row>
             {h.auto ? (
@@ -143,7 +143,7 @@ export default function Habits() {
       <Card variant="tint">
         <T v="headline">Gợi ý thói quen</T>
         <Chips>
-          {SUGGEST.filter((x) => !s.habits.some((h) => h.name === x.name)).map((x) => (
+          {SUGGEST.filter((x) => !state.habits.some((h) => h.name === x.name)).map((x) => (
             <Chip key={x.name} label={`+ ${x.name}`} onPress={() => tryAdd(x)} />
           ))}
         </Chips>
@@ -181,7 +181,7 @@ export default function Habits() {
             <Chip key={u} label={u} selected={unit === u} onPress={() => setUnit(u)} />
           ))}
         </Chips>
-        {!s.isPro ? <T v="caption" muted>{`Miễn phí tối đa ${FREE_HABITS} thói quen tự thêm.`}</T> : null}
+        {!state.isPro ? <T v="caption" muted>{`Miễn phí tối đa ${FREE_HABITS} thói quen tự thêm.`}</T> : null}
       </Sheet>
     </Screen>
   );

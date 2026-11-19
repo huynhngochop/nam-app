@@ -37,8 +37,8 @@ export default function Restore() {
   const [confirm, setConfirm] = useState(false);
   useEffect(() => {
     if (waitUntil <= now) return;
-    const t = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(t);
+    const ticker = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(ticker);
   }, [waitUntil, now]);
   const locked = waitUntil > now;
 

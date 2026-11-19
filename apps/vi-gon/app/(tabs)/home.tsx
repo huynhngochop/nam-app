@@ -1,7 +1,22 @@
 import React from 'react';
 import { Linking, View } from 'react-native';
 import { router } from 'expo-router';
-import { AdBanner, Avatar, Banner, Button, Card, FAB, Grid, IconButton, Ring, Row, Screen, SectionHeader, T, useTheme } from '@nam/ui';
+import {
+  AdBanner,
+  Avatar,
+  Banner,
+  Button,
+  Card,
+  FAB,
+  Grid,
+  IconButton,
+  Ring,
+  Row,
+  Screen,
+  SectionHeader,
+  T,
+  useTheme,
+} from '@nam/ui';
 import { dayMonth, greeting, vnd } from '@nam/core';
 import { countWhere, listTx, totals, useQuery } from '../../src/db';
 import { periodOf, useVi } from '../../src/store';
@@ -11,38 +26,38 @@ import { openPermissionSettings } from '../../src/listener';
 /** Tổng quan + Mất quyền tự ghi. Tablet: vòng ngân sách và danh sách đặt cạnh nhau. */
 export default function Home() {
   const { c } = useTheme();
-  const s = useVi();
-  const p = periodOf(s.monthStartDay);
-  const t = useQuery(() => totals(p.from, p.to), [p.from], { expense: 0, income: 0, count: 0 });
+  const state = useVi();
+  const period = periodOf(state.monthStartDay);
+  const t = useQuery(() => totals(period.from, period.to), [period.from], { expense: 0, income: 0, count: 0 });
   const recent = useQuery(() => listTx({ limit: 6 }), [], []);
   const pending = useQuery(() => countWhere("status = 'pending'"), [], 0);
   const flagged = useQuery(() => countWhere('flag IS NOT NULL'), [], 0);
-  const daysLeft = Math.max(1, Math.ceil((p.to - Date.now()) / 86400000));
-  const budget = s.monthlyBudget;
+  const daysLeft = Math.max(1, Math.ceil((period.to - Date.now()) / 86400000));
+  const budget = state.monthlyBudget;
   const pct = budget ? t.expense / budget : 0;
   const left = budget - t.expense;
-  const hide = s.hideAmounts;
+  const hide = state.hideAmounts;
 
   return (
     <Screen scroll overlay={<FAB label="Thêm giao dịch" onPress={() => router.push('/add')} />}>
       <Row between>
         <View style={{ flex: 1 }}>
-          <T v="caption" muted>{`${p.label} · còn ${daysLeft} ngày`}</T>
+          <T v="caption" muted>{`${period.label} · còn ${daysLeft} ngày`}</T>
           <T v="title" accessibilityRole="header">
-            {s.name ? `${greeting()}, ${s.name}` : greeting()}
+            {state.name ? `${greeting()}, ${state.name}` : greeting()}
           </T>
         </View>
         <IconButton
           icon={hide ? 'eye-off' : 'eye'}
           label={hide ? 'Hiện số tiền' : 'Ẩn số tiền'}
-          onPress={() => s.set({ hideAmounts: !hide })}
+          onPress={() => state.set({ hideAmounts: !hide })}
         />
         <IconButton icon="settings" label="Cài đặt" onPress={() => router.push('/settings')} />
       </Row>
 
-      {s.listenerState === 'lost' ? (
+      {state.listenerState === 'lost' ? (
         <Card variant="danger">
-          <T v="headline">{`Có thể thiếu giao dịch từ ${s.lostSince ? dayMonth(new Date(s.lostSince)) : 'gần đây'}`}</T>
+          <T v="headline">{`Có thể thiếu giao dịch từ ${state.lostSince ? dayMonth(new Date(state.lostSince)) : 'gần đây'}`}</T>
           <T v="caption">Android đôi khi tắt quyền đọc thông báo sau khi cập nhật hoặc khi tiết kiệm pin.</T>
           <Row wrap>
             <Button title="Bật lại" size="sm" onPress={openPermissionSettings} />
@@ -88,7 +103,7 @@ export default function Home() {
             </Row>
           ) : (
             <View style={{ gap: 6 }}>
-              <T v="caption" muted>{`Đã chi ${p.label.toLowerCase()}`}</T>
+              <T v="caption" muted>{`Đã chi ${period.label.toLowerCase()}`}</T>
               <Money amount={t.expense} v="title" masked plain />
               <Button
                 title="Đặt ngân sách tháng"
@@ -117,11 +132,11 @@ export default function Home() {
               onPress={() => router.push('/review')}
             />
           ) : null}
-          {s.unparsed.length ? (
+          {state.unparsed.length ? (
             <Banner
               tone="warning"
               icon="help-circle"
-              text={`${s.unparsed.length} thông báo chưa đọc được — chạm để điền giúp`}
+              text={`${state.unparsed.length} thông báo chưa đọc được — chạm để điền giúp`}
               onPress={() => router.push('/import')}
             />
           ) : null}
@@ -172,7 +187,7 @@ export default function Home() {
           />
         </Card>
       )}
-      <AdBanner hidden={s.isPro} />
+      <AdBanner hidden={state.isPro} />
     </Screen>
   );
 }
