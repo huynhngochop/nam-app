@@ -15,9 +15,9 @@ Notifications.setNotificationHandler({
 });
 
 export async function requestNotify(): Promise<boolean> {
-  const cur = await Notifications.getPermissionsAsync();
-  if (cur.granted) return true;
-  if (!cur.canAskAgain) return false;
+  const currentPermission = await Notifications.getPermissionsAsync();
+  if (currentPermission.granted) return true;
+  if (!currentPermission.canAskAgain) return false;
   const permission = await Notifications.requestPermissionsAsync();
   return permission.granted;
 }

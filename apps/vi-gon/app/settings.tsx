@@ -43,12 +43,12 @@ export default function Settings() {
     state.set({ lockEnabled: v });
   };
   const askNotify = async () => {
-    const cur = await Notifications.getPermissionsAsync();
-    if (cur.granted) {
+    const currentPermission = await Notifications.getPermissionsAsync();
+    if (currentPermission.granted) {
       toast('Thông báo đã bật');
       return;
     }
-    if (!cur.canAskAgain) {
+    if (!currentPermission.canAskAgain) {
       toast('Hãy bật thông báo cho Ví Gọn trong Cài đặt máy');
       return;
     }

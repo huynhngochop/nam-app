@@ -1,5 +1,0 @@
-Lượt 2: đổi 21 biến.
-apps/vi-gon/app/settings.tsx:46  cur → permission (trùng tên, giữ nguyên)
-apps/nhip/app/timer-settings.tsx:10  st → settings (trùng tên, giữ nguyên)
-apps/nhip/src/store.ts:148  st → settings (trùng tên, giữ nguyên)
-apps/meo-nha/src/lib/notify.ts:18  cur → permission (trùng tên, giữ nguyên)

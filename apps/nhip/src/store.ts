@@ -145,9 +145,9 @@ export const useNhip = create<State>()(
       set: (p) => set(p),
       setSettings: (p) => set((s) => ({ settings: { ...s.settings, ...p } })),
       startPhase: (phase, opts) => {
-        const st = get().settings;
+        const timerSettings = get().settings;
         const mode = opts?.mode ?? 'pomodoro';
-        const plannedSec = mode === 'countup' ? 0 : phaseMinutes(st, phase) * 60;
+        const plannedSec = mode === 'countup' ? 0 : phaseMinutes(timerSettings, phase) * 60;
         const now = Date.now();
         const sess: Session = {
           id: uid(),
