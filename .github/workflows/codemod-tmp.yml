@@ -1,4 +1,4 @@
-# TẠM (gỡ trước khi gộp): cập nhật package-lock.json, đổi tên biến một chữ bằng ts-morph, định dạng, commit.
+# TẠM (gỡ trước khi gộp), lượt 2: cập nhật package-lock.json, đổi tên biến một chữ bằng ts-morph, định dạng, commit.
 name: Codemod (tạm)
 
 on:
@@ -17,16 +17,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm install --package-lock-only --no-audit --no-fund
       - run: npm ci --no-audit --no-fund
       - run: npm install --no-save --no-audit --no-fund ts-morph@24
-      - run: node .github/scripts/rename-locals.mjs > .github/rename-report.txt
+      - run: node .github/scripts/rename-pass2.mjs > .github/rename-report.txt
       - run: npx prettier --write "**/*.{ts,tsx,js,mjs,cjs}" > /dev/null
-      - run: npx tsc -p tests/tsconfig.typecheck.json --noEmit > .github/typecheck-report.txt 2>&1 || true
+      - run: npm run typecheck > .github/typecheck-report.txt 2>&1 || true
       - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "chore: đổi tên biến một chữ (ts-morph), cập nhật package-lock.json, định dạng"
+          git commit -m "chore: đổi tên biến một chữ (ts-morph), lượt 2, định dạng"
           git push
