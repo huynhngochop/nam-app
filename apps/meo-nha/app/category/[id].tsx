@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import { AppBar, Card, Chip, Chips, IconButton, Row, Screen, Segmented, T, Thumb, useLayout, useTheme } from '@nam/ui';
+import { AdBanner } from '@nam/ads';
 import { CATEGORIES, CategoryId, TIPS } from '../../src/data/tips';
 import { TipRow } from '../../src/components';
 
@@ -68,6 +69,7 @@ export default function Category() {
           <TipRow tip={item} meta={`${item.rating.toString().replace('.', ',')} ★ · ${item.steps.length} bước`} />
         )}
       />
+      <AdBanner />
     </Screen>
   );
 }

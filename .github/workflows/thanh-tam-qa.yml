@@ -282,6 +282,11 @@ jobs:
     if: always() && needs.prep.result == 'success' && (needs.check.result == 'success' || needs.check.result == 'skipped')
     runs-on: ubuntu-24.04
     timeout-minutes: 90
+    # Mã AdMob thật đặt ở Settings → Secrets and variables → Actions → Variables. Chưa đặt thì app dùng mã thử của Google.
+    env:
+      ADMOB_THANH_TAM_ANDROID_APP_ID: ${{ vars.ADMOB_THANH_TAM_ANDROID_APP_ID }}
+      EXPO_PUBLIC_ADMOB_THANH_TAM_ANDROID_BANNER: ${{ vars.ADMOB_THANH_TAM_ANDROID_BANNER }}
+      EXPO_PUBLIC_ADMOB_THANH_TAM_ANDROID_NATIVE: ${{ vars.ADMOB_THANH_TAM_ANDROID_NATIVE }}
     steps:
       - uses: actions/checkout@v4
         with:

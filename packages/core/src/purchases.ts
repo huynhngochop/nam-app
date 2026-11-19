@@ -15,6 +15,10 @@ export function setPurchaseProvider(p: PurchaseProvider) {
   provider = p;
 }
 
+/** Đã nối cửa hàng (StoreKit / Google Play Billing) chưa. Chưa nối thì app ẩn mọi lối vào gói trả phí. */
+export function purchasesReady(): boolean {
+  return provider !== null;
+}
 export async function buy(productId: string): Promise<PurchaseResult> {
   if (provider) return provider.buy(productId);
   if (__DEV__) return { status: 'success', code: 'DEV_SIMULATED' };

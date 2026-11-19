@@ -19,6 +19,7 @@ import {
 import { restorePurchases, track } from '@nam/core';
 import Constants from 'expo-constants';
 import { useMeo } from '../src/store';
+import { features } from '../src/features';
 import { requestNotify } from '../src/lib/notify';
 
 const TIMES = ['06:00', '06:30', '07:00', '07:30', '08:00', '12:00', '19:00', '21:00'];
@@ -74,15 +75,17 @@ export default function Settings() {
         Cỡ chữ theo cài đặt của máy.
       </T>
       <SectionHeader title="Tài khoản & quyền riêng tư" />
-      <ListItem
-        left={<Thumb icon="refresh-cw" bg={c.surface2} color={c.ink} size={32} />}
-        title="Khôi phục giao dịch"
-        chevron
-        onPress={async () => {
-          const ids = await restorePurchases();
-          toast(ids.length ? 'Đã khôi phục' : 'Không tìm thấy giao dịch cũ');
-        }}
-      />
+      {features.plusForSale() ? (
+        <ListItem
+          left={<Thumb icon="refresh-cw" bg={c.surface2} color={c.ink} size={32} />}
+          title="Khôi phục giao dịch"
+          chevron
+          onPress={async () => {
+            const ids = await restorePurchases();
+            toast(ids.length ? 'Đã khôi phục' : 'Không tìm thấy giao dịch cũ');
+          }}
+        />
+      ) : null}
       <ListItem
         left={<Thumb icon="trash-2" bg={c.surface2} color={c.negative} size={32} />}
         title="Xóa toàn bộ dữ liệu"

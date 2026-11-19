@@ -16,8 +16,10 @@ import {
   Thumb,
   useTheme,
 } from '@nam/ui';
+import { AdBanner } from '@nam/ads';
 import { addDays, dateKey, decimalVi, minutesLabel, weekdayShort } from '@nam/core';
 import { streakOf, useNhip } from '../../src/store';
+import { usePro } from '../../src/features';
 
 type Range = 'day' | 'week' | 'month';
 
@@ -25,6 +27,7 @@ type Range = 'day' | 'week' | 'month';
 export default function Stats() {
   const { c } = useTheme();
   const state = useNhip();
+  const pro = usePro();
   const [range, setRange] = useState<Range>('week');
   const today = new Date();
   const streak = streakOf(state.daily, state.goalMin, state.restDays);
@@ -104,7 +107,7 @@ export default function Stats() {
         );
       })}
       <SectionHeader title="Theo việc" />
-      {state.isPro ? (
+      {pro ? (
         byTask.map(([id, min]) => (
           <ListItem
             key={id}
@@ -124,6 +127,7 @@ export default function Stats() {
           </Row>
         </Card>
       )}
+      <AdBanner />
     </Screen>
   );
 }

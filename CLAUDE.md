@@ -11,6 +11,11 @@ Mọi thay đổi phải qua 5 góc nhìn dưới đây. Một tính năng chỉ
 - Mỗi tính năng có giá: bao nhiêu MB bản cài, bao nhiêu ms mở màn, thêm thư viện nào. Ghi giá đó trong mô tả commit.
   Tính năng làm bản cài vượt ngân sách thì cắt bớt hoặc tải sau, không mặc nhiên nhận.
 - Không bán tính năng chưa có. Phần trả phí nằm sau cờ trong `src/config.ts` (ví dụ `TAM_AN_READY`), tắt cho tới khi đủ.
+- Phần chưa chạy thật (mua trong app chưa nối, cần máy chủ, chưa có mô hình) thì ẩn lối vào qua `src/features.ts` của app
+  (`purchasesReady()` của `@nam/core`). Gói trả phí chưa mở bán thì người dùng được đủ tính năng, không bị chặn hay mời mua.
+- Quảng cáo: chỉ qua `@nam/ads` (Google AdMob cho cả Android và iPhone; Apple không có mạng quảng cáo trong app).
+  Thẻ xen trong danh sách luôn có nhãn "Tài trợ", dải dưới cùng ở màn danh sách. Không đặt ở màn khấn, tụng kinh, phiên đang chạy,
+  đặt lịch, thanh toán, khóa app. Người có gói trả phí không thấy quảng cáo. Mã AdMob thật đặt ở biến môi trường lúc build, thiếu thì dùng mã thử.
 - Không dùng nội dung có bản quyền khi chưa có giấy phép (bản ghi tụng kinh, nhạc, ảnh). Dùng nguồn phạm vi công cộng, tự tạo, hoặc dẫn link tới kênh chính thức.
 - Chữ hiển thị là tiếng Việt thường ngày, không từ kỹ thuật (có ca kiểm thử quét chữ).
 

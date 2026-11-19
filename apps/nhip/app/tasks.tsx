@@ -23,6 +23,7 @@ import {
   useTheme,
   useToast,
 } from '@nam/ui';
+import { AdBanner } from '@nam/ads';
 import { addDays, dateKey, minutesLabel, track } from '@nam/core';
 import { Task, useNhip } from '../src/store';
 
@@ -200,6 +201,7 @@ export default function Tasks() {
           />
         ) : null}
       </Sheet>
+      <AdBanner />
     </Screen>
   );
 }

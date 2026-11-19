@@ -24,6 +24,7 @@ import { relativeTime, track } from '@nam/core';
 import { allTx, wipeTx } from '../src/db';
 import { listenerSupported, openPermissionSettings } from '../src/listener';
 import { catOf, useVi } from '../src/store';
+import { features, usePro } from '../src/features';
 import { canUseBiometric } from '../src/ui';
 
 /** Cài đặt: tự ghi, bảo mật, thông báo, dữ liệu (sao lưu mã hóa, xuất CSV – Pro), giao diện. */
@@ -31,6 +32,7 @@ export default function Settings() {
   const { c } = useTheme();
   const toast = useToast();
   const state = useVi();
+  const pro = usePro();
   const [wipe, setWipe] = useState(false);
 
   const toggleLock = async (v: boolean) => {
@@ -54,7 +56,7 @@ export default function Settings() {
     toast(r.granted ? 'Đã bật thông báo' : 'Chưa bật thông báo');
   };
   const exportCsv = async () => {
-    if (!state.isPro) {
+    if (!pro) {
       router.push('/paywall');
       return;
     }
@@ -183,7 +185,7 @@ export default function Settings() {
       <ListItem
         left={<Thumb icon="file-text" color={c.a} bg={c.at} />}
         title="Xuất Excel / CSV"
-        right={!state.isPro ? <Badge label="Pro" tone="pro" /> : undefined}
+        right={!pro ? <Badge label="Pro" tone="pro" /> : undefined}
         chevron
         onPress={exportCsv}
       />
@@ -200,11 +202,13 @@ export default function Settings() {
       />
 
       <SectionHeader title="Tài khoản" />
-      {!state.isPro ? (
-        <Button title="Nâng cấp Ví Gọn Pro" variant="secondary" onPress={() => router.push('/paywall')} />
-      ) : (
-        <T v="body">Bạn đang dùng Ví Gọn Pro.</T>
-      )}
+      {features.proForSale() ? (
+        !pro ? (
+          <Button title="Nâng cấp Ví Gọn Pro" variant="secondary" onPress={() => router.push('/paywall')} />
+        ) : (
+          <T v="body">Bạn đang dùng Ví Gọn Pro.</T>
+        )
+      ) : null}
       <View style={{ height: 8 }} />
       <Button title="Xóa toàn bộ dữ liệu trên máy" variant="danger" size="md" onPress={() => setWipe(true)} />
       <T v="caption" muted center>

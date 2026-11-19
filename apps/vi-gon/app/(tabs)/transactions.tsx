@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
+import { AdNative, isAdSlot, withAds } from '@nam/ads';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Chip, Chips, EmptyState, IconButton, Row, SearchField, T, TwoPane, useLayout, useTheme } from '@nam/ui';
 import { dayMonth, startOfDay, vnd, weekdayLong } from '@nam/core';
@@ -79,6 +80,8 @@ export default function Transactions() {
     }
     return out;
   }, [list]);
+  // Quảng cáo xen giữa danh sách giao dịch (không đặt ở đầu danh sách).
+  const rows = useMemo(() => withAds(items, { first: 4, every: 10 }), [items]);
 
   const open = (id: string) => (layout.twoPane ? setSel(id) : router.push(`/tx/${id}`));
   const hide = state.hideAmounts;
@@ -130,12 +133,14 @@ export default function Transactions() {
         </ScrollView>
       ) : (
         <FlashList
-          data={items}
-          keyExtractor={(i) => i.key}
-          getItemType={(i) => i.type}
+          data={rows}
+          keyExtractor={(row) => row.key}
+          getItemType={(row) => (isAdSlot(row) ? 'ad' : row.type)}
           contentContainerStyle={{ paddingHorizontal: layout.gutter, paddingBottom: 32 }}
           renderItem={({ item }) =>
-            item.type === 'header' ? (
+            isAdSlot(item) ? (
+              <AdNative />
+            ) : item.type === 'header' ? (
               <Row between style={{ paddingTop: 16, paddingBottom: 4 }}>
                 <T v="caption" muted weight="semibold">
                   {item.label}

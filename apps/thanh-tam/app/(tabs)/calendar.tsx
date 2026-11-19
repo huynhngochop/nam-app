@@ -18,6 +18,7 @@ import type { Ritual } from '../../src/data/types';
 import { gioInLunarYear, nextByRule } from '../../src/lib/schedule';
 import { useTT } from '../../src/store';
 import { useRitualFilter, useToday } from '../../src/hooks';
+import { AdBanner } from '@nam/ads';
 
 type DayInfo = {
   rituals: { id: string; title: string; icon: Ritual['icon'] }[];
@@ -188,6 +189,7 @@ export default function CalendarTab() {
         Lịch âm
       </T>
       {cal}
+      <AdBanner />
       <Sheet visible={sheet} onClose={() => setSheet(false)}>
         {detail}
       </Sheet>

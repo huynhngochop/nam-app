@@ -22,6 +22,7 @@ import {
 } from '@nam/ui';
 import { getLimit, quotaLeft, track } from '@nam/core';
 import { useMeo } from '../src/store';
+import { features, usePlus } from '../src/features';
 import { ask, AskAnswer, POPULAR_QUESTIONS } from '../src/lib/ask';
 
 type Turn = { q: string; a?: AskAnswer; loading?: boolean; error?: boolean };
@@ -32,10 +33,11 @@ export default function Ask() {
   const toast = useToast();
   const params = useLocalSearchParams<{ q?: string }>();
   const state = useMeo();
+  const plus = usePlus();
   const [input, setInput] = useState('');
   const [turns, setTurns] = useState<Turn[]>([]);
   const scroll = useRef<ScrollView>(null);
-  const limit = getLimit(state.plus ? 'AI_ASK_DAILY_PLUS' : 'AI_ASK_DAILY_FREE', 5);
+  const limit = getLimit(plus ? 'AI_ASK_DAILY_PLUS' : 'AI_ASK_DAILY_FREE', 5);
   const left = quotaLeft(state.askQuota, limit);
 
   const send = async (q: string, popular = false) => {
@@ -148,7 +150,7 @@ export default function Ask() {
           <T v="caption" muted center>
             {left > 0 ? `Còn ${left}/${limit} câu hỏi hôm nay` : 'Hết lượt hôm nay · làm mới lúc 00:00'}
           </T>
-          {left <= 0 && !state.plus ? (
+          {left <= 0 && !plus ? (
             <Button
               title="Mẹo Nhà Plus: thêm lượt hỏi mỗi ngày"
               variant="text"
@@ -222,7 +224,7 @@ function AnswerCard({ a, onFeedback }: { a: AskAnswer; onFeedback: (ok: boolean)
             ? 'Mẹo Nhà chưa có mẹo đã kiểm chứng về việc này nên không đoán.'
             : 'Câu này ngoài phạm vi mẹo nhà cửa. Hãy hỏi người có chuyên môn.'}
         </T>
-        {a.kind === 'no_tip' ? (
+        {a.kind === 'no_tip' && features.server() ? (
           <Button title="Gửi cho đội Mẹo Nhà" icon="flag" size="sm" onPress={() => router.push('/submit')} />
         ) : null}
       </Card>

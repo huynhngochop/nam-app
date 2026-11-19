@@ -21,6 +21,7 @@ import {
 import { track } from '@nam/core';
 import { categoryOf, Tip } from './data/tips';
 import { useMeo } from './store';
+import { features } from './features';
 
 export const TipRow = memo(function TipRow({
   tip,
@@ -160,13 +161,15 @@ export function TipDetail({ tip, onClose }: { tip: Tip; onClose?: () => void }) 
         variant={done ? 'secondary' : 'primary'}
         onPress={() => setRateOpen(true)}
       />
-      <Button
-        title="Báo mẹo sai hoặc nguy hiểm"
-        variant="text"
-        icon="flag"
-        size="sm"
-        onPress={() => router.push({ pathname: '/report', params: { tipId: tip.id } })}
-      />
+      {features.server() ? (
+        <Button
+          title="Báo mẹo sai hoặc nguy hiểm"
+          variant="text"
+          icon="flag"
+          size="sm"
+          onPress={() => router.push({ pathname: '/report', params: { tipId: tip.id } })}
+        />
+      ) : null}
       <Sheet
         visible={rateOpen}
         onClose={() => setRateOpen(false)}

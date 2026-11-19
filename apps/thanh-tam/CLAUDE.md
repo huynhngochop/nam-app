@@ -43,6 +43,13 @@ Khung hình giật trên emulator dùng đồ họa phần mềm nên chưa kế
 - Xử lý chung ở `src/backPress.ts`: chạm 1 lần về màn trước (tab về tab vừa xem); màn mở từ thông báo về Hôm nay; ở màn chính chạm 2 lần trong 2 giây mới thoát, lần đầu nhắc.
 - Cần `predictiveBackGestureEnabled: false` (bật thì mọi lần chạm đều thoát). Emulator thử 10 bước, đạt 10/10 (run 43541205490). Chạy riêng: Actions → Thành Tâm QA → only=back.
 
+## Quảng cáo
+
+- Google AdMob qua `@nam/ads` (`react-native-google-mobile-ads`): thẻ "Tài trợ" ở Bài cúng (sau nhóm "Hay cúng nhất" và nhóm thứ hai) và Tra cứu; dải dưới cùng ở Bài cúng, Lịch, Tra cứu, Tụng kinh.
+  Không có ở Hôm nay, chi tiết lễ, màn khấn, màn tụng, hướng dẫn. Nội dung quảng cáo giới hạn mức G. Có gói Tâm An thì ẩn hết.
+- Mã thật: biến Actions `ADMOB_THANH_TAM_ANDROID_APP_ID`, `ADMOB_THANH_TAM_ANDROID_BANNER`, `ADMOB_THANH_TAM_ANDROID_NATIVE`; chưa đặt thì là quảng cáo thử.
+- iPhone không xin quyền theo dõi, chỉ quảng cáo không cá nhân hóa. Chính sách riêng tư và mô tả cửa hàng đã ghi có quảng cáo.
+
 ## Thư viện thêm ở vòng 11 (giá dung lượng)
 
 - `react-native-webview` (trình phát YouTube nhúng), `expo-sharing` (gửi tệp): mã Java, không thêm thư viện máy.

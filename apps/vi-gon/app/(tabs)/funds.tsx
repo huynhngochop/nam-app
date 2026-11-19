@@ -2,16 +2,19 @@ import React from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
 import { Card, EmptyState, Grid, IconButton, ProgressBar, Row, Screen, T, Thumb, useTheme } from '@nam/ui';
+import { AdBanner } from '@nam/ads';
 import { shortDate, shortMoney, vnd } from '@nam/core';
 import { useVi } from '../../src/store';
+import { usePro } from '../../src/features';
 import { FREE_FUNDS, monthlyNeed } from '../../src/funds';
 
 /** Quỹ mục tiêu. Tablet: lưới 2–3 cột. */
 export default function Funds() {
   const { c } = useTheme();
   const state = useVi();
+  const pro = usePro();
   const total = state.funds.reduce((a, f) => a + f.saved, 0);
-  const canAdd = state.isPro || state.funds.length < FREE_FUNDS;
+  const canAdd = pro || state.funds.length < FREE_FUNDS;
   return (
     <Screen scroll>
       <Row between>
@@ -64,11 +67,12 @@ export default function Funds() {
           })}
         </Grid>
       )}
-      {!state.isPro ? (
+      {!pro ? (
         <Card variant="fill">
           <T v="caption" center>{`Gói miễn phí: ${FREE_FUNDS} quỹ · Pro: không giới hạn`}</T>
         </Card>
       ) : null}
+      <AdBanner />
     </Screen>
   );
 }

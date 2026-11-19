@@ -18,6 +18,7 @@ import {
 import { GROUPS, RITUALS } from '../../src/data/rituals';
 import type { Ritual, RitualGroup } from '../../src/data/types';
 import { useRitualFilter } from '../../src/hooks';
+import { AdBanner, AdNative } from '@nam/ads';
 import { RitualDetail } from '../../src/screens/RitualDetail';
 
 const POPULAR = ['mung-1-ram', 'gio-thuong', 'ong-cong-ong-tao', 'giao-thua', 'than-tai-hang-ngay', 'nhap-trach'];
@@ -97,16 +98,19 @@ export default function Rituals() {
             {POPULAR.map((id) => RITUALS.find((r) => r.id === id))
               .filter((r): r is Ritual => !!r)
               .map(item)}
+            <AdNative />
           </>
         ) : null}
-        {sections.map(({ g, items }) => (
+        {sections.map(({ g, items }, index) => (
           <View key={g.id}>
             <SectionHeader title={g.name} />
             {items.map(item)}
+            {index === 1 ? <AdNative /> : null}
           </View>
         ))}
         {!sections.length ? <EmptyState icon="book-open" title="Nhóm này đang được biên soạn" /> : null}
       </ScrollView>
+      <AdBanner />
     </Screen>
   );
 

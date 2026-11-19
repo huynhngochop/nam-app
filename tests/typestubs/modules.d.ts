@@ -339,3 +339,27 @@ declare module 'react-native-webview' {
   export const WebView: any;
   export type WebView = any;
 }
+
+declare module 'react-native-google-mobile-ads' {
+  const mobileAds: () => { initialize(): Promise<unknown>; setRequestConfiguration(c: Record<string, unknown>): Promise<void> };
+  export default mobileAds;
+  export const AdsConsent: { gatherConsent(): Promise<unknown> };
+  export const MaxAdContentRating: { G: string; PG: string; T: string; MA: string };
+  export const TestIds: { ADAPTIVE_BANNER: string; BANNER: string; NATIVE: string };
+  export const BannerAdSize: { ANCHORED_ADAPTIVE_BANNER: string };
+  export const BannerAd: any;
+  export const NativeAdView: any;
+  export const NativeAsset: any;
+  export const NativeMediaView: any;
+  export const NativeAssetType: { ICON: string; HEADLINE: string; BODY: string; ADVERTISER: string; CALL_TO_ACTION: string };
+  export class NativeAd {
+    static createForAdRequest(unitId: string, options?: Record<string, unknown>): Promise<NativeAd>;
+    headline: string;
+    body?: string;
+    advertiser?: string;
+    callToAction?: string;
+    icon?: { url: string };
+    mediaContent?: { aspectRatio: number };
+    destroy(): void;
+  }
+}

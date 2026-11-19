@@ -21,6 +21,7 @@ import {
   useTheme,
 } from '@nam/ui';
 import { track } from '@nam/core';
+import { AdNative, isAdSlot, withAds } from '@nam/ads';
 import { CATEGORIES, CategoryId } from '../src/data/tips';
 import { useMeo } from '../src/store';
 import { looksLikeQuestion, searchTips, SortKey, suggestions, TRENDING } from '../src/lib/search';
@@ -145,8 +146,9 @@ export default function Search() {
         />
       ) : (
         <FlashList
-          data={results}
-          keyExtractor={(t) => t.id}
+          data={withAds(results)}
+          keyExtractor={(row) => (isAdSlot(row) ? row.key : row.id)}
+          getItemType={(row) => (isAdSlot(row) ? 'ad' : 'tip')}
           contentContainerStyle={{ paddingHorizontal: layout.gutter, paddingBottom: 24 }}
           ListHeaderComponent={
             <View style={{ gap: 10, paddingVertical: 10 }}>
@@ -179,7 +181,7 @@ export default function Search() {
               onAction={() => router.push({ pathname: '/ask', params: { q: submitted } })}
             />
           }
-          renderItem={({ item }) => <TipRow tip={item} />}
+          renderItem={({ item }) => (isAdSlot(item) ? <AdNative /> : <TipRow tip={item} />)}
         />
       )}
       <Sheet visible={sortOpen} onClose={() => setSortOpen(false)} title="Sắp xếp">
