@@ -1,5 +1,6 @@
 // Dùng một lần, lượt 2: đặt tên theo nghĩa cho các biến một chữ mà lượt 1 chưa có quy tắc.
 // Khóa: [tên cũ, phần đầu vế phải ('' = không có vế phải: for-of, catch), tên mới].
+import path from 'node:path';
 import { Node, Project, SyntaxKind } from 'ts-morph';
 
 const MAP = {
@@ -185,7 +186,7 @@ const free = (decl, name) => {
 const log = [];
 let renamed = 0;
 for (const sf of project.getSourceFiles()) {
-  const rel = sf.getFilePath().split('/nam-app/').pop();
+  const rel = path.relative(process.cwd(), sf.getFilePath());
   const rules = MAP[rel] ?? [];
   const decls = sf
     .getDescendantsOfKind(SyntaxKind.VariableDeclaration)

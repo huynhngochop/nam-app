@@ -1,4 +1,4 @@
-# TẠM (gỡ trước khi gộp), lượt 2: cập nhật package-lock.json, đổi tên biến một chữ bằng ts-morph, định dạng, commit.
+# TẠM (gỡ trước khi gộp), lượt 2b: cập nhật package-lock.json, đổi tên biến một chữ bằng ts-morph, định dạng, commit.
 name: Codemod (tạm)
 
 on:
