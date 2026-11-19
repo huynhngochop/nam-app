@@ -66,8 +66,8 @@ export default function Restore() {
       track('backup_restored', { tx: r.txCount });
       toast(`Đã khôi phục ${r.txCount} giao dịch`, { tone: 'success' });
       router.replace('/(tabs)/home');
-    } catch (e) {
-      if (e instanceof Error && e.message === 'WRONG_PASSWORD') {
+    } catch (error) {
+      if (error instanceof Error && error.message === 'WRONG_PASSWORD') {
         const n = tries + 1;
         setTries(n);
         if (n >= MAX_TRIES) {

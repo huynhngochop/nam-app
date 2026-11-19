@@ -77,9 +77,9 @@ export async function ask(q: string, history: string[] = []): Promise<AskAnswer>
     if (!sources.length || out.confidence < 0.6) return { kind: 'no_tip' };
     const safety = sources.flatMap((s) => s.safety ?? []);
     return { kind: 'answer', text: out.answer, steps: out.steps.slice(0, 5), sources, safety, viaAi: true };
-  } catch (e) {
-    if (e instanceof AiUnavailableError) return localAnswer(top);
-    throw e;
+  } catch (error) {
+    if (error instanceof AiUnavailableError) return localAnswer(top);
+    throw error;
   }
 }
 

@@ -90,8 +90,8 @@ export async function generatePromo(i: Input): Promise<{ variants: string[]; via
     });
     const ok = result.variants.filter((v) => v.includes(i.link) && v.includes(`${i.offerPct}%`) && v.length <= 200);
     if (ok.length) return { variants: ok.slice(0, 3), viaAi: true };
-  } catch (e) {
-    if (!(e instanceof AiUnavailableError)) throw e;
+  } catch (error) {
+    if (!(error instanceof AiUnavailableError)) throw error;
   }
   return { variants: templateVariants(i), viaAi: false };
 }

@@ -49,10 +49,10 @@ export default function CampaignAi() {
       setVariants(r.variants);
       setViaAi(r.viaAi);
       track('promo_generated', { goal, tone, viaAi: r.viaAi });
-    } catch (e) {
+    } catch (error) {
       setVariants(templateVariants(input));
       setViaAi(false);
-      if (e instanceof AiQuotaError) toast('Máy chủ AI đang hết lượt — dùng mẫu soạn sẵn.');
+      if (error instanceof AiQuotaError) toast('Máy chủ AI đang hết lượt — dùng mẫu soạn sẵn.');
     } finally {
       setBusy(false);
     }

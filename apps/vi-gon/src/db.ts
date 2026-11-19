@@ -294,8 +294,8 @@ export function useQuery<T>(fn: () => T, deps: unknown[], fallback: T): T {
   useEffect(() => {
     try {
       setVal(fn());
-    } catch (e) {
-      if (__DEV__) console.warn('[vigon] query failed', e);
+    } catch (error) {
+      if (__DEV__) console.warn('[vigon] query failed', error);
       setVal(fallback);
     }
     // `fn` là hàm truy vấn mới mỗi lần render; chạy lại khi bảng giao dịch đổi (v) hoặc khi tham số người gọi truyền vào đổi.

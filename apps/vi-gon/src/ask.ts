@@ -184,8 +184,8 @@ export async function intentViaAi(q: string, cats: Category[], funds: Fund[]): P
       fundId: funds.some((x) => x.id === result.fundId) ? result.fundId! : null,
       merchant: null,
     };
-  } catch (e) {
-    if (e instanceof AiUnavailableError) return null;
+  } catch (error) {
+    if (error instanceof AiUnavailableError) return null;
     return null;
   }
 }

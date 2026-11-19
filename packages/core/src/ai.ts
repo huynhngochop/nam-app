@@ -50,9 +50,9 @@ export async function callAi<T>(
       }
       if (!res.ok) throw new AiUnavailableError(`AI ${res.status}`);
       return (await res.json()) as T;
-    } catch (e) {
-      if (e instanceof AiQuotaError || e instanceof AiUnavailableError) throw e;
-      lastErr = e;
+    } catch (error) {
+      if (error instanceof AiQuotaError || error instanceof AiUnavailableError) throw error;
+      lastErr = error;
     } finally {
       clearTimeout(timer);
     }

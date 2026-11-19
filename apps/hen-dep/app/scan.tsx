@@ -100,9 +100,9 @@ export default function Scan() {
       setViaAi(r.viaAi);
       setRows(r.services.map((x) => ({ ...x, keep: true })));
       track('price_board_parsed', { count: r.services.length, viaAi: r.viaAi });
-    } catch (e) {
+    } catch (error) {
       toast(
-        e instanceof AiQuotaError
+        error instanceof AiQuotaError
           ? 'Hết lượt AI tháng này — đã dùng bộ đọc trên máy.'
           : 'Không đọc được. Kiểm tra lại chữ đã dán.',
       );

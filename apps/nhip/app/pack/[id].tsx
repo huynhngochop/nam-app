@@ -52,12 +52,12 @@ export default function PackScreen() {
       await downloadPack(pack.id, (pct) => setDl({ pct }));
       setDl(null);
       toast('Đã tải xong gói', { tone: 'success' });
-    } catch (e) {
+    } catch (error) {
       setDl({
         pct: 0,
-        err: e instanceof PackDownloadError ? DOWNLOAD_ERROR_TEXT[e.code] : DOWNLOAD_ERROR_TEXT.NETWORK,
+        err: error instanceof PackDownloadError ? DOWNLOAD_ERROR_TEXT[error.code] : DOWNLOAD_ERROR_TEXT.NETWORK,
       });
-      track('pack_download_failed', { reason: e instanceof PackDownloadError ? e.code : 'unknown' });
+      track('pack_download_failed', { reason: error instanceof PackDownloadError ? error.code : 'unknown' });
     }
   };
   const purchase = async () => {

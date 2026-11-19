@@ -26,9 +26,9 @@ export default function Backup() {
       track('backup_created');
       toast(r.shared ? 'Đã tạo bản sao lưu' : 'Đã tạo bản sao lưu trong bộ nhớ app', { tone: 'success' });
       router.back();
-    } catch (e) {
+    } catch (error) {
       setErr(
-        e instanceof Error && e.message === 'WEAK_PASSWORD'
+        error instanceof Error && error.message === 'WEAK_PASSWORD'
           ? 'Mật khẩu cần ít nhất 8 ký tự.'
           : 'Không tạo được bản sao lưu. Kiểm tra dung lượng máy rồi thử lại.',
       );

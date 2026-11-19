@@ -106,8 +106,8 @@ export async function aiRewrite(
       insights: result.insights.slice(0, 4).map((text) => ({ icon: 'check-circle', text: String(text).slice(0, 160) })),
       viaAi: true,
     };
-  } catch (e) {
-    if (e instanceof AiUnavailableError) return s;
+  } catch (error) {
+    if (error instanceof AiUnavailableError) return s;
     return s;
   }
 }

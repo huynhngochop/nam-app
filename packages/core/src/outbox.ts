@@ -48,9 +48,11 @@ export function createOutbox(name: string, enabled: () => boolean = () => !!getC
                 items: s.items.filter((x) => x.id !== it.id),
                 conflicts: result === 'conflict' ? [...s.conflicts, it] : s.conflicts,
               }));
-            } catch (e) {
+            } catch (error) {
               set((s) => ({
-                items: s.items.map((x) => (x.id === it.id ? { ...x, tries: x.tries + 1, lastError: String(e) } : x)),
+                items: s.items.map((x) =>
+                  x.id === it.id ? { ...x, tries: x.tries + 1, lastError: String(error) } : x,
+                ),
               }));
               break; // giữ thứ tự: dừng ở mục lỗi đầu tiên, thử lại lần sau
             }

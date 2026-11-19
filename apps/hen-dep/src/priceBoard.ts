@@ -74,8 +74,8 @@ export async function parsePriceBoard(text: string): Promise<{ services: ParsedS
   try {
     const result = await callAi<{ services: ParsedService[] }>('price-board', { text });
     return { services: result.services, viaAi: true };
-  } catch (e) {
-    if (e instanceof AiUnavailableError) return { services: parseLocally(text), viaAi: false };
-    throw e;
+  } catch (error) {
+    if (error instanceof AiUnavailableError) return { services: parseLocally(text), viaAi: false };
+    throw error;
   }
 }
