@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { AppState, Platform } from 'react-native';
 import * as Notifications from 'expo-notifications';
-import { router } from 'expo-router';
+import { router, type Href } from 'expo-router';
 import { RITUALS } from './data/rituals';
 import { planNotifications } from './lib/schedule';
 import { useTT } from './store';
@@ -94,7 +94,7 @@ export async function rescheduleAll() {
   }
 }
 
-/** Nhắc hạ lễ sau n phút (TT-12). Không tính vào trần 50 của nhắc lịch. */
+/** Nhắc hạ lễ sau n phút. Không tính vào trần 50 của nhắc lịch. */
 export async function remindTakedown(minutes: number) {
   if (!(await requestNotify())) return false;
   await ensureChannel();
@@ -129,7 +129,7 @@ export function useNotifications() {
     const tap = Notifications.addNotificationResponseReceivedListener(
       (r: { notification: { request: { content: { data?: { url?: unknown } } } } }) => {
         const url = r.notification.request.content.data?.url;
-        if (typeof url === 'string') router.push(url as never);
+        if (typeof url === 'string') router.push(url as Href);
       },
     );
     return () => {

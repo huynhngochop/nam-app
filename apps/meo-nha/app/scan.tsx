@@ -14,9 +14,9 @@ const DARK = '#14110f';
 const SOFT = 'rgba(255,255,255,0.12)';
 const INK = '#f2efea';
 
-/** MN-10 Chụp nguyên liệu · MN-18 Camera bị từ chối · MN-19 Không nhận ra. Màn luôn nền tối. */
+/** Chụp nguyên liệu; xử lý cả khi bị từ chối máy ảnh và khi không nhận ra. Màn luôn nền tối. */
 export default function Scan() {
-  const L = useLayout();
+  const layout = useLayout();
   const toast = useToast();
   const addPantry = useMeo((s) => s.addPantry);
   const pantry = useMeo((s) => s.pantry);
@@ -127,14 +127,14 @@ export default function Scan() {
     );
   }
 
-  const camH = L.landscape ? undefined : ('58%' as const);
+  const camH = layout.landscape ? undefined : ('58%' as const);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: DARK }}>
       {header}
-      <View style={{ flex: 1, flexDirection: L.landscape ? 'row' : 'column', gap: 12, padding: 16 }}>
+      <View style={{ flex: 1, flexDirection: layout.landscape ? 'row' : 'column', gap: 12, padding: 16 }}>
         <View
           style={{
-            flex: L.landscape ? 1 : undefined,
+            flex: layout.landscape ? 1 : undefined,
             height: camH,
             borderRadius: 22,
             overflow: 'hidden',
@@ -152,7 +152,7 @@ export default function Scan() {
                 : 'Đưa nguyên liệu vào khung, giữ yên 1 giây'}
           </T>
         </View>
-        <View style={{ flex: L.landscape ? 1 : 1, gap: 12, justifyContent: 'space-between' }}>
+        <View style={{ flex: layout.landscape ? 1 : 1, gap: 12, justifyContent: 'space-between' }}>
           <View style={{ gap: 8 }}>
             <Row between>
               <T v="headline" color={INK}>{`Đã chọn ${picked.length} nguyên liệu`}</T>

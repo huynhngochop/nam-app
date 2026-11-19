@@ -29,15 +29,15 @@ const TO = ['18:00', '19:00', '20:00', '21:00', '22:00'];
 /** HD-C13 · Cài đặt tiệm: thông tin, giờ mở cửa, quy tắc đặt lịch, nhắc lịch, chống bỏ hẹn, giao diện, dữ liệu. */
 export default function Settings() {
   const toast = useToast();
-  const s = useHen();
+  const state = useHen();
   const pending = useOutbox((o) => o.items.length);
-  const st = s.shop.settings;
-  const [name, setName] = useState(s.shop.name);
-  const [address, setAddress] = useState(s.shop.address);
-  const [phone, setPhone] = useState(s.shop.phone);
+  const st = state.shop.settings;
+  const [name, setName] = useState(state.shop.name);
+  const [address, setAddress] = useState(state.shop.address);
+  const [phone, setPhone] = useState(state.shop.phone);
   const [ask, setAsk] = useState<null | 'clear' | 'logout' | 'demo'>(null);
-  const setSt = (p: Partial<typeof st>) => s.setShop({ settings: { ...st, ...p } });
-  const dirty = name !== s.shop.name || address !== s.shop.address || phone !== s.shop.phone;
+  const setSt = (p: Partial<typeof st>) => state.setShop({ settings: { ...st, ...p } });
+  const dirty = name !== state.shop.name || address !== state.shop.address || phone !== state.shop.phone;
 
   return (
     <Screen scroll edges={['top', 'bottom']}>
@@ -52,21 +52,21 @@ export default function Settings() {
           size="md"
           disabled={name.trim().length < 2}
           onPress={() => {
-            s.setShop({ name: name.trim(), address: address.trim(), phone: phone.trim() });
+            state.setShop({ name: name.trim(), address: address.trim(), phone: phone.trim() });
             toast('Đã lưu', { tone: 'success' });
           }}
         />
       ) : null}
 
       <SectionHeader title="Giờ mở cửa" />
-      {s.shop.hours.map((h) => (
+      {state.shop.hours.map((h) => (
         <Card key={h.day} variant="fill">
           <Row between>
             <T v="headline">{DAYS[h.day]}</T>
             <Toggle
               label={`Mở cửa ${DAYS[h.day]}`}
               value={h.open}
-              onChange={(v) => s.setShop({ hours: s.shop.hours.map((x) => (x.day === h.day ? { ...x, open: v } : x)) })}
+              onChange={(v) => state.setShop({ hours: state.shop.hours.map((x) => (x.day === h.day ? { ...x, open: v } : x)) })}
             />
           </Row>
           {h.open ? (
@@ -78,7 +78,7 @@ export default function Settings() {
                     label={`Mở ${t}`}
                     selected={h.from === t}
                     onPress={() =>
-                      s.setShop({ hours: s.shop.hours.map((x) => (x.day === h.day ? { ...x, from: t } : x)) })
+                      state.setShop({ hours: state.shop.hours.map((x) => (x.day === h.day ? { ...x, from: t } : x)) })
                     }
                   />
                 ))}
@@ -90,7 +90,7 @@ export default function Settings() {
                     label={`Đóng ${t}`}
                     selected={h.to === t}
                     onPress={() =>
-                      s.setShop({ hours: s.shop.hours.map((x) => (x.day === h.day ? { ...x, to: t } : x)) })
+                      state.setShop({ hours: state.shop.hours.map((x) => (x.day === h.day ? { ...x, to: t } : x)) })
                     }
                   />
                 ))}
@@ -210,8 +210,8 @@ export default function Settings() {
           { key: 'light', label: 'Sáng' },
           { key: 'dark', label: 'Tối' },
         ]}
-        value={s.theme}
-        onChange={(k) => s.set({ theme: k })}
+        value={state.theme}
+        onChange={(k) => state.set({ theme: k })}
       />
 
       <SectionHeader title="Dữ liệu" />
@@ -232,7 +232,7 @@ export default function Settings() {
         confirm="Nạp"
         onCancel={() => setAsk(null)}
         onConfirm={() => {
-          s.loadDemo();
+          state.loadDemo();
           setAsk(null);
           toast('Đã nạp dữ liệu mẫu');
         }}
@@ -245,7 +245,7 @@ export default function Settings() {
         destructive
         onCancel={() => setAsk(null)}
         onConfirm={() => {
-          s.clearAll();
+          state.clearAll();
           setAsk(null);
           toast('Đã xóa dữ liệu');
         }}
@@ -263,7 +263,7 @@ export default function Settings() {
         onCancel={() => setAsk(null)}
         onConfirm={() => {
           setAsk(null);
-          s.set({ auth: null });
+          state.set({ auth: null });
           router.replace('/auth');
         }}
       />

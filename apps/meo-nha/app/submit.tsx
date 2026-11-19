@@ -4,7 +4,7 @@ import { AppBar, Button, Chip, Chips, Screen, T, TextField, useToast } from '@na
 import { track } from '@nam/core';
 import { CATEGORIES, CategoryId } from '../src/data/tips';
 
-/** Gửi mẹo của bạn (từ MN-14). Bản nháp giữ trong state; gửi lên POST /tips/submissions khi có máy chủ. */
+/** Gửi mẹo của bạn (mở từ tab Tôi). Bản nháp giữ trong state; gửi lên POST /tips/submissions khi có máy chủ. */
 export default function Submit() {
   const toast = useToast();
   const [title, setTitle] = useState('');

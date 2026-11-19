@@ -7,7 +7,6 @@ export type RemoteConfig = {
   apiBaseUrl: string | null;
   prices: Record<string, string | null>;
   limits: Record<string, number>;
-  adEveryN: number;
 };
 
 let current: RemoteConfig = {
@@ -16,14 +15,13 @@ let current: RemoteConfig = {
   prices: {},
   limits: {
     AI_ASK_DAILY_FREE: 5,
-    AI_ASK_DAILY_NOADS: 30,
+    AI_ASK_DAILY_PLUS: 30,
     AI_FINANCE_DAILY_FREE: 10,
     AI_FINANCE_DAILY_PRO: 200,
     AI_QUOTA_BASIC: 10,
     AI_QUOTA_STANDARD: 60,
     AI_QUOTA_CHAIN: 200,
   },
-  adEveryN: 6,
 };
 
 export function getConfig(): RemoteConfig {

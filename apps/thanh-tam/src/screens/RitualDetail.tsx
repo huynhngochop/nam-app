@@ -29,11 +29,11 @@ import { useToday } from '../hooks';
 import { lunarOf, lunarShort } from '../calendar/lunar';
 import { goBack } from '../nav';
 
-/** TT-07 · Chi tiết lễ. Dùng làm trang riêng (điện thoại) và cột phải (tablet ngang). */
+/** Chi tiết lễ. Dùng làm trang riêng (điện thoại) và cột phải (tablet ngang). */
 export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean }) {
   const { c } = useTheme();
   const toast = useToast();
-  const r = ritualById(id);
+  const ritual = ritualById(id);
   const hh = useTT((s) => s.household);
   const level = useTT((s) => s.levelByRitual[id] ?? 'day-du');
   const set = useTT((s) => s.set);
@@ -44,7 +44,7 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
   const [tab, setTab] = useState<'cach' | 'y'>('cach');
   const bpm = useTT((s) => s.chant.bpm);
   const chantRite = RITUAL_CHANT[id] ? nghiThucById(RITUAL_CHANT[id]) : undefined;
-  if (!r) {
+  if (!ritual) {
     return (
       <Screen>
         <AppBar onBack={embedded ? undefined : goBack} />
@@ -58,10 +58,10 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
     );
   }
   const simple = level === 'gian-di';
-  const offerings = offeringsFor(r, hh.region, hh.diet, simple);
-  const next = r.when.rule ? nextByRule(r.when.rule, today) : null;
-  const hasFire = r.steps.some((s) => s.fire) || r.afterSteps.some((s) => s.fire);
-  const group = GROUPS.find((g) => g.id === r.group);
+  const offerings = offeringsFor(ritual, hh.region, hh.diet, simple);
+  const next = ritual.when.rule ? nextByRule(ritual.when.rule, today) : null;
+  const hasFire = ritual.steps.some((s) => s.fire) || ritual.afterSteps.some((s) => s.fire);
+  const group = GROUPS.find((g) => g.id === ritual.group);
 
   return (
     <Screen
@@ -73,9 +73,9 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
             title="Lễ vật"
             variant="secondary"
             icon="check-square"
-            onPress={() => router.push(`/ritual/${r.id}/offerings`)}
+            onPress={() => router.push(`/ritual/${ritual.id}/offerings`)}
           />
-          <Button title="Văn khấn" icon="book-open" onPress={() => router.push(`/ritual/${r.id}/prayer`)} />
+          <Button title="Văn khấn" icon="book-open" onPress={() => router.push(`/ritual/${ritual.id}/prayer`)} />
         </Row>
       }
     >
@@ -87,7 +87,7 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
               icon="share"
               label="Chia sẻ"
               onPress={() =>
-                Share.share({ message: `${r.title}: ${r.summary}\nhttps://thanhtam.app/le/${r.id}` }).catch(() => {})
+                Share.share({ message: `${ritual.title}: ${ritual.summary}\nhttps://thanhtam.app/le/${ritual.id}` }).catch(() => {})
               }
             />
             <IconButton
@@ -95,9 +95,9 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
               label={saved ? 'Bỏ lưu' : 'Lưu'}
               color={saved ? c.a : undefined}
               onPress={() => {
-                const on = toggleSave(`ritual:${r.id}`);
+                const on = toggleSave(`ritual:${ritual.id}`);
                 toast(on ? 'Đã lưu' : 'Đã bỏ lưu');
-                track('ritual_saved', { id: r.id, on });
+                track('ritual_saved', { id: ritual.id, on });
               }}
             />
           </>
@@ -105,10 +105,10 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
       />
       {group ? <Badge label={group.name} tone="accent" /> : null}
       <T v="display" accessibilityRole="header">
-        {r.title}
+        {ritual.title}
       </T>
       <T v="body" muted>
-        {r.summary}
+        {ritual.summary}
       </T>
       <Card variant="tint">
         <Row gap={16} wrap>
@@ -116,7 +116,7 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
             <T v="micro" muted>
               Khi nào
             </T>
-            <T v="body">{r.when.text}</T>
+            <T v="body">{ritual.when.text}</T>
             {next ? (
               <T v="caption" accent weight="semibold">
                 Lần tới: {inDays(daysBetween(today, next))} · {solarWithWeekday(next)} · {lunarShort(lunarOf(next))}
@@ -127,11 +127,11 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
             <T v="micro" muted>
               Thời gian
             </T>
-            <T v="body">Khoảng {r.minutes} phút</T>
+            <T v="body">Khoảng {ritual.minutes} phút</T>
           </View>
         </Row>
         <T v="caption" muted>
-          Cúng ở: {r.where.join(', ')}
+          Cúng ở: {ritual.where.join(', ')}
         </T>
       </Card>
 
@@ -141,7 +141,7 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
           { key: 'gian-di', label: 'Lễ giản dị' },
         ]}
         value={level}
-        onChange={(k) => set({ levelByRitual: { ...levelBy, [r.id]: k as 'day-du' | 'gian-di' } })}
+        onChange={(k) => set({ levelByRitual: { ...levelBy, [ritual.id]: k as 'day-du' | 'gian-di' } })}
       />
       {simple ? (
         <T v="caption" muted>
@@ -152,7 +152,7 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
       <SectionHeader
         title={`Lễ vật (${offerings.length})`}
         action="Chuẩn bị"
-        onAction={() => router.push(`/ritual/${r.id}/offerings`)}
+        onAction={() => router.push(`/ritual/${ritual.id}/offerings`)}
       />
       <Card>
         {offerings.slice(0, 6).map((o) => (
@@ -168,13 +168,13 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
           </Row>
         ))}
         {offerings.length > 6 ? (
-          <T v="caption" accent weight="semibold" onPress={() => router.push(`/ritual/${r.id}/offerings`)}>
+          <T v="caption" accent weight="semibold" onPress={() => router.push(`/ritual/${ritual.id}/offerings`)}>
             Xem cả {offerings.length} món
           </T>
         ) : null}
-        {r.variantNote && !simple ? (
+        {ritual.variantNote && !simple ? (
           <T v="caption" muted>
-            {r.variantNote}
+            {ritual.variantNote}
           </T>
         ) : null}
       </Card>
@@ -189,7 +189,7 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
       />
       {tab === 'cach' ? (
         <Card>
-          {r.steps.map((s, i) => (
+          {ritual.steps.map((s, i) => (
             <Row key={s.title} gap={12} style={{ alignItems: 'flex-start', paddingVertical: 4 }}>
               <View
                 style={{
@@ -228,27 +228,27 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
         </Card>
       ) : (
         <Card>
-          <T v="body">{r.meaning}</T>
+          <T v="body">{ritual.meaning}</T>
         </Card>
       )}
-      {r.guides.length ? (
+      {ritual.guides.length ? (
         <>
           <SectionHeader title="Hướng dẫn có hình" />
           <Card style={{ paddingVertical: 4 }}>
-            {r.guides.map((gid) => {
-              const g = guideById(gid);
-              return g ? (
-                <NavRow key={gid} icon={g.icon} title={g.title} subtitle={g.summary} href={`/guide/${gid}`} />
+            {ritual.guides.map((gid) => {
+              const guide = guideById(gid);
+              return guide ? (
+                <NavRow key={gid} icon={guide.icon} title={guide.title} subtitle={guide.summary} href={`/guide/${gid}`} />
               ) : null;
             })}
           </Card>
         </>
       ) : null}
       {hasFire ? <SafetyCard /> : null}
-      {r.cautions?.length ? (
+      {ritual.cautions?.length ? (
         <Card>
           <T v="headline">Lưu ý</T>
-          {r.cautions.map((x) => (
+          {ritual.cautions.map((x) => (
             <T key={x} v="body" muted>
               • {x}
             </T>
@@ -258,15 +258,15 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
 
       <SectionHeader title="Văn khấn" />
       <Card style={{ paddingVertical: 4 }}>
-        {r.prayers.map((pid) => {
-          const p = prayerById(pid);
-          return p ? (
+        {ritual.prayers.map((pid) => {
+          const prayer = prayerById(pid);
+          return prayer ? (
             <NavRow
               key={pid}
               icon="book-open"
-              title={p.title}
-              subtitle={`Khoảng ${p.minutes} phút`}
-              href={`/ritual/${r.id}/prayer?prayerId=${pid}`}
+              title={prayer.title}
+              subtitle={`Khoảng ${prayer.minutes} phút`}
+              href={`/ritual/${ritual.id}/prayer?prayerId=${pid}`}
             />
           ) : null;
         })}
@@ -279,7 +279,7 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
             icon="disc"
             title={chantRite.title}
             subtitle={`Gọn khoảng ${chantMinutes(chantRite.short, bpm)} phút · có mõ, chuông, giọng máy`}
-            href={`/chant/${chantRite.id}?ritual=${r.id}`}
+            href={`/chant/${chantRite.id}?ritual=${ritual.id}`}
           />
         </Card>
       ) : (
@@ -291,20 +291,20 @@ export function RitualDetail({ id, embedded }: { id: string; embedded?: boolean 
         </Card>
       )}
 
-      {r.tips?.length ? (
+      {ritual.tips?.length ? (
         <>
           <SectionHeader title="Mẹo" />
           <Card style={{ paddingVertical: 4 }}>
-            {r.tips.map((tid) => {
-              const t = tipById(tid);
-              return t ? (
-                <NavRow key={tid} icon="zap" title={t.title} subtitle={t.summary} href={`/tip/${tid}`} />
+            {ritual.tips.map((tid) => {
+              const tip = tipById(tid);
+              return tip ? (
+                <NavRow key={tid} icon="zap" title={tip.title} subtitle={tip.summary} href={`/tip/${tid}`} />
               ) : null;
             })}
           </Card>
         </>
       ) : null}
-      <Sources sources={r.sources} />
+      <Sources sources={ritual.sources} />
       <T v="caption" muted>
         Tục lệ mỗi miền, mỗi nhà một khác. Theo nếp nhà mình nếu đã có.
       </T>

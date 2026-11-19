@@ -21,37 +21,37 @@ import { streakOf, useNhip } from '../../src/store';
 
 type Range = 'day' | 'week' | 'month';
 
-/** NH-12 · Thống kê. Tổng theo ngày tính sẵn trong store nên mở nhanh dù có nhiều phiên. */
+/** Thống kê. Tổng theo ngày tính sẵn trong store nên mở nhanh dù có nhiều phiên. */
 export default function Stats() {
   const { c } = useTheme();
-  const s = useNhip();
+  const state = useNhip();
   const [range, setRange] = useState<Range>('week');
   const today = new Date();
-  const streak = streakOf(s.daily, s.goalMin, s.restDays);
+  const streak = streakOf(state.daily, state.goalMin, state.restDays);
 
   const { data, total, prevTotal } = useMemo(() => {
     const days = range === 'day' ? 1 : range === 'week' ? 7 : 30;
     const pts = Array.from({ length: days }, (_, i) => {
       const d = addDays(today, i - days + 1);
-      return { label: days === 7 ? weekdayShort(d) : String(d.getDate()), value: s.daily[dateKey(d)] ?? 0 };
+      return { label: days === 7 ? weekdayShort(d) : String(d.getDate()), value: state.daily[dateKey(d)] ?? 0 };
     });
-    const prev = Array.from({ length: days }, (_, i) => s.daily[dateKey(addDays(today, i - 2 * days + 1))] ?? 0).reduce(
+    const prev = Array.from({ length: days }, (_, i) => state.daily[dateKey(addDays(today, i - 2 * days + 1))] ?? 0).reduce(
       (a, b) => a + b,
       0,
     );
     return { data: pts, total: pts.reduce((a, p) => a + p.value, 0), prevTotal: prev };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [s.daily, range]);
+  }, [state.daily, range]);
   const delta = prevTotal ? Math.round(((total - prevTotal) / prevTotal) * 100) : null;
   const todayKey = dateKey(today);
-  const sessionsToday = s.logs.filter((l) => l.status === 'completed' && dateKey(new Date(l.at)) === todayKey).length;
+  const sessionsToday = state.logs.filter((l) => l.status === 'completed' && dateKey(new Date(l.at)) === todayKey).length;
   const byTask = useMemo(() => {
     const m = new Map<string, number>();
-    s.logs.forEach((l) => {
+    state.logs.forEach((l) => {
       if (l.taskId) m.set(l.taskId, (m.get(l.taskId) ?? 0) + l.minutes);
     });
     return [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
-  }, [s.logs]);
+  }, [state.logs]);
 
   return (
     <Screen scroll>
@@ -85,11 +85,11 @@ export default function Stats() {
       {range !== 'day' ? (
         <BarChart data={data} highlight={data.length - 1} format={(v) => minutesLabel(v)} />
       ) : (
-        <ProgressBar value={total / s.goalMin} height={10} />
+        <ProgressBar value={total / state.goalMin} height={10} />
       )}
       <SectionHeader title="Thói quen hôm nay" action="Xem tất cả" onAction={() => router.push('/habits')} />
-      {s.habits.slice(0, 2).map((h) => {
-        const val = h.auto === 'focus_sessions' ? sessionsToday : (s.habitLogs[todayKey]?.[h.id] ?? 0);
+      {state.habits.slice(0, 2).map((h) => {
+        const val = h.auto === 'focus_sessions' ? sessionsToday : (state.habitLogs[todayKey]?.[h.id] ?? 0);
         const full = val >= h.target;
         return (
           <ListItem
@@ -104,11 +104,11 @@ export default function Stats() {
         );
       })}
       <SectionHeader title="Theo việc" />
-      {s.isPro ? (
+      {state.isPro ? (
         byTask.map(([id, min]) => (
           <ListItem
             key={id}
-            title={s.tasks.find((t) => t.id === id)?.title ?? 'Việc đã xóa'}
+            title={state.tasks.find((t) => t.id === id)?.title ?? 'Việc đã xóa'}
             strong={false}
             right={<T v="caption">{minutesLabel(min)}</T>}
           />
@@ -124,24 +124,6 @@ export default function Stats() {
           </Row>
         </Card>
       )}
-      {!s.isPro ? (
-        <View
-          style={{
-            minHeight: 50,
-            borderWidth: 1,
-            borderStyle: 'dashed',
-            borderColor: c.line,
-            borderRadius: 12,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginTop: 8,
-          }}
-        >
-          <T v="caption" muted>
-            Banner quảng cáo 320×50 — chỉ ở màn này
-          </T>
-        </View>
-      ) : null}
     </Screen>
   );
 }

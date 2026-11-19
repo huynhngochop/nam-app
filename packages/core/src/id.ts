@@ -1,3 +1,3 @@
 import * as Crypto from 'expo-crypto';
-/** UUID v4 — dùng làm id bản ghi và idempotencyKey (Chuẩn spec › 11). */
+/** UUID v4 — dùng làm id bản ghi và idempotencyKey. */
 export const uid = (): string => Crypto.randomUUID();

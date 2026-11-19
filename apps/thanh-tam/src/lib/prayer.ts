@@ -33,8 +33,8 @@ export const FIELD_FALLBACK: Record<PrayerField, string> = {
 
 /** Ngày tháng năm âm bằng chữ theo ngày cúng. */
 export function dateFields(prayDate: Date): FieldValues {
-  const l = lunarOf(prayDate);
-  return { ngayAm: lunarDayWords(l.day), thangAm: monthName(l.month, l.leap), namCanChi: canChiYear(l.year) };
+  const lunar = lunarOf(prayDate);
+  return { ngayAm: lunarDayWords(lunar.day), thangAm: monthName(lunar.month, lunar.leap), namCanChi: canChiYear(lunar.year) };
 }
 
 export function buildPrayer(body: string, values: FieldValues): Paragraph[] {

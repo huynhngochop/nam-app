@@ -41,7 +41,7 @@ done
 adb exec-out screencap -p >"$OUT/shots/01-seed.png"
 say "SEED: $SEEDLINE"
 
-# Nút Quay lại (vòng 18): chạm một lần về màn trước; ở màn chính chạm hai lần liền nhau mới thoát.
+# Nút Quay lại: chạm một lần về màn trước; ở màn chính chạm hai lần liền nhau mới thoát.
 front() { adb shell dumpsys window 2>/dev/null | grep -E "mCurrentFocus|mFocusedApp" | grep -q "$PKG"; }
 back() { adb shell input keyevent 4; }
 seen() { ui | grep -q "$1"; }

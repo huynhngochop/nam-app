@@ -8,10 +8,10 @@ import { Plan } from '../src/types';
 /** HD-C14 · Gói dịch vụ cho tiệm (B2B). Giá chốt sau — hiện ô PRICE_B2B_*. */
 export default function Billing() {
   const toast = useToast();
-  const s = useHen();
+  const state = useHen();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const trialDays = Math.max(0, Math.ceil((s.plan.trialEndsAt - Date.now()) / 86400000));
+  const trialDays = Math.max(0, Math.ceil((state.plan.trialEndsAt - Date.now()) / 86400000));
   const codeOf = (id: string): Plan['code'] =>
     id.includes('chain') ? 'chain' : id.includes('standard') ? 'standard' : 'basic';
 
@@ -19,7 +19,7 @@ export default function Billing() {
     <Paywall
       title="Gói cho tiệm"
       reason={
-        s.plan.code === 'trial' ? `Bạn đang dùng thử, còn ${trialDays} ngày. Hết hạn vẫn xem được lịch cũ.` : undefined
+        state.plan.code === 'trial' ? `Bạn đang dùng thử, còn ${trialDays} ngày. Hết hạn vẫn xem được lịch cũ.` : undefined
       }
       benefits={[
         'Không giới hạn lịch hẹn và khách',
@@ -59,7 +59,7 @@ export default function Billing() {
         const ids = await restorePurchases();
         const id = ids.find((i) => i.startsWith('hendep.'));
         if (id) {
-          s.set({ plan: { ...s.plan, code: codeOf(id), cycle: 'month' } });
+          state.set({ plan: { ...state.plan, code: codeOf(id), cycle: 'month' } });
           toast('Đã khôi phục gói', { tone: 'success' });
           router.back();
         } else toast('Không tìm thấy giao dịch cũ');
@@ -71,7 +71,7 @@ export default function Billing() {
         const r = await buy(p.id);
         setBusy(false);
         if (r.status === 'success') {
-          s.set({ plan: { ...s.plan, code: codeOf(p.id), cycle: 'month' } });
+          state.set({ plan: { ...state.plan, code: codeOf(p.id), cycle: 'month' } });
           toast(PURCHASE_MESSAGES.success, { tone: 'success' });
           router.back();
         } else if (r.status !== 'cancelled')

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, View } from 'react-native';
-import { router } from 'expo-router';
+import { router, type Href } from 'expo-router';
 import {
   Avatar,
   Badge,
@@ -24,10 +24,10 @@ import { TIPS } from '../../src/data/signs';
 import { LunarCard, inDays, solarWithWeekday } from '../../src/components';
 import { canChiYear, lunarOf, lunarShort } from '../../src/calendar/lunar';
 
-/** TT-04 · Hôm nay. Không quảng cáo. */
+/** Hôm nay. Không quảng cáo. */
 export default function Today() {
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const tinChu = useTT((s) => s.household.tinChu);
   const firstTime = useTT((s) => s.prayLogs.length === 0 && !s.firstTimeDismissed);
   const set = useTT((s) => s.set);
@@ -126,7 +126,7 @@ export default function Today() {
           .map((x, i, arr) => (
             <Pressable
               key={x.k}
-              onPress={() => router.push(x.go as never)}
+              onPress={() => router.push(x.go as Href)}
               accessibilityRole="button"
               style={({ pressed }) => ({
                 flexDirection: 'row',
@@ -226,7 +226,7 @@ export default function Today() {
 
   return (
     <Screen scroll readable={false}>
-      <View style={{ width: '100%', maxWidth: L.twoPane ? 1100 : L.readableWidth, alignSelf: 'center', gap: 12 }}>
+      <View style={{ width: '100%', maxWidth: layout.twoPane ? 1100 : layout.readableWidth, alignSelf: 'center', gap: 12 }}>
         {header}
         <SearchField placeholder="Tìm lễ, văn khấn, điềm báo…" onPress={() => router.push('/search')} />
         <Pressable
@@ -250,7 +250,7 @@ export default function Today() {
           </T>
           <Icon name="chevron-right" color={c.inkMuted} />
         </Pressable>
-        {L.isCompact ? (
+        {layout.isCompact ? (
           <>
             <LunarCard date={today} onPress={() => router.push('/(tabs)/calendar')} />
             {todayBlock}

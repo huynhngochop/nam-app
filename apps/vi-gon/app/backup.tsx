@@ -5,13 +5,13 @@ import { relativeTime, track } from '@nam/core';
 import { createBackup } from '../src/backup';
 import { useVi } from '../src/store';
 
-/** Tạo bản sao lưu mã hóa (VG-15). */
+/** Tạo bản sao lưu mã hóa. */
 export default function Backup() {
   const toast = useToast();
-  const s = useVi();
+  const state = useVi();
   const [pw, setPw] = useState('');
   const [pw2, setPw2] = useState('');
-  const [hint, setHint] = useState(s.backupHint);
+  const [hint, setHint] = useState(state.backupHint);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const weak = pw.length > 0 && pw.length < 8;
@@ -56,7 +56,7 @@ export default function Backup() {
         icon="lock"
         text="Mã hóa đầu-cuối bằng mật khẩu của bạn. Ví Gọn không giữ mật khẩu — quên là không ai mở được."
       />
-      {s.lastBackupAt ? <T v="caption" muted>{`Lần sao lưu trước: ${relativeTime(s.lastBackupAt)}`}</T> : null}
+      {state.lastBackupAt ? <T v="caption" muted>{`Lần sao lưu trước: ${relativeTime(state.lastBackupAt)}`}</T> : null}
       <TextField
         label="Mật khẩu sao lưu"
         value={pw}

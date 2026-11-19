@@ -94,14 +94,14 @@ function nextLunarDay(today: Date, day: number): Date {
 
 function lichAnswer(q: string, today: Date): Answer | null {
   const f = fold(q);
-  const l = lunarOf(today);
+  const lunar = lunarOf(today);
   const ask = /(khi nao|bao gio|ngay nao|ngay may|hom nao|toi|sap|thang nay|thang sau|ke tiep)/.test(f);
   if (/hom nay/.test(f) && /(am|ngay|mung|ram|bao nhieu|may)/.test(f)) {
     return {
       kind: 'lich',
-      title: `Hôm nay là ngày ${l.day} tháng ${monthName(l.month, l.leap)} năm ${canChiYear(l.year)}`,
+      title: `Hôm nay là ngày ${lunar.day} tháng ${monthName(lunar.month, lunar.leap)} năm ${canChiYear(lunar.year)}`,
       text: [
-        `${dmy(today)}. ${l.day === 1 ? 'Hôm nay là mùng 1.' : l.day === 15 ? 'Hôm nay là ngày rằm.' : ''}`.trim(),
+        `${dmy(today)}. ${lunar.day === 1 ? 'Hôm nay là mùng 1.' : lunar.day === 15 ? 'Hôm nay là ngày rằm.' : ''}`.trim(),
       ],
       links: [{ title: 'Xem lịch', href: '/calendar' }],
       related: [],

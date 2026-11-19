@@ -26,8 +26,8 @@ import { STATUS_LABEL } from './types';
 export function CustomerDetail({ id, embedded }: { id: string; embedded?: boolean }) {
   const { c } = useTheme();
   const toast = useToast();
-  const s = useHen();
-  const cu = s.customers.find((x) => x.id === id);
+  const state = useHen();
+  const cu = state.customers.find((x) => x.id === id);
   const isNew = id === 'new';
   const [edit, setEdit] = useState(isNew);
   const [name, setName] = useState(cu?.name ?? '');
@@ -50,10 +50,10 @@ export function CustomerDetail({ id, embedded }: { id: string; embedded?: boolea
   const phoneClean = phone.replace(/\s/g, '');
   const phoneErr = phoneClean && !/^0\d{9,10}$/.test(phoneClean) ? 'SĐT gồm 10–11 số, bắt đầu bằng 0' : undefined;
   const bdErr = birthday && !/^\d{1,2}\/\d{1,2}$/.test(birthday) ? 'Nhập dạng ngày/tháng, ví dụ 24/12' : undefined;
-  const dup = phoneClean ? s.customers.find((x) => x.phone === phoneClean && x.id !== id) : undefined;
+  const dup = phoneClean ? state.customers.find((x) => x.phone === phoneClean && x.id !== id) : undefined;
 
   const save = () => {
-    const nid = s.upsertCustomer({
+    const nid = state.upsertCustomer({
       id: isNew ? undefined : id,
       name: name.trim(),
       phone: phoneClean || undefined,
@@ -106,8 +106,8 @@ export function CustomerDetail({ id, embedded }: { id: string; embedded?: boolea
     );
   }
 
-  const st = customerStats(cu!.id, s.bookings, s.services);
-  const vip = st.visits >= s.shop.settings.vipVisits || st.spend >= s.shop.settings.vipSpend;
+  const st = customerStats(cu!.id, state.bookings, state.services);
+  const vip = st.visits >= state.shop.settings.vipVisits || st.spend >= state.shop.settings.vipSpend;
   const content = (
     <View style={{ gap: 12 }}>
       <Row gap={12}>
@@ -189,11 +189,11 @@ export function CustomerDetail({ id, embedded }: { id: string; embedded?: boolea
           <ListItem
             key={b.id}
             title={
-              svcOf(b.serviceIds, s.services)
+              svcOf(b.serviceIds, state.services)
                 .map((x) => x.name)
                 .join(', ') || 'Dịch vụ đã xóa'
             }
-            subtitle={`${shortDate(new Date(b.startAt))} · ${s.staff.find((x) => x.id === b.staffId)?.name ?? ''}`}
+            subtitle={`${shortDate(new Date(b.startAt))} · ${state.staff.find((x) => x.id === b.staffId)?.name ?? ''}`}
             right={
               <T v="caption" color={b.status === 'no_show' || b.status === 'cancelled' ? c.negative : c.inkMuted}>
                 {STATUS_LABEL[b.status]}
@@ -217,7 +217,7 @@ export function CustomerDetail({ id, embedded }: { id: string; embedded?: boolea
         onCancel={() => setConfirmDel(false)}
         onConfirm={() => {
           setConfirmDel(false);
-          s.removeCustomer(cu!.id);
+          state.removeCustomer(cu!.id);
           toast('Đã xóa khách');
           if (!embedded) router.back();
         }}

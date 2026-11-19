@@ -16,8 +16,8 @@ type State = {
   dailyTipOn: boolean;
   seasonalOn: boolean;
   theme: ThemePref;
-  personalAds: boolean;
-  noAds: boolean;
+  /** Đã mua Mẹo Nhà Plus: bộ sưu tập không giới hạn, thêm lượt hỏi. */
+  plus: boolean;
   savedTips: string[];
   savedRecipes: string[];
   doneTips: Record<string, number>;
@@ -55,8 +55,7 @@ export const useMeo = create<State>()(
       dailyTipOn: false,
       seasonalOn: true,
       theme: 'system',
-      personalAds: false,
-      noAds: false,
+      plus: false,
       savedTips: [],
       savedRecipes: [],
       doneTips: {},

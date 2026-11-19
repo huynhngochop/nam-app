@@ -13,7 +13,7 @@ import { goBack } from '../../src/nav';
 type RowData = { a: Anniversary; o: GioOccurrence | null; days: number };
 
 /**
- * TT-15 · Sổ giỗ. Danh sách ảo (FlashList): chỉ vẽ các dòng đang thấy, để 1.000 ngày giỗ vẫn mở nhanh
+ * Sổ giỗ. Danh sách ảo (FlashList): chỉ vẽ các dòng đang thấy, để 1.000 ngày giỗ vẫn mở nhanh
  * (vòng QA dữ liệu lớn: bản vẽ hết tốn 3.002 phần tử, tác vụ chặn luồng 613 ms).
  */
 export default function Anniversaries() {

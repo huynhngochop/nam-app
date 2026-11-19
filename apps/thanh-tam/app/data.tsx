@@ -21,7 +21,7 @@ const fmt = (ms: number) => {
   return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
 };
 
-/** TT-33 · Sao lưu, khôi phục, gửi và nhận sổ giỗ. Không cần máy chủ: mọi thứ đi bằng tệp người dùng tự gửi. */
+/** Sao lưu, khôi phục, gửi và nhận sổ giỗ. Không cần máy chủ: mọi thứ đi bằng tệp người dùng tự gửi. */
 export default function DataScreen() {
   const { c } = useTheme();
   const toast = useToast();

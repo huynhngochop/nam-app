@@ -31,7 +31,7 @@ export const SRC = {
   },
 } satisfies Record<string, SourceRef>;
 
-/** Danh sách nguồn chính cho TT-24. */
+/** Danh sách nguồn chính. */
 export const MAIN_SOURCES: SourceRef[] = [
   SRC.phongTuc,
   SRC.thoMai,

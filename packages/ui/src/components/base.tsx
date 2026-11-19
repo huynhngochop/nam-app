@@ -118,12 +118,12 @@ export function Screen({
   contentStyle,
 }: ScreenProps) {
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const inner: ViewStyle = {
     width: '100%',
-    maxWidth: readable ? L.readableWidth : undefined,
+    maxWidth: readable ? layout.readableWidth : undefined,
     alignSelf: 'center',
-    paddingHorizontal: padded ? L.gutter : 0,
+    paddingHorizontal: padded ? layout.gutter : 0,
     gap: 12,
   };
   return (
@@ -645,8 +645,8 @@ export function Row({
 
 /** Lưới thích ứng: số cột tăng theo cỡ màn (điện thoại → máy gập → tablet). */
 export function Grid({ children, min = 1, gap = 12 }: { children: ReactNode; min?: number; gap?: number }) {
-  const L = useLayout();
-  const cols = L.columns(min);
+  const layout = useLayout();
+  const cols = layout.columns(min);
   const items = React.Children.toArray(children);
   return (
     <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -gap / 2 }}>

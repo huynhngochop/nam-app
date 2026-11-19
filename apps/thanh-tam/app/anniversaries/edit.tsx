@@ -29,12 +29,12 @@ import { goBack } from '../../src/nav';
 const RELATIONS = ['Ông nội', 'Bà nội', 'Ông ngoại', 'Bà ngoại', 'Bố', 'Mẹ', 'Cụ', 'Anh', 'Chị', 'Em'];
 const REMIND = [7, 3, 1];
 
-/** TT-16 · Thêm/sửa ngày giỗ (modal) + TT-26 (ngày 30 ở tháng thiếu, tháng nhuận) + mốc 49 ngày, 100 ngày. */
+/** Thêm/sửa ngày giỗ (modal), xử lý ngày 30 ở tháng thiếu, tháng nhuận, + mốc 49 ngày, 100 ngày. */
 export default function EditAnniversary() {
   const { c } = useTheme();
   const toast = useToast();
-  const p = useLocalSearchParams<{ id?: string; day?: string; month?: string; leap?: string }>();
-  const existing = useTT((s) => s.anniversaries.find((a) => a.id === p.id));
+  const params = useLocalSearchParams<{ id?: string; day?: string; month?: string; leap?: string }>();
+  const existing = useTT((s) => s.anniversaries.find((a) => a.id === params.id));
   const upsert = useTT((s) => s.upsertAnniversary);
   const [name, setName] = useState(existing?.name ?? '');
   const [relation, setRelation] = useState(existing?.relation ?? '');
@@ -47,7 +47,7 @@ export default function EditAnniversary() {
           year: '',
           leap: existing.lunar.leap,
         }
-      : { calendar: 'am', day: p.day ?? '', month: p.month ?? '', year: '', leap: p.leap === '1' },
+      : { calendar: 'am', day: params.day ?? '', month: params.month ?? '', year: '', leap: params.leap === '1' },
   );
   const [recent, setRecent] = useState(!!existing?.deathSolar);
   const [deathDate, setDeathDate] = useState<DateValue>(() => {

@@ -32,7 +32,7 @@ const SOURCES = [
 /** HD-C12 · Link & mã QR đặt lịch. Mỗi kênh có tham số ?src= riêng để biết khách đến từ đâu. */
 export default function LinkScreen() {
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const toast = useToast();
   const shop = useHen((s) => s.shop);
   const url = `https://hendep.app/${shop.slug}`;
@@ -69,7 +69,7 @@ export default function LinkScreen() {
           <View style={{ padding: 12, backgroundColor: '#FFFFFF', borderRadius: 16 }}>
             <QRCode
               value={`${url}?src=qr`}
-              size={L.isCompact ? 200 : 240}
+              size={layout.isCompact ? 200 : 240}
               getRef={(r: unknown) => {
                 qrRef.current = r as never;
               }}

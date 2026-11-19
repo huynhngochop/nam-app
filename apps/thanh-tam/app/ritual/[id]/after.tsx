@@ -7,15 +7,15 @@ import { remindTakedown } from '../../../src/notify';
 import { SafetyCard } from '../../../src/components';
 import { goBack } from '../../../src/nav';
 
-/** TT-12 · Sau khi cúng (+ TT-27 khi có lửa). */
+/** Sau khi cúng; lễ có lửa thì thêm thẻ an toàn lửa. */
 export default function After() {
   const { c } = useTheme();
   const toast = useToast();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const r = ritualById(id);
+  const ritual = ritualById(id);
   const [mins, setMins] = useState<number | null>(null);
-  if (!r) return null;
-  const fire = r.afterSteps.some((s) => s.fire) || r.steps.some((s) => s.fire);
+  if (!ritual) return null;
+  const fire = ritual.afterSteps.some((s) => s.fire) || ritual.steps.some((s) => s.fire);
   const remind = async (m: number) => {
     const ok = await remindTakedown(m);
     if (ok) {
@@ -43,14 +43,14 @@ export default function After() {
           Đã khấn xong
         </T>
         <T v="body" muted center>
-          {r.title}. Tâm thành là đủ.
+          {ritual.title}. Tâm thành là đủ.
         </T>
       </View>
-      {r.afterSteps.length ? (
+      {ritual.afterSteps.length ? (
         <>
           <SectionHeader title="Sau khi khấn" />
           <Card>
-            {r.afterSteps.map((s, i) => (
+            {ritual.afterSteps.map((s, i) => (
               <Row key={s.title} gap={12} style={{ alignItems: 'flex-start', paddingVertical: 4 }}>
                 <View
                   style={{

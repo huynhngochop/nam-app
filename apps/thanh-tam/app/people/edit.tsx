@@ -23,7 +23,7 @@ import { goBack } from '../../src/nav';
 
 const RELATIONS = ['Tôi', 'Vợ', 'Chồng', 'Bố', 'Mẹ', 'Con', 'Anh', 'Chị', 'Em'];
 
-/** TT-30 · Người trong nhà (modal). Ngày sinh ghi rõ lịch dương/âm; chỉ biết năm cũng được. */
+/** Người trong nhà (modal). Ngày sinh ghi rõ lịch dương/âm; chỉ biết năm cũng được. */
 export default function EditPerson() {
   const toast = useToast();
   const { id } = useLocalSearchParams<{ id?: string }>();

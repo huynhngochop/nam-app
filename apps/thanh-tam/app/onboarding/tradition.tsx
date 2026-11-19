@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import {
   Button,
@@ -27,7 +27,7 @@ const ALTARS: { id: Altar; name: string; sub: string; icon: 'users' | 'dollar-si
   { id: 'ong-tao', name: 'Bàn thờ Táo quân', sub: 'Thường ở bếp', icon: 'home' },
 ];
 
-/** TT-02 · Nếp nhà mình (cũng dùng để sửa từ Cài đặt với ?edit=1). */
+/** Nếp nhà mình (cũng dùng để sửa từ Cài đặt với ?edit=1). */
 export default function Tradition() {
   const { c } = useTheme();
   const { edit } = useLocalSearchParams<{ edit?: string }>();

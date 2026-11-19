@@ -9,11 +9,10 @@ import { goBack } from '../src/nav';
 const BENEFITS = [
   'Giọng đọc mẫu cho các bài khấn hay dùng',
   'Sổ giỗ chung cho cả nhà, ai thêm cũng thấy',
-  'Không quảng cáo ở mọi màn hình',
   'Hỏi Thành Tâm nhiều câu hơn mỗi ngày',
 ];
 
-/** TT-23 · Gói Tâm An: một gói theo năm (gói trọn đời ẩn tới khi có giá). Văn khấn, lịch, sổ giỗ, Tuổi & năm luôn miễn phí. */
+/** Gói Tâm An: một gói theo năm (gói trọn đời ẩn tới khi có giá). Văn khấn, lịch, sổ giỗ, Tuổi & năm luôn miễn phí. */
 export default function TamAnPaywall() {
   const { c } = useTheme();
   const toast = useToast();

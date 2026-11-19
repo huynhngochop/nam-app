@@ -39,7 +39,7 @@ export async function schedulePhaseEnd(endAt: number, title: string, body: strin
       trigger: { type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL, seconds, channelId: 'timer' },
     });
   } catch {
-    /* chưa có quyền: vẫn đếm trong app (NH-18) */
+    /* chưa có quyền: vẫn đếm trong app */
   }
 }
 export async function cancelPhaseEnd() {

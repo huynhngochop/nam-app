@@ -11,29 +11,29 @@ import { goBack } from '../../src/nav';
 /** Hướng dẫn chi tiết có hình (bày bàn thờ, mâm cỗ, vái lạy, trà rượu, thắp hương). */
 export default function GuideScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const g = guideById(id);
+  const guide = guideById(id);
   const { c } = useTheme();
   const { twoPane } = useLayout();
-  if (!g)
+  if (!guide)
     return (
       <Screen>
         <AppBar onBack={goBack} />
         <EmptyState icon="book-open" title="Không tìm thấy hướng dẫn này" />
       </Screen>
     );
-  const usedIn = RITUALS.filter((r) => r.guides.includes(g.id));
-  const others = GUIDES.filter((x) => x.id !== g.id);
+  const usedIn = RITUALS.filter((r) => r.guides.includes(guide.id));
+  const others = GUIDES.filter((x) => x.id !== guide.id);
   const wide = twoPane;
   return (
     <Screen scroll>
       <AppBar onBack={goBack} />
       <T v="display" accessibilityRole="header">
-        {g.title}
+        {guide.title}
       </T>
       <T v="headline" muted>
-        {g.summary}
+        {guide.summary}
       </T>
-      {g.sections.map((s) => (
+      {guide.sections.map((s) => (
         <Card key={s.h}>
           <T v="title" accessibilityRole="header">
             {s.h}
@@ -108,7 +108,7 @@ export default function GuideScreen() {
           />
         ))}
       </Card>
-      <Sources sources={g.sources} />
+      <Sources sources={guide.sources} />
     </Screen>
   );
 }

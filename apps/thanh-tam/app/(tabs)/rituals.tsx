@@ -22,14 +22,14 @@ import { RitualDetail } from '../../src/screens/RitualDetail';
 
 const POPULAR = ['mung-1-ram', 'gio-thuong', 'ong-cong-ong-tao', 'giao-thua', 'than-tai-hang-ngay', 'nhap-trach'];
 
-/** TT-05 · Bài cúng. Tablet ngang / máy gập mở ngang: danh sách bên trái, chi tiết bên phải. */
+/** Bài cúng. Tablet ngang / máy gập mở ngang: danh sách bên trái, chi tiết bên phải. */
 export default function Rituals() {
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const relevant = useRitualFilter();
   const [group, setGroup] = useState<RitualGroup | 'all'>('all');
   const [picked, setPicked] = useState<string>(POPULAR[0]);
-  const open = (id: string) => (L.twoPane ? setPicked(id) : router.push(`/ritual/${id}`));
+  const open = (id: string) => (layout.twoPane ? setPicked(id) : router.push(`/ritual/${id}`));
 
   const sections = useMemo(() => {
     const groups = GROUPS.filter((g) => group === 'all' || g.id === group);
@@ -37,7 +37,7 @@ export default function Rituals() {
   }, [group]);
 
   const item = (r: Ritual) => {
-    const sel = L.twoPane && picked === r.id;
+    const sel = layout.twoPane && picked === r.id;
     return (
       <Pressable
         key={r.id}
@@ -76,9 +76,9 @@ export default function Rituals() {
   };
 
   const list = (
-    <Screen readable={!L.twoPane} padded={false}>
+    <Screen readable={!layout.twoPane} padded={false}>
       <ScrollView
-        contentContainerStyle={{ paddingHorizontal: L.gutter, paddingBottom: 24, gap: 8 }}
+        contentContainerStyle={{ paddingHorizontal: layout.gutter, paddingBottom: 24, gap: 8 }}
         keyboardShouldPersistTaps="handled"
       >
         <T v="display" accessibilityRole="header" style={{ marginTop: 8 }}>

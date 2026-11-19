@@ -11,13 +11,13 @@ import { goBack } from '../../src/nav';
 
 type Kind = 'lam-nha' | 'cuoi';
 
-/** TT-31 · Xem tuổi làm việc lớn: kim lâu, hoang ốc, tam tai, Thái Tuế; 6 năm tới. */
+/** Xem tuổi làm việc lớn: kim lâu, hoang ốc, tam tai, Thái Tuế; 6 năm tới. */
 export default function Plan() {
-  const p = useLocalSearchParams<{ personId?: string; year?: string; kind?: Kind }>();
+  const params = useLocalSearchParams<{ personId?: string; year?: string; kind?: Kind }>();
   const people = useTT((s) => s.people);
-  const [kind, setKind] = useState<Kind>(p.kind ?? 'lam-nha');
-  const [pid, setPid] = useState(p.personId ?? people.find((x) => x.isHouseOwner)?.id ?? people[0]?.id);
-  const start = Number(p.year) || defaultAgeYear();
+  const [kind, setKind] = useState<Kind>(params.kind ?? 'lam-nha');
+  const [pid, setPid] = useState(params.personId ?? people.find((x) => x.isHouseOwner)?.id ?? people[0]?.id);
+  const start = Number(params.year) || defaultAgeYear();
   const person = people.find((x) => x.id === pid);
   const rows = useMemo(
     () =>

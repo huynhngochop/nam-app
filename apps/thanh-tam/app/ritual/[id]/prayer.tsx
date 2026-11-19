@@ -33,7 +33,7 @@ const HOUSEHOLD_FIELDS: PrayerField[] = ['tinChu', 'diaChi', 'hoGiaTien'];
 const DATE_FIELDS: PrayerField[] = ['ngayAm', 'thangAm', 'namCanChi'];
 const SIZES = [1, 1.15, 1.3, 1.5];
 
-/** TT-09 · Văn khấn + TT-11 · Điền vào bài khấn (sheet; trên màn rộng hiện giữa màn). */
+/** Văn khấn + Điền vào bài khấn (sheet; trên màn rộng hiện giữa màn). */
 export default function PrayerScreen() {
   const { c } = useTheme();
   const toast = useToast();
@@ -47,7 +47,7 @@ export default function PrayerScreen() {
   const fontScale = useTT((s) => s.fontScale);
   const set = useTT((s) => s.set);
   const setHousehold = useTT((s) => s.setHousehold);
-  const saved = useTT((s) => s.saves.includes(`prayer:${data?.p.id}`));
+  const saved = useTT((s) => s.saves.includes(`prayer:${data?.prayer.id}`));
   const toggleSave = useTT((s) => s.toggleSave);
   const session = useSession();
   const [fillOpen, setFillOpen] = useState(false);
@@ -60,13 +60,13 @@ export default function PrayerScreen() {
   }, []);
 
   if (!data) return null;
-  const { r, p, paras, fields, missing, values, prayDate } = data;
+  const { ritual, prayer, paras, fields, missing, values, prayDate } = data;
   const size = Math.round(17 * fontScale);
-  const others = r.prayers
-    .filter((x) => x !== p.id)
+  const others = ritual.prayers
+    .filter((x) => x !== prayer.id)
     .map(prayerById)
     .filter((x): x is NonNullable<typeof x> => !!x);
-  const next = r.when.rule ? nextByRule(r.when.rule, new Date()) : null;
+  const next = ritual.when.rule ? nextByRule(ritual.when.rule, new Date()) : null;
   const editable = fields.filter((f) => !DATE_FIELDS.includes(f));
 
   return (
@@ -85,8 +85,8 @@ export default function PrayerScreen() {
             title="Bắt đầu khấn"
             icon="play"
             onPress={() => {
-              track('pray_started', { id: p.id });
-              router.push(`/ritual/${r.id}/pray?prayerId=${p.id}`);
+              track('pray_started', { id: prayer.id });
+              router.push(`/ritual/${ritual.id}/pray?prayerId=${prayer.id}`);
             }}
           />
         </Row>
@@ -106,31 +106,31 @@ export default function PrayerScreen() {
               icon="share"
               label="Chia sẻ"
               onPress={() =>
-                Share.share({ message: `${p.title}\n\n${paras.map(plainText).join('\n\n')}` }).catch(() => {})
+                Share.share({ message: `${prayer.title}\n\n${paras.map(plainText).join('\n\n')}` }).catch(() => {})
               }
             />
             <IconButton
               icon="bookmark"
               label={saved ? 'Bỏ lưu' : 'Lưu'}
               color={saved ? c.a : undefined}
-              onPress={() => toast(toggleSave(`prayer:${p.id}`) ? 'Đã lưu bài khấn' : 'Đã bỏ lưu')}
+              onPress={() => toast(toggleSave(`prayer:${prayer.id}`) ? 'Đã lưu bài khấn' : 'Đã bỏ lưu')}
             />
           </>
         }
       />
       <T v="display" accessibilityRole="header">
-        {p.title}
+        {prayer.title}
       </T>
       <T v="caption" muted>
-        Kính {p.deity} · khoảng {p.minutes} phút · ngày cúng {dmy(prayDate)} ({lunarShort(lunarOf(prayDate))})
+        Kính {prayer.deity} · khoảng {prayer.minutes} phút · ngày cúng {dmy(prayDate)} ({lunarShort(lunarOf(prayDate))})
       </T>
       {others.length ? (
         <Chips scroll>
-          {[p, ...others].map((x) => (
+          {[prayer, ...others].map((x) => (
             <Chip
               key={x.id}
               label={x.title}
-              selected={x.id === p.id}
+              selected={x.id === prayer.id}
               onPress={() => router.setParams({ prayerId: x.id })}
             />
           ))}

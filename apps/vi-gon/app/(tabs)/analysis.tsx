@@ -23,21 +23,21 @@ import { shortMoney, vnd } from '@nam/core';
 import { byCategory, totals, useQuery } from '../../src/db';
 import { catOf, periodOf, useVi } from '../../src/store';
 
-/** VG-11 · Phân tích: dòng tiền, cơ cấu danh mục, dự báo (Pro). Tablet: 2 cột thẻ. */
+/** Phân tích: dòng tiền, cơ cấu danh mục, dự báo (Pro). Tablet: 2 cột thẻ. */
 export default function Analysis() {
   const { c } = useTheme();
-  const s = useVi();
+  const state = useVi();
   const [months, setMonths] = useState(6);
-  const cur = periodOf(s.monthStartDay);
+  const cur = periodOf(state.monthStartDay);
 
   const series = useQuery(
     () =>
       Array.from({ length: months }, (_, k) => {
-        const p = periodOf(s.monthStartDay, k - months + 1);
-        const t = totals(p.from, p.to);
-        return { month: p.month, income: t.income, expense: t.expense };
+        const period = periodOf(state.monthStartDay, k - months + 1);
+        const t = totals(period.from, period.to);
+        return { month: period.month, income: t.income, expense: t.expense };
       }),
-    [months, s.monthStartDay],
+    [months, state.monthStartDay],
     [],
   );
   const cats = useQuery(() => byCategory(cur.from, cur.to), [cur.from], []);
@@ -109,8 +109,8 @@ export default function Analysis() {
           </Row>
           {cats.length ? (
             cats.slice(0, 8).map((x) => {
-              const cat = catOf(x.categoryId, s.categories);
-              const limit = s.budgets[x.categoryId];
+              const cat = catOf(x.categoryId, state.categories);
+              const limit = state.budgets[x.categoryId];
               return (
                 <View key={x.categoryId} style={{ gap: 4 }}>
                   <Row between>
@@ -130,22 +130,22 @@ export default function Analysis() {
             </T>
           )}
         </Card>
-        <Card onPress={s.isPro ? undefined : () => router.push('/paywall')} accessibilityLabel="Dự báo cuối tháng">
+        <Card onPress={state.isPro ? undefined : () => router.push('/paywall')} accessibilityLabel="Dự báo cuối tháng">
           <Row between>
             <Row>
-              <Icon name={s.isPro ? 'trending-up' : 'lock'} color={c.a} />
+              <Icon name={state.isPro ? 'trending-up' : 'lock'} color={c.a} />
               <T v="headline">Dự báo cuối kỳ</T>
             </Row>
-            {!s.isPro ? <Badge label="Pro" tone="pro" /> : null}
+            {!state.isPro ? <Badge label="Pro" tone="pro" /> : null}
           </Row>
-          {s.isPro ? (
+          {state.isPro ? (
             <>
               <T v="title">{vnd(forecast)}</T>
-              <T v="caption" color={s.monthlyBudget && forecast > s.monthlyBudget ? c.negative : c.inkMuted}>
-                {s.monthlyBudget
-                  ? forecast > s.monthlyBudget
-                    ? `Có thể vượt ngân sách ${vnd(forecast - s.monthlyBudget)}`
-                    : `Dưới ngân sách ${vnd(s.monthlyBudget - forecast)}`
+              <T v="caption" color={state.monthlyBudget && forecast > state.monthlyBudget ? c.negative : c.inkMuted}>
+                {state.monthlyBudget
+                  ? forecast > state.monthlyBudget
+                    ? `Có thể vượt ngân sách ${vnd(forecast - state.monthlyBudget)}`
+                    : `Dưới ngân sách ${vnd(state.monthlyBudget - forecast)}`
                   : 'Theo tốc độ chi hiện tại'}
               </T>
             </>

@@ -59,9 +59,9 @@ function Ctl({ icon, label, onPress, on }: { icon: IconName; label: string; onPr
   );
 }
 
-/** TT-10 · Chế độ khấn: nền tối ấm, chữ to, giữ màn sáng, tự cuộn chạy trên luồng giao diện, đọc to theo đoạn. */
+/** Chế độ khấn: nền tối ấm, chữ to, giữ màn sáng, tự cuộn chạy trên luồng giao diện, đọc to theo đoạn. */
 export default function Pray() {
-  // Màn toàn màn hình (fullScreenModal) trên iOS báo vùng an toàn trên = 0 (QA iOS vòng 6: tiêu đề đè
+  // Màn toàn màn hình (fullScreenModal) trên iOS báo vùng an toàn trên = 0 (tiêu đề đè
   // lên đồng hồ). Lấy giá trị lớn hơn giữa vùng an toàn hiện tại và vùng an toàn lúc mở app.
   const insets = useSafeAreaInsets();
   const first = initialWindowMetrics?.insets;
@@ -80,7 +80,7 @@ export default function Pray() {
         .catch(() => {});
     };
   }, []);
-  const L = useLayout();
+  const screenLayout = useLayout();
   const { id, prayerId } = useLocalSearchParams<{ id: string; prayerId?: string }>();
   const data = usePrayer(id, prayerId);
   const prayFont = useTT((s) => s.prayFont);
@@ -129,7 +129,7 @@ export default function Pray() {
   }, []);
 
   if (!data) return null;
-  const { r, p, paras } = data;
+  const { ritual, prayer, paras } = data;
   const lh = Math.round(prayFont * 1.6);
 
   const speakFrom = (i: number): void => {
@@ -174,12 +174,12 @@ export default function Pray() {
   };
   // Giọng mẫu: phát bài tải sẵn, tô sáng đoạn đang đọc. Tới chỗ tên, địa chỉ: máy có giọng tiếng Việt thì đọc
   // tên đã điền, không thì để khoảng lặng cho người khấn tự đọc.
-  const vid = khanVoiceId(p.id);
+  const vid = khanVoiceId(prayer.id);
   const startSample = () => {
     const v = useTT.getState().voices[vid];
     const tm = voiceTimings(vid);
     if (!v || !tm) return;
-    const cues = khanCues(p.id);
+    const cues = khanCues(prayer.id);
     const fieldCues = new Set(cues.map((c, i) => (c.field ? i : -1)).filter((i) => i >= 0));
     stopSpeaking();
     speed.value = 0;
@@ -208,7 +208,7 @@ export default function Pray() {
     });
     if (sample.current) {
       setSampleOn(true);
-      track('pray_sample_voice', { id: p.id });
+      track('pray_sample_voice', { id: prayer.id });
     }
   };
   const toggleSample = async () => {
@@ -260,9 +260,9 @@ export default function Pray() {
     stopSpeaking();
     sample.current?.stop();
     speed.value = 0;
-    logPray(r.id);
-    track('pray_done', { id: p.id });
-    router.replace(`/ritual/${r.id}/after`);
+    logPray(ritual.id);
+    track('pray_done', { id: prayer.id });
+    router.replace(`/ritual/${ritual.id}/after`);
   };
 
   return (
@@ -288,7 +288,7 @@ export default function Pray() {
           <Icon name="x" color={ttNight.ink} />
         </Pressable>
         <T v="headline" color={ttNight.ink} numberOfLines={1} style={{ flex: 1, textAlign: 'center' }}>
-          {p.title}
+          {prayer.title}
         </T>
         <View style={{ width: 40 }} />
       </View>
@@ -303,7 +303,7 @@ export default function Pray() {
           }
         }}
         contentContainerStyle={{
-          paddingHorizontal: L.gutter,
+          paddingHorizontal: screenLayout.gutter,
           paddingTop: 16,
           paddingBottom: 240,
           alignItems: 'center',

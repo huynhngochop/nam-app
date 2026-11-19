@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
 import * as Notifications from 'expo-notifications';
-import { router } from 'expo-router';
+import { router, type Href } from 'expo-router';
 import { useMeo } from '../store';
 import { dailyTip } from './search';
 
@@ -22,7 +22,7 @@ export async function requestNotify(): Promise<boolean> {
   return r.granted;
 }
 
-/** Lên lịch "Mẹo hôm nay" theo giờ người dùng chọn; mở mẹo khi chạm (MN-03, MN-15). */
+/** Lên lịch "Mẹo hôm nay" theo giờ người dùng chọn; mở mẹo khi chạm. */
 export async function scheduleDailyTip(time: string, enabled: boolean, title: string) {
   await Notifications.cancelScheduledNotificationAsync('daily-tip').catch(() => {});
   if (!enabled) return;
@@ -50,7 +50,7 @@ export function useDailyTipNotification() {
   useEffect(() => {
     const sub = Notifications.addNotificationResponseReceivedListener((r) => {
       const url = r.notification.request.content.data?.url;
-      if (typeof url === 'string') router.push(url as never);
+      if (typeof url === 'string') router.push(url as Href);
     });
     return () => sub.remove();
   }, []);

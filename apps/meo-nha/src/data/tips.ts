@@ -1,6 +1,6 @@
 /**
  * Dữ liệu mẫu để chạy app khi chưa có máy chủ. Bản phát hành đọc từ GET /tips (xem App · Mẹo Nhà).
- * Mọi mẹo có hóa chất tẩy rửa, điện, gas, độ cao phải có `safety` (MN-20).
+ * Mọi mẹo có hóa chất tẩy rửa, điện, gas, độ cao phải có `safety`.
  */
 export type CategoryId = 'kitchen' | 'home' | 'plants' | 'laundry' | 'saving' | 'repair';
 export type Tip = {
@@ -16,7 +16,6 @@ export type Tip = {
   steps: string[];
   caution?: string;
   safety?: string[];
-  product?: { name: string; url: string };
   keywords: string;
   childSafe?: boolean;
 };
@@ -54,7 +53,6 @@ export const TIPS: Tip[] = [
       'Lau bằng khăn ẩm, lau khô lại.',
     ],
     caution: 'Không dùng trên mặt đá tự nhiên (giấm làm mờ đá).',
-    product: { name: 'Bình xịt chia tỉ lệ', url: 'https://example.com/aff/binh-xit' },
     keywords: 'dau mo bep lau chui baking soda giam',
   },
   {

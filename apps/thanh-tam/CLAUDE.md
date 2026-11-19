@@ -63,7 +63,7 @@ Khung hình giật trên emulator dùng đồ họa phần mềm nên chưa kế
 | Sổ giỗ chung cả nhà | Có (vòng 11) dạng gửi tệp, nhập gộp, hỏi khi trùng; không tự đồng bộ | Máy chủ đồng bộ (Supabase/Firebase) nếu cần tự đồng bộ |
 | Hỏi Thành Tâm | Có (vòng 11) trên máy: câu hỏi thường gặp, lịch, sổ giỗ | AI qua máy chủ nếu cần trả lời tự do |
 | Đo sự kiện (`track`) | Chưa có nơi nhận ở bản phát hành | Chọn dịch vụ đo, nối `sink` |
-| Bản iPhone | Để sau (người dùng chọn) | Tài khoản Apple Developer, khóa API App Store Connect |
-| Lên Google Play | APK ký bằng khóa thử (debug) | Khóa ký thật, AAB, trang cửa hàng |
+| Bản iPhone | Để sau (người dùng chọn). Đã khai tệp quyền riêng tư iOS (`ios.privacyManifests`) và không dùng mã hóa riêng | Tài khoản Apple Developer, khóa API App Store Connect |
+| Lên Google Play | Đã có: trang cửa hàng (`store/android/vi-VN`: tên, mô tả, ảnh, biểu tượng, ảnh bìa), chính sách riêng tư, job AAB ký khóa tải lên và đẩy lên Play; quyền máy thừa đã chặn (CI kiểm). APK ở Releases vẫn ký khóa thử | Chủ app: tài khoản Play Console, tạo app, thêm secret khóa ký và tài khoản dịch vụ, điền Data safety, xếp hạng nội dung, thử kín 12 người 14 ngày nếu là tài khoản cá nhân mới |
 | Thử tay trên máy thật | Chưa | Tiếng mõ, chuông, giọng mẫu (cả 14 bài khấn mới), giọng máy; hình hướng dẫn ở chữ 200 %; thông báo gửi thử; video YouTube trong app (ảnh emulator vòng 16 chỉ thấy khung đen lúc mới mở, chưa xác nhận phát); gửi, nhận sổ giỗ qua Gmail, Zalo; TalkBack, VoiceOver |
 | Công tắc cao 20 px | Đã nới vùng chạm `Toggle` lên 44×52 (vòng 10), chờ QA xác nhận | |

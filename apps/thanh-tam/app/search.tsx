@@ -1,6 +1,6 @@
 import React, { useDeferredValue, useMemo, useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
-import { router } from 'expo-router';
+import { router, type Href } from 'expo-router';
 import {
   AppBar,
   Badge,
@@ -22,7 +22,7 @@ import { goBack } from '../src/nav';
 
 const SUGGEST = ['ông Táo', 'giỗ đầu', 'hương cháy', 'nhập trạch', 'Thần tài', 'Vu Lan', 'hóa vàng', 'mâm ngũ quả'];
 
-/** TT-06 · Tìm kiếm trên máy: không dấu, có từ đồng nghĩa. */
+/** Tìm kiếm trên máy: không dấu, có từ đồng nghĩa. */
 export default function Search() {
   const { c } = useTheme();
   const [q, setQ] = useState('');
@@ -36,7 +36,7 @@ export default function Search() {
       addSearch(q.trim());
       track('search', { len: q.trim().length, hits: results.length });
     }
-    router.push(href as never);
+    router.push(href as Href);
   };
 
   return (

@@ -5,7 +5,7 @@ import { track } from '@nam/core';
 import { tipById } from '../../src/data/tips';
 import { TipDetail } from '../../src/components';
 
-/** MN-08 · Chi tiết mẹo (MN-20 khi có khối an toàn). Không quảng cáo ở màn này. */
+/** Chi tiết mẹo. Không quảng cáo ở màn này. */
 export default function TipScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const tip = tipById(String(id));

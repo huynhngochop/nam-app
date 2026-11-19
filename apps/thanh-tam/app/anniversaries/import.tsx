@@ -16,7 +16,7 @@ const when = (a: Anniversary) => `ngày ${lunarDayWords(a.lunar.day)} tháng ${m
 const who = (a: Anniversary) => `${a.relation ? `${a.relation} ` : ''}${a.name}`;
 
 /**
- * TT-35 · Nhận sổ giỗ. Thêm ngày mới, bỏ qua ngày giống hệt, ngày trùng thì người dùng chọn giữ hay ghi đè
+ * Nhận sổ giỗ. Thêm ngày mới, bỏ qua ngày giống hệt, ngày trùng thì người dùng chọn giữ hay ghi đè
  * (mặc định giữ bản trên máy). Không xóa gì của người dùng.
  */
 export default function ImportGio() {

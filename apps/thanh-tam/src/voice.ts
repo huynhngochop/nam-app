@@ -6,7 +6,7 @@ import { pickViVoice, type V } from './lib/voicePick';
 /**
  * Giọng máy (đọc bằng bộ chuyển chữ thành giọng nói có sẵn trên máy).
  *
- * Lỗi người dùng gặp ở vòng 9: bấm đọc không ra tiếng. Hai nguyên nhân:
+ * Lỗi từng gặp: bấm đọc không ra tiếng. Hai nguyên nhân:
  * - Truyền `vi-VN` cho Android: expo-speech tạo `Locale("vi-VN")`, không phải mã hợp lệ nên rơi về giọng mặc định
  *   của máy (thường không đọc được tiếng Việt). Android cần `vi`, iOS cần `vi-VN`; có mã giọng thì truyền thẳng.
  * - Nhiều máy (Samsung, Oppo) dùng bộ giọng không có tiếng Việt. Khi đó nút bị ẩn mà không nói vì sao.

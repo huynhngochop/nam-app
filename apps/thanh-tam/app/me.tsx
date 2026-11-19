@@ -10,7 +10,7 @@ import { signById, tipById } from '../src/data/signs';
 import { TAM_AN_READY } from '../src/config';
 import { goBack } from '../src/nav';
 
-/** TT-21 · Tôi: người trong nhà, đã lưu, lịch sử khấn, cài đặt. */
+/** Tôi: người trong nhà, đã lưu, lịch sử khấn, cài đặt. */
 export default function Me() {
   const tinChu = useTT((s) => s.household.tinChu);
   const people = useTT((s) => s.people);
@@ -21,22 +21,22 @@ export default function Me() {
     .map((k) => {
       const [type, id] = k.split(':');
       if (type === 'ritual') {
-        const r = ritualById(id);
-        return r && { k, icon: r.icon, title: r.title, href: `/ritual/${id}` };
+        const ritual = ritualById(id);
+        return ritual && { k, icon: ritual.icon, title: ritual.title, href: `/ritual/${id}` };
       }
       if (type === 'prayer') {
-        const p = prayerById(id);
+        const prayer = prayerById(id);
         const r = RITUALS.find((x) => x.prayers.includes(id));
         return (
-          p && r && { k, icon: 'book-open' as const, title: p.title, href: `/ritual/${r.id}/prayer?prayerId=${id}` }
+          prayer && r && { k, icon: 'book-open' as const, title: prayer.title, href: `/ritual/${r.id}/prayer?prayerId=${id}` }
         );
       }
       if (type === 'sign') {
         const s = signById(id);
         return s && { k, icon: 'sun' as const, title: s.title, href: `/sign/${id}` };
       }
-      const t = tipById(id);
-      return t && { k, icon: 'zap' as const, title: t.title, href: `/tip/${id}` };
+      const tip = tipById(id);
+      return tip && { k, icon: 'zap' as const, title: tip.title, href: `/tip/${id}` };
     })
     .filter((x): x is NonNullable<typeof x> => !!x);
   const thisMonth = logs.filter((l) => Date.now() - l.at < 30 * 86400000).length;

@@ -8,11 +8,11 @@ import { TipRow } from '../../src/components';
 
 type Sort = 'popular' | 'new' | 'easy';
 
-/** MN-07 · Danh mục. */
+/** Danh mục. */
 export default function Category() {
   const { id } = useLocalSearchParams<{ id: CategoryId }>();
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const cat = CATEGORIES.find((x) => x.id === id) ?? CATEGORIES[0];
   const [sub, setSub] = useState<string | null>(null);
   const [sort, setSort] = useState<Sort>('popular');
@@ -32,7 +32,7 @@ export default function Category() {
       <FlashList
         data={list}
         keyExtractor={(t) => t.id}
-        contentContainerStyle={{ paddingHorizontal: L.gutter, paddingBottom: 24 }}
+        contentContainerStyle={{ paddingHorizontal: layout.gutter, paddingBottom: 24 }}
         ListHeaderComponent={
           <View style={{ gap: 12, paddingBottom: 8 }}>
             <AppBar

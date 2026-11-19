@@ -16,19 +16,19 @@ export type MonthSummary = {
   count: number;
 };
 
-/** Tổng kết một kỳ (VG-23). Mặc định viết bằng mẫu trên máy; chỉ khi người dùng bật "AI viết nhận xét" mới gửi SỐ TỔNG theo danh mục. */
+/** Tổng kết một kỳ. Mặc định viết bằng mẫu trên máy; chỉ khi người dùng bật "AI viết nhận xét" mới gửi SỐ TỔNG theo danh mục. */
 export function buildSummary(
   offset: number,
   ctx: { cats: Category[]; startDay: number; budgets: Record<string, number> },
 ): MonthSummary {
-  const p = periodOf(ctx.startDay, offset);
+  const period = periodOf(ctx.startDay, offset);
   const prev = periodOf(ctx.startDay, offset - 1);
-  const t = totals(p.from, p.to);
-  const cats = byCategory(p.from, p.to);
+  const t = totals(period.from, period.to);
+  const cats = byCategory(period.from, period.to);
   const prevCats = byCategory(prev.from, prev.to);
   const hist = Array.from({ length: 6 }, (_, k) => {
-    const q = periodOf(ctx.startDay, offset - 1 - k);
-    const x = totals(q.from, q.to);
+    const period = periodOf(ctx.startDay, offset - 1 - k);
+    const x = totals(period.from, period.to);
     return x.count ? x.income - x.expense : null;
   }).filter((x): x is number => x != null);
   const avgSaved = hist.length ? hist.reduce((a, b) => a + b, 0) / hist.length : 0;
@@ -66,7 +66,7 @@ export function buildSummary(
     : null;
 
   return {
-    label: p.label,
+    label: period.label,
     income: t.income,
     expense: t.expense,
     saved: t.income - t.expense,

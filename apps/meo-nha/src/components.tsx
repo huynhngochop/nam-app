@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { Linking, Share, View } from 'react-native';
+import { Share, View } from 'react-native';
 import { router } from 'expo-router';
 import {
   Badge,
@@ -19,7 +19,7 @@ import {
   useToast,
 } from '@nam/ui';
 import { track } from '@nam/core';
-import { categoryOf, DIFF_LABEL, Tip } from './data/tips';
+import { categoryOf, Tip } from './data/tips';
 import { useMeo } from './store';
 
 export const TipRow = memo(function TipRow({
@@ -63,46 +63,18 @@ export const TipRow = memo(function TipRow({
   );
 });
 
-export function AdNative() {
-  const noAds = useMeo((s) => s.noAds);
-  const { c } = useTheme();
-  if (noAds) return null;
-  // Chỗ quảng cáo giữ chiều cao cố định để không nhảy bố cục (Chuẩn spec › 10). Nối SDK quảng cáo ở đây.
-  return (
-    <View
-      style={{
-        minHeight: 64,
-        borderWidth: 1,
-        borderStyle: 'dashed',
-        borderColor: c.line,
-        borderRadius: 14,
-        padding: 12,
-        flexDirection: 'row',
-        gap: 10,
-        alignItems: 'center',
-        backgroundColor: c.bg,
-      }}
-    >
-      <Badge label="Tài trợ" />
-      <T v="caption" muted style={{ flex: 1 }}>
-        Quảng cáo native — cùng kiểu thẻ, luôn có nhãn
-      </T>
-    </View>
-  );
-}
-
-/** Chi tiết mẹo (MN-08 + MN-20). Dùng cho trang riêng và cột chi tiết trên tablet. */
+/** Chi tiết mẹo. Dùng cho trang riêng và cột chi tiết trên tablet. */
 export function TipDetail({ tip, onClose }: { tip: Tip; onClose?: () => void }) {
   const { c } = useTheme();
-  const s = useMeo();
+  const state = useMeo();
   const toast = useToast();
   const [rateOpen, setRateOpen] = useState(false);
   const [rating, setRating] = useState(0);
   const [stepsDone, setStepsDone] = useState<number[]>([]);
   const cat = categoryOf(tip.categoryId);
-  const needAck = !!tip.safety && !s.safetyAck.includes(tip.id);
-  const saved = s.savedTips.includes(tip.id);
-  const done = !!s.doneTips[tip.id];
+  const needAck = !!tip.safety && !state.safetyAck.includes(tip.id);
+  const saved = state.savedTips.includes(tip.id);
+  const done = !!state.doneTips[tip.id];
   return (
     <View style={{ gap: 12 }}>
       <Row between>
@@ -121,7 +93,7 @@ export function TipDetail({ tip, onClose }: { tip: Tip; onClose?: () => void }) 
             label={saved ? 'Bỏ lưu' : 'Lưu'}
             color={saved ? c.a : undefined}
             bg={saved ? c.at : undefined}
-            onPress={() => s.toggleSaveTip(tip.id)}
+            onPress={() => state.toggleSaveTip(tip.id)}
           />
         </Row>
       </Row>
@@ -152,7 +124,7 @@ export function TipDetail({ tip, onClose }: { tip: Tip; onClose?: () => void }) 
               icon={needAck ? 'square' : 'check-square'}
               onPress={() => {
                 if (needAck) {
-                  s.set({ safetyAck: [...s.safetyAck, tip.id] });
+                  state.set({ safetyAck: [...state.safetyAck, tip.id] });
                   track('safety_acknowledged', { tipId: tip.id });
                 }
               }}
@@ -182,33 +154,6 @@ export function TipDetail({ tip, onClose }: { tip: Tip; onClose?: () => void }) 
           </Row>
         </Card>
       ) : null}
-      {tip.product ? (
-        <View style={{ gap: 8 }}>
-          <T v="headline">Dụng cụ gợi ý</T>
-          <Card>
-            <Row>
-              <Thumb icon="shopping-bag" />
-              <View style={{ flex: 1 }}>
-                <T v="headline">{tip.product.name}</T>
-                <T v="caption" muted>
-                  Xem giá ở sàn
-                </T>
-              </View>
-              <Button
-                title="Xem"
-                size="sm"
-                onPress={() => {
-                  track('affiliate_clicked', { tipId: tip.id });
-                  Linking.openURL(tip.product!.url);
-                }}
-              />
-            </Row>
-            <T v="caption" muted>
-              Link liên kết — Mẹo Nhà nhận hoa hồng, giá bạn trả không đổi.
-            </T>
-          </Card>
-        </View>
-      ) : null}
       <Button
         title={done ? 'Đã làm ✓' : 'Đã làm xong'}
         icon={done ? undefined : 'check'}
@@ -231,7 +176,7 @@ export function TipDetail({ tip, onClose }: { tip: Tip; onClose?: () => void }) 
             title="Gửi"
             disabled={!rating}
             onPress={() => {
-              s.markDone(tip.id);
+              state.markDone(tip.id);
               setRateOpen(false);
               toast('Cảm ơn bạn!', { tone: 'success' });
               track('tip_done', { tipId: tip.id, rating });

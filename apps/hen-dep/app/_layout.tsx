@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { router, Stack, useSegments } from 'expo-router';
+import { router, Stack, useSegments, type Href } from 'expo-router';
 import { AppShell } from '@nam/ui';
 import { useHen } from '../src/store';
 import { redirectFor } from '../src/access';
@@ -10,7 +10,7 @@ function RouteGuard() {
   const role = useHen((s) => s.auth?.role ?? null);
   const target = redirectFor(segments, role);
   useEffect(() => {
-    if (target) router.replace(target as never);
+    if (target) router.replace(target as Href);
   }, [target]);
   return null;
 }

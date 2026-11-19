@@ -33,7 +33,7 @@ const FILTERS: { key: Filter; label: string }[] = [
 /** HD-C08 · Danh sách khách. Tablet: danh sách trái, hồ sơ khách phải. */
 export default function Customers() {
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   // Chọn từng phần: màn không vẽ lại khi phần khác của store đổi.
   const customers = useHen((x) => x.customers);
   const bookings = useHen((x) => x.bookings);
@@ -64,11 +64,11 @@ export default function Customers() {
       .sort((a, b) => (b.st.lastAt ?? 0) - (a.st.lastAt ?? 0));
   }, [customers, index, q, f, vipVisits, vipSpend, month]);
 
-  const open = (id: string) => (L.twoPane ? setSel(id) : router.push(`/customer/${id}`));
+  const open = (id: string) => (layout.twoPane ? setSel(id) : router.push(`/customer/${id}`));
 
   const list = (
     <View style={{ flex: 1 }}>
-      <View style={{ paddingHorizontal: L.gutter, gap: 10, paddingTop: 8 }}>
+      <View style={{ paddingHorizontal: layout.gutter, gap: 10, paddingTop: 8 }}>
         <T v="display" accessibilityRole="header">
           Khách hàng
         </T>
@@ -90,7 +90,7 @@ export default function Customers() {
         <FlashList
           data={rows}
           keyExtractor={(r) => r.cu.id}
-          contentContainerStyle={{ paddingHorizontal: L.gutter, paddingBottom: 96 }}
+          contentContainerStyle={{ paddingHorizontal: layout.gutter, paddingBottom: 96 }}
           renderItem={({ item: { cu, st } }) => {
             const vip = st.visits >= vipVisits || st.spend >= vipSpend;
             return (

@@ -6,7 +6,7 @@ import { tipById } from '../src/data/tips';
 
 const REASONS = ['Mẹo không hiệu quả', 'Sai thông tin', 'Có thể nguy hiểm', 'Khác'];
 
-/** Báo mẹo sai (MN-20). ≥ 3 báo "nguy hiểm" → máy chủ tự ẩn mẹo chờ duyệt. */
+/** Báo mẹo sai. ≥ 3 báo "nguy hiểm" → máy chủ tự ẩn mẹo chờ duyệt. */
 export default function Report() {
   const { tipId } = useLocalSearchParams<{ tipId: string }>();
   const tip = tipById(String(tipId));

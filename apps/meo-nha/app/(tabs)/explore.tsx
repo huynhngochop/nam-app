@@ -17,18 +17,16 @@ import {
   useLayout,
   useTheme,
 } from '@nam/ui';
-import { getConfig, greeting, track, useOnline } from '@nam/core';
+import { greeting, track, useOnline } from '@nam/core';
 import { CATEGORIES, Tip, tipById } from '../../src/data/tips';
 import { useMeo } from '../../src/store';
 import { dailyTip, feedFor } from '../../src/lib/search';
-import { AdNative, TipDetail, TipRow } from '../../src/components';
+import { TipDetail, TipRow } from '../../src/components';
 
-type FeedRow = { kind: 'tip'; tip: Tip } | { kind: 'ad'; key: string };
-
-/** MN-04 · Khám phá (+ MN-17 khi ngoại tuyến). Tablet/máy gập mở ngang: danh sách + chi tiết cạnh nhau. */
+/** Khám phá. Tablet/máy gập mở ngang: danh sách + chi tiết cạnh nhau. */
 export default function Explore() {
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const online = useOnline();
   const interests = useMeo((s) => s.interests);
   const name = useMeo((s) => s.name);
@@ -36,24 +34,19 @@ export default function Explore() {
   const [selected, setSelected] = useState<string | null>(null);
 
   const today = useMemo(() => dailyTip(interests), [interests]);
-  const rows = useMemo<FeedRow[]>(() => {
-    const src = online ? feedFor(interests) : savedTips.map((id) => tipById(id)!).filter(Boolean);
-    const n = getConfig().adEveryN;
-    const out: FeedRow[] = [];
-    src.forEach((t, i) => {
-      out.push({ kind: 'tip', tip: t });
-      if (online && (i + 1) % n === 0) out.push({ kind: 'ad', key: `ad${i}` });
-    });
-    return out;
-  }, [interests, online, savedTips]);
+  // Ngoại tuyến chỉ còn mẹo đã lưu (đọc được không cần mạng).
+  const tips = useMemo<Tip[]>(
+    () => (online ? feedFor(interests) : savedTips.map((id) => tipById(id)).filter((t): t is Tip => !!t)),
+    [interests, online, savedTips],
+  );
 
   const open = useCallback(
     (id: string) => {
       track('feed_tip_opened', { tipId: id });
-      if (L.twoPane) setSelected(id);
+      if (layout.twoPane) setSelected(id);
       else router.push(`/tip/${id}`);
     },
-    [L.twoPane],
+    [layout.twoPane],
   );
 
   const header = (
@@ -97,9 +90,8 @@ export default function Explore() {
 
   const list = (
     <FlashList
-      data={rows}
-      keyExtractor={(r) => (r.kind === 'tip' ? r.tip.id : r.key)}
-      getItemType={(r) => r.kind}
+      data={tips}
+      keyExtractor={(t) => t.id}
       ListHeaderComponent={header}
       ListEmptyComponent={
         !online ? (
@@ -117,16 +109,8 @@ export default function Explore() {
           <View style={{ height: 24 }} />
         )
       }
-      renderItem={({ item }) =>
-        item.kind === 'ad' ? (
-          <View style={{ paddingVertical: 8 }}>
-            <AdNative />
-          </View>
-        ) : (
-          <TipRow tip={item.tip} onPress={() => open(item.tip.id)} />
-        )
-      }
-      contentContainerStyle={{ paddingHorizontal: L.gutter }}
+      renderItem={({ item }) => <TipRow tip={item} onPress={() => open(item.id)} />}
+      contentContainerStyle={{ paddingHorizontal: layout.gutter }}
     />
   );
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams, type Href } from 'expo-router';
 import {
   AppBar,
   Button,
@@ -63,7 +63,7 @@ function SettingRow({
   );
 }
 
-/** TT-31 · Chuẩn bị tụng: bản gọn hay đầy đủ, cách đọc (tự tụng, giọng mẫu, giọng máy), nhịp mõ, video, bản ghi riêng. */
+/** Chuẩn bị tụng: bản gọn hay đầy đủ, cách đọc (tự tụng, giọng mẫu, giọng máy), nhịp mõ, video, bản ghi riêng. */
 export default function ChantSetup() {
   const { c } = useTheme();
   const toast = useToast();
@@ -148,7 +148,7 @@ export default function ChantSetup() {
           icon="play"
           onPress={() => {
             track('chant_start', { id, full: chant.full });
-            router.push(`/chant/${id}/play${q}` as never);
+            router.push(`/chant/${id}/play${q}` as Href);
           }}
         />
       }
@@ -309,7 +309,7 @@ export default function ChantSetup() {
           }
           onPress={() => {
             track('chant_listen_official', { id });
-            router.push(`/video?key=${id}` as never);
+            router.push(`/video?key=${id}` as Href);
           }}
         />
         {rec ? (

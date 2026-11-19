@@ -30,8 +30,8 @@ export default function Auth() {
 
   useEffect(() => {
     if (wait <= 0) return;
-    const t = setTimeout(() => setWait((w) => w - 1), 1000);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setWait((w) => w - 1), 1000);
+    return () => clearTimeout(timer);
   }, [wait]);
 
   const sendCode = async () => {

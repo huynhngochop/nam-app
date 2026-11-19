@@ -2,7 +2,7 @@ import { getConfig } from './config';
 import { uid } from './id';
 
 /**
- * Client của "Cổng AI" dùng chung (Chuẩn spec › 13). App KHÔNG chứa khóa API của nhà cung cấp.
+ * Client của "Cổng AI" dùng chung. App KHÔNG chứa khóa API của nhà cung cấp.
  * Khi chưa cấu hình EXPO_PUBLIC_AI_GATEWAY_URL, mọi lời gọi ném AiUnavailableError để màn dùng phương án không AI.
  */
 export class AiUnavailableError extends Error {
@@ -31,7 +31,7 @@ export async function callAi<T>(
   for (const d of delays) {
     if (d) await sleep(d + Math.random() * 300);
     const ctrl = new AbortController();
-    const t = setTimeout(() => ctrl.abort(), opts.timeoutMs ?? 15000);
+    const timer = setTimeout(() => ctrl.abort(), opts.timeoutMs ?? 15000);
     try {
       const res = await fetch(`${base}/${feature}`, {
         method: 'POST',
@@ -54,7 +54,7 @@ export async function callAi<T>(
       if (e instanceof AiQuotaError || e instanceof AiUnavailableError) throw e;
       lastErr = e;
     } finally {
-      clearTimeout(t);
+      clearTimeout(timer);
     }
   }
   throw lastErr instanceof Error ? new AiUnavailableError(lastErr.message) : new AiUnavailableError();

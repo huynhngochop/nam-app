@@ -6,7 +6,7 @@ import { Layers, Sources } from '../../../src/components';
 import { SRC } from '../../../src/data/sources';
 import { goBack } from '../../../src/nav';
 
-/** TT-32 · Chi tiết sao, hạn, khái niệm (ba lớp). */
+/** Chi tiết sao, hạn, khái niệm (ba lớp). */
 export default function TermScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const t = termById(decodeURIComponent(id ?? ''));

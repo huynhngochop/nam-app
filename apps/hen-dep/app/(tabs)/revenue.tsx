@@ -22,7 +22,7 @@ type Range = 'today' | 'week' | 'month';
 /** HD-C10 · Doanh thu. Chỉ tính lịch "Hoàn thành". Tablet: các thẻ xếp 2–3 cột. */
 export default function Revenue() {
   const { c } = useTheme();
-  const s = useHen();
+  const state = useHen();
   const [range, setRange] = useState<Range>('week');
 
   const data = useMemo(() => {
@@ -30,11 +30,11 @@ export default function Revenue() {
     const days = range === 'today' ? 1 : range === 'week' ? 7 : 30;
     const from = addDays(today, -(days - 1)).getTime();
     const prevFrom = from - days * 86400000;
-    const done = s.bookings.filter((b) => b.status === 'completed' && b.startAt >= from);
-    const prev = s.bookings.filter((b) => b.status === 'completed' && b.startAt >= prevFrom && b.startAt < from);
-    const all = s.bookings.filter((b) => b.startAt >= from && b.startAt < Date.now());
-    const total = done.reduce((a, b) => a + priceOf(b, s.services), 0);
-    const prevTotal = prev.reduce((a, b) => a + priceOf(b, s.services), 0);
+    const done = state.bookings.filter((b) => b.status === 'completed' && b.startAt >= from);
+    const prev = state.bookings.filter((b) => b.status === 'completed' && b.startAt >= prevFrom && b.startAt < from);
+    const all = state.bookings.filter((b) => b.startAt >= from && b.startAt < Date.now());
+    const total = done.reduce((a, b) => a + priceOf(b, state.services), 0);
+    const prevTotal = prev.reduce((a, b) => a + priceOf(b, state.services), 0);
     const noShow = all.filter((b) => b.status === 'no_show').length;
 
     const bars =
@@ -46,7 +46,7 @@ export default function Revenue() {
               label: dayMonth(new Date(st)),
               value: done
                 .filter((b) => b.startAt >= st && b.startAt < end)
-                .reduce((a, b) => a + priceOf(b, s.services), 0),
+                .reduce((a, b) => a + priceOf(b, state.services), 0),
             };
           }).reverse()
         : Array.from({ length: range === 'today' ? 1 : 7 }, (_, i) => {
@@ -57,21 +57,21 @@ export default function Revenue() {
               label: range === 'today' ? 'Hôm nay' : weekdayShort(d),
               value: done
                 .filter((b) => b.startAt >= st && b.startAt < end)
-                .reduce((a, b) => a + priceOf(b, s.services), 0),
+                .reduce((a, b) => a + priceOf(b, state.services), 0),
             };
           }).reverse();
 
-    const byStaff = s.staff
+    const byStaff = state.staff
       .map((st) => {
         const mine = done.filter((b) => b.staffId === st.id);
-        const rev = mine.reduce((a, b) => a + priceOf(b, s.services), 0);
+        const rev = mine.reduce((a, b) => a + priceOf(b, state.services), 0);
         return { st, count: mine.length, rev, commission: Math.round((rev * st.commissionPct) / 100) };
       })
       .sort((a, b) => b.rev - a.rev);
 
     const svcCount = new Map<string, { name: string; n: number; rev: number }>();
     done.forEach((b) =>
-      svcOf(b.serviceIds, s.services).forEach((sv) => {
+      svcOf(b.serviceIds, state.services).forEach((sv) => {
         const e = svcCount.get(sv.id) ?? { name: sv.name, n: 0, rev: 0 };
         e.n++;
         e.rev += sv.price;
@@ -99,7 +99,7 @@ export default function Revenue() {
       bySource: [...bySource.entries()].sort((a, b) => b[1] - a[1]),
       methods,
     };
-  }, [s.bookings, s.services, s.staff, range]);
+  }, [state.bookings, state.services, state.staff, range]);
 
   const delta = data.prevTotal ? Math.round(((data.total - data.prevTotal) / data.prevTotal) * 100) : null;
 

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { BackHandler, Platform } from 'react-native';
-import { router, usePathname } from 'expo-router';
+import { router, usePathname, type Href } from 'expo-router';
 import { useToast } from '@nam/ui';
 import { decideBack } from './lib/backPress';
 
@@ -28,7 +28,7 @@ export function useAndroidBack() {
         case 'nav':
           return false;
         case 'home':
-          router.replace('/(tabs)/today' as never);
+          router.replace('/(tabs)/today' as Href);
           return true;
         case 'warn':
           lastWarn.current = now;

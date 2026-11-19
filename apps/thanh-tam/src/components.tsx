@@ -1,6 +1,6 @@
 import React, { memo, ReactNode, useMemo } from 'react';
 import { Pressable, View } from 'react-native';
-import { router } from 'expo-router';
+import { router, type Href } from 'expo-router';
 import { Badge, Card, Icon, IconName, Row, T, useLayout, useTheme, radius } from '@nam/ui';
 import { weekdayLong } from '@nam/core';
 import {
@@ -11,7 +11,6 @@ import {
   lunarDayShort,
   lunarOf,
   monthName,
-  type LunarDate,
 } from './calendar/lunar';
 import { SOURCE_KIND_LABEL } from './data/sources';
 import type { SourceRef } from './data/types';
@@ -34,7 +33,7 @@ export function Brief({ text, href, lines = 3 }: { text: string; href?: string; 
 export function MoreLink({ href, label = 'Xem thêm' }: { href: string; label?: string }) {
   return (
     <Pressable
-      onPress={() => router.push(href as never)}
+      onPress={() => router.push(href as Href)}
       hitSlop={8}
       accessibilityRole="link"
       style={{ alignSelf: 'flex-start', minHeight: 32, justifyContent: 'center' }}
@@ -138,7 +137,7 @@ export function Layers({
   );
 }
 
-/* ------------------------------------------------------------ an toàn lửa (TT-27) */
+/* ------------------------------------------------------------ an toàn lửa */
 export function SafetyCard({ text, title = 'An toàn lửa' }: { text?: string; title?: string }) {
   const { c } = useTheme();
   return (
@@ -178,7 +177,7 @@ export function Sources({ sources }: { sources: SourceRef[] }) {
 /* ------------------------------------------------------------ thẻ âm lịch hôm nay */
 export function LunarCard({ date, onPress }: { date: Date; onPress?: () => void }) {
   const { c } = useTheme();
-  const l = lunarOf(date);
+  const lunar = lunarOf(date);
   const hours = hoangDaoHours(date)
     .slice(0, 6)
     .map((h) => h.label)
@@ -188,7 +187,7 @@ export function LunarCard({ date, onPress }: { date: Date; onPress?: () => void 
     <Card
       variant="tint"
       onPress={onPress}
-      accessibilityLabel={`Âm lịch: ngày ${l.day} tháng ${monthName(l.month, l.leap)}`}
+      accessibilityLabel={`Âm lịch: ngày ${lunar.day} tháng ${monthName(lunar.month, lunar.leap)}`}
     >
       <Row between style={{ alignItems: 'flex-start' }}>
         <View style={{ flex: 1, gap: 2 }}>
@@ -196,15 +195,15 @@ export function LunarCard({ date, onPress }: { date: Date; onPress?: () => void 
             {weekdayLong(date)}, {date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()} (dương lịch)
           </T>
           <T v="display" color={c.a}>
-            {lunarDayShort(l.day)} tháng {monthName(l.month, l.leap)}
+            {lunarDayShort(lunar.day)} tháng {monthName(lunar.month, lunar.leap)}
           </T>
           <T v="caption" muted>
-            Âm lịch · năm {canChiYear(l.year)} · tháng {canChiMonth(l.month, l.year)} · ngày {canChiDay(date)}
+            Âm lịch · năm {canChiYear(lunar.year)} · tháng {canChiMonth(lunar.month, lunar.year)} · ngày {canChiDay(date)}
           </T>
         </View>
         <View style={{ alignItems: 'center', minWidth: 56 }}>
           <T v="numeral" color={c.a}>
-            {l.day}
+            {lunar.day}
           </T>
           <T v="micro" muted>
             âm
@@ -223,7 +222,7 @@ export function LunarCard({ date, onPress }: { date: Date; onPress?: () => void 
   );
 }
 
-/* ------------------------------------------------------------ lưới lịch tháng (TT-13) */
+/* ------------------------------------------------------------ lưới lịch tháng */
 export type DayMark = 'ram' | 'mung1' | 'gio' | 'le';
 export { monthCells } from './lib/dates';
 
@@ -244,9 +243,9 @@ export const CalendarGrid = memo(function CalendarGrid({
   const { c } = useTheme();
   const cells = useMemo(() => monthCells(year, month), [year, month]);
   const today = new Date().toDateString();
-  const L = useLayout();
+  const layout = useLayout();
   // Ô cao theo cỡ chữ (chữ trong ô phóng tối đa 1,3 lần) để chữ 200 % không chồng hàng.
-  const h = Math.round((L.isCompact ? 52 : 64) * Math.min(1.3, Math.max(1, L.fontScale)));
+  const h = Math.round((layout.isCompact ? 52 : 64) * Math.min(1.3, Math.max(1, layout.fontScale)));
   return (
     <View>
       <View style={{ flexDirection: 'row' }}>
@@ -435,7 +434,7 @@ export function NavRow({
   const { c } = useTheme();
   return (
     <Pressable
-      onPress={onPress ?? (() => href && router.push(href as never))}
+      onPress={onPress ?? (() => href && router.push(href as Href))}
       accessibilityRole="button"
       style={({ pressed }) => ({
         minHeight: 56,

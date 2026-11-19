@@ -4,7 +4,7 @@ import { Paywall, useToast } from '@nam/ui';
 import { buy, getPrice, PURCHASE_MESSAGES, restorePurchases, track } from '@nam/core';
 import { useNhip } from '../src/store';
 
-/** NH-16 Nhịp Pro · NH-20 Mua chưa hoàn tất (nói rõ đã/chưa trừ tiền). */
+/** Nhịp Pro. Mua chưa hoàn tất thì nói rõ đã hay chưa trừ tiền. */
 export default function NhipPaywall() {
   const set = useNhip((s) => s.set);
   const toast = useToast();
@@ -15,7 +15,6 @@ export default function NhipPaywall() {
       title="Nhịp Pro"
       benefits={[
         'Mở mọi gói âm thanh, kể cả gói mới',
-        'Không quảng cáo',
         'Thống kê theo từng việc, xuất CSV',
         'Thói quen không giới hạn',
       ]}

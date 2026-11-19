@@ -8,11 +8,11 @@ import { Button, Card, Dialog, IconButton, Row, Screen, StepBar, T, useLayout, u
 import { mmss, track } from '@nam/core';
 import { RECIPES } from '../../src/data/recipes';
 
-/** MN-12 · Chế độ nấu: màn luôn sáng, chữ to, hẹn giờ từng bước (đếm theo thời điểm kết thúc, đúng cả khi app chạy nền). */
+/** Chế độ nấu: màn luôn sáng, chữ to, hẹn giờ từng bước (đếm theo thời điểm kết thúc, đúng cả khi app chạy nền). */
 export default function Cook() {
   useKeepAwake();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const L = useLayout();
+  const layout = useLayout();
   const toast = useToast();
   const r = RECIPES.find((x) => x.id === id)!;
   const [i, setI] = useState(0);
@@ -25,8 +25,8 @@ export default function Cook() {
 
   useEffect(() => {
     if (!endAt) return;
-    const t = setInterval(() => setNow(Date.now()), 500);
-    return () => clearInterval(t);
+    const timer = setInterval(() => setNow(Date.now()), 500);
+    return () => clearInterval(timer);
   }, [endAt]);
   useEffect(() => {
     if (endAt && now >= endAt) {
@@ -75,7 +75,7 @@ export default function Cook() {
     toast('Ngon miệng nhé!', { tone: 'success' });
     router.back();
   };
-  const big = L.isCompact ? 24 : 32;
+  const big = layout.isCompact ? 24 : 32;
 
   return (
     <Screen

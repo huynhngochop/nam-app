@@ -134,7 +134,7 @@ const Line = memo(function Line({
 
 const mmss = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 
-/** TT-32 · Màn tụng: nền tối, giữ màn sáng, mõ giữ nhịp từng chữ, chuông chuyển bài, giọng máy đọc cùng. */
+/** Màn tụng: nền tối, giữ màn sáng, mõ giữ nhịp từng chữ, chuông chuyển bài, giọng máy đọc cùng. */
 export default function ChantPlay() {
   const insets = useSafeAreaInsets();
   const first = initialWindowMetrics?.insets;
@@ -144,7 +144,7 @@ export default function ChantPlay() {
     left: insets.left,
     right: insets.right,
   };
-  const L = useLayout();
+  const screenLayout = useLayout();
   const { id, ritual, src } = useLocalSearchParams<{ id: string; ritual?: string; src?: string }>();
   const chant = useTT((s) => s.chant);
   const setChant = useTT((s) => s.setChant);
@@ -562,7 +562,7 @@ export default function ChantPlay() {
         onLayout={(e) => {
           viewH.current = e.nativeEvent.layout.height;
         }}
-        contentContainerStyle={{ paddingHorizontal: L.gutter, paddingTop: 8, paddingBottom: 200, alignItems: 'center' }}
+        contentContainerStyle={{ paddingHorizontal: screenLayout.gutter, paddingTop: 8, paddingBottom: 200, alignItems: 'center' }}
       >
         <View style={{ width: '100%', maxWidth: 760 }}>
           {rows}

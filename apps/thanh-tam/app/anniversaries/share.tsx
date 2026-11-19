@@ -10,7 +10,7 @@ import { shareJson } from '../../src/fileShare';
 import { buildSoGio, transferFileName } from '../../src/lib/transfer';
 import { lunarDayWords, monthName } from '../../src/calendar/lunar';
 
-/** TT-34 · Gửi sổ giỗ: chọn ngày giỗ, gửi tệp qua mail, Zalo, Drive. Người nhận mở tệp trong Thành Tâm. */
+/** Gửi sổ giỗ: chọn ngày giỗ, gửi tệp qua mail, Zalo, Drive. Người nhận mở tệp trong Thành Tâm. */
 export default function ShareGio() {
   const { c } = useTheme();
   const toast = useToast();

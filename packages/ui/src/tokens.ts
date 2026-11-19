@@ -43,7 +43,7 @@ const accents: Record<AppId, Record<SchemeName, { a: string; a2: string; at: str
   tt: { light: { a: '#6e3b1f', a2: '#b8862b', at: '#f6ece0' }, dark: { a: '#e0b07a', a2: '#d9ab5a', at: '#33241a' } },
 };
 
-/** Chế độ khấn của Thành Tâm luôn tối ấm (TT-10). */
+/** Chế độ khấn của Thành Tâm luôn tối ấm. */
 export const ttNight = {
   bg: '#1a1410',
   ink: '#f3e6d3',

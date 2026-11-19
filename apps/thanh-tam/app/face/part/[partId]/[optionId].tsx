@@ -5,7 +5,7 @@ import { FACE_ADVICE, FACE_PARTS, FACE_REAL, optionOf } from '../../../../src/fa
 import { Layers } from '../../../../src/components';
 import { goBack } from '../../../../src/nav';
 
-/** TT-36 · Chi tiết bộ vị. */
+/** Chi tiết bộ vị. */
 export default function FacePart() {
   const { partId, optionId } = useLocalSearchParams<{ partId: string; optionId: string }>();
   const part = FACE_PARTS.find((p) => p.id === partId);

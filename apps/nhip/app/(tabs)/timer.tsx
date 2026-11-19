@@ -30,12 +30,12 @@ import { classifySession } from '../../src/recovery';
 /** Đã kiểm tra "phiên dở" kể từ khi app khởi động chưa (biến cấp module: mất khi app bị tắt hẳn). */
 let launchChecked = false;
 
-/** NH-03 Hẹn giờ · NH-17 Khôi phục phiên · NH-18 Thông báo bị tắt. */
+/** Hẹn giờ; khôi phục phiên đang dở, báo khi thông báo bị tắt. */
 export default function Timer() {
   const { c } = useTheme();
   const toast = useToast();
-  const L = useLayout();
-  const s = useNhip();
+  const layout = useLayout();
+  const appState = useNhip();
   const [mode, setMode] = useState<'pomodoro' | 'countup'>('pomodoro');
   const [quick, setQuick] = useState(false);
   const [mixOpen, setMixOpen] = useState(false);
@@ -48,19 +48,19 @@ export default function Timer() {
     launchChecked = true;
     return first;
   });
-  const now = useNow(!!s.session && s.session.status === 'running', 1000);
-  const state = classifySession(s.session, now, firstOpen);
-  const stale = state === 'stale' ? s.session : null;
-  const active = state === 'active' ? s.session : null;
+  const now = useNow(!!appState.session && appState.session.status === 'running', 1000);
+  const state = classifySession(appState.session, now, firstOpen);
+  const stale = state === 'stale' ? appState.session : null;
+  const active = state === 'active' ? appState.session : null;
   useEffect(() => {
-    if (state !== 'expired' || !s.session) return;
-    const sess = s.session;
+    if (state !== 'expired' || !appState.session) return;
+    const sess = appState.session;
     // Phiên đã đủ giờ trong lúc người dùng không ở màn phiên (hoặc app bị tắt): tính là hoàn thành.
     if (sess.phase === 'focus') {
-      s.endSession('completed');
+      appState.endSession('completed');
       track('session_completed', { focusMin: Math.round(sess.plannedSec / 60), recovered: true });
       toast(`Đã xong phiên ${Math.round(sess.plannedSec / 60)} phút`, { tone: 'success' });
-    } else s.set({ session: null });
+    } else appState.set({ session: null });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
   useFocusEffect(
@@ -70,26 +70,26 @@ export default function Timer() {
   );
 
   const todayKey = dateKey(new Date());
-  const doneToday = s.logs.filter((l) => l.status === 'completed' && dateKey(new Date(l.at)) === todayKey).length;
-  const goalSessions = Math.max(1, Math.round(s.goalMin / s.settings.focusMin));
-  const task = s.tasks.find((t) => t.id === s.currentTaskId);
-  const mix = s.mixes.find((m) => m.id === s.mixId);
+  const doneToday = appState.logs.filter((l) => l.status === 'completed' && dateKey(new Date(l.at)) === todayKey).length;
+  const goalSessions = Math.max(1, Math.round(appState.goalMin / appState.settings.focusMin));
+  const task = appState.tasks.find((t) => t.id === appState.currentTaskId);
+  const mix = appState.mixes.find((m) => m.id === appState.mixId);
 
   const start = async () => {
-    const sess = s.startPhase('focus', { mode, cycleIndex: s.session?.cycleIndex ?? 0 });
-    if (keepAwakeOnce) s.setSettings({ keepAwake: true });
+    const sess = appState.startPhase('focus', { mode, cycleIndex: appState.session?.cycleIndex ?? 0 });
+    if (keepAwakeOnce) appState.setSettings({ keepAwake: true });
     if (mode === 'pomodoro') schedulePhaseEnd(sess.endAt, 'Hết phiên!', 'Nghỉ một chút nhé.');
-    track('session_started', { mode, focusMin: s.settings.focusMin, hasTask: !!task });
+    track('session_started', { mode, focusMin: appState.settings.focusMin, hasTask: !!task });
     router.push('/session');
   };
 
-  const size = Math.min(L.width - 64, L.height * 0.34, 300);
+  const size = Math.min(layout.width - 64, layout.height * 0.34, 300);
   return (
     <Screen scroll padded={false} edges={['top']}>
       {notif !== 'granted' ? (
         <Banner tone="negative" icon="bell-off" text="Thông báo đang tắt — sẽ không báo hết giờ khi bạn ở app khác" />
       ) : null}
-      <View style={{ paddingHorizontal: L.gutter, gap: 14 }}>
+      <View style={{ paddingHorizontal: layout.gutter, gap: 14 }}>
         <Row between style={{ paddingTop: 8 }}>
           <View style={{ flex: 1 }}>
             <T v="caption" muted>{`${weekdayLong(new Date())} · ${doneToday}/${goalSessions} phiên hôm nay`}</T>
@@ -137,8 +137,8 @@ export default function Timer() {
           <Ring
             size={size}
             progress={0}
-            label={mode === 'countup' ? '00:00' : `${s.settings.focusMin}:00`}
-            sub={mode === 'countup' ? 'Đếm lên' : `Pomodoro · ${s.settings.longEvery} phiên`}
+            label={mode === 'countup' ? '00:00' : `${appState.settings.focusMin}:00`}
+            sub={mode === 'countup' ? 'Đếm lên' : `Pomodoro · ${appState.settings.longEvery} phiên`}
           />
           {mode === 'pomodoro' ? (
             <Button
@@ -195,9 +195,9 @@ export default function Timer() {
             <Chip
               key={m}
               label={`${m} phút`}
-              selected={s.settings.focusMin === m}
+              selected={appState.settings.focusMin === m}
               onPress={() => {
-                s.setSettings({ focusMin: m });
+                appState.setSettings({ focusMin: m });
                 setQuick(false);
               }}
             />
@@ -205,14 +205,14 @@ export default function Timer() {
         </Row>
       </Sheet>
       <Sheet visible={mixOpen} onClose={() => setMixOpen(false)} title="Âm thanh nền">
-        {s.mixes.map((m) => (
+        {appState.mixes.map((m) => (
           <ListItem
             key={m.id}
             title={m.name}
             strong={false}
-            left={<Radio on={s.mixId === m.id} />}
+            left={<Radio on={appState.mixId === m.id} />}
             onPress={() => {
-              s.set({ mixId: m.id });
+              appState.set({ mixId: m.id });
               setMixOpen(false);
             }}
           />
@@ -222,7 +222,7 @@ export default function Timer() {
           strong={false}
           left={<Radio on={!mix} />}
           onPress={() => {
-            s.set({ mixId: '' });
+            appState.set({ mixId: '' });
             setMixOpen(false);
           }}
         />
@@ -241,7 +241,7 @@ export default function Timer() {
           visible
           dismissable={false}
           title="Tiếp tục phiên dở?"
-          body={`Phiên “${s.tasks.find((t) => t.id === stale.taskId)?.title ?? 'Tập trung'}” bị gián đoạn lúc ${new Date(stale.lastHeartbeatAt).toTimeString().slice(0, 5)}. Đã tính ${Math.round(focusedSecOf(stale, stale.lastHeartbeatAt) / 60)} phút tập trung.`}
+          body={`Phiên “${appState.tasks.find((t) => t.id === stale.taskId)?.title ?? 'Tập trung'}” bị gián đoạn lúc ${new Date(stale.lastHeartbeatAt).toTimeString().slice(0, 5)}. Đã tính ${Math.round(focusedSecOf(stale, stale.lastHeartbeatAt) / 60)} phút tập trung.`}
           confirm={
             stale.phase === 'focus' && stale.mode === 'pomodoro'
               ? `Tiếp tục · còn ${mmss(stale.plannedSec - focusedSecOf(stale, stale.lastHeartbeatAt))}`
@@ -257,7 +257,7 @@ export default function Timer() {
             router.push('/session');
           }}
           onCancel={() => {
-            s.endSession('stopped', focusedSecOf(stale, stale.lastHeartbeatAt));
+            appState.endSession('stopped', focusedSecOf(stale, stale.lastHeartbeatAt));
             track('session_recovered', { choice: 'finish' });
           }}
         />

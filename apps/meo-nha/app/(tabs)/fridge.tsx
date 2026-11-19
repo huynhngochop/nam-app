@@ -19,7 +19,7 @@ import { fold, track } from '@nam/core';
 import { ingName, INGREDIENTS, matchRecipes } from '../../src/data/recipes';
 import { useMeo } from '../../src/store';
 
-/** MN-09 · Tủ lạnh có gì? Tính món nấu được ngay trên máy. */
+/** Tủ lạnh có gì? Tính món nấu được ngay trên máy. */
 export default function Fridge() {
   const pantry = useMeo((s) => s.pantry);
   const toggle = useMeo((s) => s.togglePantry);

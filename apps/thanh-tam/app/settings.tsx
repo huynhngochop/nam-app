@@ -34,11 +34,11 @@ const SIZES = [
   { v: 1.5, l: 'Lớn nhất' },
 ];
 
-/** TT-22 · Cài đặt. */
+/** Cài đặt. */
 export default function Settings() {
   const { c } = useTheme();
   const toast = useToast();
-  const s = useTT();
+  const state = useTT();
   const [pick, setPick] = useState(false);
   const [del, setDel] = useState(false);
   const [delFace, setDelFace] = useState(false);
@@ -89,7 +89,7 @@ export default function Settings() {
       toast('Thông báo đang tắt trong cài đặt của máy', { tone: 'error' });
       return;
     }
-    s.setRemind({ [key]: v });
+    state.setRemind({ [key]: v });
     track('setting_changed', { key, value: v });
   };
   return (
@@ -99,7 +99,7 @@ export default function Settings() {
       <ListItem
         left={icon('home')}
         title="Miền, lễ vật, ban thờ"
-        subtitle={`${REGION[s.household.region]} · ${s.household.diet === 'chay' ? 'cúng chay' : 'có đồ mặn'}`}
+        subtitle={`${REGION[state.household.region]} · ${state.household.diet === 'chay' ? 'cúng chay' : 'có đồ mặn'}`}
         chevron
         onPress={() => router.push('/onboarding/tradition?edit=1')}
       />
@@ -135,29 +135,29 @@ export default function Settings() {
       <ListItem
         left={icon('moon')}
         title="Mùng 1 và rằm"
-        subtitle={`Sáng lúc ${s.remind.time}`}
+        subtitle={`Sáng lúc ${state.remind.time}`}
         onPress={() => setPick(true)}
-        right={<Toggle label="Nhắc mùng 1 và rằm" value={s.remind.mung1Ram} onChange={remindToggle('mung1Ram')} />}
+        right={<Toggle label="Nhắc mùng 1 và rằm" value={state.remind.mung1Ram} onChange={remindToggle('mung1Ram')} />}
       />
-      {s.remind.mung1Ram ? (
+      {state.remind.mung1Ram ? (
         <ListItem
           left={icon('bell')}
           title="Nhắc cả tối hôm trước"
           subtitle="Lúc 19:00"
-          right={<Toggle label="Nhắc tối hôm trước" value={s.remind.eveBefore} onChange={remindToggle('eveBefore')} />}
+          right={<Toggle label="Nhắc tối hôm trước" value={state.remind.eveBefore} onChange={remindToggle('eveBefore')} />}
         />
       ) : null}
       <ListItem
         left={icon('dollar-sign')}
         title="Mùng 10 Thần tài"
-        right={<Toggle label="Nhắc mùng 10" value={s.remind.mung10} onChange={remindToggle('mung10')} />}
+        right={<Toggle label="Nhắc mùng 10" value={state.remind.mung10} onChange={remindToggle('mung10')} />}
       />
       <ListItem
         left={icon('gift')}
         title="Lễ lớn trong năm"
         subtitle="Trước 3 ngày"
         divider={false}
-        right={<Toggle label="Nhắc lễ lớn" value={s.remind.festivals} onChange={remindToggle('festivals')} />}
+        right={<Toggle label="Nhắc lễ lớn" value={state.remind.festivals} onChange={remindToggle('festivals')} />}
       />
       <SectionHeader title="Đọc văn khấn" />
       <ListItem
@@ -185,21 +185,21 @@ export default function Settings() {
       </T>
       <Chips>
         {SIZES.map((x) => (
-          <Chip key={x.v} label={x.l} selected={s.fontScale === x.v} onPress={() => s.set({ fontScale: x.v })} />
+          <Chip key={x.v} label={x.l} selected={state.fontScale === x.v} onPress={() => state.set({ fontScale: x.v })} />
         ))}
       </Chips>
       <T v="caption" muted>
-        Cỡ chữ chế độ khấn: {s.prayFont}
+        Cỡ chữ chế độ khấn: {state.prayFont}
       </T>
       <Chips>
         {[22, 24, 26, 28, 30].map((n) => (
-          <Chip key={n} label={String(n)} selected={s.prayFont === n} onPress={() => s.set({ prayFont: n })} />
+          <Chip key={n} label={String(n)} selected={state.prayFont === n} onPress={() => state.set({ prayFont: n })} />
         ))}
       </Chips>
       <SectionHeader title="Giao diện" />
       <Segmented
-        value={s.theme}
-        onChange={(v) => s.set({ theme: v })}
+        value={state.theme}
+        onChange={(v) => state.set({ theme: v })}
         options={[
           { key: 'system', label: 'Theo máy' },
           { key: 'light', label: 'Sáng' },
@@ -211,8 +211,8 @@ export default function Settings() {
         left={icon('upload')}
         title="Sao lưu và chia sẻ"
         subtitle={
-          s.lastBackupAt
-            ? `Sao lưu lần cuối ${new Date(s.lastBackupAt).toLocaleDateString('vi-VN')}`
+          state.lastBackupAt
+            ? `Sao lưu lần cuối ${new Date(state.lastBackupAt).toLocaleDateString('vi-VN')}`
             : 'Chưa sao lưu lần nào'
         }
         chevron
@@ -226,12 +226,12 @@ export default function Settings() {
           onPress={async () => {
             const ids = await restorePurchases();
             const ok = ids.some((i) => i.startsWith('thanhtam.taman'));
-            if (ok) s.set({ tamAn: true });
+            if (ok) state.set({ tamAn: true });
             toast(ok ? 'Đã khôi phục' : 'Không tìm thấy giao dịch cũ');
           }}
         />
       ) : null}
-      {s.face ? (
+      {state.face ? (
         <ListItem
           left={icon('smile', true)}
           title="Xóa kết quả nhân tướng"
@@ -284,9 +284,9 @@ export default function Settings() {
             <Chip
               key={t}
               label={t}
-              selected={t === s.remind.time}
+              selected={t === state.remind.time}
               onPress={() => {
-                s.setRemind({ time: t });
+                state.setRemind({ time: t });
                 setPick(false);
               }}
             />
@@ -301,7 +301,7 @@ export default function Settings() {
         cancel="Hủy"
         onCancel={() => setDelFace(false)}
         onConfirm={() => {
-          s.set({ face: undefined });
+          state.set({ face: undefined });
           setDelFace(false);
           toast('Đã xóa');
         }}
@@ -315,8 +315,8 @@ export default function Settings() {
         cancel="Hủy"
         onCancel={() => setDel(false)}
         onConfirm={() => {
-          s.wipe();
-          s.set({ onboarded: false });
+          state.wipe();
+          state.set({ onboarded: false });
           setDel(false);
           track('data_wiped');
           router.replace('/');

@@ -21,7 +21,7 @@ async function run() {
     interests: ['kitchen', 'home', 'laundry'],
     dailyTipOn: true,
     notifyTime: '06:30',
-    noAds: false,
+    plus: false,
     savedTips: ids,
     savedRecipes: RECIPES.map((r) => r.id),
     doneTips: Object.fromEntries(ids.filter(() => rnd() < 0.6).map((id, i) => [id, now - i * 86400000 * 3])),

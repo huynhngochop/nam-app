@@ -7,7 +7,7 @@ import { FACE_PARTS } from '../../../src/face/data';
 import { useSession } from '../../../src/session';
 import { goBack } from '../../../src/nav';
 
-/** TT-34 · Chọn nét mặt (8 bước). */
+/** Chọn nét mặt (8 bước). */
 export default function FaceStep() {
   const { c } = useTheme();
   const { n } = useLocalSearchParams<{ n: string }>();

@@ -6,7 +6,7 @@ import { useTT } from '../../src/store';
 import { useSession } from '../../src/session';
 import { goBack } from '../../src/nav';
 
-/** TT-33 · Nhân tướng: giới thiệu + kết quả đã lưu. Không camera, không ảnh, không điểm số. */
+/** Nhân tướng: giới thiệu + kết quả đã lưu. Không camera, không ảnh, không điểm số. */
 export default function FaceIntro() {
   const { c } = useTheme();
   const face = useTT((s) => s.face);

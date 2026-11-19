@@ -101,10 +101,10 @@ export function nextGio(a: Anniversary, from: Date): GioOccurrence | null {
 /** Mốc sau ngày mất: 49 ngày, 100 ngày (tính ngày mất là ngày thứ nhất), giỗ đầu, giỗ hết. */
 export function memorialMilestones(deathSolar: Date, offsetDays = 0) {
   const d0 = startOfDay(deathSolar);
-  const l = lunarOf(d0);
+  const lunar = lunarOf(d0);
   const lunarYearDate = (k: number) => {
-    const day = Math.min(l.day, lunarMonthLength(l.year + k, l.month, false) || 29);
-    return lunarToSolar(day, l.month, l.year + k, false);
+    const day = Math.min(lunar.day, lunarMonthLength(lunar.year + k, lunar.month, false) || 29);
+    return lunarToSolar(day, lunar.month, lunar.year + k, false);
   };
   return [
     { id: '49', title: 'Cúng 49 ngày', date: addDays(d0, 48 + offsetDays) },
@@ -140,12 +140,12 @@ export function planNotifications(
   const start = startOfDay(now);
   for (let i = 0; i <= days; i++) {
     const d = addDays(start, i);
-    const l = lunarOf(d);
+    const lunar = lunarOf(d);
     const label =
-      l.day === 1
-        ? `Mùng 1 tháng ${l.month}${l.leap ? ' nhuận' : ''}`
-        : `Rằm tháng ${l.month}${l.leap ? ' nhuận' : ''}`;
-    if (s.mung1Ram && (l.day === 1 || l.day === 15)) {
+      lunar.day === 1
+        ? `Mùng 1 tháng ${lunar.month}${lunar.leap ? ' nhuận' : ''}`
+        : `Rằm tháng ${lunar.month}${lunar.leap ? ' nhuận' : ''}`;
+    if (s.mung1Ram && (lunar.day === 1 || lunar.day === 15)) {
       out.push({
         id: `m-${d.toDateString()}`,
         at: at(d, h, m),
@@ -162,7 +162,7 @@ export function planNotifications(
           url: '/ritual/mung-1-ram/offerings',
         });
     }
-    if (s.mung10 && l.day === 10)
+    if (s.mung10 && lunar.day === 10)
       out.push({
         id: `t-${d.toDateString()}`,
         at: at(d, h, m),

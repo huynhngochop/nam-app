@@ -11,11 +11,11 @@ import { videosFor, watchUrl, youtubeId, type Video } from '../src/data/videos';
 import { chantLines, chantPlan, kinhById } from '../src/data/kinh';
 
 /**
- * TT-36 · Nghe tụng và đọc theo: video YouTube phát ngay trong app, chữ kinh ngay bên dưới (máy rộng: cạnh nhau).
+ * Nghe tụng và đọc theo: video YouTube phát ngay trong app, chữ kinh ngay bên dưới (máy rộng: cạnh nhau).
  * Không chuyển sang app hay trang YouTube. Mỗi bài 2–3 bản: bản nào không phát được trong app thì tự chuyển bản kế.
  */
 export default function VideoScreen() {
-  const L = useLayout();
+  const layout = useLayout();
   const toast = useToast();
   const { key, v } = useLocalSearchParams<{ key: string; v?: string }>();
   const mine = useTT((s) => s.myVideos[key]);
@@ -133,13 +133,13 @@ export default function VideoScreen() {
   return (
     <Screen scroll readable={false}>
       <AppBar title={plan?.title ?? 'Nghe tụng'} onBack={goBack} />
-      {L.twoPane ? (
+      {layout.twoPane ? (
         <View style={{ flexDirection: 'row', gap: 20, alignItems: 'flex-start' }}>
           <View style={{ flex: 1.1, gap: 8 }}>{player}</View>
           <View style={{ flex: 1 }}>{text}</View>
         </View>
       ) : (
-        <View style={{ gap: 12, width: '100%', maxWidth: L.readableWidth, alignSelf: 'center' }}>
+        <View style={{ gap: 12, width: '100%', maxWidth: layout.readableWidth, alignSelf: 'center' }}>
           {player}
           {text}
         </View>

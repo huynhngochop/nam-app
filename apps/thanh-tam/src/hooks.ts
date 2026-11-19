@@ -16,10 +16,10 @@ export function useToday() {
       setD((cur) => (cur.getTime() === n.getTime() ? cur : n));
     };
     const sub = AppState.addEventListener('change', (s) => s === 'active' && check());
-    const t = setInterval(check, 60_000);
+    const timer = setInterval(check, 60_000);
     return () => {
       sub.remove();
-      clearInterval(t);
+      clearInterval(timer);
     };
   }, []);
   return d;
@@ -54,8 +54,8 @@ export function useUpcoming(days = 30) {
 
 /** Năm âm đang xem mặc định: từ rằm tháng Chạp trở đi coi như đã sang năm mới. */
 export function defaultAgeYear(d = new Date()) {
-  const l = lunarOf(d);
-  return l.month === 12 && l.day >= 15 && !l.leap ? l.year + 1 : l.year;
+  const lunar = lunarOf(d);
+  return lunar.month === 12 && lunar.day >= 15 && !lunar.leap ? lunar.year + 1 : lunar.year;
 }
 
 /** Có hiện thẻ "Năm … của nhà mình" ở Hôm nay không. */
@@ -63,8 +63,8 @@ export function useFamilyYearCard() {
   const today = useToday();
   const people = useTT((s) => s.people);
   return useMemo(() => {
-    const l = lunarOf(today);
-    const season = (l.month === 12 && l.day >= 15) || l.month === 1;
+    const lunar = lunarOf(today);
+    const season = (lunar.month === 12 && lunar.day >= 15) || lunar.month === 1;
     const year = defaultAgeYear(today);
     const namTuoi = people.filter((p) => ageYear(p.birthLunarYear, p.sex, year).thaiTue === 'nam-tuoi');
     return { show: season || namTuoi.length > 0, year, namTuoi };

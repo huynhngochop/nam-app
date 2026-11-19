@@ -56,7 +56,7 @@ export const TxRow = React.memo(function TxRow({
 });
 
 /**
- * Khóa ứng dụng (VG-15). Khóa khi mở app và khi quay lại sau > 30 giây.
+ * Khóa ứng dụng. Khóa khi mở app và khi quay lại sau > 30 giây.
  * Cho phép mật mã máy làm phương án dự phòng, nên người dùng không bao giờ bị khóa ngoài vĩnh viễn.
  */
 export function LockGate({ children }: { children: React.ReactNode }) {

@@ -138,7 +138,7 @@ export function ruleKeyword(merchant: string) {
   return fold(merchant).toUpperCase().split(' ').filter(Boolean).slice(0, 2).join(' ');
 }
 
-/** Nhận diện dấu hiệu định dạng (VG-18): các từ không phải số ở đầu thông báo. */
+/** Nhận diện dấu hiệu định dạng: các từ không phải số ở đầu thông báo. */
 export function signatureOf(text: string) {
   return fold(text)
     .replace(/[\d.,:+\-−/]+/g, '#')

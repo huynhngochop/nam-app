@@ -4,7 +4,7 @@ import { kvStorage } from './storage';
 import { uid } from './id';
 
 /**
- * Hàng chờ thay đổi khi ngoại tuyến (Chuẩn spec › 10–11). Mỗi mục có idempotencyKey để máy chủ không ghi trùng.
+ * Hàng chờ thay đổi khi ngoại tuyến. Mỗi mục có idempotencyKey để máy chủ không ghi trùng.
  * `sender` do từng app cung cấp; khi chưa có máy chủ, app có thể bỏ qua (dữ liệu đã nằm trên máy).
  */
 export type OutboxItem = {

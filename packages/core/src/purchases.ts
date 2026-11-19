@@ -1,7 +1,7 @@
 /**
  * Mua trong app. Lớp giao tiếp chung để nối StoreKit / Google Play Billing (ví dụ thư viện expo-iap hoặc RevenueCat)
  * mà không sửa màn hình. Chưa nối nhà cung cấp → trả 'unavailable'; bản dev có thể giả lập để thử giao diện.
- * Giá hiển thị luôn lấy từ cửa hàng theo productId (Chuẩn spec › 6), không viết cứng.
+ * Giá hiển thị luôn lấy từ cửa hàng theo productId, không viết cứng.
  */
 export type PurchaseResult = { status: 'success' | 'cancelled' | 'pending' | 'failed' | 'unavailable'; code?: string };
 export type PurchaseProvider = {

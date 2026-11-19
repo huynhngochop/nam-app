@@ -6,22 +6,22 @@ import { getPrice } from '@nam/core';
 import { CATEGORIES } from '../../src/data/tips';
 import { useMeo } from '../../src/store';
 
-/** MN-14 · Tôi. */
+/** Tôi. */
 export default function Me() {
-  const s = useMeo();
+  const state = useMeo();
   const stats = [
-    { v: Object.keys(s.doneTips).length, l: 'Đã làm' },
-    { v: s.savedTips.length, l: 'Đã lưu' },
-    { v: s.streak.days, l: 'Chuỗi ngày', accent: true },
+    { v: Object.keys(state.doneTips).length, l: 'Đã làm' },
+    { v: state.savedTips.length, l: 'Đã lưu' },
+    { v: state.streak.days, l: 'Chuỗi ngày', accent: true },
   ];
   return (
     <Screen scroll>
       <Row gap={12} style={{ paddingTop: 12 }}>
-        <Avatar name={s.name || 'Bạn'} size={64} />
+        <Avatar name={state.name || 'Bạn'} size={64} />
         <View style={{ flex: 1 }}>
-          <T v="title">{s.name || 'Khách'}</T>
+          <T v="title">{state.name || 'Khách'}</T>
           <T v="caption" muted>
-            {s.name ? 'Dữ liệu lưu trên máy này' : 'Đăng nhập để đồng bộ (sắp có)'}
+            {state.name ? 'Dữ liệu lưu trên máy này' : 'Đăng nhập để đồng bộ (sắp có)'}
           </T>
         </View>
       </Row>
@@ -37,27 +37,27 @@ export default function Me() {
           </Card>
         ))}
       </Grid>
-      {!s.noAds ? (
+      {!state.plus ? (
         <Card variant="tint" onPress={() => router.push('/paywall')}>
           <Row between>
-            <T v="headline">Bỏ quảng cáo</T>
-            <PricePlaceholder priceKey="PRICE_NOADS_ONCE" price={getPrice('PRICE_NOADS_ONCE')} />
+            <T v="headline">Mẹo Nhà Plus</T>
+            <PricePlaceholder priceKey="PRICE_PLUS_ONCE" price={getPrice('PRICE_PLUS_ONCE')} />
           </Row>
-          <T v="caption">Đọc mẹo không bị gián đoạn, ủng hộ Mẹo Nhà.</T>
+          <T v="caption">Bộ sưu tập không giới hạn, hỏi nhiều hơn mỗi ngày, ủng hộ Mẹo Nhà.</T>
         </Card>
       ) : null}
       <View>
         <ListItem
           left={<Thumb icon="target" />}
           title="Mối quan tâm"
-          subtitle={s.interests.map((i) => CATEGORIES.find((c) => c.id === i)?.name).join(', ') || 'Chưa chọn'}
+          subtitle={state.interests.map((i) => CATEGORIES.find((c) => c.id === i)?.name).join(', ') || 'Chưa chọn'}
           chevron
           onPress={() => router.push({ pathname: '/onboarding/interests', params: { edit: '1' } })}
         />
         <ListItem
           left={<Thumb icon="bell" />}
           title="Thông báo"
-          subtitle={s.dailyTipOn ? `${s.notifyTime} mỗi ngày` : 'Đang tắt'}
+          subtitle={state.dailyTipOn ? `${state.notifyTime} mỗi ngày` : 'Đang tắt'}
           chevron
           onPress={() => router.push('/settings')}
         />

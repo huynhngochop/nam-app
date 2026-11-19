@@ -9,11 +9,11 @@ import { catOf, periodOf, useVi } from './store';
  */
 export async function checkBudgets() {
   const s = useVi.getState();
-  const p = periodOf(s.monthStartDay);
+  const period = periodOf(s.monthStartDay);
   const items: { key: string; limit: number; spent: number; name: string }[] = [];
   if (s.monthlyBudget)
-    items.push({ key: 'total', limit: s.monthlyBudget, spent: totals(p.from, p.to).expense, name: 'tháng' });
-  const cats = byCategory(p.from, p.to);
+    items.push({ key: 'total', limit: s.monthlyBudget, spent: totals(period.from, period.to).expense, name: 'tháng' });
+  const cats = byCategory(period.from, period.to);
   for (const [id, limit] of Object.entries(s.budgets))
     if (limit)
       items.push({
@@ -28,7 +28,7 @@ export async function checkBudgets() {
     const pct = it.spent / it.limit;
     const level = pct >= 1 ? 100 : pct >= 0.8 ? 80 : 0;
     if (!level) continue;
-    const k = `${p.from}:${it.key}:${level}`;
+    const k = `${period.from}:${it.key}:${level}`;
     if (s.alerted.includes(k)) continue;
     fresh.push(k);
     try {
@@ -49,7 +49,7 @@ export async function checkBudgets() {
       /* thông báo là phụ — không chặn luồng chính */
     }
   }
-  if (fresh.length) s.set({ alerted: [...s.alerted.filter((k) => k.startsWith(String(p.from))), ...fresh] });
+  if (fresh.length) s.set({ alerted: [...s.alerted.filter((k) => k.startsWith(String(period.from))), ...fresh] });
 }
 
 /** Nhắc góp quỹ vào ngày bắt đầu tháng (ngày lương), 9:05 sáng. Gộp mọi quỹ bật nhắc vào một thông báo. */

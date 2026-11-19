@@ -26,11 +26,11 @@ import { listenerSupported, openPermissionSettings } from '../src/listener';
 import { catOf, useVi } from '../src/store';
 import { canUseBiometric } from '../src/ui';
 
-/** VG-15 · Cài đặt: tự ghi, bảo mật, thông báo, dữ liệu (sao lưu mã hóa, xuất CSV – Pro), giao diện. */
+/** Cài đặt: tự ghi, bảo mật, thông báo, dữ liệu (sao lưu mã hóa, xuất CSV – Pro), giao diện. */
 export default function Settings() {
   const { c } = useTheme();
   const toast = useToast();
-  const s = useVi();
+  const state = useVi();
   const [wipe, setWipe] = useState(false);
 
   const toggleLock = async (v: boolean) => {
@@ -38,7 +38,7 @@ export default function Settings() {
       toast('Máy chưa cài Face ID / vân tay / mật mã màn hình');
       return;
     }
-    s.set({ lockEnabled: v });
+    state.set({ lockEnabled: v });
   };
   const askNotify = async () => {
     const cur = await Notifications.getPermissionsAsync();
@@ -54,7 +54,7 @@ export default function Settings() {
     toast(r.granted ? 'Đã bật thông báo' : 'Chưa bật thông báo');
   };
   const exportCsv = async () => {
-    if (!s.isPro) {
+    if (!state.isPro) {
       router.push('/paywall');
       return;
     }
@@ -70,7 +70,7 @@ export default function Settings() {
               d.toTimeString().slice(0, 5),
               t.kind === 'income' ? 'Thu' : t.kind === 'expense' ? 'Chi' : 'Chuyển',
               String(t.amount),
-              esc(catOf(t.categoryId, s.categories).name),
+              esc(catOf(t.categoryId, state.categories).name),
               esc(t.merchant),
               esc(t.note),
               t.account ? `*${t.account}` : '',
@@ -101,7 +101,7 @@ export default function Settings() {
         <ListItem
           left={<Thumb icon="bell" color={c.a} bg={c.at} />}
           title="Quyền đọc thông báo"
-          subtitle={s.listenerState === 'granted' ? 'Đang bật' : 'Đang tắt — chạm để bật'}
+          subtitle={state.listenerState === 'granted' ? 'Đang bật' : 'Đang tắt — chạm để bật'}
           chevron
           onPress={openPermissionSettings}
         />
@@ -118,7 +118,7 @@ export default function Settings() {
         <ListItem
           left={<Thumb icon="filter" color={c.a} bg={c.at} />}
           title="App được đọc"
-          subtitle={s.allowedApps.length ? `${s.allowedApps.length} app` : 'Mọi thông báo có số tiền'}
+          subtitle={state.allowedApps.length ? `${state.allowedApps.length} app` : 'Mọi thông báo có số tiền'}
           chevron
           onPress={() => router.push('/onboarding/permission')}
         />
@@ -127,7 +127,7 @@ export default function Settings() {
         title="Hỏi trước khi lưu"
         subtitle="Tắt = tự lưu những giao dịch đã có quy tắc"
         right={
-          <Toggle label="Hỏi trước khi lưu" value={s.askBeforeSave} onChange={(v) => s.set({ askBeforeSave: v })} />
+          <Toggle label="Hỏi trước khi lưu" value={state.askBeforeSave} onChange={(v) => state.set({ askBeforeSave: v })} />
         }
       />
       <ListItem
@@ -139,22 +139,22 @@ export default function Settings() {
       <ListItem
         title="Ngày bắt đầu tháng"
         subtitle="Ví dụ ngày nhận lương"
-        right={<Stepper value={s.monthStartDay} min={1} max={28} onChange={(n) => s.set({ monthStartDay: n })} />}
+        right={<Stepper value={state.monthStartDay} min={1} max={28} onChange={(n) => state.set({ monthStartDay: n })} />}
       />
 
       <SectionHeader title="Bảo mật & riêng tư" />
       <ListItem
         title="Khóa bằng Face ID / vân tay"
-        right={<Toggle label="Khóa ứng dụng" value={s.lockEnabled} onChange={toggleLock} />}
+        right={<Toggle label="Khóa ứng dụng" value={state.lockEnabled} onChange={toggleLock} />}
       />
       <ListItem
         title="Ẩn số tiền ở màn chính"
-        right={<Toggle label="Ẩn số tiền" value={s.hideAmounts} onChange={(v) => s.set({ hideAmounts: v })} />}
+        right={<Toggle label="Ẩn số tiền" value={state.hideAmounts} onChange={(v) => state.set({ hideAmounts: v })} />}
       />
       <ListItem
         title="AI viết nhận xét tổng kết tháng"
         subtitle="Chỉ gửi số tổng theo danh mục, không gửi giao dịch"
-        right={<Toggle label="AI nhận xét" value={s.aiSummary} onChange={(v) => s.set({ aiSummary: v })} />}
+        right={<Toggle label="AI nhận xét" value={state.aiSummary} onChange={(v) => state.set({ aiSummary: v })} />}
       />
 
       <SectionHeader title="Thông báo" />
@@ -170,7 +170,7 @@ export default function Settings() {
       <ListItem
         left={<Thumb icon="download-cloud" color={c.a} bg={c.at} />}
         title="Sao lưu mã hóa"
-        subtitle={s.lastBackupAt ? `Lần cuối ${relativeTime(s.lastBackupAt)}` : 'Chưa sao lưu'}
+        subtitle={state.lastBackupAt ? `Lần cuối ${relativeTime(state.lastBackupAt)}` : 'Chưa sao lưu'}
         chevron
         onPress={() => router.push('/backup')}
       />
@@ -183,7 +183,7 @@ export default function Settings() {
       <ListItem
         left={<Thumb icon="file-text" color={c.a} bg={c.at} />}
         title="Xuất Excel / CSV"
-        right={!s.isPro ? <Badge label="Pro" tone="pro" /> : undefined}
+        right={!state.isPro ? <Badge label="Pro" tone="pro" /> : undefined}
         chevron
         onPress={exportCsv}
       />
@@ -195,12 +195,12 @@ export default function Settings() {
           { key: 'light', label: 'Sáng' },
           { key: 'dark', label: 'Tối' },
         ]}
-        value={s.theme}
-        onChange={(k) => s.set({ theme: k })}
+        value={state.theme}
+        onChange={(k) => state.set({ theme: k })}
       />
 
       <SectionHeader title="Tài khoản" />
-      {!s.isPro ? (
+      {!state.isPro ? (
         <Button title="Nâng cấp Ví Gọn Pro" variant="secondary" onPress={() => router.push('/paywall')} />
       ) : (
         <T v="body">Bạn đang dùng Ví Gọn Pro.</T>
@@ -220,7 +220,7 @@ export default function Settings() {
         onCancel={() => setWipe(false)}
         onConfirm={() => {
           wipeTx();
-          s.set({ funds: [], budgets: {}, rules: [], unparsed: [], monthlyBudget: 0, onboarded: false, alerted: [] });
+          state.set({ funds: [], budgets: {}, rules: [], unparsed: [], monthlyBudget: 0, onboarded: false, alerted: [] });
           setWipe(false);
           router.replace('/welcome');
         }}

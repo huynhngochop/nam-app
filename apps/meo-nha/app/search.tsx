@@ -21,10 +21,10 @@ import {
   useTheme,
 } from '@nam/ui';
 import { track } from '@nam/core';
-import { CATEGORIES, CategoryId, Tip } from '../src/data/tips';
+import { CATEGORIES, CategoryId } from '../src/data/tips';
 import { useMeo } from '../src/store';
 import { looksLikeQuestion, searchTips, SortKey, suggestions, TRENDING } from '../src/lib/search';
-import { AdNative, TipRow } from '../src/components';
+import { TipRow } from '../src/components';
 
 const SORTS: { key: SortKey; label: string }[] = [
   { key: 'popular', label: 'Phổ biến' },
@@ -32,11 +32,11 @@ const SORTS: { key: SortKey; label: string }[] = [
   { key: 'rating', label: 'Đánh giá cao' },
 ];
 
-/** MN-05 Tìm kiếm + MN-06 Kết quả trên cùng một màn: gõ → gợi ý; nhấn Tìm → kết quả. */
+/** Tìm kiếm và kết quả trên cùng một màn: gõ → gợi ý; nhấn Tìm → kết quả. */
 export default function Search() {
   const { c } = useTheme();
-  const L = useLayout();
-  const s = useMeo();
+  const layout = useLayout();
+  const state = useMeo();
   const [q, setQ] = useState('');
   const [submitted, setSubmitted] = useState('');
   const [cat, setCat] = useState<CategoryId | 'all'>('all');
@@ -58,20 +58,14 @@ export default function Search() {
     if (!t) return;
     setQ(t);
     setSubmitted(t);
-    s.addSearch(t);
+    state.addSearch(t);
     track('search_performed', { query: t });
   };
 
   const ask = looksLikeQuestion(q);
-  const rows: (Tip | 'ad')[] = [];
-  results.forEach((t, i) => {
-    rows.push(t);
-    if (i === 1 || (i > 1 && (i - 1) % 8 === 0)) rows.push('ad');
-  });
-
   return (
     <Screen padded={false}>
-      <View style={{ paddingHorizontal: L.gutter, gap: 12, paddingTop: 8 }}>
+      <View style={{ paddingHorizontal: layout.gutter, gap: 12, paddingTop: 8 }}>
         <Row>
           <IconButton icon="chevron-left" label="Quay lại" onPress={() => router.back()} />
           <View style={{ flex: 1 }}>
@@ -92,7 +86,7 @@ export default function Search() {
         <FlashList
           data={[0]}
           keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{ paddingHorizontal: L.gutter }}
+          contentContainerStyle={{ paddingHorizontal: layout.gutter }}
           renderItem={() => (
             <View>
               {q.length >= 2 && ask ? (
@@ -121,21 +115,21 @@ export default function Search() {
               ) : null}
               {q.length < 2 ? (
                 <>
-                  {s.recentSearches.length ? (
+                  {state.recentSearches.length ? (
                     <SectionHeader
                       title="Tìm gần đây"
                       action="Xóa hết"
-                      onAction={() => s.set({ recentSearches: [] })}
+                      onAction={() => state.set({ recentSearches: [] })}
                     />
                   ) : null}
-                  {s.recentSearches.slice(0, 5).map((r) => (
+                  {state.recentSearches.slice(0, 5).map((r) => (
                     <ListItem
                       key={r}
                       strong={false}
                       left={<Thumb icon="clock" bg={c.surface2} color={c.inkMuted} size={32} />}
                       title={r}
                       onPress={() => run(r)}
-                      right={<IconButton soft={false} icon="x" label="Xóa" onPress={() => s.removeSearch(r)} />}
+                      right={<IconButton soft={false} icon="x" label="Xóa" onPress={() => state.removeSearch(r)} />}
                     />
                   ))}
                   <SectionHeader title="Đang được tìm nhiều" />
@@ -151,10 +145,9 @@ export default function Search() {
         />
       ) : (
         <FlashList
-          data={rows}
-          keyExtractor={(r, i) => (r === 'ad' ? `ad${i}` : r.id)}
-          getItemType={(r) => (r === 'ad' ? 'ad' : 'tip')}
-          contentContainerStyle={{ paddingHorizontal: L.gutter, paddingBottom: 24 }}
+          data={results}
+          keyExtractor={(t) => t.id}
+          contentContainerStyle={{ paddingHorizontal: layout.gutter, paddingBottom: 24 }}
           ListHeaderComponent={
             <View style={{ gap: 10, paddingVertical: 10 }}>
               <Chips scroll>
@@ -186,15 +179,7 @@ export default function Search() {
               onAction={() => router.push({ pathname: '/ask', params: { q: submitted } })}
             />
           }
-          renderItem={({ item }) =>
-            item === 'ad' ? (
-              <View style={{ paddingVertical: 8 }}>
-                <AdNative />
-              </View>
-            ) : (
-              <TipRow tip={item} />
-            )
-          }
+          renderItem={({ item }) => <TipRow tip={item} />}
         />
       )}
       <Sheet visible={sortOpen} onClose={() => setSortOpen(false)} title="Sắp xếp">

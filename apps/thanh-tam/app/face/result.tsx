@@ -8,7 +8,7 @@ import { useTT } from '../../src/store';
 import { Brief } from '../../src/components';
 import { goBack } from '../../src/nav';
 
-/** TT-35 · Kết quả nhân tướng: 3 nét nổi bật + từng bộ vị (3 dòng, Xem thêm). */
+/** Kết quả nhân tướng: 3 nét nổi bật + từng bộ vị (3 dòng, Xem thêm). */
 export default function FaceResult() {
   const toast = useToast();
   const { saved } = useLocalSearchParams<{ saved?: string }>();

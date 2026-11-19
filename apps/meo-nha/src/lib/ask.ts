@@ -2,7 +2,7 @@ import { AiUnavailableError, callAi, fold } from '@nam/core';
 import { Tip, TIPS, tipById } from '../data/tips';
 import { scoreTip } from './search';
 
-/** Hỏi Mẹo Nhà (MN-21…23). Chỉ trả lời từ kho mẹo đã kiểm chứng; câu nguy hiểm bị chặn bằng quy tắc TRƯỚC khi gọi AI. */
+/** Hỏi Mẹo Nhà. Chỉ trả lời từ kho mẹo đã kiểm chứng; câu nguy hiểm bị chặn bằng quy tắc TRƯỚC khi gọi AI. */
 export type AskAnswer =
   | { kind: 'answer'; text: string; steps: string[]; sources: Tip[]; safety: string[]; viaAi: boolean }
   | { kind: 'danger'; text: string; sources: Tip[] }

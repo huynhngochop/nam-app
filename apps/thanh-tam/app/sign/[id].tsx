@@ -6,7 +6,7 @@ import { Layers, SafetyCard, Sources } from '../../src/components';
 import { useTT } from '../../src/store';
 import { goBack } from '../../src/nav';
 
-/** TT-18 · Chi tiết dấu hiệu: ba lớp, an toàn trước, nhắc gặp bác sĩ/người thân khi cần. */
+/** Chi tiết dấu hiệu: ba lớp, an toàn trước, nhắc gặp bác sĩ/người thân khi cần. */
 export default function SignScreen() {
   const { c } = useTheme();
   const toast = useToast();

@@ -55,12 +55,12 @@ const slug = (s: string) =>
 /** HD-C02 · Thiết lập tiệm (4 bước). Bước 3 ưu tiên "Chụp bảng giá" (HD-C17). */
 export default function Setup() {
   const { c } = useTheme();
-  const s = useHen();
+  const state = useHen();
   const [step, setStep] = useState(0);
-  const [name, setName] = useState(s.shop.name === 'Salon Mây' ? '' : s.shop.name);
-  const [type, setType] = useState(s.shop.type);
+  const [name, setName] = useState(state.shop.name === 'Salon Mây' ? '' : state.shop.name);
+  const [type, setType] = useState(state.shop.type);
   const [address, setAddress] = useState('');
-  const [hours, setHours] = useState<Hours>(s.shop.hours);
+  const [hours, setHours] = useState<Hours>(state.shop.hours);
   const [same, setSame] = useState(true);
   const [picked, setPicked] = useState<number[]>([]);
   const [solo, setSolo] = useState(true);
@@ -70,13 +70,13 @@ export default function Setup() {
 
   const next = () => {
     track('setup_step_completed', { step });
-    if (step === 0) s.setShop({ name: name.trim(), type, address: address.trim(), slug: slug(name) || 'tiem-cua-toi' });
-    if (step === 1) s.setShop({ hours });
-    if (step === 2 && picked.length) s.addServices(picked.map((i) => ({ ...sugg[i], staffIds: [], visible: true })));
+    if (step === 0) state.setShop({ name: name.trim(), type, address: address.trim(), slug: slug(name) || 'tiem-cua-toi' });
+    if (step === 1) state.setShop({ hours });
+    if (step === 2 && picked.length) state.addServices(picked.map((i) => ({ ...sugg[i], staffIds: [], visible: true })));
     if (step === 3) {
       const names = solo ? ['Tôi'] : staffList;
       names.forEach((n) =>
-        s.upsertStaff({
+        state.upsertStaff({
           name: n,
           role: solo ? 'owner' : 'stylist',
           shiftFrom: '08:00',
@@ -108,7 +108,7 @@ export default function Setup() {
               title="Chia sẻ link đặt lịch"
               icon="share-2"
               onPress={() => {
-                s.set({ setupDone: true });
+                state.set({ setupDone: true });
                 track('setup_finished');
                 router.replace('/link');
               }}
@@ -117,7 +117,7 @@ export default function Setup() {
               title="Vào lịch"
               variant="secondary"
               onPress={() => {
-                s.set({ setupDone: true });
+                state.set({ setupDone: true });
                 router.replace('/(tabs)/calendar');
               }}
             />
@@ -136,8 +136,8 @@ export default function Setup() {
             size="sm"
             variant="secondary"
             onPress={() => {
-              s.loadDemo();
-              s.set({ setupDone: true });
+              state.loadDemo();
+              state.set({ setupDone: true });
               router.replace('/(tabs)/calendar');
             }}
           />

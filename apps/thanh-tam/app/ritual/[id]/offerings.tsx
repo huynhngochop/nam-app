@@ -10,11 +10,11 @@ const REGION = { bac: 'miền Bắc', trung: 'miền Trung', nam: 'miền Nam' }
 /** Mảng rỗng dùng chung: selector zustand trả mảng mới mỗi lần sẽ vẽ lại vô hạn (lỗi React #185, vòng UAT 3). */
 const NO_CHECKS: string[] = [];
 
-/** TT-08 · Chuẩn bị lễ vật: danh sách đánh dấu, lưu trên máy. */
+/** Chuẩn bị lễ vật: danh sách đánh dấu, lưu trên máy. */
 export default function Offerings() {
   const { c } = useTheme();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const r = ritualById(id);
+  const ritual = ritualById(id);
   const hh = useTT((s) => s.household);
   const level = useTT((s) => s.levelByRitual[id] ?? 'day-du');
   const levelBy = useTT((s) => s.levelByRitual);
@@ -22,20 +22,20 @@ export default function Offerings() {
   const set = useTT((s) => s.set);
   const toggle = useTT((s) => s.toggleOffering);
   const reset = useTT((s) => s.resetOfferings);
-  if (!r) return null;
-  const items = offeringsFor(r, hh.region, hh.diet, level === 'gian-di');
+  if (!ritual) return null;
+  const items = offeringsFor(ritual, hh.region, hh.diet, level === 'gian-di');
   const need = items.filter((o) => !o.avoid);
   const done = need.filter((o) => checks.includes(o.name)).length;
   const shareList = () =>
     Share.share({
-      message: `Lễ vật ${r.title}:\n${need.map((o) => `- ${o.name}${o.note ? ` (${o.note})` : ''}`).join('\n')}`,
+      message: `Lễ vật ${ritual.title}:\n${need.map((o) => `- ${o.name}${o.note ? ` (${o.note})` : ''}`).join('\n')}`,
     }).catch(() => {});
 
   return (
     <Screen
       scroll
       footer={
-        <Button title="Xong, mở văn khấn" icon="book-open" onPress={() => router.push(`/ritual/${r.id}/prayer`)} />
+        <Button title="Xong, mở văn khấn" icon="book-open" onPress={() => router.push(`/ritual/${ritual.id}/prayer`)} />
       }
     >
       <AppBar
@@ -43,7 +43,7 @@ export default function Offerings() {
         title="Chuẩn bị lễ vật"
         right={<IconButton icon="share" label="Gửi danh sách" onPress={shareList} />}
       />
-      <T v="title">{r.title}</T>
+      <T v="title">{ritual.title}</T>
       <T v="caption" muted>
         Theo nếp {REGION[hh.region]}
         {hh.diet === 'chay' ? ', cúng chay' : ''}. Đổi ở Cài đặt › Nếp nhà mình.
@@ -54,14 +54,14 @@ export default function Offerings() {
           { key: 'gian-di', label: 'Lễ giản dị' },
         ]}
         value={level}
-        onChange={(k) => set({ levelByRitual: { ...levelBy, [r.id]: k as 'day-du' | 'gian-di' } })}
+        onChange={(k) => set({ levelByRitual: { ...levelBy, [ritual.id]: k as 'day-du' | 'gian-di' } })}
       />
       <Row between>
         <T v="caption" muted>
           Đã có {done}/{need.length} món
         </T>
         {done ? (
-          <T v="caption" accent weight="semibold" onPress={() => reset(r.id)}>
+          <T v="caption" accent weight="semibold" onPress={() => reset(ritual.id)}>
             Bỏ đánh dấu
           </T>
         ) : null}
@@ -90,7 +90,7 @@ export default function Offerings() {
           return (
             <Pressable
               key={o.name}
-              onPress={() => toggle(r.id, o.name)}
+              onPress={() => toggle(ritual.id, o.name)}
               accessibilityRole="checkbox"
               accessibilityState={{ checked: on }}
               accessibilityLabel={o.name}
@@ -120,9 +120,9 @@ export default function Offerings() {
           );
         })}
       </Card>
-      {r.variantNote ? (
+      {ritual.variantNote ? (
         <T v="caption" muted>
-          {r.variantNote}
+          {ritual.variantNote}
         </T>
       ) : null}
       <T v="caption" muted>

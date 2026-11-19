@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { AppState } from 'react-native';
-import { router, Stack } from 'expo-router';
+import { router, Stack, type Href } from 'expo-router';
 import * as Notifications from 'expo-notifications';
 import { AppShell } from '@nam/ui';
 import { useVi } from '../src/store';
@@ -33,7 +33,7 @@ function Effects() {
     });
     const tap = Notifications.addNotificationResponseReceivedListener((r) => {
       const url = r.notification.request.content.data?.url;
-      if (typeof url === 'string') router.push(url as never);
+      if (typeof url === 'string') router.push(url as Href);
     });
     syncFundReminder();
     const unsubFunds = useVi.subscribe((st, prev) => {

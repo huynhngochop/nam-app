@@ -8,7 +8,7 @@ import { useTT } from '../../src/store';
 import { defaultAgeYear } from '../../src/hooks';
 import { canChiYear } from '../../src/calendar/lunar';
 
-/** TT-17 · Tra cứu: Tụng kinh, Tuổi & năm, Nhân tướng, dấu hiệu & điềm báo, mẹo khi cúng. */
+/** Tra cứu: Tụng kinh, Tuổi & năm, Nhân tướng, dấu hiệu & điềm báo, mẹo khi cúng. */
 export default function Explore() {
   const { c } = useTheme();
   const [area, setArea] = useState<string>('all');

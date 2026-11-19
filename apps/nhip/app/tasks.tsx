@@ -28,13 +28,13 @@ import { Task, useNhip } from '../src/store';
 
 type Filter = 'today' | 'upcoming' | 'done';
 
-/** NH-07 Việc cần làm + NH-08 Thêm/sửa việc (sheet). ?pick=1 → chọn việc cho phiên. */
+/** Việc cần làm; thêm, sửa việc trong sheet. ?pick=1 → chọn việc cho phiên. */
 export default function Tasks() {
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const toast = useToast();
   const { pick } = useLocalSearchParams<{ pick?: string }>();
-  const s = useNhip();
+  const state = useNhip();
   const [filter, setFilter] = useState<Filter>('today');
   const [edit, setEdit] = useState<Task | 'new' | null>(null);
   const [title, setTitle] = useState('');
@@ -44,14 +44,14 @@ export default function Tasks() {
 
   const list = useMemo(
     () =>
-      s.tasks
+      state.tasks
         .filter((t) =>
           filter === 'done' ? t.finished : !t.finished && (filter === 'today' ? t.due <= today : t.due > today),
         )
         .sort((a, b) => a.order - b.order),
-    [s.tasks, filter, today],
+    [state.tasks, filter, today],
   );
-  const sum = s.tasks.filter((t) => !t.finished && t.due <= today).reduce((a, t) => a + Math.max(0, t.est - t.done), 0);
+  const sum = state.tasks.filter((t) => !t.finished && t.due <= today).reduce((a, t) => a + Math.max(0, t.est - t.done), 0);
 
   const openEdit = (t: Task | 'new') => {
     setEdit(t);
@@ -67,16 +67,16 @@ export default function Tasks() {
   };
   const saveTask = () => {
     if (edit === 'new') {
-      s.addTask(title, est, due);
+      state.addTask(title, est, due);
       track('task_created', { est });
       toast('Đã thêm');
-    } else if (edit) s.updateTask(edit.id, { title, est, due });
+    } else if (edit) state.updateTask(edit.id, { title, est, due });
     setEdit(null);
   };
 
   return (
     <Screen padded={false}>
-      <View style={{ paddingHorizontal: L.gutter, gap: 12 }}>
+      <View style={{ paddingHorizontal: layout.gutter, gap: 12 }}>
         <AppBar
           title={pick ? 'Chọn việc' : 'Việc cần làm'}
           onBack={() => router.back()}
@@ -86,7 +86,7 @@ export default function Tasks() {
           value={filter}
           onChange={setFilter}
           options={[
-            { key: 'today', label: `Hôm nay (${s.tasks.filter((t) => !t.finished && t.due <= today).length})` },
+            { key: 'today', label: `Hôm nay (${state.tasks.filter((t) => !t.finished && t.due <= today).length})` },
             { key: 'upcoming', label: 'Sắp tới' },
             { key: 'done', label: 'Đã xong' },
           ]}
@@ -95,7 +95,7 @@ export default function Tasks() {
       <FlashList
         data={list}
         keyExtractor={(t) => t.id}
-        contentContainerStyle={{ paddingHorizontal: L.gutter, paddingBottom: 24 }}
+        contentContainerStyle={{ paddingHorizontal: layout.gutter, paddingBottom: 24 }}
         ListEmptyComponent={
           <EmptyState
             icon="list"
@@ -112,7 +112,7 @@ export default function Tasks() {
                 <T v="headline">Ước tính hôm nay</T>
                 <T v="headline" accent>{`${sum} phiên`}</T>
               </Row>
-              <T v="caption">{`≈ ${minutesLabel(sum * s.settings.focusMin)} · mục tiêu ${minutesLabel(s.goalMin)}`}</T>
+              <T v="caption">{`≈ ${minutesLabel(sum * state.settings.focusMin)} · mục tiêu ${minutesLabel(state.goalMin)}`}</T>
             </Card>
           ) : null
         }
@@ -124,13 +124,13 @@ export default function Tasks() {
                 icon={item.finished ? 'check-square' : 'square'}
                 color={item.finished ? c.a : c.inkMuted}
                 label="Đánh dấu xong"
-                onPress={() => s.updateTask(item.id, { finished: !item.finished })}
+                onPress={() => state.updateTask(item.id, { finished: !item.finished })}
               />
             }
             title={item.title}
             subtitle={`${item.done}/${item.est} phiên${item.due > today ? ` · ${item.due.slice(8)}/${item.due.slice(5, 7)}` : ''}`}
             right={
-              s.currentTaskId === item.id ? (
+              state.currentTaskId === item.id ? (
                 <Badge label="Đang làm" tone="accent" />
               ) : (
                 <IconButton
@@ -138,7 +138,7 @@ export default function Tasks() {
                   icon="play"
                   label="Bắt đầu với việc này"
                   onPress={() => {
-                    s.set({ currentTaskId: item.id });
+                    state.set({ currentTaskId: item.id });
                     router.back();
                   }}
                 />
@@ -146,12 +146,12 @@ export default function Tasks() {
             }
             onPress={() => {
               if (pick) {
-                s.set({ currentTaskId: item.id });
+                state.set({ currentTaskId: item.id });
                 router.back();
               } else openEdit(item);
             }}
             onLongPress={() => {
-              s.removeTask(item.id);
+              state.removeTask(item.id);
               toast('Đã xóa việc');
             }}
           />
@@ -194,7 +194,7 @@ export default function Tasks() {
             variant="danger"
             size="sm"
             onPress={() => {
-              s.removeTask(edit.id);
+              state.removeTask(edit.id);
               setEdit(null);
             }}
           />

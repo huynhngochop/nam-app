@@ -4,13 +4,13 @@ import { AppBar, Dialog, ListItem, Screen, SectionHeader, Stepper, Toggle } from
 import { track } from '@nam/core';
 import { TimerSettings, useNhip } from '../src/store';
 
-/** NH-14 · Cài đặt hẹn giờ. Lưu ngay khi đổi. */
+/** Cài đặt hẹn giờ. Lưu ngay khi đổi. */
 export default function TimerSettingsScreen() {
-  const s = useNhip();
-  const st = s.settings;
+  const state = useNhip();
+  const st = state.settings;
   const [strictAsk, setStrictAsk] = useState(false);
   const set = (p: Partial<TimerSettings>) => {
-    s.setSettings(p);
+    state.setSettings(p);
     const [k, v] = Object.entries(p)[0];
     track('timer_setting_changed', { key: k, value: v as number | boolean });
   };

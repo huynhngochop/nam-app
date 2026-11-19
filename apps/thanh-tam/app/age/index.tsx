@@ -15,7 +15,6 @@ import {
   Screen,
   SectionHeader,
   T,
-  useTheme,
 } from '@nam/ui';
 import { useTT } from '../../src/store';
 import { defaultAgeYear } from '../../src/hooks';
@@ -28,9 +27,8 @@ import { goBack } from '../../src/nav';
 
 const GOOD_SAO = new Set(['Thái Dương', 'Thái Âm', 'Mộc Đức']);
 
-/** TT-29 · Tuổi & năm. Tính trên máy, theo lịch dân gian. Không quảng cáo. */
+/** Tuổi & năm. Tính trên máy, theo lịch dân gian. Không quảng cáo. */
 export default function AgeScreen() {
-  const { c } = useTheme();
   const params = useLocalSearchParams<{ personId?: string; year?: string }>();
   const people = useTT((s) => s.people);
   const [pid, setPid] = useState(params.personId ?? people.find((p) => p.isHouseOwner)?.id ?? people[0]?.id);

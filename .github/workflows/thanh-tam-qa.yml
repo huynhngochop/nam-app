@@ -263,7 +263,7 @@ jobs:
           echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
       - name: Chạy trên Simulator
         env:
-          # Máy ảo đầu tiên khởi động chậm: trình điều khiển Maestro quá giờ chờ mặc định (vòng 6, iPhone SE).
+          # Máy ảo đầu tiên khởi động chậm: trình điều khiển Maestro quá giờ chờ mặc định (từng gặp với iPhone SE).
           MAESTRO_DRIVER_STARTUP_TIMEOUT: 240000
         run: |
           APP=$(find apps/thanh-tam/ios/build/Build/Products -maxdepth 2 -name "*.app" | head -1)
@@ -318,6 +318,11 @@ jobs:
         run: |
           AAPT=$(ls "$ANDROID_HOME"/build-tools/*/aapt2 | tail -1)
           "$AAPT" dump permissions ThanhTam.apk | tee permissions.txt
+          # Quyền app không dùng thì không được có (Google Play hỏi lý do, chính sách riêng tư nói không xin)
+          if grep -E "RECORD_AUDIO|SYSTEM_ALERT_WINDOW|EXTERNAL_STORAGE|FOREGROUND_SERVICE|c2dm|INSTALL_REFERRER" permissions.txt; then
+            echo "::error::Bản phát hành có quyền thừa ở trên; chặn trong app.json (android.blockedPermissions)"
+            exit 1
+          fi
       # Google Play: gói AAB ký bằng khóa tải lên. APK ở Releases vẫn ký khóa thử để cài đè bản cũ không mất dữ liệu.
       - name: Có khóa ký Google Play chưa
         id: sign
@@ -393,12 +398,12 @@ jobs:
           path: results
           pattern: tt-*
           merge-multiple: true
-      - name: Thu nhỏ ảnh (PNG máy ảo nặng, đẩy lên bị quá thời gian HTTP 408 ở vòng 5)
+      - name: Thu nhỏ ảnh (PNG máy ảo nặng, đẩy lên dễ quá thời gian HTTP 408)
         run: |
           sudo apt-get install -y -qq imagemagick >/dev/null 2>&1 || true
           find results -name "*.png" -size +200k -print0 | xargs -0 -r -P 4 -n 20 mogrify -resize "1200x1200>" -quality 70 -format jpg
           find results -name "*.png" -size +200k | while read -r f; do [ -f "${f%.png}.jpg" ] && rm "$f"; done
-          # Nhật ký Simulator của Maestro tới 150 MB/tệp (vòng 6): GitHub chặn tệp > 100 MB. Ảnh đã chép ra shots/.
+          # Nhật ký Simulator của Maestro có thể tới 150 MB/tệp: GitHub chặn tệp > 100 MB. Ảnh đã chép ra shots/.
           rm -rf results/ios/maestro-out
           find results -type f -size +20M -print -delete
           du -sh results

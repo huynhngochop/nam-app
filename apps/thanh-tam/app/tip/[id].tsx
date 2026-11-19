@@ -6,11 +6,11 @@ import { ritualById } from '../../src/data/rituals';
 import { NavRow, SafetyCard, Sources } from '../../src/components';
 import { goBack } from '../../src/nav';
 
-/** TT-19 · Mẹo khi cúng. */
+/** Mẹo khi cúng. */
 export default function TipScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const t = tipById(id);
-  if (!t)
+  const tip = tipById(id);
+  if (!tip)
     return (
       <Screen>
         <AppBar onBack={goBack} />
@@ -21,31 +21,31 @@ export default function TipScreen() {
     <Screen scroll>
       <AppBar onBack={goBack} />
       <T v="display" accessibilityRole="header">
-        {t.title}
+        {tip.title}
       </T>
       <T v="headline" muted>
-        {t.summary}
+        {tip.summary}
       </T>
       <Card>
-        {t.body.map((p) => (
+        {tip.body.map((p) => (
           <T key={p} v="body">
             {p}
           </T>
         ))}
       </Card>
-      {t.fire ? <SafetyCard text={t.fire} /> : null}
-      {t.usedIn.length ? (
+      {tip.fire ? <SafetyCard text={tip.fire} /> : null}
+      {tip.usedIn.length ? (
         <>
           <SectionHeader title="Dùng trong lễ" />
           <Card style={{ paddingVertical: 4 }}>
-            {t.usedIn.map((rid) => {
-              const r = ritualById(rid);
-              return r ? <NavRow key={rid} icon={r.icon} title={r.title} href={`/ritual/${rid}`} /> : null;
+            {tip.usedIn.map((rid) => {
+              const ritual = ritualById(rid);
+              return ritual ? <NavRow key={rid} icon={ritual.icon} title={ritual.title} href={`/ritual/${rid}`} /> : null;
             })}
           </Card>
         </>
       ) : null}
-      <Sources sources={t.sources} />
+      <Sources sources={tip.sources} />
     </Screen>
   );
 }

@@ -21,7 +21,7 @@ import { useVi } from '../src/store';
 
 const MAX_TRIES = 5;
 
-/** VG-20 · Khôi phục sao lưu: sai mật khẩu (đếm lượt, khóa 30 giây), quên mật khẩu. */
+/** Khôi phục sao lưu: sai mật khẩu (đếm lượt, khóa 30 giây), quên mật khẩu. */
 export default function Restore() {
   const { c } = useTheme();
   const toast = useToast();
@@ -37,8 +37,8 @@ export default function Restore() {
   const [confirm, setConfirm] = useState(false);
   useEffect(() => {
     if (waitUntil <= now) return;
-    const t = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(t);
+    const timer = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(timer);
   }, [waitUntil, now]);
   const locked = waitUntil > now;
 

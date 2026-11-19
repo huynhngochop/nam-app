@@ -3,7 +3,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { AppBar, Screen } from '@nam/ui';
 import { TxDetail } from '../../src/TxDetail';
 
-/** VG-09 trên điện thoại. */
+/** Chi tiết giao dịch, trang riêng trên điện thoại. */
 export default function TxScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   return (

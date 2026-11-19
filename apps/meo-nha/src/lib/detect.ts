@@ -1,6 +1,6 @@
 /**
- * Nhận diện nguyên liệu trên máy (MN-10). Cắm mô hình nhỏ (≤ 15 MB, TFLite/Core ML) qua một Expo module riêng.
- * Bản hiện tại chưa nhúng mô hình: trả về danh sách rỗng để màn chụp chuyển sang bước "Có phải là…" (MN-19)
+ * Nhận diện nguyên liệu trên máy. Cắm mô hình nhỏ (≤ 15 MB, TFLite/Core ML) qua một Expo module riêng.
+ * Bản hiện tại chưa nhúng mô hình: trả về danh sách rỗng để màn chụp chuyển sang bước "Có phải là…"
  * cho người dùng chọn nhanh — luồng vẫn dùng được trọn vẹn.
  */
 export type Detection = { ingredientId: string; confidence: number };

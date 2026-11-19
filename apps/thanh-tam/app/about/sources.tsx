@@ -4,7 +4,7 @@ import { AppBar, Badge, Card, Row, Screen, SectionHeader, T } from '@nam/ui';
 import { MAIN_SOURCES, SOURCE_KIND_LABEL } from '../../src/data/sources';
 import { goBack } from '../../src/nav';
 
-/** TT-24 · Nguồn tham khảo và cách biên soạn. Không có dòng cố vấn vì chưa có cố vấn tôn giáo. */
+/** Nguồn tham khảo và cách biên soạn. Không có dòng cố vấn vì chưa có cố vấn tôn giáo. */
 export default function SourcesScreen() {
   return (
     <Screen scroll>

@@ -19,7 +19,7 @@ export type Tx = {
   /** Văn bản thông báo gốc — chỉ ở trên máy. */
   raw: string | null;
   fundId: string | null;
-  /** Đánh dấu nghi trùng / chuyển nội bộ chờ người dùng xem (VG-19). */
+  /** Đánh dấu nghi trùng / chuyển nội bộ chờ người dùng xem. */
   flag: 'dup' | 'transfer' | null;
   /** Mã giao dịch liên quan (bản trùng hoặc chân kia của chuyển khoản). */
   pairId: string | null;
@@ -38,7 +38,7 @@ export type Fund = {
   remindPayday: boolean;
   createdAt: number;
 };
-/** Thông báo chưa đọc được (VG-18) — chờ người dùng điền một lần. */
+/** Thông báo chưa đọc được — chờ người dùng điền một lần. */
 export type Unparsed = { id: string; text: string; app: string | null; at: number };
 
 export const DEFAULT_CATEGORIES: Category[] = [

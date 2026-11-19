@@ -1,6 +1,6 @@
 # Chính sách riêng tư của ứng dụng Thành Tâm
 
-Cập nhật: 16/11/2026
+Cập nhật: 19/11/2026
 
 Thành Tâm là ứng dụng hướng dẫn cúng lễ, văn khấn, lịch âm và sổ giỗ cho gia đình Việt Nam.
 Chủ sở hữu và nhà phát triển: **Huỳnh Ngọc Hợp**, liên hệ: **huynhngochop@gmail.com**.
@@ -10,6 +10,7 @@ Chủ sở hữu và nhà phát triển: **Huỳnh Ngọc Hợp**, liên hệ: *
 - Tên, địa chỉ, họ gia tiên, ngày sinh, sổ giỗ, người trong nhà và các lựa chọn của bạn được lưu **trên chính điện thoại**.
 - Ứng dụng **không có tài khoản**, **không gửi** những thông tin này về máy chủ nào, không bán, không chia sẻ cho bên thứ ba.
 - Khi bạn chủ động bấm **Sao lưu** hay **Gửi sổ giỗ**, ứng dụng tạo một tệp và mở bảng chia sẻ của máy; bạn tự chọn gửi qua đâu (Gmail, Zalo...). Ứng dụng không giữ bản sao nào.
+- Nếu bạn bật sao lưu của điện thoại (Android: Sao lưu Google; iPhone: iCloud), hệ điều hành có thể sao lưu dữ liệu của ứng dụng vào tài khoản của chính bạn. Nhà phát triển không đọc được bản sao lưu đó.
 - Gỡ ứng dụng hoặc chọn **Cài đặt → Xóa toàn bộ dữ liệu** thì dữ liệu trên máy bị xóa.
 
 ## Khi nào ứng dụng dùng mạng

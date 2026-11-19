@@ -1,4 +1,4 @@
-/** Định dạng tiếng Việt theo Chuẩn spec › 7. Tiền luôn là số nguyên VND. */
+/** Định dạng tiếng Việt. Tiền luôn là số nguyên VND. */
 export function groupDigits(n: number): string {
   const s = Math.round(Math.abs(n)).toString();
   return s.replace(/\B(?=(\d{3})+(?!\d))/g, '.');

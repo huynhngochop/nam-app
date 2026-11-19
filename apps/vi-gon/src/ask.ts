@@ -2,7 +2,7 @@ import { AiUnavailableError, callAi, fold } from '@nam/core';
 import { Category, Fund } from './types';
 
 /**
- * Hỏi Ví Gọn (VG-21/22). Hiểu câu hỏi bằng quy tắc trên máy; chỉ khi không hiểu mới gửi CÂU HỎI (không kèm số liệu) lên cổng AI
+ * Hỏi Ví Gọn. Hiểu câu hỏi bằng quy tắc trên máy; chỉ khi không hiểu mới gửi CÂU HỎI (không kèm số liệu) lên cổng AI
  * để nhận lại "cách hiểu" dạng JSON. Mọi con số luôn tính trên máy.
  */
 export type Metric = 'sum' | 'count' | 'top' | 'change' | 'average' | 'fund_eta' | 'left';

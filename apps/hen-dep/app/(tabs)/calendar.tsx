@@ -13,36 +13,36 @@ import { Booking } from '../../src/types';
 /** HD-C05 Lịch hôm nay (+ HD-C15/16). Tablet ngang: lịch bên trái, chi tiết lịch hẹn bên phải. */
 export default function Calendar() {
   const { c } = useTheme();
-  const L = useLayout();
-  const s = useHen();
+  const layout = useLayout();
+  const state = useHen();
   const [offset, setOffset] = useState(0);
   const [view, setView] = useState<'day' | 'staff'>('day');
   const [staffFocus, setStaffFocus] = useState<string | null>(null);
   const [sel, setSel] = useState<string | null>(null);
   const day = addDays(new Date(), offset);
-  const myStaffId = s.auth?.role === 'staff' ? s.auth.staffId : undefined;
+  const myStaffId = state.auth?.role === 'staff' ? state.auth.staffId : undefined;
 
   const dayBookings = useMemo(
-    () => s.bookings.filter((b) => new Date(b.startAt).toDateString() === day.toDateString()),
-    [s.bookings, day],
+    () => state.bookings.filter((b) => new Date(b.startAt).toDateString() === day.toDateString()),
+    [state.bookings, day],
   );
   const staff = useMemo(
     () =>
-      s.staff.filter((x) =>
+      state.staff.filter((x) =>
         myStaffId ? x.id === myStaffId : view === 'staff' && staffFocus ? x.id === staffFocus : true,
       ),
-    [s.staff, myStaffId, view, staffFocus],
+    [state.staff, myStaffId, view, staffFocus],
   );
-  const hours = s.shop.hours.find((h) => h.day === day.getDay());
+  const hours = state.shop.hours.find((h) => h.day === day.getDay());
   const openFrom = Number((hours?.from ?? '08:00').slice(0, 2));
   const openTo = Number((hours?.to ?? '20:00').slice(0, 2)) + 1;
-  const gap = offset === 0 ? findGap(s.staff, s.bookings) : null;
-  const open = (b: Booking) => (L.twoPane ? setSel(b.id) : router.push(`/booking/${b.id}`));
-  const selected = s.bookings.find((b) => b.id === sel);
+  const gap = offset === 0 ? findGap(state.staff, state.bookings) : null;
+  const open = (b: Booking) => (layout.twoPane ? setSel(b.id) : router.push(`/booking/${b.id}`));
+  const selected = state.bookings.find((b) => b.id === sel);
 
   const main = (
     <View style={{ flex: 1 }}>
-      <View style={{ paddingHorizontal: L.gutter, gap: 10, paddingTop: 8 }}>
+      <View style={{ paddingHorizontal: layout.gutter, gap: 10, paddingTop: 8 }}>
         <Row between>
           <View style={{ flex: 1 }}>
             <T
@@ -67,7 +67,7 @@ export default function Calendar() {
               }}
             />
             {offset !== 0 ? <Chip label="Hôm nay" onPress={() => setOffset(0)} /> : null}
-            {s.staff.map((st) => (
+            {state.staff.map((st) => (
               <Chip
                 key={st.id}
                 label={st.name}
@@ -86,7 +86,7 @@ export default function Calendar() {
               <T
                 v="headline"
                 style={{ flex: 1 }}
-              >{`Trống ${hhmm(new Date(gap.from))}–${hhmm(new Date(gap.to))} · ${s.staff.find((x) => x.id === gap.staffId)?.name}`}</T>
+              >{`Trống ${hhmm(new Date(gap.from))}–${hhmm(new Date(gap.to))} · ${state.staff.find((x) => x.id === gap.staffId)?.name}`}</T>
               <Button
                 title="Gửi ưu đãi"
                 size="sm"
@@ -102,7 +102,7 @@ export default function Calendar() {
           </Card>
         ) : null}
       </View>
-      {!s.staff.length ? (
+      {!state.staff.length ? (
         <ScrollView>
           <EmptyState
             icon="users"
@@ -115,13 +115,13 @@ export default function Calendar() {
       ) : !hours?.open ? (
         <EmptyState icon="moon" title="Tiệm nghỉ ngày này" body="Đổi giờ mở cửa trong Cài đặt tiệm." />
       ) : (
-        <View style={{ flex: 1, paddingHorizontal: L.gutter - 4, paddingTop: 8 }}>
+        <View style={{ flex: 1, paddingHorizontal: layout.gutter - 4, paddingTop: 8 }}>
           <Timeline
             day={day}
             staff={staff}
             bookings={dayBookings}
-            services={s.services}
-            customers={s.customers}
+            services={state.services}
+            customers={state.customers}
             openFrom={openFrom}
             openTo={openTo}
             selectedId={sel}

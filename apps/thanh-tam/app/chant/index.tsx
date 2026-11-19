@@ -8,7 +8,7 @@ import { goBack } from '../../src/nav';
 
 const KIND_LABEL = { kinh: 'Kinh', chu: 'Chú', ke: 'Kệ', niem: 'Niệm' } as const;
 
-/** TT-30 · Thư viện kinh: nghi thức tụng theo lễ, và từng bài kinh lẻ. */
+/** Thư viện kinh: nghi thức tụng theo lễ, và từng bài kinh lẻ. */
 export default function ChantLibrary() {
   const bpm = useTT((s) => s.chant.bpm);
   return (

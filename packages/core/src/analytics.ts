@@ -1,4 +1,4 @@
-/** Ghi sự kiện (tên snake_case theo Chuẩn spec › 3). Nối nhà cung cấp analytics sau; hiện chỉ ghi log khi dev. */
+/** Ghi sự kiện (tên snake_case). Nối nhà cung cấp analytics sau; hiện chỉ ghi log khi dev. */
 type Props = Record<string, string | number | boolean | null | undefined>;
 let sink: ((name: string, props: Props) => void) | null = null;
 export function setAnalyticsSink(fn: (name: string, props: Props) => void) {

@@ -14,19 +14,20 @@ import {
   monthName,
 } from '../../src/calendar/lunar';
 import { RITUALS } from '../../src/data/rituals';
+import type { Ritual } from '../../src/data/types';
 import { gioInLunarYear, nextByRule } from '../../src/lib/schedule';
 import { useTT } from '../../src/store';
 import { useRitualFilter, useToday } from '../../src/hooks';
 
 type DayInfo = {
-  rituals: { id: string; title: string; icon: any }[];
+  rituals: { id: string; title: string; icon: Ritual['icon'] }[];
   gios: { id: string; title: string; missing: boolean }[];
 };
 
-/** TT-13 · Lịch âm + TT-14 · Chi tiết ngày (sheet trên điện thoại; cột bên phải trên màn rộng). */
+/** Lịch âm + Chi tiết ngày (sheet trên điện thoại; cột bên phải trên màn rộng). */
 export default function CalendarTab() {
   const { c } = useTheme();
-  const L = useLayout();
+  const layout = useLayout();
   const today = useToday();
   const relevant = useRitualFilter();
   const anniversaries = useTT((s) => s.anniversaries);
@@ -93,7 +94,7 @@ export default function CalendarTab() {
   const pick = (d: Date) => {
     setSel(d);
     if (d.getMonth() !== ym.m) setYm({ y: d.getFullYear(), m: d.getMonth() });
-    if (!L.twoPane) setSheet(true);
+    if (!layout.twoPane) setSheet(true);
   };
   const firstL = lunarOf(new Date(ym.y, ym.m, ym.y === 1900 && ym.m === 0 ? 31 : 1));
   const lastL = lunarOf(new Date(ym.y, ym.m + 1, 0));
@@ -164,16 +165,16 @@ export default function CalendarTab() {
     </View>
   );
 
-  if (L.twoPane) {
+  if (layout.twoPane) {
     return (
       <Screen readable={false} padded={false}>
         <View style={{ flex: 1, flexDirection: 'row' }}>
-          <ScrollView style={{ flex: 1.3 }} contentContainerStyle={{ padding: L.gutter }}>
+          <ScrollView style={{ flex: 1.3 }} contentContainerStyle={{ padding: layout.gutter }}>
             {cal}
           </ScrollView>
           <ScrollView
             style={{ flex: 1, borderLeftWidth: 1, borderColor: c.line }}
-            contentContainerStyle={{ padding: L.gutter }}
+            contentContainerStyle={{ padding: layout.gutter }}
           >
             {detail}
           </ScrollView>
@@ -195,7 +196,7 @@ export default function CalendarTab() {
 }
 
 function DayDetail({ date, info }: { date: Date; info?: DayInfo }) {
-  const l = lunarOf(date);
+  const lunar = lunarOf(date);
   const hours = hoangDaoHours(date);
   return (
     <View style={{ gap: 12 }}>
@@ -203,11 +204,11 @@ function DayDetail({ date, info }: { date: Date; info?: DayInfo }) {
         {solarWithWeekday(date)} (dương lịch)
       </T>
       <T v="title">
-        Ngày {lunarDayWords(l.day)} tháng {monthName(l.month, l.leap)} (âm lịch)
+        Ngày {lunarDayWords(lunar.day)} tháng {monthName(lunar.month, lunar.leap)} (âm lịch)
       </T>
       <Card variant="tint">
         <T v="body">
-          Ngày {canChiDay(date)} · tháng {canChiMonth(l.month, l.year)} · năm {canChiYear(l.year)}
+          Ngày {canChiDay(date)} · tháng {canChiMonth(lunar.month, lunar.year)} · năm {canChiYear(lunar.year)}
         </T>
         <T v="caption" muted>
           Giờ hoàng đạo (theo lịch dân gian): {hours.map((h) => h.label).join(' · ')}
@@ -239,7 +240,7 @@ function DayDetail({ date, info }: { date: Date; info?: DayInfo }) {
         title="Thêm ngày giỗ vào ngày này"
         variant="secondary"
         icon="plus"
-        onPress={() => router.push(`/anniversaries/edit?day=${l.day}&month=${l.month}&leap=${l.leap ? 1 : 0}`)}
+        onPress={() => router.push(`/anniversaries/edit?day=${lunar.day}&month=${lunar.month}&leap=${lunar.leap ? 1 : 0}`)}
       />
       <T v="caption" muted>
         Ngày dương {dmy(date)}. Âm lịch tính theo giờ Việt Nam.

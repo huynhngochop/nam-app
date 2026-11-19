@@ -51,7 +51,7 @@ export function computeAnswer(
   }
 
   if (i.metric === 'left') {
-    const p = periodOf(ctx.startDay);
+    const currentPeriod = periodOf(ctx.startDay);
     const limit = cat ? (ctx.budgets[cat.id] ?? 0) : ctx.monthlyBudget;
     if (!limit)
       return {
@@ -59,20 +59,20 @@ export function computeAnswer(
         detail: `Đặt ngân sách ${cat ? cat.name : 'tháng'} để Ví Gọn tính phần còn lại.`,
       };
     const spent = cat
-      ? (byCategory(p.from, p.to).find((x) => x.categoryId === cat.id)?.total ?? 0)
-      : totals(p.from, p.to).expense;
-    const daysLeft = Math.max(1, Math.ceil((p.to - Date.now()) / 86400000));
+      ? (byCategory(currentPeriod.from, currentPeriod.to).find((x) => x.categoryId === cat.id)?.total ?? 0)
+      : totals(currentPeriod.from, currentPeriod.to).expense;
+    const daysLeft = Math.max(1, Math.ceil((currentPeriod.to - Date.now()) / 86400000));
     const left = limit - spent;
     return left >= 0
       ? {
           headline: vnd(left),
           detail: `Còn lại của ngân sách ${cat ? cat.name : 'tháng'} · ≈ ${shortMoney(left / daysLeft)}/ngày trong ${daysLeft} ngày`,
-          txFilter: { from: p.from, to: p.to, categoryId: cat?.id, kind: 'expense' },
+          txFilter: { from: currentPeriod.from, to: currentPeriod.to, categoryId: cat?.id, kind: 'expense' },
         }
       : {
           headline: `Vượt ${vnd(-left)}`,
           detail: `Đã chi ${vnd(spent)} / ngân sách ${vnd(limit)}`,
-          txFilter: { from: p.from, to: p.to, categoryId: cat?.id, kind: 'expense' },
+          txFilter: { from: currentPeriod.from, to: currentPeriod.to, categoryId: cat?.id, kind: 'expense' },
         };
   }
 
@@ -126,13 +126,13 @@ export function computeAnswer(
   }
   // 6 kỳ gần nhất cho biểu đồ (theo tháng)
   const bars = Array.from({ length: 6 }, (_, k) => {
-    const p = periodOf(ctx.startDay, k - 5);
+    const period = periodOf(ctx.startDay, k - 5);
     const v = cat
-      ? (byCategory(p.from, p.to, i.kind).find((x) => x.categoryId === cat.id)?.total ?? 0)
+      ? (byCategory(period.from, period.to, i.kind).find((x) => x.categoryId === cat.id)?.total ?? 0)
       : i.kind === 'income'
-        ? totals(p.from, p.to).income
-        : totals(p.from, p.to).expense;
-    return { label: `T${p.month}`, value: v };
+        ? totals(period.from, period.to).income
+        : totals(period.from, period.to).expense;
+    return { label: `T${period.month}`, value: v };
   });
   return {
     headline: vnd(cur),

@@ -207,11 +207,11 @@ export const syllables = (s: string) => s.split(/[\s\-–]+/).filter((w) => /\p{
 export function chantLines(steps: ChantStep[]): ChantLine[] {
   const out: ChantLine[] = [];
   steps.forEach((s, step) => {
-    const k = kinhById(s.kinh);
-    if (!k) return;
-    k.paras.forEach((p, para) =>
+    const currentKinh = kinhById(s.kinh);
+    if (!currentKinh) return;
+    currentKinh.paras.forEach((p, para) =>
       p.l.forEach((text) =>
-        out.push({ step, kinh: k.id, times: s.times ?? 1, para, text, syl: syllables(text), mantra: !!p.m }),
+        out.push({ step, kinh: currentKinh.id, times: s.times ?? 1, para, text, syl: syllables(text), mantra: !!p.m }),
       ),
     );
   });
@@ -222,9 +222,9 @@ export function chantLines(steps: ChantStep[]): ChantLine[] {
 export function totalBeats(steps: ChantStep[]): number {
   let n = 0;
   for (const s of steps) {
-    const k = kinhById(s.kinh);
-    if (!k) continue;
-    const per = k.paras.reduce((a, p) => a + p.l.reduce((b, l) => b + syllables(l), 0), 0);
+    const currentKinh = kinhById(s.kinh);
+    if (!currentKinh) continue;
+    const per = currentKinh.paras.reduce((a, p) => a + p.l.reduce((b, l) => b + syllables(l), 0), 0);
     n += per * (s.times ?? 1);
   }
   return n;
@@ -246,11 +246,11 @@ export const BPM_DEFAULT = 120;
 export function chantPlan(id: string, full: boolean): { title: string; steps: ChantStep[]; single: boolean } | null {
   const n = nghiThucById(id);
   if (n) return { title: n.title, steps: full ? n.full : n.short, single: false };
-  const k = kinhById(id);
-  if (k)
+  const currentKinh = kinhById(id);
+  if (currentKinh)
     return {
-      title: k.title,
-      steps: [{ kinh: k.id, times: k.kind === 'niem' ? 108 : k.id === 'vang-sanh' ? 3 : 1 }],
+      title: currentKinh.title,
+      steps: [{ kinh: currentKinh.id, times: currentKinh.kind === 'niem' ? 108 : currentKinh.id === 'vang-sanh' ? 3 : 1 }],
       single: true,
     };
   return null;

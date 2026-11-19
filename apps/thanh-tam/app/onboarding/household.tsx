@@ -19,7 +19,7 @@ import { track } from '@nam/core';
 import { useTT } from '../../src/store';
 import { requestNotify, rescheduleAll } from '../../src/notify';
 
-/** TT-03 · Tên gia chủ & nhắc lịch. */
+/** Tên gia chủ & nhắc lịch. */
 export default function Household() {
   const h = useTT((s) => s.household);
   const remind = useTT((s) => s.remind);

@@ -25,17 +25,17 @@ import { durationOf, overlaps, useHen } from '../../src/store';
 export default function NewBooking() {
   const { c } = useTheme();
   const toast = useToast();
-  const p = useLocalSearchParams<{ staffId?: string; at?: string; customerId?: string }>();
-  const s = useHen();
-  const init = p.at
-    ? new Date(Math.ceil(Number(p.at) / 900000) * 900000)
+  const params = useLocalSearchParams<{ staffId?: string; at?: string; customerId?: string }>();
+  const state = useHen();
+  const init = params.at
+    ? new Date(Math.ceil(Number(params.at) / 900000) * 900000)
     : new Date(Math.ceil(Date.now() / 900000) * 900000);
   const [q, setQ] = useState('');
-  const [customerId, setCustomerId] = useState<string | null>(p.customerId ?? null);
+  const [customerId, setCustomerId] = useState<string | null>(params.customerId ?? null);
   const [walkIn, setWalkIn] = useState(false);
   const [newName, setNewName] = useState('');
-  const [svcIds, setSvcIds] = useState<string[]>(s.services.slice(0, 1).map((x) => x.id));
-  const [staffId, setStaffId] = useState(p.staffId ?? s.staff[0]?.id);
+  const [svcIds, setSvcIds] = useState<string[]>(state.services.slice(0, 1).map((x) => x.id));
+  const [staffId, setStaffId] = useState(params.staffId ?? state.staff[0]?.id);
   const [dayOff, setDayOff] = useState(
     Math.round((new Date(init).setHours(0, 0, 0, 0) - new Date().setHours(0, 0, 0, 0)) / 86400000),
   );
@@ -45,29 +45,29 @@ export default function NewBooking() {
   const matches = useMemo(
     () =>
       q.length >= 2
-        ? s.customers
+        ? state.customers
             .filter((x) => fold(x.name).includes(fold(q)) || (x.phone ?? '').includes(q.replace(/\s/g, '')))
             .slice(0, 5)
         : [],
-    [q, s.customers],
+    [q, state.customers],
   );
-  const cust = s.customers.find((x) => x.id === customerId);
-  const dur = durationOf(svcIds, s.services) || 30;
+  const cust = state.customers.find((x) => x.id === customerId);
+  const dur = durationOf(svcIds, state.services) || 30;
   const day = addDays(new Date(), dayOff);
   const [hh, mm] = time.split(':').map(Number);
   const start = new Date(day);
   start.setHours(hh, mm, 0, 0);
   const end = start.getTime() + dur * 60000;
-  const clash = staffId ? overlaps(s.bookings, staffId, start.getTime(), end) : undefined;
-  const clashName = clash ? s.customers.find((x) => x.id === clash.customerId)?.name : null;
+  const clash = staffId ? overlaps(state.bookings, staffId, start.getTime(), end) : undefined;
+  const clashName = clash ? state.customers.find((x) => x.id === clash.customerId)?.name : null;
   const times = Array.from({ length: 4 * 13 }, (_, i) => {
     const m = 8 * 60 + i * 15;
     return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
   });
   const ok = (customerId || walkIn || newName.trim()) && svcIds.length && staffId;
-  const eligibleStaff = s.staff.filter((st) =>
+  const eligibleStaff = state.staff.filter((st) =>
     svcIds.every((id) => {
-      const sv = s.services.find((x) => x.id === id);
+      const sv = state.services.find((x) => x.id === id);
       return !sv?.staffIds.length || sv.staffIds.includes(st.id);
     }),
   );
@@ -75,12 +75,12 @@ export default function NewBooking() {
   const create = () => {
     let cid = customerId;
     if (!cid)
-      cid = s.upsertCustomer({
+      cid = state.upsertCustomer({
         name: walkIn ? 'Khách lẻ' : newName.trim(),
         phone: /^\d{9,11}$/.test(q.replace(/\s/g, '')) ? q.replace(/\s/g, '') : undefined,
         marketingConsent: false,
       });
-    s.createBooking({
+    state.createBooking({
       customerId: cid,
       staffId: staffId!,
       serviceIds: svcIds,
@@ -139,7 +139,7 @@ export default function NewBooking() {
       )}
       <SectionHeader title="Dịch vụ" />
       <Chips>
-        {s.services.map((sv) => (
+        {state.services.map((sv) => (
           <Chip
             key={sv.id}
             label={`${sv.name} · ${vnd(sv.price)}`}

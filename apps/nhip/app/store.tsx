@@ -18,14 +18,14 @@ import { getPrice, restorePurchases, track } from '@nam/core';
 import { PACKS } from '../src/data';
 import { useNhip } from '../src/store';
 
-/** NH-10 · Cửa hàng gói âm thanh. Giá chưa chốt → ô khóa giá. */
+/** Cửa hàng gói âm thanh. Giá chưa chốt → ô khóa giá. */
 export default function Store() {
   const { c } = useTheme();
   const toast = useToast();
-  const s = useNhip();
+  const state = useNhip();
   const [tab, setTab] = useState<'packs' | 'themes'>('packs');
   const featured = PACKS.find((p) => p.featured)!;
-  const has = (id: string) => s.isPro || s.ownedPacks.includes(id);
+  const has = (id: string) => state.isPro || state.ownedPacks.includes(id);
   return (
     <Screen scroll>
       <AppBar
@@ -38,7 +38,7 @@ export default function Store() {
             onPress={async () => {
               const ids = await restorePurchases();
               const packs = PACKS.filter((p) => ids.includes(p.productId)).map((p) => p.id);
-              if (packs.length) s.set({ ownedPacks: Array.from(new Set([...s.ownedPacks, ...packs])) });
+              if (packs.length) state.set({ ownedPacks: Array.from(new Set([...state.ownedPacks, ...packs])) });
               toast(packs.length ? 'Đã khôi phục' : 'Không tìm thấy giao dịch cũ');
             }}
           />

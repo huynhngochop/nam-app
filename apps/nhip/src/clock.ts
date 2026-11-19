@@ -6,18 +6,18 @@ export function useNow(active: boolean, intervalMs = 250): number {
   const [now, setNow] = useState(Date.now());
   useEffect(() => {
     if (!active) return;
-    let t: ReturnType<typeof setInterval> | null = setInterval(() => setNow(Date.now()), intervalMs);
+    let timer: ReturnType<typeof setInterval> | null = setInterval(() => setNow(Date.now()), intervalMs);
     const sub = AppState.addEventListener('change', (st) => {
       if (st === 'active') {
         setNow(Date.now());
-        if (!t) t = setInterval(() => setNow(Date.now()), intervalMs);
-      } else if (t) {
-        clearInterval(t);
-        t = null;
+        if (!timer) timer = setInterval(() => setNow(Date.now()), intervalMs);
+      } else if (timer) {
+        clearInterval(timer);
+        timer = null;
       }
     });
     return () => {
-      if (t) clearInterval(t);
+      if (timer) clearInterval(timer);
       sub.remove();
     };
   }, [active, intervalMs]);

@@ -9,7 +9,7 @@ import { Money } from '../src/ui';
 
 const SRC: Record<Tx['source'], string> = { auto: 'thông báo', manual: 'nhập tay', import: 'dán tin' };
 
-/** VG-19 · Trùng & chuyển nội bộ: không tính chi tiêu hai lần. */
+/** Trùng & chuyển nội bộ: không tính chi tiêu hai lần. */
 export default function Review() {
   const toast = useToast();
   const flagged = useQuery(() => listTx({ flagged: true, limit: 200 }), [], []);

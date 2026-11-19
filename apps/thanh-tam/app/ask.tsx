@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { ScrollView, View } from 'react-native';
-import { router } from 'expo-router';
+import { router, type Href } from 'expo-router';
 import { AppBar, Button, Card, Icon, Row, Screen, T, TextField, useTheme } from '@nam/ui';
 import { track } from '@nam/core';
 import { goBack } from '../src/nav';
@@ -13,7 +13,7 @@ import { NavRow, Sources } from '../src/components';
 type Turn = { q: string; a: Answer };
 
 /**
- * TT-38 · Hỏi Thành Tâm. Trả lời ngay trên máy từ nội dung của app (lễ, văn khấn, kinh, mẹo, sổ giỗ của bạn);
+ * Hỏi Thành Tâm. Trả lời ngay trên máy từ nội dung của app (lễ, văn khấn, kinh, mẹo, sổ giỗ của bạn);
  * câu hỏi không gửi đi đâu. Câu chưa có trả lời thì nói rõ và gợi ý mục liên quan, không đoán.
  */
 export default function Ask() {
@@ -105,7 +105,7 @@ export default function Ask() {
                     key={l.href}
                     icon="arrow-right"
                     title={l.title}
-                    onPress={() => router.push(l.href as never)}
+                    onPress={() => router.push(l.href as Href)}
                   />
                 ))}
               </View>

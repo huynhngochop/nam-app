@@ -24,7 +24,7 @@ type State = {
   aiSummary: boolean;
   isPro: boolean;
   unparsed: Unparsed[];
-  /** Mẫu định dạng đã học từ VG-18: dấu hiệu đầu thông báo → app. */
+  /** Mẫu định dạng đã học khi người dùng điền giúp: dấu hiệu đầu thông báo → app. */
   learned: { sig: string; app: string | null }[];
   listenerState: 'unknown' | 'granted' | 'lost' | 'unsupported';
   lostSince: number | null;

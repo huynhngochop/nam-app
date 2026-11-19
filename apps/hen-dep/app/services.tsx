@@ -32,20 +32,20 @@ const GROUPS = ['Tóc', 'Gội dưỡng', 'Nail', 'Spa', 'Trang điểm', 'Khác
 export default function Services() {
   const { c } = useTheme();
   const toast = useToast();
-  const s = useHen();
+  const state = useHen();
   const [edit, setEdit] = useState<Partial<Service> | null>(null);
   const [priceText, setPriceText] = useState('');
   const [del, setDel] = useState<Service | null>(null);
 
   const groups = useMemo(() => {
     const m = new Map<string, Service[]>();
-    [...s.services].sort((a, b) => a.order - b.order).forEach((x) => m.set(x.group, [...(m.get(x.group) ?? []), x]));
+    [...state.services].sort((a, b) => a.order - b.order).forEach((x) => m.set(x.group, [...(m.get(x.group) ?? []), x]));
     return [...m.entries()];
-  }, [s.services]);
+  }, [state.services]);
 
   const openEdit = (sv?: Service) => {
     setEdit(
-      sv ?? { name: '', group: 'Tóc', durationMin: 45, price: 0, staffIds: s.staff.map((x) => x.id), visible: true },
+      sv ?? { name: '', group: 'Tóc', durationMin: 45, price: 0, staffIds: state.staff.map((x) => x.id), visible: true },
     );
     setPriceText(sv ? String(sv.price) : '');
   };
@@ -55,7 +55,7 @@ export default function Services() {
 
   const save = () => {
     if (!edit || !valid) return;
-    s.upsertService({
+    state.upsertService({
       id: edit.id,
       name: edit.name!.trim(),
       group: edit.group!,
@@ -77,7 +77,7 @@ export default function Services() {
           <Button title="Chụp bảng giá" size="sm" variant="text" icon="camera" onPress={() => router.push('/scan')} />
         }
       />
-      {!s.services.length ? (
+      {!state.services.length ? (
         <EmptyState
           icon="scissors"
           title="Chưa có dịch vụ"
@@ -103,7 +103,7 @@ export default function Services() {
           </View>
         ))
       )}
-      {s.services.length ? (
+      {state.services.length ? (
         <T v="caption" muted>
           Nhấn giữ để xóa dịch vụ.
         </T>
@@ -155,7 +155,7 @@ export default function Services() {
               Thợ làm được
             </T>
             <Chips>
-              {s.staff.map((st) => (
+              {state.staff.map((st) => (
                 <Chip
                   key={st.id}
                   label={st.name}
@@ -171,7 +171,7 @@ export default function Services() {
                 />
               ))}
             </Chips>
-            {!s.staff.length ? (
+            {!state.staff.length ? (
               <T v="caption" color={c.negative}>
                 Thêm thợ trước trong mục Nhân viên.
               </T>
@@ -195,7 +195,7 @@ export default function Services() {
         destructive
         onCancel={() => setDel(null)}
         onConfirm={() => {
-          s.removeService(del!.id);
+          state.removeService(del!.id);
           setDel(null);
           toast('Đã xóa');
         }}
