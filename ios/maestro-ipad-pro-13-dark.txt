@@ -1,0 +1,42 @@
+Running on qa-ipad-pro-13 - iOS 26.2 - 8A2B311B-CCC4-4ED0-8C34-D3FAA90B395B
+ > Flow ipad-pro-13-dark
+Launch app "vn.namapp.thanhtam"... COMPLETED
+Open thanhtam://today... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms...WARNING: GL pipe is running in software mode (Renderer ID=0x1020400)
+ COMPLETED
+Take screenshot ipad-pro-13-dark-today... COMPLETED
+Open thanhtam://calendar... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot ipad-pro-13-dark-calendar... COMPLETED
+Open thanhtam://ritual/mung-1-ram... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot ipad-pro-13-dark-ritual... COMPLETED
+Open thanhtam://ritual/mung-1-ram/prayer... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot ipad-pro-13-dark-prayer... COMPLETED
+Open thanhtam://ritual/mung-1-ram/pray... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot ipad-pro-13-dark-pray... COMPLETED
+Tap on (Optional) "Đóng"... COMPLETED
+Open thanhtam://anniversaries/edit... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot ipad-pro-13-dark-anniversary-edit... COMPLETED
+Open thanhtam://age... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot ipad-pro-13-dark-age... COMPLETED
+Open thanhtam://settings... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot ipad-pro-13-dark-settings... COMPLETED
+Open thanhtam://chant/cau-an/play... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot ipad-pro-13-dark-chant-play... COMPLETED
+Tap on (Optional) "Đóng"... COMPLETED

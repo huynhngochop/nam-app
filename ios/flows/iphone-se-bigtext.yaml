@@ -1,0 +1,41 @@
+appId: vn.namapp.thanhtam
+---
+- launchApp
+- openLink: thanhtam://today
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: iphone-se-bigtext-today
+- openLink: thanhtam://calendar
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: iphone-se-bigtext-calendar
+- openLink: thanhtam://ritual/mung-1-ram
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: iphone-se-bigtext-ritual
+- openLink: thanhtam://ritual/mung-1-ram/prayer
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: iphone-se-bigtext-prayer
+- openLink: thanhtam://ritual/mung-1-ram/pray
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: iphone-se-bigtext-pray
+- tapOn: { text: 'Đóng', optional: true }
+- openLink: thanhtam://anniversaries/edit
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: iphone-se-bigtext-anniversary-edit
+- openLink: thanhtam://age
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: iphone-se-bigtext-age
+- openLink: thanhtam://settings
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: iphone-se-bigtext-settings
+- openLink: thanhtam://chant/cau-an/play
+- tapOn: { text: 'Open', optional: true }
+- waitForAnimationToEnd: { timeout: 2500 }
+- takeScreenshot: iphone-se-bigtext-chant-play
+- tapOn: { text: 'Đóng', optional: true }

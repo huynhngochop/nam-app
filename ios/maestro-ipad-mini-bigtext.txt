@@ -1,0 +1,6 @@
+Running on qa-ipad-mini - iOS 26.2 - 3D39C676-311C-4D2B-91E0-55EA39945AB6
+ > Flow ipad-mini-bigtext
+Launch app "vn.namapp.thanhtam"...
+==== Debug output (logs & screenshots) ====
+
+/Users/runner/work/nam-app/nam-app/qa-out/ios/maestro-out/ipad-mini-bigtext/2026-11-19_070857

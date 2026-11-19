@@ -1,0 +1,171 @@
+Running on qa-iphone-pro-max - iOS 26.2 - 96D7207E-22E6-4B97-AF81-D544B049EAAA
+ > Flow iphone-pro-max-normal
+Launch app "vn.namapp.thanhtam"... COMPLETED
+Open thanhtam://qa-seed?small=1... COMPLETED
+Tap on (Optional) "Open"... COMPLETED
+Assert that (Optional) "Chào buổi.*" is visible... COMPLETED
+Take screenshot iphone-pro-max-normal-00-after-seed... COMPLETED
+Open thanhtam://today... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-today... COMPLETED
+Open thanhtam://rituals... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms...WARNING: GL pipe is running in software mode (Renderer ID=0x1020400)
+ COMPLETED
+Take screenshot iphone-pro-max-normal-rituals... COMPLETED
+Open thanhtam://calendar... COMPLETED
+Tap on (Optional) "Open"... COMPLETED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-calendar... COMPLETED
+Open thanhtam://explore... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-explore... COMPLETED
+Open thanhtam://search... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-search... COMPLETED
+Open thanhtam://ritual/mung-1-ram... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-ritual... COMPLETED
+Open thanhtam://ritual/ong-cong-ong-tao/offerings... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-offerings... COMPLETED
+Open thanhtam://ritual/mung-1-ram/prayer... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-prayer... COMPLETED
+Open thanhtam://ritual/mung-1-ram/pray... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-pray... COMPLETED
+Tap on (Optional) "Đóng"... COMPLETED
+Open thanhtam://ritual/giao-thua/after... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-after... COMPLETED
+Open thanhtam://anniversaries... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-anniversaries... COMPLETED
+Open thanhtam://anniversaries/edit... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-anniversary-edit... COMPLETED
+Open thanhtam://sign/huong-chay-khong-deu... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-sign... COMPLETED
+Open thanhtam://tip/so-nen-huong... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-tip... COMPLETED
+Open thanhtam://age... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-age... COMPLETED
+Open thanhtam://age/plan... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-age-plan... COMPLETED
+Open thanhtam://age/term/tam-tai... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-age-term... COMPLETED
+Open thanhtam://people/edit... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-people-edit... COMPLETED
+Open thanhtam://face... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-face... COMPLETED
+Open thanhtam://face/step/0... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-face-step... COMPLETED
+Open thanhtam://face/part/dang-mat/tron... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-face-part... COMPLETED
+Open thanhtam://me... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-me... COMPLETED
+Open thanhtam://settings... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-settings... COMPLETED
+Open thanhtam://about/sources... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-sources... COMPLETED
+Open thanhtam://paywall... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-paywall... COMPLETED
+Open thanhtam://onboarding/tradition... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-onboarding... COMPLETED
+Open thanhtam://chant... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-chant... COMPLETED
+Open thanhtam://chant/cau-sieu?ritual=gio-thuong... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-chant-setup... COMPLETED
+Open thanhtam://chant/cau-an/play... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-chant-play... COMPLETED
+Tap on (Optional) "Đóng"... COMPLETED
+Open thanhtam://chant/bat-nha/play... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-chant-kinh... COMPLETED
+Tap on (Optional) "Đóng"... COMPLETED
+Open thanhtam://data... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-data... COMPLETED
+Open thanhtam://anniversaries/share... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-share-gio... COMPLETED
+Open thanhtam://anniversaries/import... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-import-gio... COMPLETED
+Open thanhtam://ask... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-ask... COMPLETED
+Open thanhtam://video?key=bat-nha... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-video... COMPLETED
+Open thanhtam://voices... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-voices... COMPLETED
+Open thanhtam://guide/vai-lay... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-guide... COMPLETED
+Open thanhtam://guide/mam-co... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-guide-mam... COMPLETED
+Open thanhtam://guide/bay-ban-tho... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-guide-ban-tho... COMPLETED
+Open thanhtam://ritual/tat-nien... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-normal-ritual-tat-nien... COMPLETED

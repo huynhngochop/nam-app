@@ -1,0 +1,73 @@
+--------- beginning of main
+11-19 08:04:49.921  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:04:54.401  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{3fab553 V.E...... ......ID 0,0-1080,2400 #1}
+11-19 08:05:05.935  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:05:06.083  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{3fab553 V.E...... .......D 0,0-1080,2400 #1}
+11-19 08:05:06.148  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{6bf8d47 V.E...... .......D 0,0-1080,2400 #b}
+11-19 08:10:07.518  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{6bf8d47 V.E...... .......D 0,0-720,1280 #b}
+11-19 08:10:07.578  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:10:08.099  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{ddf44ad V.E...... .......D 0,0-720,1280 #15}
+11-19 08:10:49.470  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:10:49.695  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{ddf44ad V.E...... .......D 0,0-1080,2400 #15}
+11-19 08:10:50.033  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:10:50.182  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{2d3bf0d V.E...... .......D 0,0-1080,2400 #29}
+11-19 08:11:32.944  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{2d3bf0d V.E...... .......D 0,0-2400,1080 #29}
+11-19 08:11:33.316  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:11:33.782  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{4346af1 V.E...... .......D 0,0-2400,1080 #33}
+11-19 08:12:15.263  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:12:15.451  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{4346af1 V.E...... .......D 0,0-2400,1080 #33}
+11-19 08:12:16.316  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{87be978 V.E...... .......D 0,0-904,2316 #3d}
+11-19 08:12:58.356  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:12:58.527  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{87be978 V.E...... .......D 0,0-904,2316 #3d}
+11-19 08:12:58.784  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{abf014f V.E...... .......D 0,0-1812,2176 #47}
+11-19 08:14:26.803  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{abf014f V.E...... .......D 0,0-2560,1600 #47}
+11-19 08:14:27.221  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:14:27.772  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{c368257 V.E...... .......D 0,0-1600,2560 #51}
+11-19 08:15:54.266  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:15:54.536  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{c368257 V.E...... .......D 0,0-2560,1600 #51}
+11-19 08:15:55.108  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:15:55.215  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{6066ee8 V.E...... .......D 0,0-2400,1080 #65}
+11-19 08:16:40.516  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{6066ee8 V.E...... .......D 0,0-1080,2400 #65}
+11-19 08:16:40.742  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:16:40.851  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{1dec4b2 V.E...... .......D 0,0-1812,2176 #6f}
+11-19 08:16:41.722  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:16:41.801  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{1dec4b2 V.E...... .......D 0,0-1812,2176 #6f}
+11-19 08:16:41.865  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{113a351 V.E...... .......D 0,0-904,2316 #79}
+11-19 08:16:42.987  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:16:43.115  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{113a351 V.E...... .......D 0,0-904,2316 #79}
+11-19 08:16:43.219  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{f9e3c5d V.E...... .......D 0,0-1812,2176 #83}
+11-19 08:16:44.189  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:16:44.308  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{f9e3c5d V.E...... .......D 0,0-1812,2176 #83}
+11-19 08:16:44.347  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{867289b V.E...... .......D 0,0-904,2316 #8d}
+11-19 08:16:45.438  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:16:45.589  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{867289b V.E...... .......D 0,0-904,2316 #8d}
+11-19 08:16:45.626  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{f127fda V.E...... .......D 0,0-1812,2176 #97}
+11-19 08:16:46.759  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:16:46.828  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{f127fda V.E...... .......D 0,0-1812,2176 #97}
+11-19 08:16:46.867  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{bd43772 V.E...... .......D 0,0-904,2316 #a1}
+11-19 08:16:48.027  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:16:48.106  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{bd43772 V.E...... .......D 0,0-904,2316 #a1}
+11-19 08:16:48.234  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{9b97862 V.E...... .......D 0,0-1812,2176 #ab}
+11-19 08:16:49.253  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:16:49.344  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{9b97862 V.E...... .......D 0,0-1812,2176 #ab}
+11-19 08:16:49.385  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{6707725 V.E...... .......D 0,0-904,2316 #b5}
+11-19 08:16:50.537  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:16:50.597  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{6707725 V.E...... .......D 0,0-904,2316 #b5}
+11-19 08:16:50.652  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{6dd0319 V.E...... .......D 0,0-1812,2176 #bf}
+11-19 08:16:51.804  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:16:51.930  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{6dd0319 V.E...... .......D 0,0-1812,2176 #bf}
+11-19 08:16:51.998  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{7ee0491 V.E...... .......D 0,0-904,2316 #c9}
+11-19 08:16:53.060  2779  2983 I ReactNativeJS: Running "main"
+11-19 08:16:53.109  2779  2779 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{7ee0491 V.E...... .......D 0,0-904,2316 #c9}
+11-19 08:16:53.188  2779  2779 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{6166496 V.E...... .......D 0,0-1080,2400 #d3}
+11-19 08:17:41.680 11692 11716 I ReactNativeJS: Running "main"
+11-19 08:17:41.830 11692 11692 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{68bd69a V.E...... ......ID 0,0-1080,2400 #1}
+11-19 08:18:22.532 11692 11692 I ReactNative: [GESTURE HANDLER] Tearing down gesture handler registered for root view G4.b0{68bd69a V.E...... .......D 0,0-1080,2400 #1}
+11-19 08:18:25.848 12055 12078 I ReactNativeJS: Running "main"
+11-19 08:18:26.014 12055 12055 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{df64f8e V.E...... ......ID 0,0-1080,2400 #1}
+11-19 08:18:49.504 12368 12392 I ReactNativeJS: Running "main"
+11-19 08:18:49.664 12368 12368 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{68bd69a V.E...... ......ID 0,0-1080,2400 #1}
+11-19 08:18:56.479 12528 12552 I ReactNativeJS: Running "main"
+11-19 08:18:56.630 12528 12528 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{a097bcb V.E...... ......ID 0,0-1080,2400 #1}
+11-19 08:19:03.457 12684 12709 I ReactNativeJS: Running "main"
+11-19 08:19:03.597 12684 12684 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view G4.b0{3fab553 V.E...... ......ID 0,0-1080,2400 #1}
