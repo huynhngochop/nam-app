@@ -11,7 +11,7 @@ for n in 1 2 3; do
   code=$?
   tail -60 "$LOG"
   [ "$code" -eq 0 ] && exit 0
-  if grep -qE "response code: 50[234]|status code 50[234]|Could not GET|Could not download|Read timed out|Connection reset|Gateway Time-out" "$LOG"; then
+  if grep -qE "response code: 50[234]|status code 50[234]|Could not GET|Could not download|Could not resolve all artifacts|Could not find [a-z0-9.]+:[a-z0-9.-]+:|Read timed out|Connection reset|Gateway Time-out" "$LOG"; then
     echo "::warning::Lỗi mạng khi build (lần $n), đợi 90 giây rồi thử lại"
     sleep 90
   else
