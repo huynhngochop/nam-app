@@ -52,7 +52,9 @@ export default function Tasks() {
         .sort((a, b) => a.order - b.order),
     [state.tasks, filter, today],
   );
-  const sum = state.tasks.filter((t) => !t.finished && t.due <= today).reduce((a, t) => a + Math.max(0, t.est - t.done), 0);
+  const sum = state.tasks
+    .filter((t) => !t.finished && t.due <= today)
+    .reduce((a, t) => a + Math.max(0, t.est - t.done), 0);
 
   const openEdit = (t: Task | 'new') => {
     setEdit(t);

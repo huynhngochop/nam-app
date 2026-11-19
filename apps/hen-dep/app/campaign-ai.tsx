@@ -17,7 +17,11 @@ export default function CampaignAi() {
   const [variants, setVariants] = useState<string[] | null>(null);
   const [viaAi, setViaAi] = useState(false);
   const quota = getLimit(
-    state.plan.code === 'chain' ? 'AI_QUOTA_CHAIN' : state.plan.code === 'standard' ? 'AI_QUOTA_STANDARD' : 'AI_QUOTA_BASIC',
+    state.plan.code === 'chain'
+      ? 'AI_QUOTA_CHAIN'
+      : state.plan.code === 'standard'
+        ? 'AI_QUOTA_STANDARD'
+        : 'AI_QUOTA_BASIC',
     10,
   );
   const month = new Date().toISOString().slice(0, 7);

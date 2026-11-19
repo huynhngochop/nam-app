@@ -66,7 +66,9 @@ export default function Settings() {
             <Toggle
               label={`Mở cửa ${DAYS[h.day]}`}
               value={h.open}
-              onChange={(v) => state.setShop({ hours: state.shop.hours.map((x) => (x.day === h.day ? { ...x, open: v } : x)) })}
+              onChange={(v) =>
+                state.setShop({ hours: state.shop.hours.map((x) => (x.day === h.day ? { ...x, open: v } : x)) })
+              }
             />
           </Row>
           {h.open ? (

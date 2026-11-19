@@ -1,20 +1,7 @@
 import React from 'react';
 import { Linking, View } from 'react-native';
 import { router } from 'expo-router';
-import {
-  Banner,
-  Button,
-  Card,
-  FAB,
-  Grid,
-  IconButton,
-  Ring,
-  Row,
-  Screen,
-  SectionHeader,
-  T,
-  useTheme,
-} from '@nam/ui';
+import { Banner, Button, Card, FAB, Grid, IconButton, Ring, Row, Screen, SectionHeader, T, useTheme } from '@nam/ui';
 import { dayMonth, greeting, vnd } from '@nam/core';
 import { countWhere, listTx, totals, useQuery } from '../../src/db';
 import { periodOf, useVi } from '../../src/store';

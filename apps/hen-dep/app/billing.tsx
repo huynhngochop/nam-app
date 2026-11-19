@@ -19,7 +19,9 @@ export default function Billing() {
     <Paywall
       title="Gói cho tiệm"
       reason={
-        state.plan.code === 'trial' ? `Bạn đang dùng thử, còn ${trialDays} ngày. Hết hạn vẫn xem được lịch cũ.` : undefined
+        state.plan.code === 'trial'
+          ? `Bạn đang dùng thử, còn ${trialDays} ngày. Hết hạn vẫn xem được lịch cũ.`
+          : undefined
       }
       benefits={[
         'Không giới hạn lịch hẹn và khách',

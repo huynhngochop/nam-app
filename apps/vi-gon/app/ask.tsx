@@ -88,7 +88,9 @@ export default function Ask() {
 
   return (
     <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1, backgroundColor: c.bg }}>
-      <View style={{ paddingHorizontal: layout.gutter, width: '100%', maxWidth: layout.readableWidth, alignSelf: 'center' }}>
+      <View
+        style={{ paddingHorizontal: layout.gutter, width: '100%', maxWidth: layout.readableWidth, alignSelf: 'center' }}
+      >
         <AppBar title="Hỏi Ví Gọn" onBack={() => router.back()} backIcon="x" />
       </View>
       <ScrollView

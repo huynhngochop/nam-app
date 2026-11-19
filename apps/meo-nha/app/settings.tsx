@@ -125,7 +125,14 @@ export default function Settings() {
         onCancel={() => setDel(false)}
         onConfirm={() => {
           useMeo.persist.clearStorage();
-          state.set({ onboarded: false, savedTips: [], doneTips: {}, collections: [], recentSearches: [], askHistory: [] });
+          state.set({
+            onboarded: false,
+            savedTips: [],
+            doneTips: {},
+            collections: [],
+            recentSearches: [],
+            askHistory: [],
+          });
           setDel(false);
           track('account_deleted');
           router.replace('/');

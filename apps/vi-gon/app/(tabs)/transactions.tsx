@@ -19,7 +19,12 @@ export default function Transactions() {
   const { c } = useTheme();
   const layout = useLayout();
   const state = useVi();
-  const params = useLocalSearchParams<{ from?: string; to?: string; categoryId?: string; kind?: 'expense' | 'income' }>();
+  const params = useLocalSearchParams<{
+    from?: string;
+    to?: string;
+    categoryId?: string;
+    kind?: 'expense' | 'income';
+  }>();
   const [q, setQ] = useState('');
   const [offset, setOffset] = useState(0);
   const [kind, setKind] = useState<'all' | 'expense' | 'income'>(params.kind || 'all');

@@ -129,7 +129,11 @@ export default function Settings() {
         title="Hỏi trước khi lưu"
         subtitle="Tắt = tự lưu những giao dịch đã có quy tắc"
         right={
-          <Toggle label="Hỏi trước khi lưu" value={state.askBeforeSave} onChange={(v) => state.set({ askBeforeSave: v })} />
+          <Toggle
+            label="Hỏi trước khi lưu"
+            value={state.askBeforeSave}
+            onChange={(v) => state.set({ askBeforeSave: v })}
+          />
         }
       />
       <ListItem
@@ -141,7 +145,9 @@ export default function Settings() {
       <ListItem
         title="Ngày bắt đầu tháng"
         subtitle="Ví dụ ngày nhận lương"
-        right={<Stepper value={state.monthStartDay} min={1} max={28} onChange={(n) => state.set({ monthStartDay: n })} />}
+        right={
+          <Stepper value={state.monthStartDay} min={1} max={28} onChange={(n) => state.set({ monthStartDay: n })} />
+        }
       />
 
       <SectionHeader title="Bảo mật & riêng tư" />
@@ -224,7 +230,15 @@ export default function Settings() {
         onCancel={() => setWipe(false)}
         onConfirm={() => {
           wipeTx();
-          state.set({ funds: [], budgets: {}, rules: [], unparsed: [], monthlyBudget: 0, onboarded: false, alerted: [] });
+          state.set({
+            funds: [],
+            budgets: {},
+            rules: [],
+            unparsed: [],
+            monthlyBudget: 0,
+            onboarded: false,
+            alerted: [],
+          });
           setWipe(false);
           router.replace('/welcome');
         }}

@@ -13,7 +13,9 @@ module.exports = function withAdMob(config, prefix) {
   if (process.env.EXPO_PUBLIC_APP_VARIANT === 'production' && androidAppId === SAMPLE.android) {
     console.warn(`[admob] ${prefix}: đang dùng mã ứng dụng AdMob thử, quảng cáo sẽ không có doanh thu`);
   }
-  const plugins = (config.plugins || []).filter((p) => (Array.isArray(p) ? p[0] : p) !== 'react-native-google-mobile-ads');
+  const plugins = (config.plugins || []).filter(
+    (p) => (Array.isArray(p) ? p[0] : p) !== 'react-native-google-mobile-ads',
+  );
   plugins.push([
     'react-native-google-mobile-ads',
     {

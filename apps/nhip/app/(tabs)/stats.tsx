@@ -38,16 +38,18 @@ export default function Stats() {
       const d = addDays(today, i - days + 1);
       return { label: days === 7 ? weekdayShort(d) : String(d.getDate()), value: state.daily[dateKey(d)] ?? 0 };
     });
-    const prev = Array.from({ length: days }, (_, i) => state.daily[dateKey(addDays(today, i - 2 * days + 1))] ?? 0).reduce(
-      (a, b) => a + b,
-      0,
-    );
+    const prev = Array.from(
+      { length: days },
+      (_, i) => state.daily[dateKey(addDays(today, i - 2 * days + 1))] ?? 0,
+    ).reduce((a, b) => a + b, 0);
     return { data: pts, total: pts.reduce((a, p) => a + p.value, 0), prevTotal: prev };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.daily, range]);
   const delta = prevTotal ? Math.round(((total - prevTotal) / prevTotal) * 100) : null;
   const todayKey = dateKey(today);
-  const sessionsToday = state.logs.filter((l) => l.status === 'completed' && dateKey(new Date(l.at)) === todayKey).length;
+  const sessionsToday = state.logs.filter(
+    (l) => l.status === 'completed' && dateKey(new Date(l.at)) === todayKey,
+  ).length;
   const byTask = useMemo(() => {
     const m = new Map<string, number>();
     state.logs.forEach((l) => {

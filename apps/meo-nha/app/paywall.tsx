@@ -13,11 +13,7 @@ export default function MeoPaywall() {
   return (
     <Paywall
       title="Mẹo Nhà Plus"
-      benefits={[
-        'Bộ sưu tập không giới hạn',
-        'Thêm lượt Hỏi Mẹo Nhà mỗi ngày',
-        'Ủng hộ đội viết mẹo',
-      ]}
+      benefits={['Bộ sưu tập không giới hạn', 'Thêm lượt Hỏi Mẹo Nhà mỗi ngày', 'Ủng hộ đội viết mẹo']}
       plans={[
         {
           id: 'meonha.plus.lifetime',

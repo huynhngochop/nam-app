@@ -12,7 +12,11 @@ export default function ShopTab() {
   const state = useHen();
   const trialDays = Math.max(0, Math.ceil((state.plan.trialEndsAt - Date.now()) / 86400000));
   const quota = getLimit(
-    state.plan.code === 'chain' ? 'AI_QUOTA_CHAIN' : state.plan.code === 'standard' ? 'AI_QUOTA_STANDARD' : 'AI_QUOTA_BASIC',
+    state.plan.code === 'chain'
+      ? 'AI_QUOTA_CHAIN'
+      : state.plan.code === 'standard'
+        ? 'AI_QUOTA_STANDARD'
+        : 'AI_QUOTA_BASIC',
     10,
   );
   const month = new Date().toISOString().slice(0, 7);

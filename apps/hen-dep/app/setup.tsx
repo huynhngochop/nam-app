@@ -70,9 +70,11 @@ export default function Setup() {
 
   const next = () => {
     track('setup_step_completed', { step });
-    if (step === 0) state.setShop({ name: name.trim(), type, address: address.trim(), slug: slug(name) || 'tiem-cua-toi' });
+    if (step === 0)
+      state.setShop({ name: name.trim(), type, address: address.trim(), slug: slug(name) || 'tiem-cua-toi' });
     if (step === 1) state.setShop({ hours });
-    if (step === 2 && picked.length) state.addServices(picked.map((i) => ({ ...sugg[i], staffIds: [], visible: true })));
+    if (step === 2 && picked.length)
+      state.addServices(picked.map((i) => ({ ...sugg[i], staffIds: [], visible: true })));
     if (step === 3) {
       const names = solo ? ['Tôi'] : staffList;
       names.forEach((n) =>

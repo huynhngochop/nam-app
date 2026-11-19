@@ -70,7 +70,9 @@ export default function Timer() {
   );
 
   const todayKey = dateKey(new Date());
-  const doneToday = appState.logs.filter((l) => l.status === 'completed' && dateKey(new Date(l.at)) === todayKey).length;
+  const doneToday = appState.logs.filter(
+    (l) => l.status === 'completed' && dateKey(new Date(l.at)) === todayKey,
+  ).length;
   const goalSessions = Math.max(1, Math.round(appState.goalMin / appState.settings.focusMin));
   const task = appState.tasks.find((t) => t.id === appState.currentTaskId);
   const mix = appState.mixes.find((m) => m.id === appState.mixId);

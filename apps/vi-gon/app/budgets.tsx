@@ -60,7 +60,9 @@ export default function Budgets() {
       <Card variant="accent" onPress={() => open('total')} accessibilityLabel="Sửa ngân sách tổng">
         <T v="caption">Tổng ngân sách</T>
         <T v="title">
-          {state.monthlyBudget ? `${shortMoney(spentTotal)} / ${shortMoney(state.monthlyBudget)}` : 'Chưa đặt — chạm để đặt'}
+          {state.monthlyBudget
+            ? `${shortMoney(spentTotal)} / ${shortMoney(state.monthlyBudget)}`
+            : 'Chưa đặt — chạm để đặt'}
         </T>
         {state.monthlyBudget ? (
           <ProgressBar

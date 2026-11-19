@@ -39,13 +39,22 @@ export default function Services() {
 
   const groups = useMemo(() => {
     const m = new Map<string, Service[]>();
-    [...state.services].sort((a, b) => a.order - b.order).forEach((x) => m.set(x.group, [...(m.get(x.group) ?? []), x]));
+    [...state.services]
+      .sort((a, b) => a.order - b.order)
+      .forEach((x) => m.set(x.group, [...(m.get(x.group) ?? []), x]));
     return [...m.entries()];
   }, [state.services]);
 
   const openEdit = (sv?: Service) => {
     setEdit(
-      sv ?? { name: '', group: 'Tóc', durationMin: 45, price: 0, staffIds: state.staff.map((x) => x.id), visible: true },
+      sv ?? {
+        name: '',
+        group: 'Tóc',
+        durationMin: 45,
+        price: 0,
+        staffIds: state.staff.map((x) => x.id),
+        visible: true,
+      },
     );
     setPriceText(sv ? String(sv.price) : '');
   };

@@ -13,11 +13,7 @@ export default function NhipPaywall() {
   return (
     <Paywall
       title="Nhịp Pro"
-      benefits={[
-        'Mở mọi gói âm thanh, kể cả gói mới',
-        'Thống kê theo từng việc, xuất CSV',
-        'Thói quen không giới hạn',
-      ]}
+      benefits={['Mở mọi gói âm thanh, kể cả gói mới', 'Thống kê theo từng việc, xuất CSV', 'Thói quen không giới hạn']}
       plans={[
         {
           id: 'nhip.pro.year',
