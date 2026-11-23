@@ -166,6 +166,9 @@ jobs:
     needs: prep
     runs-on: ubuntu-24.04
     timeout-minutes: 150
+    env:
+      # Máy ảo QA bấm mọi nút: luôn dùng quảng cáo thử, không chạm quảng cáo thật của tài khoản AdMob.
+      EXPO_PUBLIC_ADS_TEST: '1'
     steps:
       - uses: actions/checkout@v4
         with:

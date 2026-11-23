@@ -11,11 +11,12 @@ import { requestOptions, unitId } from './units';
 export function AdBanner() {
   const visible = useAdsVisible();
   const [failed, setFailed] = useState(false);
-  if (!visible || failed) return null;
+  const unit = unitId('banner');
+  if (!visible || failed || !unit) return null;
   return (
     <View style={{ alignItems: 'center', paddingTop: 4 }} accessibilityLabel="Quảng cáo">
       <BannerAd
-        unitId={unitId('banner')}
+        unitId={unit}
         size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
         requestOptions={requestOptions()}
         onAdFailedToLoad={() => setFailed(true)}

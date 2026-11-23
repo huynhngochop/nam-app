@@ -3,13 +3,13 @@ import { initAds, setAdsHidden, type AdUnits } from '@nam/ads';
 import { useTT } from './store';
 
 /**
- * Quảng cáo AdMob (Android và iPhone). Mã đơn vị thật đặt ở biến môi trường lúc build
- * (EXPO_PUBLIC_ADMOB_THANH_TAM_*); thiếu thì dùng mã thử của Google.
+ * Quảng cáo AdMob (Android và iPhone). Mã đơn vị thật của tài khoản chủ app ghi sẵn ở đây (không bí mật);
+ * biến môi trường EXPO_PUBLIC_ADMOB_THANH_TAM_* ghi đè. Dạng nào chưa có mã thật thì bản phát hành không hiện dạng đó.
  * Thành Tâm: giới hạn quảng cáo ở mức G (mọi lứa tuổi); không đặt ở màn khấn, tụng kinh, chi tiết lễ.
  */
 const UNITS: AdUnits = {
   banner: {
-    android: process.env.EXPO_PUBLIC_ADMOB_THANH_TAM_ANDROID_BANNER,
+    android: process.env.EXPO_PUBLIC_ADMOB_THANH_TAM_ANDROID_BANNER || 'ca-app-pub-3572139488685748/4209154307',
     ios: process.env.EXPO_PUBLIC_ADMOB_THANH_TAM_IOS_BANNER,
   },
   native: {

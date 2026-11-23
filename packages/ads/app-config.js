@@ -6,10 +6,13 @@ const SAMPLE = {
   ios: 'ca-app-pub-3940256099942544~1458002511',
 };
 
-/** prefix ví dụ 'THANH_TAM' → đọc ADMOB_THANH_TAM_ANDROID_APP_ID, ADMOB_THANH_TAM_IOS_APP_ID. */
-module.exports = function withAdMob(config, prefix) {
-  const androidAppId = process.env[`ADMOB_${prefix}_ANDROID_APP_ID`] || SAMPLE.android;
-  const iosAppId = process.env[`ADMOB_${prefix}_IOS_APP_ID`] || SAMPLE.ios;
+/**
+ * prefix ví dụ 'THANH_TAM' → đọc ADMOB_THANH_TAM_ANDROID_APP_ID, ADMOB_THANH_TAM_IOS_APP_ID.
+ * appIds: mã ứng dụng thật ghi sẵn trong app (mã này không bí mật, vẫn nằm trong bản cài); biến môi trường ghi đè.
+ */
+module.exports = function withAdMob(config, prefix, appIds = {}) {
+  const androidAppId = process.env[`ADMOB_${prefix}_ANDROID_APP_ID`] || appIds.android || SAMPLE.android;
+  const iosAppId = process.env[`ADMOB_${prefix}_IOS_APP_ID`] || appIds.ios || SAMPLE.ios;
   if (process.env.EXPO_PUBLIC_APP_VARIANT === 'production' && androidAppId === SAMPLE.android) {
     console.warn(`[admob] ${prefix}: đang dùng mã ứng dụng AdMob thử, quảng cáo sẽ không có doanh thu`);
   }

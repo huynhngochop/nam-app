@@ -15,10 +15,11 @@ export const AdNative = memo(function AdNative() {
   const [ad, setAd] = useState<NativeAd | null>(null);
 
   useEffect(() => {
-    if (!visible) return;
+    const unit = unitId('native');
+    if (!visible || !unit) return;
     let alive = true;
     let loaded: NativeAd | null = null;
-    NativeAd.createForAdRequest(unitId('native'), requestOptions())
+    NativeAd.createForAdRequest(unit, requestOptions())
       .then((nativeAd) => {
         if (alive) {
           loaded = nativeAd;

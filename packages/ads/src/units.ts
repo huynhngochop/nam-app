@@ -2,15 +2,18 @@ import { Platform } from 'react-native';
 import { TestIds } from 'react-native-google-mobile-ads';
 import { getAdsState } from './state';
 
+/** Bản chạy thử (máy phát triển, máy ảo QA trên CI với EXPO_PUBLIC_ADS_TEST=1): luôn dùng quảng cáo thử. */
+const TEST_BUILD = __DEV__ || process.env.EXPO_PUBLIC_ADS_TEST === '1';
+
 /**
- * Mã đơn vị quảng cáo theo nền tảng. Chưa có mã thật (chưa tạo trong AdMob) thì dùng mã thử của Google:
- * quảng cáo thử hiện bình thường nhưng không tính tiền, tránh bị khóa tài khoản vì tự bấm quảng cáo thật.
+ * Mã đơn vị quảng cáo theo nền tảng.
+ * - Bản chạy thử: mã thử của Google (không tính tiền, không làm bẩn số liệu, không bị khóa tài khoản vì tự bấm).
+ * - Bản phát hành: mã thật; dạng nào chưa có mã thật thì trả null và không hiện dạng đó (không đưa quảng cáo thử tới người dùng).
  */
-export function unitId(format: 'banner' | 'native'): string {
+export function unitId(format: 'banner' | 'native'): string | null {
+  if (TEST_BUILD) return format === 'banner' ? TestIds.ADAPTIVE_BANNER : TestIds.NATIVE;
   const os = Platform.OS === 'ios' ? 'ios' : 'android';
-  const real = getAdsState().units[format]?.[os];
-  if (real && !__DEV__) return real;
-  return format === 'banner' ? TestIds.ADAPTIVE_BANNER : TestIds.NATIVE;
+  return getAdsState().units[format]?.[os] || null;
 }
 
 /** iPhone: không xin quyền theo dõi (ATT), chỉ quảng cáo không cá nhân hóa. Android: theo đồng ý của người dùng (UMP). */
