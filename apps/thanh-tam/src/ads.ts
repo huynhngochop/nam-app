@@ -9,11 +9,11 @@ import { useTT } from './store';
  */
 const UNITS: AdUnits = {
   banner: {
-    android: process.env.EXPO_PUBLIC_ADMOB_THANH_TAM_ANDROID_BANNER || 'ca-app-pub-3572139488685748/4209154307',
+    android: process.env.EXPO_PUBLIC_ADMOB_THANH_TAM_ANDROID_BANNER || 'ca-app-pub-3572139488685748/1475179759',
     ios: process.env.EXPO_PUBLIC_ADMOB_THANH_TAM_IOS_BANNER,
   },
   native: {
-    android: process.env.EXPO_PUBLIC_ADMOB_THANH_TAM_ANDROID_NATIVE,
+    android: process.env.EXPO_PUBLIC_ADMOB_THANH_TAM_ANDROID_NATIVE || 'ca-app-pub-3572139488685748/4209154307',
     ios: process.env.EXPO_PUBLIC_ADMOB_THANH_TAM_IOS_NATIVE,
   },
 };
