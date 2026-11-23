@@ -1,0 +1,7 @@
+Timestamp               Ty Process[PID:TID]
+2026-11-23 16:33:59.163 E  ThnhTm[34294:5c508] [com.facebook.react.log:javascript] '[expo-notifications] Error reading persisted server registration info: ', { [Error: Calling the 'getRegistrationInfoAsync' function has failed
+→ Caused by: Keychain access failed: A required entitlement isn't present.] code: '-34018' }
+2026-11-23 16:40:36.439 E  ThnhTm[49340:65c1d] [com.facebook.react.log:javascript] '[expo-notifications] Error reading persisted server registration info: ', { [Error: Calling the 'getRegistrationInfoAsync' function has failed
+→ Caused by: Keychain access failed: A required entitlement isn't present.] code: '-34018' }
+2026-11-23 16:45:20.018 E  ThnhTm[60814:6d12c] [com.facebook.react.log:javascript] '[expo-notifications] Error reading persisted server registration info: ', { [Error: Calling the 'getRegistrationInfoAsync' function has failed
+→ Caused by: Keychain access failed: A required entitlement isn't present.] code: '-34018' }

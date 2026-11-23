@@ -1,0 +1,41 @@
+Running on qa-ipad-mini - iOS 26.2 - F5BEBFE4-85F8-437D-85F9-14552F848673
+ > Flow ipad-mini-bigtext
+Launch app "vn.namapp.thanhtam"... COMPLETED
+Open thanhtam://today... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot ipad-mini-bigtext-today... COMPLETED
+Open thanhtam://calendar... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot ipad-mini-bigtext-calendar... COMPLETED
+Open thanhtam://ritual/mung-1-ram... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot ipad-mini-bigtext-ritual... COMPLETED
+Open thanhtam://ritual/mung-1-ram/prayer... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot ipad-mini-bigtext-prayer... COMPLETED
+Open thanhtam://ritual/mung-1-ram/pray... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot ipad-mini-bigtext-pray... COMPLETED
+Tap on (Optional) "Đóng"... COMPLETED
+Open thanhtam://anniversaries/edit... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot ipad-mini-bigtext-anniversary-edit... COMPLETED
+Open thanhtam://age... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot ipad-mini-bigtext-age... COMPLETED
+Open thanhtam://settings... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot ipad-mini-bigtext-settings... COMPLETED
+Open thanhtam://chant/cau-an/play... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot ipad-mini-bigtext-chant-play... COMPLETED
+Tap on (Optional) "Đóng"... COMPLETED

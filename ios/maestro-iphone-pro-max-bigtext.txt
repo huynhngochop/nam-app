@@ -1,0 +1,8 @@
+Running on qa-iphone-pro-max - iOS 26.2 - DDE21542-014B-4CAC-8641-719CD5ADFF68
+ > Flow iphone-pro-max-bigtext
+Launch app "vn.namapp.thanhtam"... COMPLETED
+Open thanhtam://today... COMPLETED
+Tap on (Optional) "Open"...
+==== Debug output (logs & screenshots) ====
+
+/Users/runner/work/nam-app/nam-app/qa-out/ios/maestro-out/iphone-pro-max-bigtext/2026-11-23_160524

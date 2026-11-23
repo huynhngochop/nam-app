@@ -1,0 +1,205 @@
+Performing Streamed Install
+Success
+KHỞI ĐỘNG LẠNH: WaitTime: 3017 
+SEED: 
+== phone (1080x2400 @420, xoay 0, chữ 1.0, tối no)
+  ok today
+  ok rituals
+  ok calendar
+  ok explore
+  ok search
+  ok ritual
+  ok offerings
+  ok prayer
+  ok pray
+  ok after
+  ok anniversaries
+  ok anniversary-edit
+  ok sign
+  ok tip
+  ok age
+  ok age-plan
+  ok age-term
+  ok people-edit
+  ok face
+  ok face-step
+  ok face-part
+  ok me
+  ok settings
+  ok sources
+  ok paywall
+  ok onboarding
+  ok chant
+  ok chant-setup
+  ok chant-play
+  ok chant-kinh
+  ok data
+  ok share-gio
+  ok import-gio
+  ok ask
+  ok video
+  ok voices
+  ok guide
+  ok guide-mam
+  ok guide-ban-tho
+  ok ritual-tat-nien
+== phone-small (720x1280 @320, xoay 0, chữ 1.0, tối no)
+  ok today
+  ok rituals
+  ok calendar
+  ok ritual
+  ok prayer
+  ok pray
+  ok anniversaries
+  ok anniversary-edit
+  ok age
+  ok people-edit
+  ok face-step
+  ok settings
+  ok chant-setup
+  ok chant-play
+== phone-font200 (1080x2400 @420, xoay 0, chữ 2.0, tối no)
+  ok today
+  ok rituals
+  ok calendar
+  ok ritual
+  ok prayer
+  ok pray
+  ok anniversaries
+  ok anniversary-edit
+  ok age
+  ok people-edit
+  ok face-step
+  ok settings
+  ok chant-setup
+  ok chant-play
+== phone-land (1080x2400 @420, xoay 1, chữ 1.0, tối no)
+  ok today
+  ok rituals
+  ok calendar
+  ok ritual
+  ok prayer
+  ok pray
+  ok anniversaries
+  ok anniversary-edit
+  ok age
+  ok people-edit
+  ok face-step
+  ok settings
+  ok chant-setup
+  ok chant-play
+== fold-cover (904x2316 @420, xoay 0, chữ 1.0, tối no)
+  ok today
+  ok rituals
+  ok calendar
+  ok ritual
+  ok prayer
+  ok pray
+  ok anniversaries
+  ok anniversary-edit
+  ok age
+  ok people-edit
+  ok face-step
+  ok settings
+  ok chant-setup
+  ok chant-play
+== fold-open (1812x2176 @420, xoay 0, chữ 1.0, tối no)
+  ok today
+  ok rituals
+  ok calendar
+  ok ritual
+  ok prayer
+  ok pray
+  ok anniversaries
+  ok anniversary-edit
+  ok age
+  ok people-edit
+  ok face-step
+  ok settings
+  ok chant-setup
+  ok chant-play
+== fold-open-land (1812x2176 @420, xoay 1, chữ 1.0, tối no)
+  ok today
+  ok rituals
+  ok calendar
+  ok ritual
+  ok prayer
+  ok pray
+  ok anniversaries
+  ok anniversary-edit
+  ok age
+  ok people-edit
+  ok face-step
+  ok settings
+  ok chant-setup
+  ok chant-play
+== tablet (1600x2560 @320, xoay 0, chữ 1.0, tối no)
+  ok today
+  ok rituals
+  ok calendar
+  ok ritual
+  ok prayer
+  ok pray
+  ok anniversaries
+  ok anniversary-edit
+  ok age
+  ok people-edit
+  ok face-step
+  ok settings
+  ok chant-setup
+  ok chant-play
+== tablet-land (1600x2560 @320, xoay 1, chữ 1.0, tối no)
+  ok today
+  ok rituals
+  ok calendar
+  ok ritual
+  ok prayer
+  ok pray
+  ok anniversaries
+  ok anniversary-edit
+  ok age
+  ok people-edit
+  ok face-step
+  ok settings
+  ok chant-setup
+  ok chant-play
+== phone-dark (1080x2400 @420, xoay 0, chữ 1.0, tối yes)
+  ok today
+  ok rituals
+  ok calendar
+  ok ritual
+  ok prayer
+  ok pray
+  ok anniversaries
+  ok anniversary-edit
+  ok age
+  ok people-edit
+  ok face-step
+  ok settings
+  ok chant-setup
+  ok chant-play
+GẬP/MỞ 5 LẦN: pid trước 3499, sau 3499 (giữ nguyên, không sập)
+DỮ LIỆU LỚN anniversaries: Total frames rendered: 129 Janky frames: 106 (82.17%) Janky frames (legacy): 124 (96.12%)  (đang chạy)
+DỮ LIỆU LỚN calendar: Total frames rendered: 84 Janky frames: 58 (69.05%) Janky frames (legacy): 80 (95.24%)  (đang chạy)
+DỮ LIỆU LỚN today: Total frames rendered: 90 Janky frames: 76 (84.44%) Janky frames (legacy): 81 (90.00%)  (đang chạy)
+DỮ LIỆU LỚN age: Total frames rendered: 115 Janky frames: 91 (79.13%) Janky frames (legacy): 108 (93.91%)  (đang chạy)
+== NÚT QUAY LẠI
+  ĐẠT  mở app vào Hôm nay
+  ĐẠT  từ màn lễ chạm 1 lần: về Hôm nay, không thoát
+  ĐẠT  2 màn chồng nhau, chạm 1 lần: về đúng màn trước (hướng dẫn)
+  ĐẠT  chạm thêm 1 lần: về Hôm nay
+  ĐẠT  ở Hôm nay chạm 1 lần: hiện nhắc chạm lần nữa để thoát
+  ĐẠT  sau lần chạm đầu app vẫn mở
+  ĐẠT  chạm lần hai sau hơn 2 giây: chưa thoát (nhắc lại)
+  ĐẠT  chạm 2 lần liền nhau: thoát app
+  ĐẠT  mở thẳng màn lễ (như từ thông báo), chạm 1 lần: về Hôm nay
+  ĐẠT  tab Lịch chạm 1 lần: về tab vừa xem (Bài cúng), không thoát
+NÚT QUAY LẠI: 10 đạt, 0 lỗi
+BỘ NHỚ:            TOTAL PSS:   184848            TOTAL RSS:   319992       TOTAL SWAP PSS:      518
+BỘ NHỚ CHI TIẾT:  Java Heap: 16848 41408; Native Heap: 54444 55484; Code: 50076 188264; Graphics: 0 0; Private Other: 35788;
+KHỞI ĐỘNG LẠNH 1: TotalTime: 774
+KHỞI ĐỘNG LẠNH 2: TotalTime: 768
+KHỞI ĐỘNG LẠNH 3: TotalTime: 818
+BỘ NHỚ SAU KHỞI ĐỘNG:            TOTAL PSS:   158751            TOTAL RSS:   294844       TOTAL SWAP PSS:      735
+LỖI JS: 0
+SẬP NATIVE: 0

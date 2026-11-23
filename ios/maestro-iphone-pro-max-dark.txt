@@ -1,0 +1,41 @@
+Running on qa-iphone-pro-max - iOS 26.2 - DDE21542-014B-4CAC-8641-719CD5ADFF68
+ > Flow iphone-pro-max-dark
+Launch app "vn.namapp.thanhtam"... COMPLETED
+Open thanhtam://today... COMPLETED
+Tap on (Optional) "Open"... COMPLETED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-dark-today... COMPLETED
+Open thanhtam://calendar... COMPLETED
+Tap on (Optional) "Open"... COMPLETED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-dark-calendar... COMPLETED
+Open thanhtam://ritual/mung-1-ram... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-dark-ritual... COMPLETED
+Open thanhtam://ritual/mung-1-ram/prayer... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-dark-prayer... COMPLETED
+Open thanhtam://ritual/mung-1-ram/pray... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-dark-pray... COMPLETED
+Tap on (Optional) "Đóng"... COMPLETED
+Open thanhtam://anniversaries/edit... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-dark-anniversary-edit... COMPLETED
+Open thanhtam://age... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-dark-age... COMPLETED
+Open thanhtam://settings... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-dark-settings... COMPLETED
+Open thanhtam://chant/cau-an/play... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-pro-max-dark-chant-play... COMPLETED
+Tap on (Optional) "Đóng"... COMPLETED

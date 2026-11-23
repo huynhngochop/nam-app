@@ -1,0 +1,41 @@
+Running on qa-iphone-se - iOS 26.2 - 88EB7E40-DCF9-4384-B9E9-9976BE4AAC96
+ > Flow iphone-se-dark
+Launch app "vn.namapp.thanhtam"... COMPLETED
+Open thanhtam://today... COMPLETED
+Tap on (Optional) "Open"... COMPLETED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-se-dark-today... COMPLETED
+Open thanhtam://calendar... COMPLETED
+Tap on (Optional) "Open"... COMPLETED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-se-dark-calendar... COMPLETED
+Open thanhtam://ritual/mung-1-ram... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-se-dark-ritual... COMPLETED
+Open thanhtam://ritual/mung-1-ram/prayer... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-se-dark-prayer... COMPLETED
+Open thanhtam://ritual/mung-1-ram/pray... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-se-dark-pray... COMPLETED
+Tap on (Optional) "Đóng"... COMPLETED
+Open thanhtam://anniversaries/edit... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-se-dark-anniversary-edit... COMPLETED
+Open thanhtam://age... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-se-dark-age... COMPLETED
+Open thanhtam://settings... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-se-dark-settings... COMPLETED
+Open thanhtam://chant/cau-an/play... COMPLETED
+Tap on (Optional) "Open"... WARNED
+Wait for animation to end within 2500 ms... COMPLETED
+Take screenshot iphone-se-dark-chant-play... COMPLETED
+Tap on (Optional) "Đóng"... COMPLETED

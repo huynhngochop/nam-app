@@ -1,0 +1,22 @@
+RUNTIME: com.apple.CoreSimulator.SimRuntime.iOS-26-2
+== iphone-se (iPhone SE (2nd generation))
+  normal: LỖI (xem maestro-iphone-se-normal.txt) · 0 ảnh · 273 s
+  bigtext: LỖI (xem maestro-iphone-se-bigtext.txt) · 0 ảnh · 113 s
+  dark: ok · 9 ảnh · 259 s
+  dòng lỗi JS: 0
+== iphone-pro-max (iPhone 15 Pro Max)
+  normal: LỖI (xem maestro-iphone-pro-max-normal.txt) · 0 ảnh · 279 s
+  bigtext: LỖI (xem maestro-iphone-pro-max-bigtext.txt) · 0 ảnh · 123 s
+  dark: ok · 9 ảnh · 225 s
+  dòng lỗi JS: 0
+== ipad-mini (iPad mini (5th generation))
+  normal: ok · 15 ảnh · 356 s
+  bigtext: ok · 9 ảnh · 196 s
+  dark: ok · 9 ảnh · 253 s
+  dòng lỗi JS: 0
+== ipad-pro-13 (iPad Pro 13-inch (M4))
+  normal: ok · 15 ảnh · 410 s
+  bigtext: ok · 9 ảnh · 256 s
+  dark: ok · 9 ảnh · 286 s
+  dòng lỗi JS: 0
+BÁO CÁO SẬP: 0

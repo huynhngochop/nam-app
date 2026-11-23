@@ -1,0 +1,7 @@
+Running on qa-iphone-se - iOS 26.2 - 88EB7E40-DCF9-4384-B9E9-9976BE4AAC96
+ > Flow iphone-se-bigtext
+Launch app "vn.namapp.thanhtam"... COMPLETED
+Open thanhtam://today...
+==== Debug output (logs & screenshots) ====
+
+/Users/runner/work/nam-app/nam-app/qa-out/ios/maestro-out/iphone-se-bigtext/2026-11-23_155026

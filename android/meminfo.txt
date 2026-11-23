@@ -1,0 +1,13 @@
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:    16848                          41408
+         Native Heap:    54444                          55484
+                Code:    50076                         188264
+               Stack:     2740                           2748
+            Graphics:        0                              0
+       Private Other:    35788
+              System:    29154
+             Unknown:                                   36572
+ 
+           TOTAL PSS:   189050            TOTAL RSS:   324476       TOTAL SWAP PSS:      343
