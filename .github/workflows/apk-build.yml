@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: [vi-gon, hen-dep, nhip, meo-nha]
+        app: [vi-gon, hen-dep, nhip, meo-nha, band7]
     env:
       A: node .github/scripts/annotate.mjs
       EXPO_PUBLIC_APP_VARIANT: preview

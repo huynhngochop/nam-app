@@ -17,6 +17,8 @@ module.exports = defineConfig([
       'qa-out/**',
       '**/expo-env.d.ts',
       'tests/typestubs/**',
+      // Máy chủ Supabase Edge Functions chạy bằng Deno (import jsr:, biến Deno), không theo cấu hình Expo.
+      'apps/*/server/**',
     ],
   },
   {

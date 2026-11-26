@@ -1,4 +1,4 @@
-# Năm App: 4 ứng dụng di động (React Native + Expo)
+# Năm App: 5 ứng dụng di động (React Native + Expo)
 
 | App | Thư mục | Tóm tắt |
 |---|---|---|
@@ -6,6 +6,7 @@
 | **Nhịp** | `apps/nhip` | Hẹn giờ tập trung, âm thanh nền, thống kê, thói quen. Không dùng AI. |
 | **Hẹn Đẹp** | `apps/hen-dep` | Lịch hẹn cho salon / spa / nail: lịch theo thợ, khách, doanh thu, link đặt lịch, đọc bảng giá, soạn tin ưu đãi |
 | **Ví Gọn** | `apps/vi-gon` | Sổ chi tiêu trên máy: đọc tin ngân hàng, ngân sách, quỹ, hỏi đáp tính trên máy, sao lưu mã hóa |
+| **Band7** | `apps/band7` | Luyện nói IELTS 1:1 với giám khảo AI: lộ trình theo trình độ, ngày thi và band mục tiêu; vòng sửa lỗi "lỗi nào sửa dứt lỗi đó". Máy chủ Supabase free trong `apps/band7/server` |
 
 Thư viện dùng chung:
 - `packages/ui`: design tokens, các component, bố cục thích ứng.
@@ -18,12 +19,12 @@ Cần Node 20 trở lên, Xcode (iOS) hoặc Android Studio (Android).
 ```bash
 npm install
 # Đồng bộ phiên bản thư viện với Expo SDK 54 (bắt buộc ở lần đầu):
-for a in meo-nha nhip hen-dep vi-gon; do (cd apps/$a && npx expo install --fix); done
+for a in meo-nha nhip hen-dep vi-gon band7; do (cd apps/$a && npx expo install --fix); done
 
 # Chạy một app (dev build, vì app có module native: SQLite, thông báo, âm thanh, sinh trắc học):
 cd apps/vi-gon
 npx expo run:android      # hoặc: npx expo run:ios
-# Các lần sau chỉ cần: npm run vi   (ở thư mục gốc: meo | nhip | hen | vi)
+# Các lần sau chỉ cần: npm run vi   (ở thư mục gốc: meo | nhip | hen | vi | band7)
 ```
 
 Build cài đặt: `npx eas build -p android --profile preview` (cấu hình nằm trong `eas.json` của từng app).
