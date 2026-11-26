@@ -1,0 +1,92 @@
+# Máy chủ Band7 (Supabase): kiểm tra migration + vòng sửa lỗi + RLS trên Postgres thật, test phần so khớp câu.
+# Nếu repo có biến BAND7_SUPABASE_URL và BAND7_SUPABASE_ANON_KEY: thử luôn project Supabase đang chạy
+# (đăng nhập ẩn danh, đọc kho mã lỗi, mở buổi nói qua Edge Function /talk — bước này không tốn lượt AI).
+name: Band7 server
+
+on:
+  pull_request:
+    paths:
+      - 'apps/band7/server/**'
+      - '.github/workflows/band7-server.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'apps/band7/server/**'
+  workflow_dispatch:
+
+concurrency:
+  group: band7-server-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  db:
+    name: Migration · vòng sửa lỗi · RLS
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+    steps:
+      - uses: actions/checkout@v4
+      - name: Chạy migration + test SQL
+        run: bash apps/band7/server/test/run.sh
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Test so khớp câu + parser giám khảo
+        working-directory: apps/band7/server
+        run: node --experimental-strip-types --no-warnings --test test/shared.test.ts
+
+  live:
+    name: Thử project Supabase đang chạy
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: db
+    if: ${{ vars.BAND7_SUPABASE_URL != '' && vars.BAND7_SUPABASE_ANON_KEY != '' }}
+    env:
+      URL: ${{ vars.BAND7_SUPABASE_URL }}
+      ANON: ${{ vars.BAND7_SUPABASE_ANON_KEY }}
+    steps:
+      - name: Đăng nhập ẩn danh
+        id: auth
+        run: |
+          res=$(curl -sS -X POST "$URL/auth/v1/signup" -H "apikey: $ANON" -H 'Content-Type: application/json' -d '{"data":{}}')
+          token=$(echo "$res" | jq -r '.access_token // empty')
+          if [ -z "$token" ]; then
+            echo "::error title=Band7 auth::Không đăng nhập ẩn danh được. Bật Authentication › Sign In / Providers › Allow anonymous sign-ins. Trả về: $(echo "$res" | head -c 300)"
+            exit 1
+          fi
+          echo "::add-mask::$token"
+          echo "token=$token" >> "$GITHUB_OUTPUT"
+      - name: Đọc kho mã lỗi (migration đã chạy?)
+        env:
+          TOKEN: ${{ steps.auth.outputs.token }}
+        run: |
+          n=$(curl -sS "$URL/rest/v1/error_codes?select=code" -H "apikey: $ANON" -H "Authorization: Bearer $TOKEN" | jq 'length')
+          if [ "${n:-0}" -lt 20 ]; then
+            echo "::error title=Band7 DB::Chỉ thấy ${n:-0} mã lỗi. Migration chưa chạy lên project (kiểm tra Supabase GitHub integration, Working directory = apps/band7/server)."
+            exit 1
+          fi
+          echo "::notice title=Band7 DB::Có $n mã lỗi người Việt"
+      - name: Mở buổi nói qua /talk
+        env:
+          TOKEN: ${{ steps.auth.outputs.token }}
+        run: |
+          res=$(curl -sS -X POST "$URL/functions/v1/talk" -H "apikey: $ANON" -H "Authorization: Bearer $TOKEN" \
+            -F kind=part1 -F mode=practice -F 'first=Where is your hometown?' -F topic_title=Hometown)
+          sid=$(echo "$res" | jq -r '.session_id // empty')
+          if [ -z "$sid" ]; then
+            echo "::error title=Band7 /talk::Edge Function chưa chạy được. Trả về: $(echo "$res" | head -c 300)"
+            exit 1
+          fi
+          echo "::notice title=Band7 /talk::Mở buổi nói được ($(echo "$res" | jq -r .reply))"

@@ -4,6 +4,7 @@ import { bigKvStorage, dateKey } from '@nam/core';
 import type { ThemePref } from '@nam/ui';
 import { buildPlan, overallOf, type Bands, type Criterion, type Goal, type Plan } from './plan';
 import { bindSession, type AuthSession, type LearnerError } from './api';
+import type { Topic } from './topics';
 
 export type BandSource = 'placement' | 'self' | 'session' | 'mock' | 'real_exam';
 export type BandPoint = { at: number; source: BandSource; bands: Bands; overall: number };
@@ -31,6 +32,8 @@ type State = {
   errors: LearnerError[];
   errorsSyncedAt: number;
   practiced: string[];
+  remoteTopics: Topic[];
+  topicsSyncedAt: number;
   sessions: SessionLog[];
   done: Record<string, string[]>; // ngày → id bài đã xong
   settings: Settings;
@@ -65,6 +68,8 @@ export const useBand7 = create<State>()(
       errors: [],
       errorsSyncedAt: 0,
       practiced: [],
+      remoteTopics: [],
+      topicsSyncedAt: 0,
       sessions: [],
       done: {},
       settings: { accent: 'uk', speed: 'exam', correction: 'medium', reminderHour: 20 },

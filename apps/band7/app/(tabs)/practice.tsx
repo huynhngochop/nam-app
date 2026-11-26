@@ -16,6 +16,7 @@ export default function Practice() {
   const { c } = useTheme();
   const practiced = useBand7((s) => s.practiced);
   const sessions = useBand7((s) => s.sessions);
+  const remote = useBand7((s) => s.remoteTopics); // đề mới từ máy chủ
   const [part, setPart] = useState<0 | 1 | 2 | 3>(0);
   const [onlyNew, setOnlyNew] = useState(false);
   const bestByTopic = useMemo(() => {
@@ -25,7 +26,7 @@ export default function Practice() {
   }, [sessions]);
   const list = useMemo(
     () => topics().filter((t) => (part === 0 || t.part === part) && (!onlyNew || !practiced.includes(t.id))),
-    [part, onlyNew, practiced],
+    [part, onlyNew, practiced, remote], // eslint-disable-line react-hooks/exhaustive-deps
   );
   const open = (t: Topic) =>
     t.part === 2

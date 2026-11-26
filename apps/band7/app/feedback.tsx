@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Button, Card, EmptyState, ProgressBar, Row, Screen, Skeleton, T, useTheme } from '@nam/ui';
-import { ApiError, gradeSession, type GradeResult } from '../src/api';
+import { ApiError, fetchTurns, gradeSession, type GradeResult, type TurnRow } from '../src/api';
 import { CRITERION_VI, type Bands, type Criterion } from '../src/plan';
 import { toRepair } from '../src/loop';
 import { useBand7 } from '../src/store';
@@ -19,6 +19,13 @@ export default function Feedback() {
   const [g, setG] = useState<GradeResult | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
+  const [turns, setTurns] = useState<TurnRow[] | null>(null);
+  const showTranscript = () => {
+    if (turns) return setTurns(null);
+    fetchTurns(p.session)
+      .then((r) => setTurns(r ?? []))
+      .catch(() => setTurns([]));
+  };
 
   useEffect(() => {
     let alive = true;
@@ -146,6 +153,30 @@ export default function Feedback() {
               • {s}
             </T>
           ))}
+        </Card>
+      ) : null}
+      {g ? (
+        <Button
+          title={turns ? 'Ẩn bản ghi' : 'Xem lại bản ghi buổi nói'}
+          variant="text"
+          icon="file-text"
+          onPress={showTranscript}
+        />
+      ) : null}
+      {turns ? (
+        <Card variant="fill">
+          {turns.length === 0 ? (
+            <T v="caption" muted>
+              Chưa tải được bản ghi.
+            </T>
+          ) : (
+            turns.map((t, k) => (
+              <T key={k} v="body" color={t.role === 'learner' ? c.a : c.ink}>
+                {t.role === 'learner' ? 'Bạn: ' : 'Giám khảo: '}
+                {t.text}
+              </T>
+            ))
+          )}
         </Card>
       ) : null}
       {!placement && repairs.length ? (

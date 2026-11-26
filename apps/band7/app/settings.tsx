@@ -14,6 +14,7 @@ import {
   SectionHeader,
   Segmented,
   T,
+  TextField,
   Toggle,
   useToast,
 } from '@nam/ui';
@@ -65,6 +66,16 @@ export default function SettingsScreen() {
           {isPro ? 'Pro' : 'Miễn phí'}
         </T>
       </Row>
+
+      <TextField
+        label="Tên gọi"
+        value={name}
+        onChangeText={(v) => set({ name: v.slice(0, 30) })}
+        onBlur={() => {
+          if (serverEnabled() && auth) void saveProfile({ id: auth.userId, display_name: name.trim() }).catch(() => {});
+        }}
+        placeholder="Giám khảo sẽ gọi bạn bằng tên này"
+      />
 
       {!isPro ? (
         <Card variant="accent" onPress={() => router.push('/paywall')}>

@@ -1,5 +1,6 @@
-import { fetchErrors, serverEnabled } from './api';
+import { fetchErrors, fetchTopics, serverEnabled } from './api';
 import { useBand7 } from './store';
+import { registerRemoteTopics } from './topics';
 
 /** Tải lại sổ lỗi từ máy chủ (không chặn giao diện; lỗi mạng thì giữ bản đã lưu). */
 export async function refreshErrors(force = false): Promise<void> {
@@ -10,5 +11,19 @@ export async function refreshErrors(force = false): Promise<void> {
     s.cacheErrors(await fetchErrors());
   } catch {
     /* ngoại tuyến: dùng bản đã lưu */
+  }
+}
+
+/** Đề mới theo quý: tải tối đa 1 lần/ngày, lưu lại để dùng khi ngoại tuyến. */
+export async function refreshTopics(): Promise<void> {
+  const s = useBand7.getState();
+  registerRemoteTopics(s.remoteTopics);
+  if (!serverEnabled() || !s.auth || Date.now() - s.topicsSyncedAt < 86_400_000) return;
+  try {
+    const list = await fetchTopics();
+    useBand7.setState({ remoteTopics: list, topicsSyncedAt: Date.now() });
+    registerRemoteTopics(list);
+  } catch {
+    /* giữ đề đã lưu */
   }
 }

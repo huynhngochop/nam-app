@@ -4,6 +4,7 @@
  * ngoại tuyến (lộ trình, đề, sổ tay đã lưu), phần nói với AI hiện thông báo chưa sẵn sàng.
  */
 import type { Criterion } from './plan';
+import type { Topic } from './topics';
 
 const URL_ = process.env.EXPO_PUBLIC_SUPABASE_URL ?? '';
 const ANON = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY ?? '';
@@ -295,4 +296,30 @@ export function saveProfile(row: Record<string, unknown>) {
     body: row,
     prefer: 'resolution=merge-duplicates,return=minimal',
   });
+}
+
+/** Đề trên máy chủ → dạng Topic của app. Part 2 lưu {cue, bullets}. */
+type TopicRow = {
+  id: string;
+  part: 1 | 2 | 3;
+  title: string;
+  questions: string[] | { cue: string; bullets: string[] };
+  tags: string[];
+};
+export async function fetchTopics(): Promise<Topic[]> {
+  const rows = await rest<TopicRow[]>('topics?select=id,part,title,questions,tags&order=created_at.desc&limit=200');
+  return (rows ?? [])
+    .map((r) => ({
+      id: r.id,
+      part: r.part,
+      title: r.title,
+      questions: Array.isArray(r.questions) ? r.questions : [r.questions.cue, ...(r.questions.bullets ?? [])],
+      tag: r.tags?.[0] ?? '',
+    }))
+    .filter((t) => t.questions.length > 0);
+}
+
+export type TurnRow = { role: 'examiner' | 'learner'; text: string };
+export function fetchTurns(sessionId: string) {
+  return rest<TurnRow[]>(`turns?select=role,text&session_id=eq.${encodeURIComponent(sessionId)}&order=id`);
 }

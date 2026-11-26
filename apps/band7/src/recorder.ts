@@ -45,31 +45,26 @@ export function useSpeechRecorder() {
     return true;
   }, [permission, ensurePermission, recorder]);
 
-  /** Dừng và trả về đường dẫn file, hoặc null nếu quá ngắn (< 1 giây). */
+  /** Dừng và trả về đường dẫn file, hoặc null nếu quá ngắn (dưới khoảng 1 giây). */
   const stop = useCallback(async (): Promise<string | null> => {
     if (stopping.current) return null;
     stopping.current = true;
     try {
-      const ms = recorder.getStatus().durationMillis ?? 0;
+      const ms = state.durationMillis ?? 0;
       await recorder.stop();
       // trả micro cho loa ngoài (iOS): bật lại chế độ phát bình thường
       await setAudioModeAsync({ allowsRecording: false, playsInSilentMode: true });
-      return ms >= 1000 ? recorder.uri : null;
+      return ms >= 700 ? recorder.uri : null; // trạng thái cập nhật mỗi 500 ms nên chừa sai số
     } finally {
       stopping.current = false;
     }
-  }, [recorder]);
+  }, [recorder, state.durationMillis]);
 
-  // Tự dừng khi quá dài; dọn dẹp khi rời màn hình
+  // Tự dừng khi quá dài. Không tự gọi recorder khi rời màn: useAudioRecorder đã giải phóng recorder trước,
+  // chạm vào recorder đã giải phóng sẽ ném lỗi native và làm hỏng cây giao diện (CI bắt được lỗi này).
   useEffect(() => {
     if (state.isRecording && state.durationMillis >= MAX_TURN_SEC * 1000) void stop();
   }, [state.isRecording, state.durationMillis, stop]);
-  useEffect(
-    () => () => {
-      if (recorder.isRecording) void recorder.stop();
-    },
-    [recorder],
-  );
 
   return {
     isRecording: state.isRecording as boolean,

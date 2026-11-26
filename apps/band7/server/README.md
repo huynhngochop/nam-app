@@ -36,7 +36,18 @@ Các hàm ghi chỉ cho `service_role` (tức Edge Function) gọi. App chỉ đ
 
 Mỗi lượt, `/talk` gửi cho giám khảo tối đa 3 lỗi đến hạn, kèm `elicit_hint`, ví dụ VN-07: *"Ask how something has changed in recent years"*. Giám khảo đặt câu hỏi sao cho câu trả lời tự nhiên phải dùng cấu trúc đó, và không được nhắc trước. Ở lượt kế tiếp, giám khảo đánh giá `correct | wrong | not_attempted`, rồi server gọi `apply_error_event`. Mỗi lỗi chỉ bị gài 1 lần trong một buổi.
 
-## Cài đặt
+## Kết nối Supabase với GitHub (tự deploy)
+
+1. Trong Supabase, mở Project Settings › Integrations › GitHub, chọn repo `nam-app`. Đặt **Working directory** là `apps/band7/server`, nhánh production là `main`. Mỗi lần merge vào `main`, Supabase sẽ tự chạy migration và deploy 3 function khai báo trong `supabase/config.toml`.
+2. Mở Edge Functions › Secrets, thêm `GROQ_API_KEY` và `GEMINI_API_KEY`.
+3. Mở Authentication › Sign In / Providers, bật **Allow anonymous sign-ins** (dùng cho nút "Dùng thử không cần tài khoản").
+4. Trong GitHub, mở Settings › Secrets and variables › Actions › **Variables**, thêm:
+   - `BAND7_SUPABASE_URL`, ví dụ `https://xxxx.supabase.co`
+   - `BAND7_SUPABASE_ANON_KEY`, là khoá anon/publishable (công khai, được phép nằm trong app)
+
+   CI sẽ build APK có kết nối máy chủ, và workflow `band7-server.yml` sẽ thử project đang chạy.
+
+## Cài đặt thủ công bằng CLI
 
 ```bash
 supabase init                       # nếu chưa có supabase/config.toml

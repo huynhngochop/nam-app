@@ -33,8 +33,24 @@ export type Topic = {
 };
 
 let cache: Topic[] | null = null;
+let merged: Topic[] | null = null;
+let remote: Topic[] = [];
+
+/** Đề mới từ máy chủ (bảng `topics`, cập nhật theo quý). Gộp sau đề có sẵn, bỏ trùng tiêu đề. */
+export function registerRemoteTopics(list: Topic[]) {
+  remote = list;
+  merged = null;
+}
 
 export function topics(): Topic[] {
+  if (merged) return merged;
+  const local = localTopics();
+  const titles = new Set(local.map((t) => t.title.toLowerCase()));
+  merged = [...remote.filter((t) => !titles.has(t.title.toLowerCase())), ...local];
+  return merged;
+}
+
+function localTopics(): Topic[] {
   if (cache) return cache;
   cache = RAW.trim()
     .split('\n')
@@ -70,7 +86,7 @@ export function pickTopic(part: 1 | 2 | 3, practicedIds: string[]): Topic {
 /** Kiểm tra dữ liệu đề (chạy trong test). Trả về danh sách lỗi, rỗng = hợp lệ. */
 export function validateTopics(): string[] {
   const errs: string[] = [];
-  for (const t of topics()) {
+  for (const t of localTopics()) {
     if (![1, 2, 3].includes(t.part)) errs.push(`${t.id}: part sai`);
     if (!t.title) errs.push(`${t.id}: thiếu tiêu đề`);
     if (t.part === 2 && t.questions.length < 4) errs.push(`${t.id}: cue card cần câu mô tả + ít nhất 3 ý`);

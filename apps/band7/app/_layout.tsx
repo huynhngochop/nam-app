@@ -4,7 +4,7 @@ import { Stack, router } from 'expo-router';
 import * as Notifications from 'expo-notifications';
 import { AppShell } from '@nam/ui';
 import { useBand7 } from '../src/store';
-import { refreshErrors } from '../src/sync';
+import { refreshErrors, refreshTopics } from '../src/sync';
 import '../src/notify';
 
 export default function RootLayout() {
@@ -18,7 +18,10 @@ export default function RootLayout() {
   useEffect(() => {
     if (!hydrated) return;
     // Tải sổ lỗi sau khi màn đầu đã hiện (docs/lean-app.md: việc nặng để sau)
-    const task = InteractionManager.runAfterInteractions(() => void refreshErrors());
+    const task = InteractionManager.runAfterInteractions(() => {
+      void refreshTopics();
+      void refreshErrors();
+    });
     return () => task.cancel();
   }, [hydrated]);
   return (
