@@ -5,3 +5,4 @@ dist-web
 qa-out
 package-lock.json
 qa/seeds
+apps/*/server

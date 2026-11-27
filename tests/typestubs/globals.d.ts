@@ -25,3 +25,9 @@ declare class AbortController {
 declare function requestAnimationFrame(fn: (t: number) => void): number;
 declare function cancelAnimationFrame(id: number): void;
 declare function queueMicrotask(fn: () => void): void;
+declare class Blob {
+  readonly size: number;
+}
+declare class FormData {
+  append(name: string, value: string | Blob, fileName?: string): void;
+}

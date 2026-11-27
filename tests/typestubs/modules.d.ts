@@ -259,6 +259,13 @@ declare module 'expo-audio' {
   export type useAudioPlayer = any;
   export const AudioPlayer: any;
   export type AudioPlayer = any;
+  export const useAudioRecorder: any;
+  export const useAudioRecorderState: any;
+  export const AudioModule: any;
+  export const RecordingPresets: any;
+  export const IOSOutputFormat: any;
+  export const AudioQuality: any;
+  export type RecordingOptions = any;
 }
 declare module '@react-native-community/netinfo' {
   const _default: any;

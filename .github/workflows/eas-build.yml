@@ -26,9 +26,9 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       # Bundle JS cho Android trước khi tốn lượt build EAS: bắt lỗi resolve module (vd. lệch phiên bản expo-asset).
-      - name: Bundle thử Android (4 app)
+      - name: Bundle thử Android (5 app)
         run: |
-          for a in meo-nha nhip hen-dep vi-gon; do
+          for a in meo-nha nhip hen-dep vi-gon band7; do
             echo "::group::$a"
             (cd apps/$a && npx expo export -p android --output-dir /tmp/exp-$a)
             echo "::endgroup::"
@@ -42,7 +42,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: [meo-nha, nhip, hen-dep, vi-gon]
+        app: [meo-nha, nhip, hen-dep, vi-gon, band7]
     defaults:
       run:
         working-directory: apps/${{ matrix.app }}
