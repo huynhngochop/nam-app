@@ -8,6 +8,7 @@ on:
     paths:
       - 'apps/band7/server/**'
       - '.github/workflows/band7-server.yml'
+      - '.github/scripts/band7-live-ai.sh'
   push:
     branches: [main]
     paths:
@@ -104,3 +105,9 @@ jobs:
           echo "repair: $r"
           echo "$r" | jq -e '.error == "error_id and audio required"' > /dev/null || { echo "::error title=Band7 /repair::$r"; exit 1; }
           echo "::notice title=Band7::3 Edge Function talk, repair, grade đều chạy"
+      - name: Cài giọng máy để thử nói
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq espeak-ng ffmpeg > /dev/null
+      - name: Nói thử 1 buổi với giám khảo AI (Whisper → giám khảo → chấm → sửa ngay)
+        env:
+          TOKEN: ${{ steps.auth.outputs.token }}
+        run: bash .github/scripts/band7-live-ai.sh
