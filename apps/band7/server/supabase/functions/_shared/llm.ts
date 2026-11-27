@@ -1,5 +1,5 @@
-// Gọi AI free: Groq (Whisper + Llama) trước, Gemini dự phòng khi bị giới hạn.
-// Model đặt qua biến môi trường để đổi mà không sửa code.
+// Gọi AI free: Groq (Whisper + GPT-OSS) trước, Gemini dự phòng khi bị giới hạn hoặc model bị gỡ.
+// Thứ tự model đặt qua biến môi trường (STT_MODELS, CHAT_CHAIN, GRADE_CHAIN) để đổi mà không sửa code.
 
 const env = (k: string, d = "") => Deno.env.get(k) ?? d;
 
@@ -9,6 +9,17 @@ const GEMINI = "https://generativelanguage.googleapis.com/v1beta";
 export class RateLimited extends Error {}
 /** Thiếu khoá API hoặc nhà cung cấp lỗi: trả 502 có thông báo rõ thay vì 500 khó hiểu. */
 export class AiUnavailable extends Error {}
+
+/** Danh sách model từ biến môi trường (cách nhau dấu phẩy), không có thì dùng mặc định. */
+function list(name: string, def: string[]): string[] {
+  const v = env(name);
+  return v ? v.split(",").map((x) => x.trim()).filter(Boolean) : def;
+}
+/** Model không còn (404 / decommissioned) → thử model kế tiếp. */
+function isModelGone(e: unknown): boolean {
+  const m = String((e as Error)?.message ?? "");
+  return /\b404\b|decommission|not found|no longer available|does not exist|model_not_found/i.test(m);
+}
 
 function key(name: string): string {
   const v = env(name);
@@ -22,11 +33,25 @@ async function withTimeout(p: (signal: AbortSignal) => Promise<Response>, ms: nu
   try { return await p(ctl.signal); } finally { clearTimeout(t); }
 }
 
-/** Speech-to-text tiếng Anh bằng Groq Whisper */
+/** Speech-to-text tiếng Anh bằng Groq Whisper (model bị gỡ thì thử model kế tiếp) */
 export async function transcribe(audio: Blob, filename = "audio.m4a"): Promise<string> {
+  const models = list("STT_MODELS", ["whisper-large-v3-turbo", "whisper-large-v3"]);
+  let last: unknown;
+  for (const m of models) {
+    try {
+      return await transcribeWith(audio, filename, m);
+    } catch (e) {
+      last = e;
+      if (e instanceof RateLimited || !isModelGone(e)) throw e;
+    }
+  }
+  throw last;
+}
+
+async function transcribeWith(audio: Blob, filename: string, model: string): Promise<string> {
   const form = new FormData();
   form.append("file", audio, filename);
-  form.append("model", env("STT_MODEL", "whisper-large-v3-turbo"));
+  form.append("model", model);
   form.append("language", "en");
   form.append("response_format", "json");
   form.append("temperature", "0");
@@ -48,6 +73,7 @@ async function groqJSON(messages: Msg[], model: string, maxTokens: number): Prom
     body: JSON.stringify({
       model, messages, temperature: 0.4, max_tokens: maxTokens,
       response_format: { type: "json_object" },
+      ...(model.includes("gpt-oss") ? { reasoning_effort: "low" } : {}),
     }),
     signal,
   }), 15_000);
@@ -77,22 +103,33 @@ async function geminiJSON(messages: Msg[], model: string, maxTokens: number): Pr
 }
 
 /**
- * tier "chat": hội thoại từng lượt → model nhanh (Groq 8B), dự phòng Gemini Flash.
- * tier "grade": chấm cuối buổi → model mạnh (Gemini Flash), dự phòng Groq 70B.
+ * Thứ tự thử (đổi được bằng biến môi trường, không cần sửa code khi nhà cung cấp gỡ model):
+ *  - chat: hội thoại từng lượt → Groq (nhanh), dự phòng Gemini Flash-Lite / Flash.
+ *  - grade: chấm cuối buổi → Gemini Flash, dự phòng Groq model lớn.
+ * Model ghi dạng "groq:<id>" hoặc "gemini:<id>".
  */
+const DEFAULT_CHAIN = {
+  chat: ["groq:openai/gpt-oss-20b", "gemini:gemini-3.5-flash-lite", "gemini:gemini-3.5-flash", "groq:openai/gpt-oss-120b"],
+  grade: ["gemini:gemini-3.5-flash", "groq:openai/gpt-oss-120b", "gemini:gemini-3.5-flash-lite"],
+};
+
 export async function chatJSON(messages: Msg[], tier: "chat" | "grade" = "chat"): Promise<{ text: string; provider: string }> {
-  const chain: [string, () => Promise<string>][] = tier === "chat"
-    ? [
-      ["groq", () => groqJSON(messages, env("CHAT_MODEL", "llama-3.1-8b-instant"), 500)],
-      ["gemini", () => geminiJSON(messages, env("GEMINI_MODEL", "gemini-2.5-flash"), 500)],
-    ]
-    : [
-      ["gemini", () => geminiJSON(messages, env("GEMINI_MODEL", "gemini-2.5-flash"), 1200)],
-      ["groq", () => groqJSON(messages, env("GRADE_MODEL", "llama-3.3-70b-versatile"), 1200)],
-    ];
+  const chain = list(tier === "chat" ? "CHAT_CHAIN" : "GRADE_CHAIN", DEFAULT_CHAIN[tier]);
+  const budget = tier === "chat" ? 1200 : 2400; // model suy luận dùng thêm token để nghĩ
   let last: unknown;
-  for (const [provider, call] of chain) {
-    try { return { text: await call(), provider }; } catch (e) { last = e; }
+  for (const item of chain) {
+    const [provider, ...rest] = item.split(":");
+    const model = rest.join(":");
+    try {
+      const text = provider === "groq"
+        ? await groqJSON(messages, model, budget)
+        : await geminiJSON(messages, model, budget);
+      if (!text.trim()) throw new AiUnavailable(`${item}: empty response`);
+      return { text, provider: item };
+    } catch (e) {
+      console.error("ai_try_failed", item, String((e as Error)?.message ?? e).slice(0, 300));
+      last = e;
+    }
   }
   if (last instanceof RateLimited) throw last;
   throw last instanceof AiUnavailable ? last : new AiUnavailable(String(last ?? "no provider"));

@@ -61,14 +61,13 @@ Biến tuỳ chọn (có giá trị mặc định):
 
 | Biến | Mặc định | Ghi chú |
 |---|---|---|
-| `STT_MODEL` | `whisper-large-v3-turbo` | Groq |
-| `CHAT_MODEL` | `llama-3.1-8b-instant` | Groq, dùng cho hội thoại từng lượt |
-| `GRADE_MODEL` | `llama-3.3-70b-versatile` | Groq, dự phòng khi chấm |
-| `GEMINI_MODEL` | `gemini-2.5-flash` | Chấm chính, và dự phòng cho hội thoại |
+| `STT_MODELS` | `whisper-large-v3-turbo,whisper-large-v3` | Groq, model bị gỡ thì thử model sau |
+| `CHAT_CHAIN` | `groq:openai/gpt-oss-20b,gemini:gemini-3.5-flash-lite,gemini:gemini-3.5-flash,groq:openai/gpt-oss-120b` | Hội thoại từng lượt, thử lần lượt |
+| `GRADE_CHAIN` | `gemini:gemini-3.5-flash,groq:openai/gpt-oss-120b,gemini:gemini-3.5-flash-lite` | Chấm cuối buổi |
 | `FREE_DAILY_TURNS` | `30` | |
 | `PRO_DAILY_TURNS` | `400` | Chặn lạm dụng |
 
-Tên model thay đổi theo thời gian. Kiểm tra lại trong console của Groq và Google AI Studio trước khi deploy.
+Tên model thay đổi theo thời gian (ví dụ Groq đã gỡ llama-3.3-70b-versatile, Google không cho tài khoản mới dùng gemini-2.5-flash). Khi một model bị gỡ, function tự thử model kế tiếp và ghi `ai_try_failed` vào Logs; đổi danh sách bằng Edge Functions › Secrets, không cần sửa code.
 
 ## API cho app (Expo)
 
