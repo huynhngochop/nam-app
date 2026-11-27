@@ -57,6 +57,7 @@ jobs:
       URL: ${{ vars.BAND7_SUPABASE_URL || 'https://szxyintaunnvxouwxaft.supabase.co' }}
       ANON: ${{ vars.BAND7_SUPABASE_ANON_KEY || 'sb_publishable_mKV2eKrWDHtdn2nxodyaQA_W-KjAoA6' }}
     steps:
+      - uses: actions/checkout@v4
       - name: Đăng nhập ẩn danh
         id: auth
         run: |
