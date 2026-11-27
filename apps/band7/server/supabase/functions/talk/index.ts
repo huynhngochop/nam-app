@@ -1,8 +1,8 @@
 // POST /functions/v1/talk
 // 1) Bắt đầu buổi: form {kind, topic_id?, mode?} không có audio → tạo buổi, trả câu hỏi đầu (không gọi AI).
 // 2) Mỗi lượt: form {session_id, audio} → nghe (Whisper) → giám khảo (LLM) → lưu lỗi, gài lại → câu hỏi tiếp.
-import { admin, cors, FREE_DAILY_TURNS, json, MAX_AUDIO_BYTES, PRO_DAILY_TURNS, requireUser } from "../_shared/http.ts";
-import { chatJSON, RateLimited, transcribe } from "../_shared/llm.ts";
+import { admin, aiErrorResponse, cors, FREE_DAILY_TURNS, json, MAX_AUDIO_BYTES, PRO_DAILY_TURNS, requireUser } from "../_shared/http.ts";
+import { chatJSON, transcribe } from "../_shared/llm.ts";
 import {
   buildExaminerMessages, type ErrorCodeLite, type ExaminerContext, maxErrorsFor, parseExaminerOutput,
   type RecallTarget, type Turn,
@@ -87,8 +87,7 @@ Deno.serve(async (req) => {
         .limit(1).then((r) => Number(r.data?.[0]?.overall ?? 5.5)),
     ]);
   } catch (e) {
-    if (e instanceof RateLimited) return json({ error: "busy", message_vi: "Máy chủ AI đang bận, thử lại sau vài giây." }, 503);
-    throw e;
+    return aiErrorResponse(e);
   }
   if (!session || session.user_id !== user.id) return json({ error: "session not found" }, 404);
   if (!learnerText) return json({ error: "empty", message_vi: "Mình chưa nghe rõ, bạn nói lại nhé." }, 422);
@@ -128,8 +127,7 @@ Deno.serve(async (req) => {
       maxErrors: maxErrorsFor(level), hadActiveTarget: !!activeTarget,
     });
   } catch (e) {
-    if (e instanceof RateLimited) return json({ error: "busy", message_vi: "Máy chủ AI đang bận, thử lại sau vài giây." }, 503);
-    throw e;
+    return aiErrorResponse(e);
   }
 
   // Lưu lượt nói của người học

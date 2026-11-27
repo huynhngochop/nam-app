@@ -1,7 +1,7 @@
 // POST /functions/v1/grade — kết thúc buổi: chấm 4 tiêu chí bằng model mạnh hơn (1 lần/buổi).
 // body JSON: {session_id}
-import { admin, cors, json, requireUser } from "../_shared/http.ts";
-import { chatJSON, RateLimited } from "../_shared/llm.ts";
+import { admin, aiErrorResponse, cors, json, requireUser } from "../_shared/http.ts";
+import { chatJSON } from "../_shared/llm.ts";
 
 const BAND = (x: unknown) => {
   const n = Math.round(Number(x) * 2) / 2;
@@ -38,8 +38,7 @@ Bands in 0.5 steps. Vietnamese texts short (max 20 words each), concrete, about 
 
   let raw: string;
   try { raw = (await chatJSON(messages, "grade")).text; } catch (e) {
-    if (e instanceof RateLimited) return json({ error: "busy", message_vi: "Máy chủ AI đang bận, thử lại sau." }, 503);
-    throw e;
+    return aiErrorResponse(e);
   }
   let j: Record<string, unknown> = {};
   try { j = JSON.parse(raw.match(/\{[\s\S]*\}/)?.[0] ?? raw); } catch { /* giữ rỗng */ }

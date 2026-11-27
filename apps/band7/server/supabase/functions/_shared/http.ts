@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient, type User } from "jsr:@supabase/supabase-js@2";
+import { RateLimited } from "./llm.ts";
 
 export const cors = {
   "Access-Control-Allow-Origin": "*",
@@ -27,3 +28,10 @@ export async function requireUser(req: Request): Promise<User | Response> {
 export const FREE_DAILY_TURNS = Number(Deno.env.get("FREE_DAILY_TURNS") ?? 30);
 export const PRO_DAILY_TURNS = Number(Deno.env.get("PRO_DAILY_TURNS") ?? 400); // chặn lạm dụng
 export const MAX_AUDIO_BYTES = 2_000_000; // ~60 giây m4a mono 16kHz
+
+/** Đổi lỗi gọi AI thành phản hồi có thông báo tiếng Việt (log chi tiết để xem trong Supabase Logs). */
+export function aiErrorResponse(e: unknown): Response {
+  console.error("ai_error", String((e as Error)?.message ?? e));
+  if (e instanceof RateLimited) return json({ error: "busy", message_vi: "Máy chủ AI đang bận, thử lại sau vài giây." }, 503);
+  return json({ error: "ai_unavailable", message_vi: "Giám khảo AI tạm thời chưa sẵn sàng. Thử lại sau nhé." }, 502);
+}

@@ -1,5 +1,5 @@
 # Máy chủ Band7 (Supabase): kiểm tra migration + vòng sửa lỗi + RLS trên Postgres thật, test phần so khớp câu.
-# Nếu repo có biến BAND7_SUPABASE_URL và BAND7_SUPABASE_ANON_KEY: thử luôn project Supabase đang chạy
+# Sau đó thử project Supabase đang chạy (URL/khoá publishable công khai; biến repo BAND7_SUPABASE_* ghi đè)
 # (đăng nhập ẩn danh, đọc kho mã lỗi, mở buổi nói qua Edge Function /talk — bước này không tốn lượt AI).
 name: Band7 server
 
@@ -52,10 +52,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs: db
-    if: ${{ vars.BAND7_SUPABASE_URL != '' && vars.BAND7_SUPABASE_ANON_KEY != '' }}
     env:
-      URL: ${{ vars.BAND7_SUPABASE_URL }}
-      ANON: ${{ vars.BAND7_SUPABASE_ANON_KEY }}
+      URL: ${{ vars.BAND7_SUPABASE_URL || 'https://szxyintaunnvxouwxaft.supabase.co' }}
+      ANON: ${{ vars.BAND7_SUPABASE_ANON_KEY || 'sb_publishable_mKV2eKrWDHtdn2nxodyaQA_W-KjAoA6' }}
     steps:
       - name: Đăng nhập ẩn danh
         id: auth
@@ -90,3 +89,18 @@ jobs:
             exit 1
           fi
           echo "::notice title=Band7 /talk::Mở buổi nói được ($(echo "$res" | jq -r .reply))"
+          echo "sid=$sid" >> "$GITHUB_OUTPUT"
+        id: talk
+      - name: /grade và /repair đã deploy
+        env:
+          TOKEN: ${{ steps.auth.outputs.token }}
+          SID: ${{ steps.talk.outputs.sid }}
+        run: |
+          g=$(curl -sS -X POST "$URL/functions/v1/grade" -H "apikey: $ANON" -H "Authorization: Bearer $TOKEN" \
+            -H 'Content-Type: application/json' -d "{\"session_id\":\"$SID\"}")
+          echo "grade: $g"
+          echo "$g" | jq -e '.error == "too_short"' > /dev/null || { echo "::error title=Band7 /grade::$g"; exit 1; }
+          r=$(curl -sS -X POST "$URL/functions/v1/repair" -H "apikey: $ANON" -H "Authorization: Bearer $TOKEN" -F error_id=x)
+          echo "repair: $r"
+          echo "$r" | jq -e '.error == "error_id and audio required"' > /dev/null || { echo "::error title=Band7 /repair::$r"; exit 1; }
+          echo "::notice title=Band7::3 Edge Function talk, repair, grade đều chạy"

@@ -7,6 +7,14 @@ const GROQ = "https://api.groq.com/openai/v1";
 const GEMINI = "https://generativelanguage.googleapis.com/v1beta";
 
 export class RateLimited extends Error {}
+/** Thiếu khoá API hoặc nhà cung cấp lỗi: trả 502 có thông báo rõ thay vì 500 khó hiểu. */
+export class AiUnavailable extends Error {}
+
+function key(name: string): string {
+  const v = env(name);
+  if (!v) throw new AiUnavailable(`missing ${name}`);
+  return v;
+}
 
 async function withTimeout(p: (signal: AbortSignal) => Promise<Response>, ms: number): Promise<Response> {
   const ctl = new AbortController();
@@ -23,10 +31,10 @@ export async function transcribe(audio: Blob, filename = "audio.m4a"): Promise<s
   form.append("response_format", "json");
   form.append("temperature", "0");
   const res = await withTimeout((signal) => fetch(`${GROQ}/audio/transcriptions`, {
-    method: "POST", headers: { Authorization: `Bearer ${env("GROQ_API_KEY")}` }, body: form, signal,
+    method: "POST", headers: { Authorization: `Bearer ${key("GROQ_API_KEY")}` }, body: form, signal,
   }), 20_000);
   if (res.status === 429) throw new RateLimited("stt");
-  if (!res.ok) throw new Error(`stt ${res.status}: ${await res.text()}`);
+  if (!res.ok) throw new AiUnavailable(`stt ${res.status}: ${(await res.text()).slice(0, 200)}`);
   const j = await res.json();
   return String(j.text ?? "").trim();
 }
@@ -36,7 +44,7 @@ type Msg = { role: "system" | "user"; content: string };
 async function groqJSON(messages: Msg[], model: string, maxTokens: number): Promise<string> {
   const res = await withTimeout((signal) => fetch(`${GROQ}/chat/completions`, {
     method: "POST",
-    headers: { Authorization: `Bearer ${env("GROQ_API_KEY")}`, "Content-Type": "application/json" },
+    headers: { Authorization: `Bearer ${key("GROQ_API_KEY")}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       model, messages, temperature: 0.4, max_tokens: maxTokens,
       response_format: { type: "json_object" },
@@ -44,7 +52,7 @@ async function groqJSON(messages: Msg[], model: string, maxTokens: number): Prom
     signal,
   }), 15_000);
   if (res.status === 429) throw new RateLimited("groq");
-  if (!res.ok) throw new Error(`groq ${res.status}: ${await res.text()}`);
+  if (!res.ok) throw new AiUnavailable(`groq ${res.status}: ${(await res.text()).slice(0, 200)}`);
   const j = await res.json();
   return j.choices?.[0]?.message?.content ?? "";
 }
@@ -54,7 +62,7 @@ async function geminiJSON(messages: Msg[], model: string, maxTokens: number): Pr
   const user = messages.filter((m) => m.role === "user").map((m) => m.content).join("\n");
   const res = await withTimeout((signal) => fetch(`${GEMINI}/models/${model}:generateContent`, {
     method: "POST",
-    headers: { "x-goog-api-key": env("GEMINI_API_KEY"), "Content-Type": "application/json" },
+    headers: { "x-goog-api-key": key("GEMINI_API_KEY"), "Content-Type": "application/json" },
     body: JSON.stringify({
       systemInstruction: { parts: [{ text: system }] },
       contents: [{ role: "user", parts: [{ text: user }] }],
@@ -63,7 +71,7 @@ async function geminiJSON(messages: Msg[], model: string, maxTokens: number): Pr
     signal,
   }), 25_000);
   if (res.status === 429) throw new RateLimited("gemini");
-  if (!res.ok) throw new Error(`gemini ${res.status}: ${await res.text()}`);
+  if (!res.ok) throw new AiUnavailable(`gemini ${res.status}: ${(await res.text()).slice(0, 200)}`);
   const j = await res.json();
   return j.candidates?.[0]?.content?.parts?.map((p: { text?: string }) => p.text ?? "").join("") ?? "";
 }
@@ -87,5 +95,5 @@ export async function chatJSON(messages: Msg[], tier: "chat" | "grade" = "chat")
     try { return { text: await call(), provider }; } catch (e) { last = e; }
   }
   if (last instanceof RateLimited) throw last;
-  throw last ?? new Error("no provider");
+  throw last instanceof AiUnavailable ? last : new AiUnavailable(String(last ?? "no provider"));
 }
