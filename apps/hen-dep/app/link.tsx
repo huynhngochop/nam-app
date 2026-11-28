@@ -22,6 +22,7 @@ import {
 } from '@nam/ui';
 import { track } from '@nam/core';
 import { useHen } from '../src/store';
+import { bookingPageOn, bookingUrl } from '../src/cloudSync';
 
 const SOURCES = [
   { key: 'zalo', label: 'Zalo OA / tin nhắn', hint: 'Dán vào menu Zalo OA hoặc trả lời khách' },
@@ -35,7 +36,8 @@ export default function LinkScreen() {
   const layout = useLayout();
   const toast = useToast();
   const shop = useHen((s) => s.shop);
-  const url = `https://hendep.app/${shop.slug}`;
+  const url = bookingPageOn() ? bookingUrl(shop.slug) : `https://hendep.app/${shop.slug}`;
+  const join = url.includes('?') ? '&' : '?';
   const qrRef = useRef<{ toDataURL: (cb: (d: string) => void) => void } | null>(null);
 
   const copy = async (u: string, src?: string) => {
@@ -68,7 +70,7 @@ export default function LinkScreen() {
         <Card variant="tint" style={{ alignItems: 'center', gap: 12 }}>
           <View style={{ padding: 12, backgroundColor: '#FFFFFF', borderRadius: 16 }}>
             <QRCode
-              value={`${url}?src=qr`}
+              value={`${url}${join}src=qr`}
               size={layout.isCompact ? 200 : 240}
               getRef={(r: unknown) => {
                 qrRef.current = r as never;
@@ -112,7 +114,12 @@ export default function LinkScreen() {
               title={s.label}
               subtitle={s.hint}
               right={
-                <Button title="Chép" size="sm" variant="text" onPress={() => copy(`${url}?src=${s.key}`, s.key)} />
+                <Button
+                  title="Chép"
+                  size="sm"
+                  variant="text"
+                  onPress={() => copy(`${url}${join}src=${s.key}`, s.key)}
+                />
               }
             />
           ))}

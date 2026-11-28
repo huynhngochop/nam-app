@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { router, Stack } from 'expo-router';
 import { AppShell } from '@nam/ui';
 import { useMeo } from '../src/store';
 import { useDailyTipNotification } from '../src/lib/notify';
+import { startCloud } from '../src/lib/cloud';
 
 function Routes() {
   useDailyTipNotification();
+  useEffect(startCloud, []);
   return (
     <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="ask" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
+      <Stack.Screen name="questions" />
       <Stack.Screen name="paywall" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
       <Stack.Screen name="cook/[id]" options={{ gestureEnabled: false }} />
     </Stack>

@@ -1,4 +1,5 @@
 export * from '../packages/core/src/format';
+export type { CloudItem } from '../packages/core/src/cloudTypes';
 export class AiUnavailableError extends Error {}
 export class AiQuotaError extends Error {}
 export async function callAi<T>(_f: string, _p: unknown, _o?: unknown): Promise<T> {

@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { AppState } from 'react-native';
 import { Banner, Dialog, Radio, Row, T, useToast } from '@nam/ui';
 import { getConfig, hhmm, OutboxItem, useOnline } from '@nam/core';
 import { overlaps, useHen, useOutbox } from './store';
 import { hasServer, openSms } from './messages';
+import { cloudOn, pull, pushPending } from './cloudSync';
 import { Booking } from './types';
 
 const CHOICES = ['Chuyển sang thợ khác đang rảnh', 'Dời sang giờ trống gần nhất', 'Nhắn khách đổi giờ'] as const;
@@ -78,11 +80,28 @@ export function SyncBar() {
   const wasOffline = useRef(false);
   const [choice, setChoice] = useState(0);
   const toast = useToast();
+  const linked = useHen((s) => s.cloud?.groupId ?? null);
 
   useEffect(() => {
     if (!online) {
       wasOffline.current = true;
       return;
+    }
+    if (cloudOn() || !getConfig().apiBaseUrl) {
+      // nam-cloud: chờ 1,5 giây để gom các thay đổi liên tiếp vào một lần gửi, rồi kéo thay đổi của máy khác.
+      const timer = setTimeout(() => {
+        pushPending()
+          .then(() => pull())
+          .then(() => {
+            if (wasOffline.current) {
+              setJustSynced(true);
+              wasOffline.current = false;
+              setTimeout(() => setJustSynced(false), 3000);
+            }
+          })
+          .catch(() => {});
+      }, 1500);
+      return () => clearTimeout(timer);
     }
     if (!items.length) return;
     flush(send).then(() => {
@@ -98,12 +117,24 @@ export function SyncBar() {
         setTimeout(() => setJustSynced(false), 3000);
       }
     });
-  }, [online, items.length, flush]);
+  }, [online, items.length, flush, linked]);
+
+  // Kéo lịch mới (máy khác, khách đặt online): khi app quay lại và mỗi phút khi đang mở.
+  useEffect(() => {
+    if (!cloudOn()) return;
+    const tick = () => online && AppState.currentState === 'active' && pull().catch(() => {});
+    const timer = setInterval(tick, 60_000);
+    const sub = AppState.addEventListener('change', (st) => st === 'active' && tick());
+    return () => {
+      clearInterval(timer);
+      sub.remove();
+    };
+  }, [online, linked]);
 
   const c0 = conflicts[0];
   return (
     <>
-      {!online && hasServer() ? (
+      {!online && (hasServer() || cloudOn()) ? (
         <Banner text={`Ngoại tuyến · ${items.length} thay đổi chờ đồng bộ`} />
       ) : justSynced ? (
         <Banner tone="ok" text="Đã có mạng · đã đồng bộ" />

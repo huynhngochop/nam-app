@@ -181,6 +181,21 @@ const byId = new Map(TIPS.map((t) => [t.id, t]));
 export function tipById(id: string) {
   return byId.get(id) ?? userTips.find((t) => t.id === id);
 }
+
+/**
+ * Mẹo mới từ máy chủ (AI viết + trả lời câu hỏi người dùng gửi), tải theo gói nội dung hoặc đóng sẵn khi build.
+ * Gộp vào TIPS để tìm, hỏi, danh mục đều thấy; mẹo đã có (cùng id) thì cập nhật tại chỗ.
+ */
+export function addCloudTips(list: Tip[]) {
+  for (const t of list) {
+    const old = byId.get(t.id);
+    const at = old ? TIPS.indexOf(old) : -1;
+    // Thay bằng đối tượng mới → chỉ mục tìm kiếm (WeakMap) tự tính lại.
+    if (at >= 0) TIPS[at] = t;
+    else TIPS.push(t);
+    byId.set(t.id, t);
+  }
+}
 export function categoryOf(id: CategoryId) {
   return CATEGORIES.find((c) => c.id === id) ?? CATEGORIES[0];
 }

@@ -20,9 +20,10 @@ import {
   Toggle,
   useToast,
 } from '@nam/ui';
-import { shortMoney } from '@nam/core';
+import { hasCloud, shortMoney } from '@nam/core';
 import { useHen, useOutbox } from '../src/store';
 import { hasServer } from '../src/messages';
+import { bookingPageOn } from '../src/cloudSync';
 import Constants from 'expo-constants';
 
 const DAYS = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
@@ -31,7 +32,7 @@ const TO = ['18:00', '19:00', '20:00', '21:00', '22:00'];
 
 /** HD-C13 · Cài đặt tiệm: thông tin, giờ mở cửa, quy tắc đặt lịch, nhắc lịch, chống bỏ hẹn, giao diện, dữ liệu. */
 export default function Settings() {
-  const server = hasServer();
+  const server = hasServer() || bookingPageOn();
   const toast = useToast();
   const state = useHen();
   const pending = useOutbox((o) => o.items.length);
@@ -106,6 +107,24 @@ export default function Settings() {
         </Card>
       ))}
 
+      {hasCloud() ? (
+        <>
+          <SectionHeader title="Nhiều máy & đặt lịch online" />
+          <ListItem
+            title="Đồng bộ nhiều máy"
+            subtitle={
+              state.cloud
+                ? bookingPageOn()
+                  ? 'Đang bật · có trang đặt lịch'
+                  : 'Đang bật'
+                : 'Chủ tiệm và thợ dùng chung lịch'
+            }
+            chevron
+            onPress={() => router.push('/team')}
+          />
+        </>
+      ) : null}
+
       <SectionHeader title="Khách tự đặt lịch" />
       {server ? (
         <>
@@ -148,8 +167,9 @@ export default function Settings() {
       ) : (
         <Card variant="tint">
           <T v="body">
-            Trang đặt lịch cho khách, cọc chống bỏ hẹn và gửi Zalo tự động cần máy chủ Hẹn Đẹp — sẽ bật khi máy chủ sẵn
-            sàng. Hiện tại bạn tạo lịch trong app và gửi xác nhận, nhắc lịch bằng tin nhắn.
+            {hasCloud()
+              ? 'Mở trang đặt lịch cho khách ở mục Đồng bộ nhiều máy phía trên. Cọc chống bỏ hẹn và gửi Zalo tự động sẽ có sau.'
+              : 'Trang đặt lịch cho khách, cọc chống bỏ hẹn và gửi Zalo tự động cần máy chủ Hẹn Đẹp — sẽ bật khi máy chủ sẵn sàng. Hiện tại bạn tạo lịch trong app và gửi xác nhận, nhắc lịch bằng tin nhắn.'}
           </T>
         </Card>
       )}
