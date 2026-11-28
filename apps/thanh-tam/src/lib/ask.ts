@@ -37,6 +37,20 @@ const WEEKDAY = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ n�
 const dmy = (d: Date) => `${WEEKDAY[d.getDay()]}, ${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
 const inDays = (n: number) => (n === 0 ? 'hôm nay' : n === 1 ? 'ngày mai' : `còn ${n} ngày`);
 
+/**
+ * Câu hỏi đáp mới từ máy chủ (trả lời câu người dùng gửi) gộp vào FAQ; dựng lại chỉ mục ở lần hỏi sau.
+ * Mục cùng id thì thay bằng bản mới.
+ */
+export function addCloudFaqs(list: Faq[]) {
+  for (const f of list) {
+    const at = FAQ.findIndex((x) => x.id === f.id);
+    if (at >= 0) FAQ[at] = f;
+    else FAQ.push(f);
+  }
+  DOCS = null;
+  IDF = null;
+}
+
 /** Từ hiếm (ít câu hỏi có) nặng hơn từ phổ biến. */
 let IDF: Map<string, number> | null = null;
 let DOCS: { f: Faq; toks: Set<string>; phrases: string[] }[] | null = null;

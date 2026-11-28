@@ -68,6 +68,15 @@ Khung hình giật trên emulator dùng đồ họa phần mềm nên chưa kế
   bản trong git để trống); bài còn lại đăng Releases để tải. Bài chưa đọc xong vẫn dùng giọng Piper tải về.
 - Mẫu đầu (Gia tiên, phần 1): 410 ký tự → 96 giây âm, đọc mất 22 giây với gemini-3.8-flash-tts.
 
+## Gửi câu hỏi + hỏi đáp mới (vòng 20, nam-cloud)
+
+- Hỏi Thành Tâm: câu "chưa có" → nút "Gửi câu hỏi này cho Thành Tâm" (chỉ đúng câu chữ, không kèm sổ giỗ). Màn "Câu hỏi đã gửi" ở Tôi.
+  Sự kiện: `question_sent`. Mã: `src/lib/cloud.ts` (nạp, tải gói), `src/lib/cloudFaq.ts` (đổi sang FAQ, có kiểm thử), `@nam/core/cloud`.
+- Máy chủ (repo nam-cloud): gom câu giống nhau mỗi 6 giờ, AI soạn theo prompt `thanhtam_answer` (không văn khấn/kinh, không phán vận hạn),
+  **chờ duyệt tay**: Supabase → Table Editor → schema `content` → `items`, lọc `status = draft`, đổi `approved` hoặc `rejected`.
+  Xuất bản 4 giờ sáng; app tải gói ≤ 2 lần/ngày; bản cài đóng sẵn qua `.github/scripts/pull-cloud-content.mjs` → `src/data/cloud.json`.
+- Giá: không thêm thư viện; ≈ 8 KB mã; `cloud.json` lớn dần theo số câu trả lời (vài KB mỗi chục câu).
+
 ## Đã tối ưu (vòng 10)
 
 - Bỏ `expo-dev-client` khỏi app: nó kéo máy quét QR ML Kit (`libbarhopper` ≈5 MB mỗi chip) vào bản phát hành.
@@ -81,9 +90,9 @@ Khung hình giật trên emulator dùng đồ họa phần mềm nên chưa kế
 | Mua gói Tâm An | Ẩn (`TAM_AN_READY=false`), chưa nối cửa hàng | Tài khoản Google Play, App Store; nối `provider` trong `@nam/core/purchases` |
 | Giọng đọc mẫu | Giọng AI (vòng 19) đang đọc dần trên máy chủ, bản cài tự kèm bài đã xong; bài chưa xong dùng Piper tải về | Thử tay nghe thật, nhất là chỗ ngắt câu và tô sáng; giọng người thật khi có bản thu được phép |
 | Sổ giỗ chung cả nhà | Có (vòng 11) dạng gửi tệp, nhập gộp, hỏi khi trùng; không tự đồng bộ | Máy chủ đồng bộ (Supabase/Firebase) nếu cần tự đồng bộ |
-| Hỏi Thành Tâm | Có (vòng 11) trên máy: câu hỏi thường gặp, lịch, sổ giỗ | AI qua máy chủ nếu cần trả lời tự do |
+| Hỏi Thành Tâm | Có trên máy (vòng 11) + gửi câu chưa có lên máy chủ, câu trả lời đã duyệt về app (vòng 20) | Chủ app duyệt câu trả lời AI mỗi tuần; cập nhật Data safety trên Google Play (câu hỏi người dùng gửi) |
 | Đo sự kiện (`track`) | Chưa có nơi nhận ở bản phát hành | Chọn dịch vụ đo, nối `sink` |
 | Bản iPhone | Để sau (người dùng chọn). Đã khai tệp quyền riêng tư iOS (`ios.privacyManifests`) và không dùng mã hóa riêng | Tài khoản Apple Developer, khóa API App Store Connect |
 | Lên Google Play | Đã có: trang cửa hàng (`store/android/vi-VN`: tên, mô tả, ảnh, biểu tượng, ảnh bìa), chính sách riêng tư, job AAB ký khóa tải lên và đẩy lên Play; quyền máy thừa đã chặn (CI kiểm). APK ở Releases vẫn ký khóa thử | Chủ app: tài khoản Play Console, tạo app, thêm secret khóa ký và tài khoản dịch vụ, điền Data safety, xếp hạng nội dung, thử kín 12 người 14 ngày nếu là tài khoản cá nhân mới |
-| Thử tay trên máy thật | Chưa | Tiếng mõ, chuông, giọng mẫu (cả 14 bài khấn mới), giọng máy; hình hướng dẫn ở chữ 200 %; thông báo gửi thử; video YouTube trong app (ảnh emulator vòng 16 chỉ thấy khung đen lúc mới mở, chưa xác nhận phát); gửi, nhận sổ giỗ qua Gmail, Zalo; TalkBack, VoiceOver |
+| Thử tay trên máy thật | Chưa | Tiếng mõ, chuông, giọng mẫu (cả 14 bài khấn mới), giọng máy; hình hướng dẫn ở chữ 200 %; thông báo gửi thử; video YouTube trong app (ảnh emulator vòng 16 chỉ thấy khung đen lúc mới mở, chưa xác nhận phát); gửi, nhận sổ giỗ qua Gmail, Zalo; gửi câu hỏi khi có / mất mạng rồi có lại (câu chờ tự gửi); TalkBack, VoiceOver |
 | Công tắc cao 20 px | Đã nới vùng chạm `Toggle` lên 44×52 (vòng 10), chờ QA xác nhận | |

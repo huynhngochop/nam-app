@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { AppShell } from '@nam/ui';
 import { useTT } from '../src/store';
 import { useNotifications } from '../src/notify';
 import { useAppAds } from '../src/ads';
 import { useAndroidBack } from '../src/backPress';
+import { startCloud } from '../src/lib/cloud';
 
 function Routes() {
   useNotifications();
   useAppAds();
   useAndroidBack();
+  useEffect(startCloud, []);
   const modal = { presentation: 'modal' as const, animation: 'slide_from_bottom' as const };
   return (
     <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
