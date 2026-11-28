@@ -70,7 +70,7 @@ Hiệu năng:
 |---|---|---|
 | Mẹo Nhà, Ví Gọn, Hẹn Đẹp | AI (hỏi đáp, ưu đãi, bảng giá, hiểu câu hỏi chi tiêu) | `EXPO_PUBLIC_AI_GATEWAY_URL` → Edge Function `ai-gateway` (Gemini). Có hạn mức theo máy và theo ngày; lỗi / hết lượt thì app tự dùng phương án không AI |
 | Mẹo Nhà, Thành Tâm | Gửi câu hỏi app chưa trả lời được | Chỉ gửi khi người dùng bấm; máy chủ gom câu giống nhau, AI trả lời câu được hỏi nhiều (Thành Tâm chờ duyệt tay), xuất bản trong gói nội dung hằng ngày |
-| Mẹo Nhà, Thành Tâm | Nội dung mới | Tải gói nội dung (tối đa 2 lần/ngày) + đóng sẵn khi build: `scripts/pull-cloud-content.mjs` → `src/data/cloud.json`; workflow `cloud-content.yml` mỗi Chủ nhật commit nội dung mới → APK build lại |
+| Mẹo Nhà, Thành Tâm | Nội dung mới | Tải gói nội dung (tối đa 2 lần/ngày) + đóng sẵn khi build: `.github/scripts/pull-cloud-content.mjs` → `src/data/cloud.json`; workflow `cloud-content.yml` mỗi Chủ nhật commit nội dung mới → APK build lại |
 | Hẹn Đẹp | Đồng bộ nhiều máy | Cài đặt → Đồng bộ nhiều máy: chủ tiệm bật, thợ vào bằng mã mời 8 ký tự. Dữ liệu vẫn nằm trên máy, có mạng thì tự đồng bộ |
 | Hẹn Đẹp | Trang đặt lịch online | `web/dat-lich` (GitHub Pages, workflow `pages.yml`): `https://huynhngochop.github.io/nam-app/dat-lich/?s=<tên link>`. Lịch khách đặt hiện trong app kèm thông báo |
 

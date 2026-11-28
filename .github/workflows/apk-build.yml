@@ -50,7 +50,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - run: npm ci --no-audit --no-fund
       - name: Nội dung mới từ nam-cloud (đóng sẵn vào bản cài)
-        run: node scripts/pull-cloud-content.mjs || echo "::warning title=cloud content::không tải được, dùng bản đã có"
+        run: node .github/scripts/pull-cloud-content.mjs || echo "::warning title=cloud content::không tải được, dùng bản đã có"
       - name: Prebuild
         run: $A "prebuild ${{ matrix.app }}" "cd apps/${{ matrix.app }} && npx expo prebuild -p android --no-install --clean 2>&1 | tail -20"
       # Kiến trúc theo packages/core/plugins/with-android-release.js: armeabi-v7a + arm64-v8a (mọi điện thoại Android thật).

@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - id: pull
-        run: node scripts/pull-cloud-content.mjs
+        run: node .github/scripts/pull-cloud-content.mjs
       - name: Commit
         if: steps.pull.outputs.changed != '0'
         run: |
