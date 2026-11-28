@@ -1,6 +1,9 @@
 import Storage from 'expo-sqlite/kv-store';
 import { getConfig } from './config';
 import { uid } from './id';
+import type { CloudItem } from './cloudTypes';
+
+export type { CloudItem } from './cloudTypes';
 
 /**
  * Client máy chủ chung nam-cloud (Supabase) — chỉ dùng `fetch`, không thêm thư viện (giữ APK nhẹ).
@@ -195,15 +198,6 @@ export async function flushQuestions(app: string): Promise<SentQuestion[]> {
 }
 
 // ---------------- AI content bundles ----------------
-export type CloudItem = {
-  id: string;
-  kind: string;
-  topic: string;
-  title: string;
-  body: Record<string, unknown>;
-  tags: string[];
-  updated_at: string;
-};
 type Manifest = {
   latest: number;
   full: { version: number; path: string } | null;
