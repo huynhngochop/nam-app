@@ -8,3 +8,4 @@ export * from './outbox';
 export * from './analytics';
 export * from './quota';
 export * from './purchases';
+export * from './cloud';
