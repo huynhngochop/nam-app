@@ -5,6 +5,9 @@
 export type RemoteConfig = {
   aiGatewayUrl: string | null;
   apiBaseUrl: string | null;
+  /** Máy chủ chung nam-cloud (Supabase): đồng bộ nhiều máy, gửi câu hỏi, nội dung AI. Khóa là publishable key (công khai). */
+  cloudUrl: string | null;
+  cloudKey: string | null;
   prices: Record<string, string | null>;
   limits: Record<string, number>;
   adEveryN: number;
@@ -13,6 +16,8 @@ export type RemoteConfig = {
 let current: RemoteConfig = {
   aiGatewayUrl: process.env.EXPO_PUBLIC_AI_GATEWAY_URL ?? null,
   apiBaseUrl: process.env.EXPO_PUBLIC_API_BASE_URL ?? null,
+  cloudUrl: process.env.EXPO_PUBLIC_NAM_CLOUD_URL ?? null,
+  cloudKey: process.env.EXPO_PUBLIC_NAM_CLOUD_KEY ?? null,
   prices: {},
   limits: {
     AI_ASK_DAILY_FREE: 5,
