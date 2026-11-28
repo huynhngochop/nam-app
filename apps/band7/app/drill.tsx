@@ -3,6 +3,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useAudioPlayer } from 'expo-audio';
 import { AppBar, Button, Card, Icon, ProgressBar, Row, Screen, T, useTheme } from '@nam/ui';
 import { drillByTitle, shadowDrill, warmupFor, type Drill } from '../src/drills';
+import { modelBand, overallOf } from '../src/plan';
 import { useSpeechRecorder } from '../src/recorder';
 import { useBand7 } from '../src/store';
 import { speak, voiceAvailable } from '../src/voice';
@@ -14,25 +15,28 @@ export default function DrillScreen() {
   const markDone = useBand7((s) => s.markDone);
   const errors = useBand7((s) => s.errors);
   const settings = useBand7((s) => s.settings);
+  const bands = useBand7((s) => s.bands);
+  const target = useBand7((s) => s.goal?.target ?? 7);
 
+  const sample = modelBand(overallOf(bands), target);
   const drill: Drill = useMemo(() => {
     if (p.kind === 'warmup') return warmupFor(new Date().getDate());
     if (p.kind === 'shadow') {
-      // Ưu tiên câu band 7 của chính người học (từ sổ lỗi)
+      // Ưu tiên câu nâng cấp của chính người học (từ sổ lỗi)
       const own = errors
         .map((e) => e.band7_text)
         .filter((x): x is string => !!x)
         .slice(0, 3);
       return own.length
         ? {
-            title: 'Nói nhại câu của bạn ở band 7',
+            title: 'Nói nhại câu nâng cấp của bạn',
             explain: 'Nghe, rồi đọc to theo đúng nhịp. Câu lấy từ chính bài nói của bạn.',
             lines: own,
           }
-        : shadowDrill();
+        : shadowDrill(sample);
     }
-    return drillByTitle(p.title) ?? shadowDrill();
-  }, [p.kind, p.title, errors]);
+    return drillByTitle(p.title) ?? shadowDrill(sample);
+  }, [p.kind, p.title, errors, sample]);
 
   const [i, setI] = useState(0);
   const [myUri, setMyUri] = useState<string | null>(null);

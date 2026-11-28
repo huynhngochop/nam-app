@@ -12,7 +12,7 @@ import { refreshErrors } from '../../src/sync';
 
 type Filter = 'all' | Criterion;
 
-/** 10 · Sổ tay: lỗi của tôi (theo vòng sửa lỗi) và câu của tôi ở band 7. */
+/** 10 · Sổ tay: lỗi của tôi (theo vòng sửa lỗi) và câu nâng cấp của tôi. */
 export default function Notebook() {
   const { c } = useTheme();
   const layout = useLayout();
@@ -46,7 +46,7 @@ export default function Notebook() {
       <Segmented
         options={[
           { key: 'errors', label: 'Lỗi của tôi' },
-          { key: 'band7', label: 'Câu band 7' },
+          { key: 'band7', label: 'Câu nâng cấp' },
         ]}
         value={tab}
         onChange={setTab}
@@ -82,7 +82,7 @@ export default function Notebook() {
             title="Sổ tay còn trống"
             body={
               serverEnabled() && authed
-                ? 'Sau mỗi buổi nói, lỗi của bạn sẽ được ghi vào đây cùng câu đúng và câu band 7.'
+                ? 'Sau mỗi buổi nói, lỗi của bạn sẽ được ghi vào đây cùng câu đúng và câu nâng cấp lên band mục tiêu.'
                 : 'Kết nối mạng và đăng nhập để giám khảo AI chấm và ghi lỗi của bạn.'
             }
           />

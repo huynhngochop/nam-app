@@ -20,7 +20,11 @@ Deno.serve(async (req) => {
   if (!s || s.user_id !== user.id) return json({ error: "not found" }, 404);
   if (s.ended_at && s.scores) return json(s.scores);                 // đã chấm: không tốn lượt AI
 
-  const { data: turns } = await admin.from("turns").select("role, text").eq("session_id", session_id).order("id");
+  const [{ data: turns }, { data: prof }] = await Promise.all([
+    admin.from("turns").select("role, text").eq("session_id", session_id).order("id"),
+    admin.from("profiles").select("target_band").eq("id", user.id).maybeSingle(),
+  ]);
+  const target = prof?.target_band != null ? Number(prof.target_band) : null;
   const learnerWords = (turns ?? []).filter((t) => t.role === "learner").map((t) => t.text).join(" ").split(/\s+/).length;
   if (learnerWords < 40) return json({ error: "too_short", message_vi: "Buổi nói quá ngắn để chấm band." }, 422);
 
@@ -31,7 +35,8 @@ Deno.serve(async (req) => {
       content: `You are a certified IELTS Speaking examiner. Score the LEARNER (L) using the public IELTS band descriptors.
 Pronunciation can only be estimated from a transcript: base it on likely mis-recognitions and keep it conservative.
 Return ONLY JSON: {"fc":n,"lr":n,"gra":n,"p":n,"overall":n,"strengths_vi":["..."],"priorities_vi":["...","..."]}
-Bands in 0.5 steps. Vietnamese texts short (max 20 words each), concrete, about this learner.`,
+Bands in 0.5 steps, full range 3–9: give 8.5 or 9 when the speech truly deserves it.${target ? ` The learner aims for band ${target.toFixed(1)}: priorities_vi = what they must change to reach that band.` : ""}
+Vietnamese texts short (max 20 words each), concrete, about this learner.`,
     },
     { role: "user" as const, content: transcript },
   ];

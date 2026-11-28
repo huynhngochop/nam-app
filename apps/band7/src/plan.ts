@@ -24,9 +24,54 @@ export function overallOf(b: Bands): number {
   return ieltsRound((b.FC + b.LR + b.GRA + b.P) / 4);
 }
 
-/** Giờ luyện ước lượng để đi từ band `from` lên `from + 0.5`: càng lên cao càng tốn. */
+/** Thang band mục tiêu cho người học chọn: từ 5.0 tới 9.0 (mức cao nhất của IELTS). */
+export const MIN_TARGET = 5;
+export const MAX_BAND = 9;
+export const TARGET_BANDS = [5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9];
+
+/** Mỗi band nói được như thế nào, viết dễ hiểu để người học chọn mục tiêu. */
+export const BAND_VI: Record<string, string> = {
+  '5.0': 'Nói được chủ đề quen, còn ngắt quãng và sai khá nhiều',
+  '5.5': 'Trả lời được đa số câu hỏi, còn lặp từ và sai thì',
+  '6.0': 'Nói dài được, ý rõ ràng, còn lỗi nhưng không gây hiểu lầm',
+  '6.5': 'Khá trôi chảy, có câu phức và vài cụm từ hay',
+  '7.0': 'Trôi chảy, dùng cụm từ tự nhiên, lỗi ít',
+  '7.5': 'Linh hoạt ở cả chủ đề lạ, hiếm khi ngập ngừng',
+  '8.0': 'Rất trôi chảy, từ chính xác, chỉ thỉnh thoảng sai nhỏ',
+  '8.5': 'Gần như người bản xứ, sắc thái tinh tế',
+  '9.0': 'Như người bản xứ có học thức, không còn lỗi đáng kể',
+};
+export function bandLabel(b: number): string {
+  return BAND_VI[b.toFixed(1)] ?? '';
+}
+
+/** Các mục tiêu hợp lý để chọn: cao hơn trình độ hiện tại, tối đa 9.0. */
+export function targetChoices(start: number): number[] {
+  const out = TARGET_BANDS.filter((t) => t > start);
+  return out.length ? out : [MAX_BAND];
+}
+/** Mục tiêu mặc định: cao hơn hiện tại 1 band (không quá 9.0, không dưới 5.0). */
+export function defaultTarget(start: number): number {
+  return Math.min(MAX_BAND, Math.max(MIN_TARGET, ieltsRound(start + 1)));
+}
+
+/** Cấp nội dung theo band đang hướng tới: câu mẫu, bài mini và cách chấm khác nhau. */
+export type Tier = 'core' | 'adv' | 'expert';
+export function tierOf(band: number): Tier {
+  return band >= 8.5 ? 'expert' : band >= 7.5 ? 'adv' : 'core';
+}
+/** Band của câu mẫu để nói nhại: cao hơn hiện tại khoảng 1 band, không vượt mục tiêu. */
+export function modelBand(current: number, target: number): number {
+  const up = Math.min(Math.max(target, current + 0.5), current + 1);
+  return Math.min(MAX_BAND, ieltsRound(up));
+}
+
+/**
+ * Giờ luyện ước lượng để đi từ band `from` lên `from + 0.5`: càng lên cao càng tốn.
+ * Từ 7.0 trở lên tăng nhanh hơn: band 8–9 cần độ chính xác và sắc thái, khó lên hơn nhiều.
+ */
 export function hoursForHalfBand(from: number): number {
-  return 20 + 10 * Math.max(0, (from - 5.5) / 0.5);
+  return 20 + 10 * Math.max(0, (from - 5.5) / 0.5) + 15 * Math.max(0, (from - 7) / 0.5);
 }
 export function hoursNeeded(from: number, to: number): number {
   let h = 0;
@@ -109,7 +154,7 @@ export function reachableBand(from: number, hours: number): number {
 
 export function buildPlan(goal: Goal, todayKey: string): Plan {
   const start = overallOf(goal.current);
-  const target = Math.max(goal.target, start);
+  const target = Math.min(MAX_BAND, Math.max(goal.target, start));
   const days = Math.max(7, daysBetween(todayKey, goal.examDate));
   const weeks = Math.max(1, Math.floor(days / 7));
   const availableHours = Math.round((weeks * goal.daysPerWeek * goal.minutesPerDay) / 60);
@@ -152,6 +197,22 @@ export function buildPlan(goal: Goal, todayKey: string): Plan {
   };
 }
 
+/** Trọng tâm giai đoạn khi đang hướng tới band cao (7.5 trở lên). */
+const FOCUS_HIGH: Record<Exclude<Tier, 'core'>, Record<Phase['key'], string>> = {
+  adv: {
+    base: 'Câu đa dạng không lỗi, paraphrase câu hỏi, âm yếu',
+    expand: 'Part 2 có điểm nhấn, cụm động từ tự nhiên, nhịp câu',
+    boost: 'Part 3 lập luận hai chiều, nói giảm nói tránh, sắc thái',
+    mock: 'Đề đủ 3 part, dọn lỗi nhỏ còn sót, giữ mạch khi nói dài',
+  },
+  expert: {
+    base: 'Chính xác tuyệt đối, đảo ngữ, từ ít phổ biến đúng chỗ',
+    expand: 'Kể chuyện như người bản xứ, hài hước và ví dụ cụ thể',
+    boost: 'Bàn chủ đề trừu tượng, nhượng bộ rồi phản biện, ngữ điệu thái độ',
+    mock: 'Thi thử như thật, không còn lỗi lặp, phát âm dễ nghe như bản xứ',
+  },
+};
+
 function splitPhases(weeks: number, start: number, target: number): Phase[] {
   const mid = (f: number) => Math.min(target, Math.floor((start + (target - start) * f) * 2) / 2);
   const defs: Omit<Phase, 'fromWeek' | 'toWeek' | 'targetBand'>[] = [
@@ -161,11 +222,15 @@ function splitPhases(weeks: number, start: number, target: number): Phase[] {
     { key: 'mock', name: 'Thi thử', part: 'mock', focus: 'Đề đủ 3 part, sửa dứt lỗi còn lặp' },
   ];
   const targets = [mid(0.35), mid(0.65), target, target];
+  const withFocus = (d: (typeof defs)[number], band: number) => {
+    const t = tierOf(band);
+    return t === 'core' ? d : { ...d, focus: FOCUS_HIGH[t][d.key] };
+  };
   if (weeks < 4) {
     // ít thời gian: bỏ giai đoạn nền tảng và mở rộng
     const boostEnd = Math.max(1, weeks - 1);
-    const out: Phase[] = [{ ...defs[2], fromWeek: 1, toWeek: boostEnd, targetBand: target }];
-    if (weeks > 1) out.push({ ...defs[3], fromWeek: weeks, toWeek: weeks, targetBand: target });
+    const out: Phase[] = [{ ...withFocus(defs[2], target), fromWeek: 1, toWeek: boostEnd, targetBand: target }];
+    if (weeks > 1) out.push({ ...withFocus(defs[3], target), fromWeek: weeks, toWeek: weeks, targetBand: target });
     return out;
   }
   const shares = [0.3, 0.3, 0.25, 0.15];
@@ -179,7 +244,7 @@ function splitPhases(weeks: number, start: number, target: number): Phase[] {
   }
   let w = 1;
   return defs.map((d, i) => {
-    const p: Phase = { ...d, fromWeek: w, toWeek: w + lens[i] - 1, targetBand: targets[i] };
+    const p: Phase = { ...withFocus(d, targets[i]), fromWeek: w, toWeek: w + lens[i] - 1, targetBand: targets[i] };
     w += lens[i];
     return p;
   });
@@ -238,6 +303,47 @@ const MINI: Record<Phase['key'], Partial<Record<Criterion, string[]>>> = {
   },
 };
 
+/** Bài mini cho người đang hướng tới 7.5 trở lên. Band 8.5–9 dùng thêm EXPERT, ưu tiên trước. */
+const MINI_ADV: Record<Phase['key'], Partial<Record<Criterion, string[]>>> = {
+  base: {
+    GRA: ['Thì hoàn thành tiếp diễn và câu giả định', 'Câu chẻ để nhấn mạnh'],
+    LR: ['Paraphrase câu hỏi của giám khảo', 'Collocation ít gặp nhưng tự nhiên'],
+    P: ['Âm yếu và dạng rút gọn'],
+    FC: ['Trả lời có chiều sâu: ý + lý do + hệ quả'],
+  },
+  expand: {
+    GRA: ['Mệnh đề rút gọn và cụm phân từ'],
+    LR: ['Cụm động từ tự nhiên khi kể chuyện'],
+    P: ['Nhịp câu: nhấn từ mang nghĩa'],
+    FC: ['Part 2 có điểm nhấn và kết luận'],
+  },
+  boost: {
+    GRA: ['Nói giảm nói tránh (hedging)'],
+    LR: ['Từ chỉ sắc thái: arguably, to some extent'],
+    P: ['Ngữ điệu thể hiện thái độ'],
+    FC: ['Lập luận hai chiều rồi chốt quan điểm'],
+  },
+  mock: {
+    GRA: ['Dọn lỗi nhỏ còn sót ở band cao'],
+    LR: ['Từ ít phổ biến dùng đúng ngữ cảnh'],
+    P: ['Đọc to đoạn mẫu band 8'],
+    FC: ['Nói dài không mất mạch ý'],
+  },
+};
+const MINI_EXPERT: Partial<Record<Criterion, string[]>> = {
+  GRA: ['Đảo ngữ trong văn nói'],
+  LR: ['Thành ngữ và cách nói hình ảnh đúng chỗ'],
+  P: ['Đọc to đoạn mẫu band 9'],
+  FC: ['Nhượng bộ rồi phản biện tự nhiên'],
+};
+
+function miniFor(phase: Phase, focus: Criterion): string[] {
+  const t = tierOf(phase.targetBand);
+  if (t === 'core') return MINI[phase.key][focus] ?? MINI[phase.key].GRA ?? [];
+  const adv = MINI_ADV[phase.key][focus] ?? MINI_ADV[phase.key].GRA ?? [];
+  return t === 'expert' ? [...(MINI_EXPERT[focus] ?? []), ...adv] : adv;
+}
+
 export function dailyLesson(
   plan: Plan,
   opts: { todayKey: string; minutes: number; current: Bands; newErrors: number; dueRecalls: number },
@@ -246,7 +352,7 @@ export function dailyLesson(
   const phase = phaseOf(plan, wi);
   const dayOfWeek = daysBetween(plan.createdAt, opts.todayKey) % 7;
   const focus = weakest(opts.current);
-  const minis = MINI[phase.key][focus] ?? MINI[phase.key].GRA ?? [];
+  const minis = miniFor(phase, focus);
   const mini = minis[(wi + dayOfWeek) % Math.max(1, minis.length)] ?? 'Ôn lỗi hay gặp';
   const total = opts.minutes;
 
@@ -306,7 +412,7 @@ export function dailyLesson(
     items.push({
       id: 'shadow',
       kind: 'shadow',
-      title: 'Nói nhại câu mẫu band 7',
+      title: `Nói nhại câu mẫu band ${modelBand(overallOf(opts.current), plan.target).toFixed(1)}`,
       sub: `${sh} phút · P, FC`,
       minutes: sh,
     });

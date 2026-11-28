@@ -66,3 +66,34 @@ test("parser survives non-JSON output", () => {
   assert.equal(out.reply, "Sure! What do you like about Hue?");
   assert.equal(out.errors.length, 0);
 });
+
+test("upgrade sentence aims about one band higher, capped by target and 9.0", async () => {
+  const { upgradeBand } = await import("../supabase/functions/_shared/examiner.ts");
+  assert.equal(upgradeBand(5, 9), 6);
+  assert.equal(upgradeBand(6.5, 7), 7);
+  assert.equal(upgradeBand(8.5, 9), 9);
+  assert.equal(upgradeBand(9, 9), 9);
+  assert.equal(upgradeBand(6), 7);
+});
+
+test("prompt adapts strictness and upgrade band to the target", () => {
+  const base = {
+    part: 3 as const, topic: "Cities", mode: "practice" as const, correctionLevel: "medium" as const,
+    history: [], learnerText: "I think city is more better.", activeTarget: null, dueTargets: [], codes: [],
+  };
+  const high = buildExaminerMessages({ ...base, estimatedBand: 7.5, targetBand: 9 })[0].content;
+  assert.match(high, /aims for band 9\.0/);
+  assert.match(high, /flag even small slips/);
+  assert.match(high, /rewritten at band 8\.5/);
+  const low = buildExaminerMessages({ ...base, estimatedBand: 5, targetBand: 6 })[0].content;
+  assert.match(low, /ignore tiny slips/);
+  assert.match(low, /rewritten at band 6\.0/);
+});
+
+test("parser reads the upgrade sentence (and the old band7 key)", () => {
+  const opts = { dueIds: [], knownCodes: [], maxErrors: 2, hadActiveTarget: false };
+  const a = parseExaminerOutput('{"reply":"Why?","errors":[{"cat":"GRA","wrong":"more better","right":"better","upgrade":"Cities are far better."}]}', opts);
+  assert.equal(a.errors[0].band7, "Cities are far better.");
+  const b = parseExaminerOutput('{"reply":"Why?","errors":[{"cat":"GRA","wrong":"more better","right":"better","band7":"Old key."}]}', opts);
+  assert.equal(b.errors[0].band7, "Old key.");
+});

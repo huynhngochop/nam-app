@@ -67,7 +67,7 @@ Deno.serve(async (req) => {
   if (audio.size > MAX_AUDIO_BYTES) return json({ error: "audio too long" }, 413);
 
   const { data: profile } = await admin.from("profiles")
-    .select("plan, correction_level").eq("id", user.id).single();
+    .select("plan, correction_level, target_band").eq("id", user.id).maybeSingle();
   const limit = profile?.plan === "pro" ? PRO_DAILY_TURNS : FREE_DAILY_TURNS;
   const { data: left, error: qErr } = await admin.rpc("consume_turn", { p_user: user.id, p_daily_limit: limit });
   if (qErr) return json({ error: qErr.message }, 500);
@@ -116,7 +116,7 @@ Deno.serve(async (req) => {
   const level = (profile?.correction_level ?? "medium") as ExaminerContext["correctionLevel"];
   const ctx: ExaminerContext = {
     part, mock: session.kind === "mock", topic: state.topic ?? "General", mode: session.mode, correctionLevel: level,
-    estimatedBand: band, history, learnerText, activeTarget, dueTargets, codes,
+    estimatedBand: band, targetBand: profile?.target_band != null ? Number(profile.target_band) : undefined, history, learnerText, activeTarget, dueTargets, codes,
   };
 
   let out;

@@ -116,7 +116,7 @@ export default function Repair() {
         </T>
         <View style={{ height: 1, backgroundColor: c.line }} />
         <T v="micro" color={c.positive}>
-          {target === live.band7_text ? 'Câu của bạn ở band 7' : 'Câu đúng'}
+          {target === live.band7_text ? 'Câu nâng cấp của bạn' : 'Câu đúng'}
         </T>
         <Row gap={10}>
           <T v="title" style={{ flex: 1 }}>

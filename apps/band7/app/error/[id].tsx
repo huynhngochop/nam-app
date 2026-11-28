@@ -111,7 +111,7 @@ export default function ErrorDetail() {
         {e.band7_text ? (
           <>
             <T v="micro" muted>
-              Câu của bạn ở band 7
+              Câu nâng cấp của bạn
             </T>
             <T v="body">“{e.band7_text}”</T>
           </>

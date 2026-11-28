@@ -13,24 +13,28 @@ const SELF: Record<Criterion, { band: number; text: string }[]> = {
     { band: 5.5, text: 'Nói được nhưng hay dừng tìm từ' },
     { band: 6.5, text: 'Nói dài được, đôi lúc lặp ý' },
     { band: 7.5, text: 'Nói trôi, nối ý tự nhiên' },
+    { band: 8.5, text: 'Nói dài tự nhiên như tiếng mẹ đẻ' },
   ],
   LR: [
     { band: 4.5, text: 'Chỉ dùng từ cơ bản' },
     { band: 5.5, text: 'Đủ từ cho chủ đề quen, hay lặp' },
     { band: 6.5, text: 'Dùng được vài cụm từ hay' },
     { band: 7.5, text: 'Linh hoạt, dùng collocation tự nhiên' },
+    { band: 8.5, text: 'Từ chính xác, đa dạng, hiếm khi lặp' },
   ],
   GRA: [
     { band: 4.5, text: 'Hay sai thì, câu đơn' },
     { band: 5.5, text: 'Có câu phức nhưng sai khá nhiều' },
     { band: 6.5, text: 'Câu phức khá ổn, còn lỗi nhỏ' },
     { band: 7.5, text: 'Phần lớn câu đúng' },
+    { band: 8.5, text: 'Gần như không sai, câu đa dạng' },
   ],
   P: [
     { band: 4.5, text: 'Người nghe khó hiểu' },
     { band: 5.5, text: 'Hiểu được, hay mất âm cuối' },
     { band: 6.5, text: 'Rõ ràng, còn giọng Việt' },
     { band: 7.5, text: 'Rõ, có trọng âm và ngữ điệu' },
+    { band: 8.5, text: 'Dễ nghe như người bản xứ' },
   ],
 };
 

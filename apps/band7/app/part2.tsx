@@ -121,7 +121,7 @@ export default function Part2() {
           ))}
         </Row>
         <T v="caption" muted>
-          Cụm từ band 7 nên thử
+          Cụm từ nên thử
         </T>
         <Chips>
           {PHRASES.map((ph) => (

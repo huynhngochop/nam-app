@@ -3,9 +3,15 @@ import assert from 'node:assert/strict';
 import {
   adjust,
   allocate,
+  bandLabel,
   buildPlan,
   dailyLesson,
+  defaultTarget,
   hoursNeeded,
+  modelBand,
+  TARGET_BANDS,
+  targetChoices,
+  tierOf,
   ieltsRound,
   overallOf,
   reachableBand,
@@ -163,4 +169,74 @@ test('vòng sửa lỗi: nhãn, mốc và che câu', () => {
     ['done', 'done', 'done', 'next', 'todo', 'todo'],
   );
   assert.equal(maskSentence('It has changed dramatically'), 'It h__ c______ d______');
+});
+
+test('mục tiêu chọn được từ 5.0 tới 9.0, chỉ hiện mức cao hơn hiện tại', () => {
+  assert.deepEqual(TARGET_BANDS, [5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9]);
+  for (const t of TARGET_BANDS) assert.ok(bandLabel(t).length > 10, `thiếu mô tả band ${t}`);
+  assert.deepEqual(targetChoices(4.5), TARGET_BANDS);
+  assert.deepEqual(targetChoices(7.5), [8, 8.5, 9]);
+  assert.deepEqual(targetChoices(9), [9]);
+  assert.equal(defaultTarget(4), 5);
+  assert.equal(defaultTarget(5.5), 6.5);
+  assert.equal(defaultTarget(8.5), 9);
+});
+
+test('band cao tốn nhiều giờ hơn hẳn, và lên được tới 9.0', () => {
+  assert.equal(hoursNeeded(5, 9), 20 + 20 + 30 + 40 + 50 + 75 + 100 + 125);
+  assert.ok(hoursNeeded(8, 9) > hoursNeeded(5, 6.5));
+  assert.equal(reachableBand(5, 10_000), 9);
+  const p = buildPlan(
+    { current: B(5, 5, 5, 5), target: 9, examDate: '2027-11-26', minutesPerDay: 90, daysPerWeek: 7 },
+    TODAY,
+  );
+  assert.equal(p.target, 9);
+  assert.equal(p.weekly[p.weekly.length - 1], 9);
+  assert.equal(p.feasibility, 'ok');
+  // mục tiêu vượt 9 bị chặn
+  const q = buildPlan(
+    { current: B(8, 8, 8, 8), target: 10, examDate: '2027-06-01', minutesPerDay: 60, daysPerWeek: 6 },
+    TODAY,
+  );
+  assert.equal(q.target, 9);
+});
+
+test('giáo án đổi theo band đang hướng tới', () => {
+  assert.equal(tierOf(6.5), 'core');
+  assert.equal(tierOf(7.5), 'adv');
+  assert.equal(tierOf(9), 'expert');
+  assert.equal(modelBand(5, 9), 6);
+  assert.equal(modelBand(8, 8.5), 8.5);
+  const low = buildPlan(
+    { current: B(5, 5, 5, 5), target: 6, examDate: '2027-03-20', minutesPerDay: 45, daysPerWeek: 6 },
+    TODAY,
+  );
+  const high = buildPlan(
+    { current: B(7.5, 7.5, 7.5, 7.5), target: 9, examDate: '2027-11-26', minutesPerDay: 60, daysPerWeek: 7 },
+    TODAY,
+  );
+  assert.notEqual(low.phases[0].focus, high.phases[0].focus);
+  const opts = { todayKey: TODAY, minutes: 45, newErrors: 0, dueRecalls: 0 };
+  const lowMini = dailyLesson(low, { ...opts, current: B(5, 5, 5, 5) }).find((x) => x.kind === 'grammar');
+  const highMini = dailyLesson(high, { ...opts, current: B(7.5, 7.5, 7.5, 7.5) }).find((x) => x.kind === 'grammar');
+  assert.ok(lowMini && highMini);
+  assert.notEqual(lowMini.title, highMini.title);
+  assert.ok(drillByTitle(highMini.title), `thiếu bài luyện: ${highMini.title}`);
+  // mọi bài mini ở mọi mức đều có nội dung
+  for (const cur of [5, 6, 7, 7.5, 8, 8.5]) {
+    const p = buildPlan(
+      { current: B(cur, cur, cur, cur), target: 9, examDate: '2027-11-26', minutesPerDay: 60, daysPerWeek: 7 },
+      TODAY,
+    );
+    for (let d = 0; d < 7 * p.weeks; d += 3) {
+      const day = new Date(2026, 10, 27 + d);
+      const key = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
+      for (const k of ['FC', 'LR', 'GRA', 'P'] as const) {
+        const cb = { ...B(cur, cur, cur, cur), [k]: cur - 0.5 };
+        for (const it of dailyLesson(p, { ...opts, todayKey: key, current: cb }))
+          if (it.kind === 'grammar') assert.ok(drillByTitle(it.title), `thiếu bài luyện: ${it.title}`);
+      }
+    }
+  }
+  for (const b of [5, 6, 7, 8, 8.5, 9]) assert.ok(shadowDrill(b).lines.length >= 3);
 });

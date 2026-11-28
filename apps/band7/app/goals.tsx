@@ -4,13 +4,21 @@ import { router } from 'expo-router';
 import { addDays, dateKey } from '@nam/core';
 import { AppBar, Button, Card, Chip, Chips, Icon, Row, Screen, StepBar, T, useTheme } from '@nam/ui';
 import { saveProfile, serverEnabled } from '../src/api';
-import { buildPlan, CRITERION_VI, daysBetween, overallOf, weakest } from '../src/plan';
+import {
+  bandLabel,
+  buildPlan,
+  CRITERION_VI,
+  daysBetween,
+  defaultTarget,
+  overallOf,
+  targetChoices,
+  weakest,
+} from '../src/plan';
 import { useBand7 } from '../src/store';
 
-const TARGETS = [6, 6.5, 7, 7.5, 8];
-const MINUTES = [15, 30, 45, 60, 90];
+const MINUTES = [15, 30, 45, 60, 90, 120];
 const DAYS = [3, 4, 5, 6, 7];
-const WEEKS = [4, 8, 12, 16, 24, 36];
+const WEEKS = [4, 8, 12, 16, 24, 36, 52];
 const PURPOSES = [
   { key: 'study', label: 'Du học' },
   { key: 'migrate', label: 'Định cư' },
@@ -26,7 +34,11 @@ export default function Goals() {
   const setGoal = useBand7((s) => s.setGoal);
   const auth = useBand7((s) => s.auth);
   const today = dateKey(new Date());
-  const [target, setTarget] = useState(prev?.target ?? 7);
+  const start = overallOf(bands);
+  const choices = targetChoices(start);
+  const [target, setTarget] = useState(() =>
+    prev && choices.includes(prev.target) ? prev.target : defaultTarget(start),
+  );
   const [weeks, setWeeks] = useState(prev ? Math.max(1, Math.round(daysBetween(today, prev.examDate) / 7)) : 16);
   const [minutes, setMinutes] = useState(prev?.minutesPerDay ?? 45);
   const [days, setDays] = useState(prev?.daysPerWeek ?? 6);
@@ -64,7 +76,7 @@ export default function Goals() {
             <T v="micro" muted>
               Hiện tại
             </T>
-            <T v="title">{overallOf(bands).toFixed(1)}</T>
+            <T v="title">{start.toFixed(1)}</T>
           </View>
           <T v="caption" muted style={{ flex: 1, textAlign: 'right' }}>
             FC {bands.FC} · LR {bands.LR} · GRA {bands.GRA} · P {bands.P}
@@ -73,11 +85,14 @@ export default function Goals() {
       </Card>
 
       <T v="headline">Band mục tiêu</T>
-      <Chips>
-        {TARGETS.map((t) => (
+      <Chips scroll>
+        {choices.map((t) => (
           <Chip key={t} label={t.toFixed(1)} selected={target === t} onPress={() => setTarget(t)} />
         ))}
       </Chips>
+      <T v="caption" muted>
+        Band {target.toFixed(1)}: {bandLabel(target)}
+      </T>
 
       <T v="headline">Thi sau bao lâu</T>
       <Chips scroll>

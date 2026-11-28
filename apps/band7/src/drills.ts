@@ -25,7 +25,7 @@ Dùng cụm từ người bản xứ hay đi cùng nhau, không dịch từng ch
 - I try to make time for exercise, but it's not always easy.
 - In the evening I like to unwind by watching a film.
 ## Thay "very good" bằng tính từ mạnh
-Band 7 cần từ chính xác hơn: very good → excellent, very tired → exhausted, very big → enormous.
+Lên band cao cần từ chính xác hơn: very good → excellent, very tired → exhausted, very big → enormous.
 - The food there was absolutely delicious.
 - After the trip I was completely exhausted.
 - It was a genuinely rewarding experience.
@@ -129,6 +129,121 @@ Band 6.5+ không trả lời cụt. Nói 2–3 câu.
 - Yes, I really enjoy it, mainly because it helps me relax after work.
 - For example, last weekend I spent the whole afternoon reading in a café.
 - No, not really. I find it a bit boring, to be honest.
+## Đọc to đoạn mẫu band 6
+Đọc rõ từng từ, bật âm cuối, ngắt hơi sau dấu phẩy.
+- I live in a small apartment near the city centre, so it's quite convenient.
+- I usually go to work by motorbike because the buses are often crowded.
+- In my free time I like watching films and meeting my friends.
+## Đọc to đoạn mẫu band 8
+Giữ nhịp đều, nhấn từ mang nghĩa, các từ chức năng đọc nhẹ.
+- What really struck me was how quickly the neighbourhood had transformed.
+- I'd argue that the benefits far outweigh the drawbacks, at least in the long run.
+- It's not so much the money that matters as the sense of achievement.
+## Đọc to đoạn mẫu band 9
+Nói như kể chuyện với bạn: ngữ điệu lên xuống tự nhiên, ngắt theo cụm ý.
+- Had I known how demanding the course would be, I might have thought twice.
+- It's a double-edged sword: it brings people together, yet it can be terribly isolating.
+- Admittedly, there's no easy answer, but on balance I'd lean towards stricter rules.
+## Thì hoàn thành tiếp diễn và câu giả định
+Việc kéo dài tới giờ: have been + V-ing. Giả định sau suggest, it's time: dùng động từ nguyên mẫu hoặc quá khứ.
+- I've been learning the guitar for about three years now.
+- It's high time the government invested more in public transport.
+- My teacher suggested that I spend more time reading in English.
+## Câu chẻ để nhấn mạnh
+It is/was … that …, What … is …: đưa ý quan trọng lên đầu.
+- It was my grandmother who taught me to love cooking.
+- What I enjoy most about my job is the people I work with.
+- The thing that surprised me was how friendly everyone was.
+## Paraphrase câu hỏi của giám khảo
+Đừng lặp nguyên câu hỏi. Nói lại bằng từ khác rồi trả lời.
+- Do you like reading? → Yes, I'm quite a keen reader, actually.
+- Is your hometown good for children? → I'd say it's a fairly child-friendly place.
+- Do you often take the bus? → I rely on public transport most days, to be honest.
+## Collocation ít gặp nhưng tự nhiên
+Band 7.5+ cần cụm từ chính xác, không chỉ từ khó.
+- The project was a steep learning curve for me.
+- Social media has a profound impact on how teenagers see themselves.
+- It's a widely held belief, but I'm not entirely convinced.
+## Âm yếu và dạng rút gọn
+to, for, and, of, can thường đọc nhẹ thành /tə/ /fə/ /ən/ /əv/ /kən/.
+- I want to go for a walk.
+- A cup of tea and a piece of cake.
+- I can swim, but I can't dive.
+## Trả lời có chiều sâu: ý + lý do + hệ quả
+Không dừng ở ví dụ: nói thêm điều đó dẫn tới đâu.
+- I prefer working from home, mainly because I save two hours a day on commuting.
+- As a result, I actually have time to cook properly and exercise.
+- So in a way, it's made me healthier as well as more productive.
+## Mệnh đề rút gọn và cụm phân từ
+Gộp hai câu thành một bằng V-ing hoặc V3 ở đầu câu.
+- Having grown up by the sea, I've always loved swimming.
+- Built in the 1920s, the market is the oldest building in town.
+- Not knowing anyone there, I felt a bit lost at first.
+## Cụm động từ tự nhiên khi kể chuyện
+Người bản xứ kể chuyện bằng phrasal verb hơn là từ trang trọng.
+- We set off early to avoid the traffic.
+- The trip didn't turn out the way we'd planned.
+- In the end, we ended up staying an extra night.
+## Nhịp câu: nhấn từ mang nghĩa
+Tiếng Anh nhấn danh từ, động từ, tính từ; lướt nhanh các từ còn lại.
+- I SPENT the WHOLE WEEKEND REVISING for my EXAMS.
+- It's the BEST DECISION I've EVER MADE.
+- I'd LOVE to TRAVEL MORE, but I CAN'T AFFORD it.
+## Part 2 có điểm nhấn và kết luận
+Có một chi tiết bất ngờ ở giữa và một câu chốt cảm nhận ở cuối.
+- The funny thing is, I almost didn't go at all.
+- That was the moment I realised how much it meant to me.
+- So all in all, it's an experience I'll never forget.
+## Nói giảm nói tránh (hedging)
+Band cao không khẳng định tuyệt đối: tend to, it seems, to a certain extent.
+- Younger people tend to be more open to new technology.
+- It seems to me that cities are becoming less friendly.
+- To a certain extent, I'd agree with that.
+## Từ chỉ sắc thái: arguably, to some extent
+Thêm mức độ và thái độ cho ý kiến.
+- Arguably, the internet is the most important invention of our time.
+- I'm somewhat sceptical about that idea.
+- It's by no means perfect, but it's a step in the right direction.
+## Ngữ điệu thể hiện thái độ
+Lên xuống giọng cho thấy bạn ngạc nhiên, đồng ý một phần hay không chắc.
+- Really? I had no idea. (ngạc nhiên, lên giọng)
+- Well, yes and no. (đồng ý một phần, kéo dài "well")
+- I suppose so… (không chắc, xuống giọng nhẹ)
+## Lập luận hai chiều rồi chốt quan điểm
+Một mặt, mặt khác, rồi quan điểm của bạn và lý do.
+- On the one hand, working abroad broadens your horizons.
+- On the other hand, being far from family can be really tough.
+- Personally, I think it's worth it, at least for a few years.
+## Dọn lỗi nhỏ còn sót ở band cao
+Lỗi nhỏ lặp lại kéo band xuống: mạo từ, số nhiều, giới từ. Đọc chậm, chú ý từng từ.
+- I'm interested in the history of the city.
+- There's been a significant increase in the number of tourists.
+- It depends on the situation, really.
+## Từ ít phổ biến dùng đúng ngữ cảnh
+Dùng 1–2 từ chính xác thay cho từ chung chung, đừng nhồi.
+- The view from the top was breathtaking.
+- It's a fairly mundane job, but it pays the bills.
+- The city has a vibrant nightlife.
+## Nói dài không mất mạch ý
+Báo trước số ý, đi lần lượt, quay lại câu hỏi ở cuối.
+- There are a couple of reasons for that. First of all…
+- Another thing worth mentioning is…
+- So, coming back to your question, I'd say…
+## Đảo ngữ trong văn nói
+Dùng ít, đúng chỗ để nhấn mạnh: Not only…, Never have I…, Had I…
+- Not only is it cheaper, but it's also much faster.
+- Never have I seen so many people in one place.
+- Had I started earlier, I'd be fluent by now.
+## Thành ngữ và cách nói hình ảnh đúng chỗ
+Chọn cách nói hợp ngữ cảnh, giọng tự nhiên, không học thuộc cả câu.
+- Moving abroad was a real eye-opener for me.
+- I'm on the fence about that, to be honest.
+- It's easier said than done.
+## Nhượng bộ rồi phản biện tự nhiên
+Công nhận ý kia trước, rồi mới đưa lý do của mình.
+- Admittedly, it's expensive. That said, you get what you pay for.
+- I take your point, but I'd still argue that…
+- While that's true to some extent, it overlooks the bigger picture.
 `;
 
 export type Drill = { title: string; explain: string; lines: string[] };
@@ -153,8 +268,10 @@ const WARMUPS = ['Âm cuối /t/ /d/ /s/', 'Âm /θ/ và /ð/', 'Trọng âm t�
 export function warmupFor(dayIndex: number): Drill {
   return all().get(WARMUPS[dayIndex % WARMUPS.length])!;
 }
-export function shadowDrill(): Drill {
-  return all().get('Đọc to đoạn mẫu band 7')!;
+/** Đoạn mẫu để nói nhại, theo band của câu mẫu (xem modelBand trong plan.ts). */
+export function shadowDrill(band = 7): Drill {
+  const level = band >= 8.75 ? 9 : band >= 7.75 ? 8 : band >= 6.75 ? 7 : 6;
+  return all().get(`Đọc to đoạn mẫu band ${level}`)!;
 }
 export function drillTitles(): string[] {
   return [...all().keys()];
