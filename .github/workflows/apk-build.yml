@@ -25,14 +25,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: [vi-gon, hen-dep, nhip, meo-nha, band7]
+        app: [vi-gon, hen-dep, nhip, meo-nha, len-band]
     env:
       A: node .github/scripts/annotate.mjs
       EXPO_PUBLIC_APP_VARIANT: preview
-      # Band7: máy chủ Supabase. URL và khoá publishable là thông tin công khai (nằm trong app),
-      # biến repo BAND7_SUPABASE_* (nếu có) sẽ ghi đè.
-      EXPO_PUBLIC_SUPABASE_URL: ${{ vars.BAND7_SUPABASE_URL || 'https://szxyintaunnvxouwxaft.supabase.co' }}
-      EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.BAND7_SUPABASE_ANON_KEY || 'sb_publishable_mKV2eKrWDHtdn2nxodyaQA_W-KjAoA6' }}
+      # Lên Band: máy chủ Supabase. URL và khoá publishable là thông tin công khai (nằm trong app),
+      # biến repo LENBAND_SUPABASE_* (nếu có) sẽ ghi đè.
+      EXPO_PUBLIC_SUPABASE_URL: ${{ vars.LENBAND_SUPABASE_URL || 'https://szxyintaunnvxouwxaft.supabase.co' }}
+      EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.LENBAND_SUPABASE_ANON_KEY || 'sb_publishable_mKV2eKrWDHtdn2nxodyaQA_W-KjAoA6' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
