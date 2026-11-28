@@ -23,6 +23,7 @@ import {
 import { getLimit, quotaLeft, track } from '@nam/core';
 import { useMeo } from '../src/store';
 import { ask, AskAnswer, POPULAR_QUESTIONS } from '../src/lib/ask';
+import { askTeam, hasCloud } from '../src/lib/cloud';
 
 type Turn = { q: string; a?: AskAnswer; loading?: boolean; error?: boolean };
 
@@ -137,6 +138,7 @@ export default function Ask() {
               {t.a ? (
                 <AnswerCard
                   a={t.a}
+                  q={t.q}
                   onFeedback={(ok) => {
                     track('ask_feedback', { helpful: ok });
                     toast('Cảm ơn góp ý!');
@@ -192,8 +194,16 @@ export default function Ask() {
   );
 }
 
-function AnswerCard({ a, onFeedback }: { a: AskAnswer; onFeedback: (ok: boolean) => void }) {
+function AnswerCard({ a, q, onFeedback }: { a: AskAnswer; q: string; onFeedback: (ok: boolean) => void }) {
   const { c } = useTheme();
+  const toast = useToast();
+  const [sent, setSent] = useState(false);
+  const sendToTeam = async () => {
+    setSent(true);
+    await askTeam(q).catch(() => {});
+    track('question_sent', { app: 'meonha' });
+    toast('Đã gửi. Khi có câu trả lời, mẹo mới sẽ hiện trong app', { tone: 'success' });
+  };
   if (a.kind === 'danger') {
     return (
       <Card variant="danger">
@@ -224,8 +234,15 @@ function AnswerCard({ a, onFeedback }: { a: AskAnswer; onFeedback: (ok: boolean)
             ? 'Mẹo Nhà chưa có mẹo đã kiểm chứng về việc này nên không đoán.'
             : 'Câu này ngoài phạm vi mẹo nhà cửa. Hãy hỏi người có chuyên môn.'}
         </T>
+        {a.kind === 'no_tip' && hasCloud() ? (
+          sent ? (
+            <Button title="Xem câu hỏi đã gửi" icon="inbox" size="sm" variant="secondary" onPress={() => router.push('/questions')} />
+          ) : (
+            <Button title="Gửi câu hỏi này cho Mẹo Nhà" icon="send" size="sm" onPress={sendToTeam} />
+          )
+        ) : null}
         {a.kind === 'no_tip' ? (
-          <Button title="Gửi cho đội Mẹo Nhà" icon="flag" size="sm" onPress={() => router.push('/submit')} />
+          <Button title="Tự viết mẹo của bạn" icon="edit-3" size="sm" variant="text" onPress={() => router.push('/submit')} />
         ) : null}
       </Card>
     );

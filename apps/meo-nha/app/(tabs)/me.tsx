@@ -5,6 +5,7 @@ import { Avatar, Card, Grid, ListItem, PricePlaceholder, Row, Screen, T, Thumb }
 import { getPrice } from '@nam/core';
 import { CATEGORIES } from '../../src/data/tips';
 import { useMeo } from '../../src/store';
+import { hasCloud } from '../../src/lib/cloud';
 
 /** Tab Tôi: hồ sơ, mối quan tâm, mẹo đã gửi, lối vào Cài đặt. */
 export default function Me() {
@@ -67,6 +68,14 @@ export default function Me() {
           chevron
           onPress={() => router.push('/ask')}
         />
+        {hasCloud() ? (
+          <ListItem
+            left={<Thumb icon="inbox" />}
+            title="Câu hỏi đã gửi"
+            chevron
+            onPress={() => router.push('/questions')}
+          />
+        ) : null}
         <ListItem
           left={<Thumb icon="edit-2" />}
           title="Gửi mẹo của bạn"
