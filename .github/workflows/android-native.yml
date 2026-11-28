@@ -26,14 +26,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: [vi-gon, hen-dep, nhip, meo-nha, emma-ielts]
+        app: [vi-gon, hen-dep, nhip, meo-nha, xuan-english]
     env:
       A: node .github/scripts/annotate.mjs
       EXPO_PUBLIC_APP_VARIANT: preview
-      # Emma IELTS: máy chủ Supabase. URL và khoá publishable là thông tin công khai (nằm trong app),
-      # biến repo EMMA_SUPABASE_* (nếu có) sẽ ghi đè.
-      EXPO_PUBLIC_SUPABASE_URL: ${{ vars.EMMA_SUPABASE_URL || 'https://szxyintaunnvxouwxaft.supabase.co' }}
-      EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.EMMA_SUPABASE_ANON_KEY || 'sb_publishable_mKV2eKrWDHtdn2nxodyaQA_W-KjAoA6' }}
+      # Xuan English: máy chủ Supabase. URL và khoá publishable là thông tin công khai (nằm trong app),
+      # biến repo XUAN_SUPABASE_* (nếu có) sẽ ghi đè.
+      EXPO_PUBLIC_SUPABASE_URL: ${{ vars.XUAN_SUPABASE_URL || 'https://szxyintaunnvxouwxaft.supabase.co' }}
+      EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.XUAN_SUPABASE_ANON_KEY || 'sb_publishable_mKV2eKrWDHtdn2nxodyaQA_W-KjAoA6' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
