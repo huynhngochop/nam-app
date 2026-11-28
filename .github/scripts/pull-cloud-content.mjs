@@ -38,7 +38,7 @@ for (const [app, dir] of Object.entries(APPS)) {
     writeFileSync(file, JSON.stringify({ version: m.full.version, items }) + '\n');
     changed++;
     console.log(
-      `${app}: v${cur.version ?? 0} → v${m.full.version} (${items.length} mục, ${Buffer.byteLength(JSON.stringify(items)) >> 10} KB)`,
+      `${app}: v${cur.version ?? 0} → v${m.full.version} (${items.length} mục, ${new TextEncoder().encode(JSON.stringify(items)).length >> 10} KB)`,
     );
   } catch (e) {
     console.log(`${app}: giữ bản cũ (${e.message})`);
