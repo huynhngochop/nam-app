@@ -1,0 +1,114 @@
+# Máy chủ Emma IELTS (Supabase): kiểm tra migration + vòng sửa lỗi + RLS trên Postgres thật, test phần so khớp câu.
+# Sau đó thử project Supabase đang chạy (URL/khoá publishable công khai; biến repo EMMA_SUPABASE_* ghi đè)
+# (đăng nhập ẩn danh, đọc kho mã lỗi, mở buổi nói qua Edge Function /talk — bước này không tốn lượt AI).
+name: Emma IELTS server
+
+on:
+  pull_request:
+    paths:
+      - 'apps/emma-ielts/server/**'
+      - '.github/workflows/emma-ielts-server.yml'
+      - '.github/scripts/emma-ielts-live-ai.sh'
+  push:
+    branches: [main]
+    paths:
+      - 'apps/emma-ielts/server/**'
+  workflow_dispatch:
+
+concurrency:
+  group: emma-ielts-server-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  db:
+    name: Migration · vòng sửa lỗi · RLS
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+    steps:
+      - uses: actions/checkout@v4
+      - name: Chạy migration + test SQL
+        run: bash apps/emma-ielts/server/test/run.sh
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Test so khớp câu + parser giám khảo
+        working-directory: apps/emma-ielts/server
+        run: node --experimental-strip-types --no-warnings --test test/shared.test.ts
+
+  live:
+    name: Thử project Supabase đang chạy
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: db
+    env:
+      URL: ${{ vars.EMMA_SUPABASE_URL || 'https://szxyintaunnvxouwxaft.supabase.co' }}
+      ANON: ${{ vars.EMMA_SUPABASE_ANON_KEY || 'sb_publishable_mKV2eKrWDHtdn2nxodyaQA_W-KjAoA6' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Đăng nhập ẩn danh
+        id: auth
+        run: |
+          res=$(curl -sS -X POST "$URL/auth/v1/signup" -H "apikey: $ANON" -H 'Content-Type: application/json' -d '{"data":{}}')
+          token=$(echo "$res" | jq -r '.access_token // empty')
+          if [ -z "$token" ]; then
+            echo "::error title=Emma IELTS auth::Không đăng nhập ẩn danh được. Bật Authentication › Sign In / Providers › Allow anonymous sign-ins. Trả về: $(echo "$res" | head -c 300)"
+            exit 1
+          fi
+          echo "::add-mask::$token"
+          echo "token=$token" >> "$GITHUB_OUTPUT"
+      - name: Đọc kho mã lỗi (migration đã chạy?)
+        env:
+          TOKEN: ${{ steps.auth.outputs.token }}
+        run: |
+          n=$(curl -sS "$URL/rest/v1/error_codes?select=code" -H "apikey: $ANON" -H "Authorization: Bearer $TOKEN" | jq 'length')
+          if [ "${n:-0}" -lt 20 ]; then
+            echo "::error title=Emma IELTS DB::Chỉ thấy ${n:-0} mã lỗi. Migration chưa chạy lên project (kiểm tra Supabase GitHub integration, Working directory = apps/emma-ielts/server)."
+            exit 1
+          fi
+          echo "::notice title=Emma IELTS DB::Có $n mã lỗi người Việt"
+      - name: Mở buổi nói qua /talk
+        env:
+          TOKEN: ${{ steps.auth.outputs.token }}
+        run: |
+          res=$(curl -sS -X POST "$URL/functions/v1/talk" -H "apikey: $ANON" -H "Authorization: Bearer $TOKEN" \
+            -F kind=part1 -F mode=practice -F 'first=Where is your hometown?' -F topic_title=Hometown)
+          sid=$(echo "$res" | jq -r '.session_id // empty')
+          if [ -z "$sid" ]; then
+            echo "::error title=Emma IELTS /talk::Edge Function chưa chạy được. Trả về: $(echo "$res" | head -c 300)"
+            exit 1
+          fi
+          echo "::notice title=Emma IELTS /talk::Mở buổi nói được ($(echo "$res" | jq -r .reply))"
+          echo "sid=$sid" >> "$GITHUB_OUTPUT"
+        id: talk
+      - name: /grade và /repair đã deploy
+        env:
+          TOKEN: ${{ steps.auth.outputs.token }}
+          SID: ${{ steps.talk.outputs.sid }}
+        run: |
+          g=$(curl -sS -X POST "$URL/functions/v1/grade" -H "apikey: $ANON" -H "Authorization: Bearer $TOKEN" \
+            -H 'Content-Type: application/json' -d "{\"session_id\":\"$SID\"}")
+          echo "grade: $g"
+          echo "$g" | jq -e '.error == "too_short"' > /dev/null || { echo "::error title=Emma IELTS /grade::$g"; exit 1; }
+          r=$(curl -sS -X POST "$URL/functions/v1/repair" -H "apikey: $ANON" -H "Authorization: Bearer $TOKEN" -F error_id=x)
+          echo "repair: $r"
+          echo "$r" | jq -e '.error == "error_id and audio required"' > /dev/null || { echo "::error title=Emma IELTS /repair::$r"; exit 1; }
+          echo "::notice title=Emma IELTS::3 Edge Function talk, repair, grade đều chạy"
+      - name: Cài giọng máy để thử nói
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq espeak-ng ffmpeg > /dev/null
+      - name: Nói thử 1 buổi với giám khảo AI (Whisper → giám khảo → chấm → sửa ngay)
+        env:
+          TOKEN: ${{ steps.auth.outputs.token }}
+        run: bash .github/scripts/emma-ielts-live-ai.sh

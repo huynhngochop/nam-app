@@ -1,6 +1,6 @@
 /** Sinh từ design system "Năm App" (tokens.json). Đổi màu ở đây, không viết cứng trong màn hình. */
 export type SchemeName = 'light' | 'dark';
-export type AppId = 'meo' | 'nhip' | 'sansang' | 'hen' | 'vi' | 'lenband';
+export type AppId = 'meo' | 'nhip' | 'sansang' | 'hen' | 'vi' | 'emma';
 
 const base = {
   light: {
@@ -40,8 +40,8 @@ const accents: Record<AppId, Record<SchemeName, { a: string; a2: string; at: str
   },
   hen: { light: { a: '#9b2c55', a2: '#8f6215', at: '#f9e8ee' }, dark: { a: '#ef8fb2', a2: '#d9ab5a', at: '#3a1a26' } },
   vi: { light: { a: '#0b6e5f', a2: '#1f7a4d', at: '#e2f3ef' }, dark: { a: '#4fd1b8', a2: '#5cc48e', at: '#12302b' } },
-  // Lên Band (luyện nói IELTS): xanh chàm + hổ phách.
-  lenband: {
+  // Emma IELTS (luyện nói IELTS): xanh chàm + hổ phách.
+  emma: {
     light: { a: '#3043b8', a2: '#b87300', at: '#eef1fd' },
     dark: { a: '#9aaaf7', a2: '#f5b648', at: '#1c2440' },
   },

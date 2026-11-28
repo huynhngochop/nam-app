@@ -1,0 +1,27 @@
+# Cấu hình Supabase cho Emma IELTS.
+# Supabase GitHub integration: đặt "Working directory" = apps/emma-ielts/server
+# → mỗi lần merge vào main, Supabase tự chạy migration và deploy các function khai báo dưới đây.
+project_id = "emma-ielts"
+
+[db]
+major_version = 17
+
+[auth]
+# Cho "Dùng thử không cần tài khoản". Với project trên cloud, bật thêm trong
+# Dashboard › Authentication › Sign In / Providers › Allow anonymous sign-ins.
+enable_anonymous_sign_ins = true
+
+[auth.email]
+enable_signup = true
+# Gửi mã 6 số thay cho link (app nhập mã)
+otp_length = 6
+
+# Edge Functions: tự kiểm tra JWT ở cổng, code bên trong kiểm tra lại người gọi.
+[functions.talk]
+verify_jwt = true
+
+[functions.repair]
+verify_jwt = true
+
+[functions.grade]
+verify_jwt = true
