@@ -236,13 +236,25 @@ function AnswerCard({ a, q, onFeedback }: { a: AskAnswer; q: string; onFeedback:
         </T>
         {a.kind === 'no_tip' && hasCloud() ? (
           sent ? (
-            <Button title="Xem câu hỏi đã gửi" icon="inbox" size="sm" variant="secondary" onPress={() => router.push('/questions')} />
+            <Button
+              title="Xem câu hỏi đã gửi"
+              icon="inbox"
+              size="sm"
+              variant="secondary"
+              onPress={() => router.push('/questions')}
+            />
           ) : (
             <Button title="Gửi câu hỏi này cho Mẹo Nhà" icon="send" size="sm" onPress={sendToTeam} />
           )
         ) : null}
         {a.kind === 'no_tip' ? (
-          <Button title="Tự viết mẹo của bạn" icon="edit-3" size="sm" variant="text" onPress={() => router.push('/submit')} />
+          <Button
+            title="Tự viết mẹo của bạn"
+            icon="edit-3"
+            size="sm"
+            variant="text"
+            onPress={() => router.push('/submit')}
+          />
         ) : null}
       </Card>
     );

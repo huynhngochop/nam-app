@@ -1,13 +1,15 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { bigKvStorage, createOutbox, uid } from '@nam/core';
+import { bigKvStorage, createOutbox, getConfig, hasCloud, uid } from '@nam/core';
 import type { ThemePref } from '@nam/ui';
 import { nextBookingCode } from './codes';
 import { DEFAULT_SHOP, SEED_CUSTOMERS, SEED_SERVICES, SEED_STAFF, seedBookings } from './seed';
 import { Booking, BookingStatus, Campaign, Customer, Hours, Plan, Service, Shop, Staff } from './types';
+import type { CloudLink } from './cloudSync';
 
 /** Hàng chờ thay đổi gửi máy chủ (HD-C15). Mọi thao tác ghi đều ghi vào đây; dữ liệu đã nằm trên máy nên dùng được khi ngoại tuyến. */
-export const useOutbox = createOutbox('hen-dep');
+// Xếp hàng khi có máy chủ nam-cloud (đồng bộ nhiều máy) hoặc máy chủ riêng; tiệm chưa bật đồng bộ thì pushPending bỏ hàng chờ.
+export const useOutbox = createOutbox('hen-dep', () => hasCloud() || !!getConfig().apiBaseUrl);
 
 type State = {
   hydrated: boolean;
@@ -24,6 +26,8 @@ type State = {
   aiUsed: { month: string; count: number };
   /** Số mã lịch hẹn lớn nhất đã cấp (HD-n). Không đặt lại khi xóa dữ liệu, để không cấp trùng mã. */
   lastBookingCode: number;
+  /** Đã bật đồng bộ nhiều máy (nam-cloud): nhóm tiệm, vai trò, link đặt lịch, con trỏ đồng bộ. */
+  cloud: CloudLink | null;
   set: (p: Partial<State>) => void;
   setShop: (p: Partial<Shop>) => void;
   upsertService: (s: Omit<Service, 'id' | 'order'> & { id?: string }) => void;
@@ -59,6 +63,7 @@ export const useHen = create<State>()(
       plan: { code: 'trial', trialEndsAt: Date.now() + 30 * 86400000 },
       aiUsed: { month: '', count: 0 },
       lastBookingCode: 3000,
+      cloud: null,
       set: (p) => set(p),
       setShop: (p) => {
         set((s) => ({ shop: { ...s.shop, ...p, settings: { ...s.shop.settings, ...(p.settings ?? {}) } } }));

@@ -27,9 +27,9 @@ export function cloudItemToTip(it: CloudItem, order = 0): Tip | null {
   if (!it.id || !it.title || steps.length < 2 || !summary) return null;
 
   const byTopic = TOPIC[it.topic];
-  const cat = (typeof b.category === 'string' && CAT_IDS.has(b.category as CategoryId)
-    ? b.category
-    : (byTopic?.[0] ?? 'home')) as CategoryId;
+  const cat = (
+    typeof b.category === 'string' && CAT_IDS.has(b.category as CategoryId) ? b.category : (byTopic?.[0] ?? 'home')
+  ) as CategoryId;
   const subs = CATEGORIES.find((c) => c.id === cat)!.subs;
   const sub = byTopic && byTopic[0] === cat ? byTopic[1] : subs[0];
 

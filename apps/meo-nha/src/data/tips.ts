@@ -15,7 +15,15 @@ import safety from './tipdata/safety';
 import pets from './tipdata/pets';
 
 export type CategoryId =
-  'kitchen' | 'home' | 'laundry' | 'plants' | 'saving' | 'repair' | 'devices' | 'safety' | 'pets';
+  | 'kitchen'
+  | 'home'
+  | 'laundry'
+  | 'plants'
+  | 'saving'
+  | 'repair'
+  | 'devices'
+  | 'safety'
+  | 'pets';
 export type Tip = {
   id: string;
   title: string;
@@ -190,7 +198,8 @@ export function addCloudTips(list: Tip[]) {
   for (const t of list) {
     const old = byId.get(t.id);
     const at = old ? TIPS.indexOf(old) : -1;
-    if (at >= 0) TIPS[at] = t; // đối tượng mới → chỉ mục tìm kiếm (WeakMap) tự tính lại
+    if (at >= 0)
+      TIPS[at] = t; // đối tượng mới → chỉ mục tìm kiếm (WeakMap) tự tính lại
     else TIPS.push(t);
     byId.set(t.id, t);
   }

@@ -39,7 +39,11 @@ export default function Questions() {
           Câu hỏi Mẹo Nhà chưa có mẹo được gom lại và biên tập thành mẹo mới. Mẹo mới về máy trong khoảng một ngày.
         </T>
         {list && !list.length ? (
-          <EmptyState icon="inbox" title="Chưa gửi câu hỏi nào" body="Khi Mẹo Nhà chưa có mẹo cho câu bạn hỏi, bấm “Gửi câu hỏi này”." />
+          <EmptyState
+            icon="inbox"
+            title="Chưa gửi câu hỏi nào"
+            body="Khi Mẹo Nhà chưa có mẹo cho câu bạn hỏi, bấm “Gửi câu hỏi này”."
+          />
         ) : null}
         {list?.length ? (
           <Card style={{ paddingVertical: 4 }}>

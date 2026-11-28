@@ -34,6 +34,10 @@ jobs:
       # biến repo XUAN_SUPABASE_* (nếu có) sẽ ghi đè.
       EXPO_PUBLIC_SUPABASE_URL: ${{ vars.XUAN_SUPABASE_URL || 'https://szxyintaunnvxouwxaft.supabase.co' }}
       EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.XUAN_SUPABASE_ANON_KEY || 'sb_publishable_mKV2eKrWDHtdn2nxodyaQA_W-KjAoA6' }}
+      # nam-cloud (máy chủ chung): đồng bộ nhiều máy, gửi câu hỏi, nội dung AI, cổng AI. Thông tin công khai.
+      EXPO_PUBLIC_NAM_CLOUD_URL: ${{ vars.NAM_CLOUD_URL || 'https://zmyniorgbzpconhyxhtu.supabase.co' }}
+      EXPO_PUBLIC_NAM_CLOUD_KEY: ${{ vars.NAM_CLOUD_KEY || 'sb_publishable_yfmsVT243YOV_VMKpgAtAQ_u0ZBIPxm' }}
+      EXPO_PUBLIC_AI_GATEWAY_URL: ${{ vars.AI_GATEWAY_URL || 'https://zmyniorgbzpconhyxhtu.supabase.co/functions/v1/ai-gateway' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -47,6 +51,8 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - run: npm ci --no-audit --no-fund
 
+      - name: Nội dung mới từ nam-cloud (đóng sẵn vào bản cài)
+        run: node scripts/pull-cloud-content.mjs || echo "::warning title=cloud content::không tải được, dùng bản đã có"
       - name: Prebuild
         run: $A "prebuild ${{ matrix.app }}" "cd apps/${{ matrix.app }} && npx expo prebuild -p android --no-install --clean 2>&1 | tail -20"
 

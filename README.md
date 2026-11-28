@@ -61,7 +61,19 @@ Hiệu năng:
 | Biến | Dùng cho |
 |---|---|
 | `EXPO_PUBLIC_AI_GATEWAY_URL` | Cổng AI phía máy chủ (app không chứa khóa API). Bỏ trống thì mọi tính năng tự dùng phương án không AI. |
-| `EXPO_PUBLIC_API_BASE_URL` | Máy chủ Hẹn Đẹp (OTP, đồng bộ, gửi Zalo). Bỏ trống thì dùng mã OTP thử `123456` và dữ liệu chỉ nằm trên máy. |
+| `EXPO_PUBLIC_API_BASE_URL` | Máy chủ Hẹn Đẹp (OTP, gửi Zalo, cọc). Bỏ trống thì dùng mã OTP thử `123456`. |
+| `EXPO_PUBLIC_NAM_CLOUD_URL`, `EXPO_PUBLIC_NAM_CLOUD_KEY` | Máy chủ chung [nam-cloud](https://github.com/huynhngochop/nam-cloud) (Supabase): đồng bộ nhiều máy Hẹn Đẹp, trang đặt lịch online, gửi câu hỏi + nội dung AI của Mẹo Nhà / Thành Tâm. Khóa là publishable key (công khai). CI và `eas.json` đã điền sẵn. |
+
+## Máy chủ chung nam-cloud
+
+| App | Tính năng | Cách chạy |
+|---|---|---|
+| Mẹo Nhà, Ví Gọn, Hẹn Đẹp | AI (hỏi đáp, ưu đãi, bảng giá, hiểu câu hỏi chi tiêu) | `EXPO_PUBLIC_AI_GATEWAY_URL` → Edge Function `ai-gateway` (Gemini). Có hạn mức theo máy và theo ngày; lỗi / hết lượt thì app tự dùng phương án không AI |
+| Mẹo Nhà, Thành Tâm | Gửi câu hỏi app chưa trả lời được | Chỉ gửi khi người dùng bấm; máy chủ gom câu giống nhau, AI trả lời câu được hỏi nhiều (Thành Tâm chờ duyệt tay), xuất bản trong gói nội dung hằng ngày |
+| Mẹo Nhà, Thành Tâm | Nội dung mới | Tải gói nội dung (tối đa 2 lần/ngày) + đóng sẵn khi build: `scripts/pull-cloud-content.mjs` → `src/data/cloud.json`; workflow `cloud-content.yml` mỗi Chủ nhật commit nội dung mới → APK build lại |
+| Hẹn Đẹp | Đồng bộ nhiều máy | Cài đặt → Đồng bộ nhiều máy: chủ tiệm bật, thợ vào bằng mã mời 8 ký tự. Dữ liệu vẫn nằm trên máy, có mạng thì tự đồng bộ |
+| Hẹn Đẹp | Trang đặt lịch online | `web/dat-lich` (GitHub Pages, workflow `pages.yml`): `https://huynhngochop.github.io/nam-app/dat-lich/?s=<tên link>`. Lịch khách đặt hiện trong app kèm thông báo |
+
 
 ## Giá
 

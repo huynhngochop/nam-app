@@ -1,0 +1,31 @@
+# Mỗi tuần: lấy nội dung mới đã duyệt trên nam-cloud (mẹo AI, câu trả lời cho câu hỏi người dùng gửi),
+# đóng vào src/data/cloud.json của Mẹo Nhà / Thành Tâm và commit lên main → "APK cài thử" tự build lại.
+# Người đã cài app vẫn nhận nội dung mới hằng ngày qua gói nội dung, không cần cài lại.
+name: Nội dung mới từ nam-cloud
+
+on:
+  schedule: [{ cron: '23 22 * * 6' }] # 05:23 Chủ nhật giờ VN
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  pull:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - id: pull
+        run: node scripts/pull-cloud-content.mjs
+      - name: Commit
+        if: steps.pull.outputs.changed != '0'
+        run: |
+          git config user.name "nam-cloud bot"
+          git config user.email "huynhngochop@users.noreply.github.com"
+          git add apps/*/src/data/cloud.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Nội dung mới từ nam-cloud (mẹo AI và câu trả lời câu hỏi người dùng)"
+          git push

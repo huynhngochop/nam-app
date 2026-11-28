@@ -2,12 +2,14 @@ import { Linking, Platform } from 'react-native';
 import { getConfig, hhmm, shortDate } from '@nam/core';
 import { Booking, Customer, Service, Shop } from './types';
 import { svcOf } from './store';
+import { bookingPageOn, bookingUrl } from './cloudSync';
 
 /** Có máy chủ Hẹn Đẹp (trang đặt lịch, gửi Zalo tự động, cọc). Chưa có thì app chạy hoàn toàn trên máy. */
 export const hasServer = () => !!getConfig().apiBaseUrl;
 
-/** Cách khách đặt lịch, ghi trong tin nhắn: link web khi có máy chủ, không thì số điện thoại của tiệm. */
+/** Cách khách đặt lịch, ghi trong tin nhắn: link trang đặt lịch khi đã bật, không thì số điện thoại của tiệm. */
 export function bookingContact(shop: Shop) {
+  if (bookingPageOn()) return bookingUrl(shop.slug).replace('https://', '');
   if (hasServer()) return `hendep.app/${shop.slug}`;
   return shop.phone ? `gọi/nhắn ${shop.phone}` : shop.name;
 }

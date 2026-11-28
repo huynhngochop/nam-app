@@ -5,10 +5,16 @@
   },
   "build": {
     "development": {
-      "android": { "buildType": "apk", "gradleCommand": ":app:assembleDebug" },
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleDebug"
+      },
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_APP_VARIANT": "development"
+        "EXPO_PUBLIC_APP_VARIANT": "development",
+        "EXPO_PUBLIC_NAM_CLOUD_URL": "https://zmyniorgbzpconhyxhtu.supabase.co",
+        "EXPO_PUBLIC_NAM_CLOUD_KEY": "sb_publishable_yfmsVT243YOV_VMKpgAtAQ_u0ZBIPxm",
+        "EXPO_PUBLIC_AI_GATEWAY_URL": "https://zmyniorgbzpconhyxhtu.supabase.co/functions/v1/ai-gateway"
       }
     },
     "preview": {
@@ -17,13 +23,19 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_APP_VARIANT": "preview"
+        "EXPO_PUBLIC_APP_VARIANT": "preview",
+        "EXPO_PUBLIC_NAM_CLOUD_URL": "https://zmyniorgbzpconhyxhtu.supabase.co",
+        "EXPO_PUBLIC_NAM_CLOUD_KEY": "sb_publishable_yfmsVT243YOV_VMKpgAtAQ_u0ZBIPxm",
+        "EXPO_PUBLIC_AI_GATEWAY_URL": "https://zmyniorgbzpconhyxhtu.supabase.co/functions/v1/ai-gateway"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
-        "EXPO_PUBLIC_APP_VARIANT": "production"
+        "EXPO_PUBLIC_APP_VARIANT": "production",
+        "EXPO_PUBLIC_NAM_CLOUD_URL": "https://zmyniorgbzpconhyxhtu.supabase.co",
+        "EXPO_PUBLIC_NAM_CLOUD_KEY": "sb_publishable_yfmsVT243YOV_VMKpgAtAQ_u0ZBIPxm",
+        "EXPO_PUBLIC_AI_GATEWAY_URL": "https://zmyniorgbzpconhyxhtu.supabase.co/functions/v1/ai-gateway"
       }
     }
   },
