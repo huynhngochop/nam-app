@@ -19,6 +19,8 @@ module.exports = defineConfig([
       'qa-out/**',
       '**/expo-env.d.ts',
       'tests/typestubs/**',
+      // Hàm máy chủ Supabase (Deno), triển khai riêng, không thuộc app.
+      'server/**',
     ],
   },
   {

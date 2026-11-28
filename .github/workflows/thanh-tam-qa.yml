@@ -182,6 +182,14 @@ jobs:
           distribution: temurin
           java-version: 17
       - run: npm ci --no-audit --no-fund
+      - name: Giọng đọc AI đã tải lần trước
+        uses: actions/cache@v4
+        with:
+          path: .voice-cache
+          key: tt-voice-${{ github.run_id }}-${{ github.job }}
+          restore-keys: tt-voice-
+      - name: Đóng giọng đọc AI vào bản cài
+        run: bash .github/scripts/tt-voice-bundle.sh
       - name: Prebuild
         run: |
           cp qa/seeds/thanh-tam.tsx apps/thanh-tam/app/qa-seed.tsx
@@ -305,6 +313,16 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - name: Số phiên bản theo lượt chạy (để cài đè bản cũ được)
         run: node .github/scripts/tt-version.mjs "${{ github.run_number }}"
+      - name: Giọng đọc AI đã tải lần trước
+        uses: actions/cache@v4
+        with:
+          path: .voice-cache
+          key: tt-voice-${{ github.run_id }}-${{ github.job }}
+          restore-keys: tt-voice-
+      - name: Đóng giọng đọc AI vào bản cài (bài vượt ngân sách đăng Releases để tải)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash .github/scripts/tt-voice-bundle.sh ${{ github.ref_name == 'feat/thanh-tam' && 'publish' || '' }}
       - name: Prebuild (không kèm màn nạp dữ liệu kiểm thử)
         run: |
           rm -f apps/thanh-tam/app/qa-seed.tsx
@@ -321,7 +339,7 @@ jobs:
           $A "gradle arm32" "bash .github/scripts/gradle-retry.sh apps/thanh-tam/android assembleRelease -PreactNativeArchitectures=armeabi-v7a --no-daemon -q"
           cp apps/thanh-tam/android/app/build/outputs/apk/release/app-release.apk ThanhTam-may-cu.apk
       - name: Ngân sách dung lượng (xem apps/thanh-tam/CLAUDE.md)
-        run: node .github/scripts/tt-apk-size.mjs ThanhTam.apk 40 ThanhTam-may-cu.apk 35
+        run: node .github/scripts/tt-apk-size.mjs ThanhTam.apk 45 ThanhTam-may-cu.apk 40
       - name: Quyền máy bản phát hành (khai ở Google Play)
         run: |
           AAPT=$(ls "$ANDROID_HOME"/build-tools/*/aapt2 | tail -1)

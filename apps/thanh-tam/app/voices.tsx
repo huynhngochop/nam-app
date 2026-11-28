@@ -6,6 +6,7 @@ import { goBack } from '../src/nav';
 import { useTT } from '../src/store';
 import {
   VOICE_CREDIT,
+  bundledVoice,
   bytesToDownload,
   downloadVoices,
   formatMB,
@@ -50,6 +51,7 @@ export default function Voices() {
 
   const row = (it: (typeof items)[number]) => {
     const st = voiceState(it.id);
+    const inApp = bundledVoice(it.id);
     const mi = m?.items[it.id];
     const avail = !!mi && mi.hash === it.hash;
     return (
@@ -59,16 +61,18 @@ export default function Voices() {
             {it.title}
           </T>
           <T v="caption" muted>
-            {st === 'san-sang'
-              ? `Đã tải · ${formatMB(voices[it.id]?.bytes ?? 0)}`
-              : avail
-                ? `${formatMB(mi!.bytes)} · khoảng ${Math.max(1, Math.round(mi!.ms / 60000))} phút`
-                : m
-                  ? 'Đang được cập nhật'
-                  : ''}
+            {inApp
+              ? `Có sẵn trong app · khoảng ${Math.max(1, Math.round(inApp.ms / 60000))} phút`
+              : st === 'san-sang'
+                ? `Đã tải · ${formatMB(voices[it.id]?.bytes ?? 0)}`
+                : avail
+                  ? `${formatMB(mi!.bytes)} · khoảng ${Math.max(1, Math.round(mi!.ms / 60000))} phút`
+                  : m
+                    ? 'Đang được cập nhật'
+                    : ''}
           </T>
         </View>
-        {st === 'san-sang' ? (
+        {inApp ? null : st === 'san-sang' ? (
           <Button title="Xóa" variant="text" size="sm" full={false} onPress={() => removeVoice(it.id)} />
         ) : avail ? (
           <Button
@@ -92,7 +96,7 @@ export default function Voices() {
         Giọng đọc văn khấn và kinh để nghe, đọc theo. Không cần máy có giọng tiếng Việt. Tải một lần, nghe không cần
         mạng.
       </T>
-      {err && !m ? (
+      {err && !m && ids.some((x) => !bundledVoice(x)) ? (
         <Card variant="tint">
           <T v="body">{VOICE_UNAVAILABLE}</T>
         </Card>

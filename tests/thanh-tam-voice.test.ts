@@ -131,3 +131,28 @@ test('video trong app: mỗi mục 2–3 bản khác nhau; lỗi thì chuyển b
   assert.equal(nextPlayable.next(3, 2, new Set([0, 1, 2])), -1);
   for (const c of [101, 150, 152, 153, 100]) assert.ok(YT_BLOCKED_CODES.includes(c));
 });
+
+test('giọng AI đóng sẵn: chỉ dùng khi còn khớp mã băm nội dung, không nhầm khóa có sẵn của đối tượng', async () => {
+  const { bundledMatch } = await import('../apps/thanh-tam/src/lib/voiceBundle');
+  const all = { 'khan-gio': { asset: 7, bytes: 10, ms: 1000, hash: 'abc', cues: [[0, 500]] as [number, number][] } };
+  assert.equal(bundledMatch(all, 'khan-gio', 'abc')?.asset, 7);
+  assert.equal(bundledMatch(all, 'khan-gio', 'khac'), null, 'chữ đã đổi mà chưa đóng gói lại');
+  assert.equal(bundledMatch(all, 'khan-gio', undefined), null);
+  assert.equal(bundledMatch(all, 'toString', undefined), null);
+  assert.equal(bundledMatch(all, 'constructor', 'abc'), null);
+});
+
+test('giọng AI đóng sẵn: bản trong git để trống (CI mới đóng gói), mốc câu khớp số câu của bài', async () => {
+  const { BUNDLED_VOICES } = await import('../apps/thanh-tam/src/data/voiceBundle');
+  const byId = new Map(voiceItems().map((it) => [it.id, it]));
+  for (const [id, b] of Object.entries(BUNDLED_VOICES)) {
+    const it = byId.get(id);
+    assert.ok(it, `bài lạ ${id}`);
+    assert.equal(b.cues.length, it!.cues.length, id);
+    b.cues.forEach(([start], i) => {
+      if (i) assert.ok(start >= b.cues[i - 1][0] + b.cues[i - 1][1] - 1, `${id} câu ${i}`);
+    });
+    const [lastStart, lastLen] = b.cues[b.cues.length - 1];
+    assert.ok(lastStart + lastLen <= b.ms, id);
+  }
+});

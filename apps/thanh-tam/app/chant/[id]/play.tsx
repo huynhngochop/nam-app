@@ -18,7 +18,7 @@ import {
   getManifest,
   playVoice,
   voiceState,
-  voiceTimings,
+  voiceSource,
   type VoicePlayback,
   VOICE_UNAVAILABLE,
 } from '../../../src/sampleVoice';
@@ -317,16 +317,15 @@ export default function ChantPlay() {
       }
       const line = lines[p.idx];
       const vid = kinhVoiceId(line.kinh);
-      const v = useTT.getState().voices[vid];
-      const tm = voiceTimings(vid);
-      if (!v || !tm) {
+      const sample = voiceSource(vid);
+      if (!sample) {
         setPlaying(false);
         return;
       }
       const base = stepStart(lines, line.step);
       let end = base;
       while (end < lines.length && lines[end].step === line.step) end++;
-      ctl = playVoice(v.uri, tm, {
+      ctl = playVoice(sample.source, sample.cues, {
         startCue: p.idx - base,
         onCue: (i) => {
           if (cancelled) return;

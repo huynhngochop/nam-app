@@ -24,7 +24,7 @@ import {
   getManifest,
   playVoice,
   voiceState,
-  voiceTimings,
+  voiceSource,
   type VoicePlayback,
   VOICE_UNAVAILABLE,
 } from '../../../src/sampleVoice';
@@ -176,16 +176,15 @@ export default function Pray() {
   // tên đã điền, không thì để khoảng lặng cho người khấn tự đọc.
   const vid = khanVoiceId(prayer.id);
   const startSample = () => {
-    const v = useTT.getState().voices[vid];
-    const tm = voiceTimings(vid);
-    if (!v || !tm) return;
+    const voice = voiceSource(vid);
+    if (!voice) return;
     const cues = khanCues(prayer.id);
     const fieldCues = new Set(cues.map((c, i) => (c.field ? i : -1)).filter((i) => i >= 0));
     stopSpeaking();
     speed.value = 0;
     setSpeedIdx(0);
     stopRef.current = false;
-    sample.current = playVoice(v.uri, tm, {
+    sample.current = playVoice(voice.source, voice.cues, {
       fieldCues,
       onCue: (i) => {
         const pi = cues[i]?.p ?? 0;

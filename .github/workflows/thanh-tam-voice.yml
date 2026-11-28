@@ -1,5 +1,7 @@
-# Tạo giọng đọc mẫu cho văn khấn và kinh của Thành Tâm, đăng lên Releases (thẻ thanh-tam-voice).
-# App tải từng bài khi người dùng cần, nên bản cài không nặng thêm.
+# Giọng đọc mẫu cho văn khấn và kinh của Thành Tâm (Releases, thẻ thanh-tam-voice).
+# 1. Giọng AI (Gemini, máy chủ Supabase voice-tts): đăng ai-jobs.json (danh sách đoạn cần đọc); máy chủ nạp lại mỗi
+#    6 giờ và đọc dần theo lượt miễn phí. Job `apk` của Thành Tâm QA đóng các bài đã đọc xong vào bản cài.
+# 2. Giọng Google Chirp (cũ, cần secret GOOGLE_TTS_KEY): app tải từng bài khi người dùng cần.
 # Giọng: Google Cloud Text-to-Speech, Chirp 3 HD tiếng Việt (khóa API ở secret GOOGLE_TTS_KEY); nhịp đọc như người khấn.
 # Nghe thử trước: Actions → chạy tay với ô "thu" (vd khan-gia-tien-thuong) → đăng ở thẻ thanh-tam-voice-thu, không đụng bản chính.
 # Chạy lại khi chữ văn khấn, kinh hoặc cách tách câu thay đổi; app so mã băm để biết bài nào cần tải lại.
@@ -16,6 +18,7 @@ on:
       - apps/thanh-tam/src/lib/prayer.ts
       - apps/thanh-tam/src/lib/voiceCues.ts
       - apps/thanh-tam/scripts/gen_voice.py
+      - apps/thanh-tam/scripts/voice_ai.py
       - apps/thanh-tam/scripts/voice-text.ts
       - .github/workflows/thanh-tam-voice.yml
   workflow_dispatch:
@@ -40,6 +43,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Danh sách đoạn cho giọng AI (ai-jobs.json)
+        if: inputs.thu == ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm i -g tsx@4.20.5 --no-audit --no-fund
+          tsx apps/thanh-tam/scripts/voice-text.ts > voice-text.json
+          python3 apps/thanh-tam/scripts/voice_ai.py jobs voice-text.json ai-jobs.json
+          gh release view thanh-tam-voice >/dev/null 2>&1 || gh release create thanh-tam-voice --prerelease --title "Thành Tâm · giọng đọc mẫu" --notes "Giọng đọc mẫu cho văn khấn và kinh của Thành Tâm." --target "$GITHUB_SHA"
+          gh release upload thanh-tam-voice ai-jobs.json --clobber
       - name: Có khóa giọng Google chưa
         id: key
         env:

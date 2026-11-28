@@ -3,13 +3,18 @@ import { Directory, File, Paths } from 'expo-file-system';
 import { createAudioPlayer, type AudioPlayer } from 'expo-audio';
 import { useTT } from './store';
 import { cueAt, hashCues, VOICE_ENGINE, voiceItems, type VoiceItem } from './lib/voiceCues';
+import { bundledMatch } from './lib/voiceBundle';
+import { BUNDLED_VOICES, VOICE_BUNDLE_CREDIT } from './data/voiceBundle';
 
 /**
- * Giọng đọc mẫu: tệp âm thanh tạo sẵn trên CI (.github/workflows/thanh-tam-voice.yml), đăng ở GitHub Releases.
- * App tải từng bài khi người dùng chọn, lưu trong máy, phát lại không cần mạng. Không cần giọng tiếng Việt của máy.
+ * Giọng đọc mẫu, hai nguồn:
+ * - giọng AI đóng sẵn trong bản cài (src/data/voiceBundle.ts): nghe ngay, không cần mạng;
+ * - bài chưa có bản đóng sẵn: tệp tạo trên CI (.github/workflows/thanh-tam-voice.yml) ở GitHub Releases, app tải
+ *   từng bài khi người dùng chọn, lưu trong máy, phát lại không cần mạng.
+ * Không cần giọng tiếng Việt của máy.
  */
 export const VOICE_BASE = 'https://github.com/huynhngochop/nam-app/releases/download/thanh-tam-voice/';
-export const VOICE_CREDIT =
+const DOWNLOAD_CREDIT =
   VOICE_ENGINE === 'piper'
     ? 'Giọng đọc mẫu tạo bằng phần mềm Piper (mã nguồn mở) với giọng tiếng Việt vais1000, dữ liệu VAIS-1000 (giấy phép CC BY 4.0).'
     : 'Giọng đọc mẫu tạo sẵn bằng Google Cloud Text-to-Speech (giọng Chirp 3 HD tiếng Việt).';
@@ -30,6 +35,14 @@ export function voiceCatalog() {
   if (!items) items = new Map(voiceItems().map((it) => [it.id, { ...it, hash: hashCues(it.cues, it.pace) }]));
   return items;
 }
+
+/** Ghi công giọng đọc: AI đóng sẵn, giọng tải về, hoặc cả hai khi mới đóng sẵn một phần. */
+const BUNDLED_COUNT = Object.keys(BUNDLED_VOICES).length;
+export const VOICE_CREDIT = !BUNDLED_COUNT
+  ? DOWNLOAD_CREDIT
+  : BUNDLED_COUNT >= voiceCatalog().size
+    ? VOICE_BUNDLE_CREDIT
+    : `${VOICE_BUNDLE_CREDIT} Bài chưa có sẵn: ${DOWNLOAD_CREDIT.charAt(0).toLowerCase()}${DOWNLOAD_CREDIT.slice(1)}`;
 
 const dir = () => new Directory(Paths.document, 'giong-mau');
 const localManifestFile = () => new File(dir(), 'manifest.json');
@@ -75,8 +88,15 @@ export async function getManifest(fresh = false): Promise<Manifest> {
   }
 }
 
-/** Mốc thời gian từng câu của bài đã tải (đọc từ danh mục đã lưu, không cần mạng). */
+/** Bản giọng AI đóng sẵn của bài (còn khớp nội dung), không có thì null. */
+export function bundledVoice(id: string) {
+  return bundledMatch(BUNDLED_VOICES, id, voiceCatalog().get(id)?.hash);
+}
+
+/** Mốc thời gian từng câu: bản đóng sẵn, hoặc bài đã tải (đọc từ danh mục đã lưu, không cần mạng). */
 export function voiceTimings(id: string): [number, number][] | null {
+  const b = bundledVoice(id);
+  if (b) return b.cues;
   const m = manifest ?? readLocalManifest();
   if (m && !manifest) manifest = m;
   return m?.items[id]?.cues ?? null;
@@ -84,6 +104,7 @@ export function voiceTimings(id: string): [number, number][] | null {
 
 export type VoiceState = 'san-sang' | 'can-tai' | 'can-tai-lai';
 export function voiceState(id: string): VoiceState {
+  if (bundledVoice(id)) return 'san-sang';
   const v = useTT.getState().voices[id];
   const want = voiceCatalog().get(id)?.hash;
   if (!v) return 'can-tai';
@@ -148,6 +169,18 @@ export function removeVoice(id: string) {
   });
 }
 
+/** Âm thanh và mốc câu để phát một bài: bản đóng sẵn trước, rồi bản đã tải. Chưa có thì null. */
+export function voiceSource(id: string): { source: AudioSourceLike; cues: [number, number][] } | null {
+  const b = bundledVoice(id);
+  if (b) return { source: b.asset, cues: b.cues };
+  const v = useTT.getState().voices[id];
+  const cues = voiceTimings(id);
+  return v && cues ? { source: { uri: v.uri }, cues } : null;
+}
+
+/** Tệp trong bản cài (số do require trả về) hoặc tệp đã tải. */
+export type AudioSourceLike = number | { uri: string };
+
 export const formatMB = (bytes: number) =>
   bytes < 1024 * 1024
     ? `${Math.max(1, Math.round(bytes / 1024))} KB`
@@ -160,7 +193,7 @@ export type VoicePlayback = { pause: () => void; resume: () => void; stop: () =>
  * một Promise (ví dụ giọng máy đọc tên) thì dừng tiếng mẫu tới khi xong rồi đọc tiếp; không thì để khoảng lặng.
  */
 export function playVoice(
-  uri: string,
+  source: AudioSourceLike,
   cues: [number, number][],
   o: {
     startCue?: number;
@@ -172,7 +205,7 @@ export function playVoice(
 ): VoicePlayback | null {
   let p: AudioPlayer;
   try {
-    p = createAudioPlayer({ uri });
+    p = createAudioPlayer(source);
   } catch {
     return null;
   }
