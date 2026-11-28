@@ -9,6 +9,11 @@ Chủ sở hữu và nhà phát triển: **Huỳnh Ngọc Hợp**, liên hệ: *
 
 - Tên, địa chỉ, họ gia tiên, ngày sinh, sổ giỗ, người trong nhà và các lựa chọn của bạn được lưu **trên chính điện thoại**.
 - Ứng dụng **không có tài khoản**, **không gửi** những thông tin này về máy chủ nào, không bán, không chia sẻ cho bên thứ ba.
+- **Gửi câu hỏi** (chỉ khi bạn tự bấm, ở mục Hỏi Thành Tâm khi app chưa trả lời được): ứng dụng gửi **đúng câu chữ bạn gõ**
+  cùng một mã ngẫu nhiên của máy (để bạn xem lại trạng thái câu đã gửi và để chống gửi tràn) lên máy chủ của nhà phát
+  triển. Không kèm tên, sổ giỗ, địa chỉ hay thông tin nào khác. Câu hỏi được gom lại, biên tập thành câu trả lời chung
+  cho mọi người dùng; câu hỏi gốc được xóa sau 12 tháng. Đừng ghi thông tin cá nhân vào câu hỏi.
+- Ứng dụng cũng tải **nội dung mới** (câu hỏi đáp đã biên tập) từ máy chủ; việc tải này không gửi dữ liệu nào của bạn.
 - Khi bạn chủ động bấm **Sao lưu** hay **Gửi sổ giỗ**, ứng dụng tạo một tệp và mở bảng chia sẻ của máy; bạn tự chọn gửi qua đâu (Gmail, Zalo...). Ứng dụng không giữ bản sao nào.
 - Nếu bạn bật sao lưu của điện thoại (Android: Sao lưu Google; iPhone: iCloud), hệ điều hành có thể sao lưu dữ liệu của ứng dụng vào tài khoản của chính bạn. Nhà phát triển không đọc được bản sao lưu đó.
 - Gỡ ứng dụng hoặc chọn **Cài đặt → Xóa toàn bộ dữ liệu** thì dữ liệu trên máy bị xóa.

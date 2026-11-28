@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ScrollView, View } from 'react-native';
-import { router, type Href } from 'expo-router';
-import { AppBar, Button, Card, Icon, Row, Screen, T, TextField, useTheme } from '@nam/ui';
+import { router, useLocalSearchParams, type Href } from 'expo-router';
+import { AppBar, Button, Card, Icon, Row, Screen, T, TextField, useTheme, useToast } from '@nam/ui';
 import { track } from '@nam/core';
 import { goBack } from '../src/nav';
 import { useTT } from '../src/store';
@@ -9,12 +9,14 @@ import { useToday } from '../src/hooks';
 import { ask, type Answer } from '../src/lib/ask';
 import { FAQ, FAQ_SUGGEST } from '../src/data/faq';
 import { NavRow, Sources } from '../src/components';
+import { askTeam, hasCloud } from '../src/lib/cloud';
 
 type Turn = { q: string; a: Answer };
 
 /**
- * Hỏi Thành Tâm. Trả lời ngay trên máy từ nội dung của app (lễ, văn khấn, kinh, mẹo, sổ giỗ của bạn);
- * câu hỏi không gửi đi đâu. Câu chưa có trả lời thì nói rõ và gợi ý mục liên quan, không đoán.
+ * Hỏi Thành Tâm. Trả lời ngay trên máy từ nội dung của app (lễ, văn khấn, kinh, mẹo, sổ giỗ của bạn).
+ * Câu chưa có trả lời thì nói rõ, gợi ý mục liên quan, không đoán; người dùng có thể tự bấm gửi câu đó để
+ * Thành Tâm biên tập câu trả lời (chỉ gửi đúng câu chữ, không kèm sổ giỗ).
  */
 export default function Ask() {
   const { c } = useTheme();
@@ -22,8 +24,19 @@ export default function Ask() {
   const anniversaries = useTT((s) => s.anniversaries);
   const [q, setQ] = useState('');
   const [turns, setTurns] = useState<Turn[]>([]);
+  const [sent, setSent] = useState<string[]>([]);
   const scroll = useRef<ScrollView>(null);
+  const toast = useToast();
+  const cloud = hasCloud();
 
+  const sendToTeam = async (text: string) => {
+    setSent((s) => [...s, text]);
+    await askTeam(text).catch(() => {});
+    track('question_sent', { app: 'thanhtam' });
+    toast('Đã gửi. Khi có câu trả lời, Thành Tâm sẽ trả lời được câu này', { tone: 'success' });
+  };
+
+  const params = useLocalSearchParams<{ q?: string }>();
   const send = (text: string) => {
     const t = text.trim();
     if (!t) return;
@@ -33,6 +46,12 @@ export default function Ask() {
     setQ('');
     setTimeout(() => scroll.current?.scrollToEnd?.({ animated: true }), 50);
   };
+
+  // Mở từ "Câu hỏi đã gửi" (?q=): hỏi lại câu đó một lần khi mở màn.
+  useEffect(() => {
+    if (params.q) send(String(params.q));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Screen
@@ -56,8 +75,8 @@ export default function Ask() {
     >
       <AppBar title="Hỏi Thành Tâm" onBack={goBack} />
       <T v="body" muted>
-        Hỏi về cúng lễ, ngày giỗ, tụng kinh. Thành Tâm trả lời từ nội dung trong app và sổ giỗ của bạn, ngay trên máy,
-        không gửi câu hỏi đi đâu.
+        Hỏi về cúng lễ, ngày giỗ, tụng kinh. Thành Tâm trả lời từ nội dung trong app và sổ giỗ của bạn, ngay trên máy.
+        {cloud ? ' Câu chưa có trả lời, bạn có thể bấm gửi để Thành Tâm biên tập thêm.' : ' Câu hỏi không gửi đi đâu.'}
       </T>
       {!turns.length ? (
         <>
@@ -106,6 +125,24 @@ export default function Ask() {
               </View>
             ) : null}
             {t.a.faq?.sources?.length ? <Sources sources={t.a.faq.sources} /> : null}
+            {t.a.faq?.id.startsWith('c-') ? (
+              <T v="caption" muted>
+                Biên tập từ câu hỏi của người dùng, theo nếp dân gian phổ biến.
+              </T>
+            ) : null}
+            {t.a.kind === 'chua-co' && cloud ? (
+              sent.includes(t.q) ? (
+                <Button
+                  title="Xem câu hỏi đã gửi"
+                  icon="inbox"
+                  size="sm"
+                  variant="secondary"
+                  onPress={() => router.push('/questions' as Href)}
+                />
+              ) : (
+                <Button title="Gửi câu hỏi này cho Thành Tâm" icon="send" size="sm" onPress={() => sendToTeam(t.q)} />
+              )
+            ) : null}
           </Card>
           {t.a.related.length ? (
             <>

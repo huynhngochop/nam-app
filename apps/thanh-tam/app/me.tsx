@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import { AppBar, Avatar, Card, Row, Screen, SectionHeader, T } from '@nam/ui';
 import { useTT } from '../src/store';
 import { NavRow } from '../src/components';
+import { hasCloud } from '../src/lib/cloud';
 import { RITUALS, ritualById } from '../src/data/rituals';
 import { prayerById } from '../src/data/prayers';
 import { signById, tipById } from '../src/data/signs';
@@ -95,6 +96,7 @@ export default function Me() {
         {TAM_AN_READY && !tamAn ? (
           <NavRow icon="heart" title="Gói Tâm An" subtitle="199.000đ một năm" href="/paywall" />
         ) : null}
+        {hasCloud() ? <NavRow icon="inbox" title="Câu hỏi đã gửi" href="/questions" /> : null}
         <NavRow icon="settings" title="Cài đặt" href="/settings" />
         <NavRow icon="info" title="Nguồn tham khảo" href="/about/sources" />
       </Card>
