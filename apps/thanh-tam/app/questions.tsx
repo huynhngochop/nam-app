@@ -40,7 +40,11 @@ export default function Questions() {
           trong vài ngày.
         </T>
         {list && !list.length ? (
-          <EmptyState icon="inbox" title="Chưa gửi câu hỏi nào" body="Khi Thành Tâm chưa trả lời được, bấm “Gửi câu hỏi này”." />
+          <EmptyState
+            icon="inbox"
+            title="Chưa gửi câu hỏi nào"
+            body="Khi Thành Tâm chưa trả lời được, bấm “Gửi câu hỏi này”."
+          />
         ) : null}
         {list?.length ? (
           <Card style={{ paddingVertical: 4 }}>

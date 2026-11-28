@@ -35,13 +35,15 @@ const base = () => {
   return { url: cloudUrl.replace(/\/+$/, ''), key: cloudKey };
 };
 
-async function http<T>(path: string, init: RequestInit & { timeoutMs?: number } = {}): Promise<T> {
+type Req = { method?: string; body?: string; headers?: Record<string, string>; timeoutMs?: number };
+async function http<T>(path: string, init: Req = {}): Promise<T> {
   const { url, key } = base();
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), init.timeoutMs ?? 12000);
   try {
     const res = await fetch(`${url}${path}`, {
-      ...init,
+      method: init.method,
+      body: init.body,
       headers: { apikey: key, 'content-type': 'application/json', ...(init.headers ?? {}) },
       signal: ctrl.signal,
     });
@@ -122,7 +124,11 @@ const signUpAnon = async () =>
 export const cloudUserId = async () => (await session()).user_id;
 
 /** Gọi hàm `nc_*` trên máy chủ. `auth: true` = cần phiên của máy (đồng bộ, nhóm). */
-export async function rpc<T>(fn: string, args: Record<string, unknown>, opts: { auth?: boolean; timeoutMs?: number } = {}) {
+export async function rpc<T>(
+  fn: string,
+  args: Record<string, unknown>,
+  opts: { auth?: boolean; timeoutMs?: number } = {},
+) {
   const headers: Record<string, string> = {};
   if (opts.auth) headers.Authorization = `Bearer ${(await session()).access_token}`;
   return http<T>(`/rest/v1/rpc/${fn}`, {
@@ -147,7 +153,8 @@ const kQ = (app: string) => `nc:questions:${app}`;
 export async function myQuestions(app: string): Promise<SentQuestion[]> {
   return JSON.parse((await Storage.getItem(kQ(app))) ?? '[]');
 }
-const saveQuestions = (app: string, list: SentQuestion[]) => Storage.setItem(kQ(app), JSON.stringify(list.slice(0, 50)));
+const saveQuestions = (app: string, list: SentQuestion[]) =>
+  Storage.setItem(kQ(app), JSON.stringify(list.slice(0, 50)));
 
 /**
  * Gửi câu hỏi app chưa trả lời được. Mất mạng thì giữ trên máy, lần mở app sau tự gửi (flushQuestions).
@@ -181,10 +188,15 @@ export async function flushQuestions(app: string): Promise<SentQuestion[]> {
     }
     const ids = list.filter((x) => x.id && x.status !== 'answered' && x.status !== 'rejected').map((x) => x.id!);
     if (ids.length) {
-      const st = await rpc<{ id: string; status: SentQuestion['status']; item_id: string | null; title: string | null; reason: string | null }[]>(
-        'nc_question_status',
-        { p_device: device, p_ids: ids },
-      );
+      const st = await rpc<
+        {
+          id: string;
+          status: SentQuestion['status'];
+          item_id: string | null;
+          title: string | null;
+          reason: string | null;
+        }[]
+      >('nc_question_status', { p_device: device, p_ids: ids });
       for (const s of st) {
         const q = list.find((x) => x.id === s.id);
         if (q) Object.assign(q, { status: s.status, itemId: s.item_id, title: s.title, reason: s.reason });
@@ -193,7 +205,10 @@ export async function flushQuestions(app: string): Promise<SentQuestion[]> {
   } catch {
     /* mất mạng / máy chủ bận: giữ nguyên, lần sau thử lại */
   }
-  await saveQuestions(app, list.filter((q) => q.status !== 'rejected' || q.id));
+  await saveQuestions(
+    app,
+    list.filter((q) => q.status !== 'rejected' || q.id),
+  );
   return list;
 }
 
@@ -208,7 +223,10 @@ const kChecked = (app: string) => `nc:content-checked:${app}`;
 
 /** Nội dung đã tải về máy (chưa có thì `baked`: bản đóng sẵn khi build app). */
 export async function cloudContent(app: string, baked?: { version: number; items: CloudItem[] }) {
-  const saved = JSON.parse((await Storage.getItem(kC(app))) ?? 'null') as { version: number; items: CloudItem[] } | null;
+  const saved = JSON.parse((await Storage.getItem(kC(app))) ?? 'null') as {
+    version: number;
+    items: CloudItem[];
+  } | null;
   if (baked && (!saved || baked.version > saved.version)) return baked;
   return saved ?? { version: 0, items: [] };
 }

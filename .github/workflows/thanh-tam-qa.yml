@@ -169,6 +169,9 @@ jobs:
     env:
       # Máy ảo QA bấm mọi nút: luôn dùng quảng cáo thử, không chạm quảng cáo thật của tài khoản AdMob.
       EXPO_PUBLIC_ADS_TEST: '1'
+      # nam-cloud: gửi câu hỏi + câu hỏi đáp mới (thông tin công khai).
+      EXPO_PUBLIC_NAM_CLOUD_URL: ${{ vars.NAM_CLOUD_URL || 'https://zmyniorgbzpconhyxhtu.supabase.co' }}
+      EXPO_PUBLIC_NAM_CLOUD_KEY: ${{ vars.NAM_CLOUD_KEY || 'sb_publishable_yfmsVT243YOV_VMKpgAtAQ_u0ZBIPxm' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -298,6 +301,9 @@ jobs:
       ADMOB_THANH_TAM_ANDROID_APP_ID: ${{ vars.ADMOB_THANH_TAM_ANDROID_APP_ID }}
       EXPO_PUBLIC_ADMOB_THANH_TAM_ANDROID_BANNER: ${{ vars.ADMOB_THANH_TAM_ANDROID_BANNER }}
       EXPO_PUBLIC_ADMOB_THANH_TAM_ANDROID_NATIVE: ${{ vars.ADMOB_THANH_TAM_ANDROID_NATIVE }}
+      # nam-cloud: gửi câu hỏi + câu hỏi đáp mới (thông tin công khai).
+      EXPO_PUBLIC_NAM_CLOUD_URL: ${{ vars.NAM_CLOUD_URL || 'https://zmyniorgbzpconhyxhtu.supabase.co' }}
+      EXPO_PUBLIC_NAM_CLOUD_KEY: ${{ vars.NAM_CLOUD_KEY || 'sb_publishable_yfmsVT243YOV_VMKpgAtAQ_u0ZBIPxm' }}
     steps:
       - uses: actions/checkout@v4
         with:

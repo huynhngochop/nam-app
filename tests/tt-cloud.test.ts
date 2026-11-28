@@ -14,7 +14,9 @@ const item = {
     question: 'Nhà đang có tang có được thắp hương bàn thờ Phật không?',
     alt: ['đang để tang thắp nhang được không', 'có tang có cúng được không'],
     summary: 'Theo quan niệm dân gian, nhà có tang vẫn thắp hương gia tiên; nhiều nơi tạm không cúng lễ lớn.',
-    sections: [{ heading: 'Khác nhau theo vùng', text: 'Mỗi nhà một nếp, nhiều nơi kiêng cúng lễ vui trong năm có tang.' }],
+    sections: [
+      { heading: 'Khác nhau theo vùng', text: 'Mỗi nhà một nếp, nhiều nơi kiêng cúng lễ vui trong năm có tang.' },
+    ],
     notes: ['Nhà có lệ riêng thì theo lệ nhà mình.'],
   },
 };

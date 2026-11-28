@@ -6,16 +6,28 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_NAM_CLOUD_URL": "https://zmyniorgbzpconhyxhtu.supabase.co",
+        "EXPO_PUBLIC_NAM_CLOUD_KEY": "sb_publishable_yfmsVT243YOV_VMKpgAtAQ_u0ZBIPxm"
+      }
     },
     "preview": {
       "distribution": "internal",
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_NAM_CLOUD_URL": "https://zmyniorgbzpconhyxhtu.supabase.co",
+        "EXPO_PUBLIC_NAM_CLOUD_KEY": "sb_publishable_yfmsVT243YOV_VMKpgAtAQ_u0ZBIPxm"
       }
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_NAM_CLOUD_URL": "https://zmyniorgbzpconhyxhtu.supabase.co",
+        "EXPO_PUBLIC_NAM_CLOUD_KEY": "sb_publishable_yfmsVT243YOV_VMKpgAtAQ_u0ZBIPxm"
+      }
     }
   },
   "submit": {
